@@ -1,18 +1,14 @@
 import {
   Array,
-  Boolean,
   Equivalence,
-  flow,
   HashMap,
   HashSet,
   Option,
   Order,
   pipe,
-  Predicate,
   Tuple,
 } from 'effect'
 import type {NonEmptyArray} from 'effect/Array'
-import {isEdgeIndexed} from './map.js'
 import type {EdgeList, EdgeMap, TreeEdge} from './types.js'
 
 /** A tree edge for the root node: parent is `None`. */
@@ -35,6 +31,7 @@ export const getMapChildren = <A>({
   toChildren,
 }: EdgeMap<A>): [A, A[]] => {
   const [root] = HashSet.values(roots)
+  /* v8 ignore next 2 */
   if (root === undefined) throw new Error('Edge map |roots|=0')
   if (HashSet.size(roots) !== 1) throw new Error('Edge map |roots|≠1')
 
@@ -52,10 +49,6 @@ export const getMapChildren = <A>({
 export const setMapRoot =
   <A>(map: EdgeMap<A>) =>
   (root: A): EdgeMap<A> => ({...map, roots: HashSet.fromIterable([root])})
-
-/** Given an order of `A`, return an order of `TreeEdge<A>`. */
-export const getEdgeOrder = <A>(o: Order.Order<A>): Order.Order<TreeEdge<A>> =>
-  Order.mapInput(o, ([child]) => child)
 
 /** Given an equivalence of `A`, return an equivalence of `TreeEdge<A>`. */
 export const getEdgeEquivalence: <A>(
@@ -84,12 +77,3 @@ export const numeric: (
 ) => NonEmptyArray<[number, number]> = Array.map(
   Tuple.mapSecond(Option.getOrElse(() => 0)),
 )
-
-/** True if all given edges are indexed in the given edge map. */
-export const areEdgesIndexed = <A>(
-  index: EdgeMap<A>,
-): Predicate.Predicate<EdgeList<A>> =>
-  flow(
-    Array.map(edge => isEdgeIndexed([edge, index])),
-    Boolean.every,
-  )

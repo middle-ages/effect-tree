@@ -8,4 +8,4 @@ COLOR="${COLOR:-true}"
 
 eslint --config="$CONFIG_DIR"/eslint.config.ts "${@}"
 
-show_done 'lint'
+show_done "lint ${@}"

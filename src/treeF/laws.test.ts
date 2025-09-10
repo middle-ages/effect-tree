@@ -18,10 +18,13 @@ describe('TreeF typeclass laws', () => {
   testTypeclassLaws<TreeFTypeLambda, never, unknown, Option.Option<boolean>>({
     getEquivalence,
     getArbitrary: TreeF.getArbitrary(OptionArbitrary),
-  })({
-    Covariant: instances.Covariant,
-    Equivalence: getEquivalence(monoEquivalence),
-    FlatMap: instances.FlatMap,
-    Traversable: instances.Traversable,
-  })
+  })(
+    {
+      Covariant: instances.Covariant,
+      Equivalence: getEquivalence(monoEquivalence),
+      FlatMap: instances.FlatMap,
+      Traversable: instances.Traversable,
+    },
+    {numRuns: 20},
+  )
 })

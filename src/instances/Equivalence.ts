@@ -1,3 +1,7 @@
+/**
+ * Tree Equivalence.
+ * @packageDocumentation
+ */
 import {Array, Effect, Equivalence, flow, pipe} from 'effect'
 import {constFalse, constTrue, tupled} from 'effect/Function'
 import {destruct} from '../tree/index.js'
@@ -14,7 +18,7 @@ export const getEquivalence = <A>(
   equalsA: Equivalence.Equivalence<A>,
 ): Equivalence.Equivalence<Tree<A>> =>
   flow(
-    getEquivalenceE(equalsA),
+    getEquivalenceEffect(equalsA),
     Effect.match({
       onFailure: constFalse,
       onSuccess: constTrue,
@@ -22,10 +26,10 @@ export const getEquivalence = <A>(
     Effect.runSync,
   )
 
-export const getEquivalenceE =
+export const getEquivalenceEffect =
   <A>(equalsA: Equivalence.Equivalence<A>) =>
   (self: Tree<A>, that: Tree<A>): Effect.Effect<void, undefined> => {
-    const equals = getEquivalenceE(equalsA)
+    const equals = getEquivalenceEffect(equalsA)
     const [[selfNode, selfForest], [thatNode, thatForest]] = [
       destruct(self),
       destruct(that),

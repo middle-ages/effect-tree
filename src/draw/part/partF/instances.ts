@@ -66,8 +66,9 @@ export const Covariant: CO.Covariant<PartFTypeLambda> = {map, imap}
 export const Traversable: TA.Traversable<PartFTypeLambda> = {traverse}
 
 /**
- * Build an {@link Equivalence} for {@link PartF} from an equivalence of its
- * underlying type.
+ * Build an
+ * [Equivalence](https://effect-ts.github.io/effect/effect/Equivalence.ts.html)
+ * for a {@link PartF} from an equivalence of its underlying type.
  */
 export const getEquivalence = <A>(
   equalsA: EQ.Equivalence<A>,

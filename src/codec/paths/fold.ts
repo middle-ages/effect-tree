@@ -13,6 +13,7 @@ import {Array, pipe} from 'effect'
  * // [['A', 'B'], ['A', 'C', 'D'], ['A', 'C', 'E']]
  *
  * ```
+ * @category fold
  */
 export const pathListFold: TreeFolderK<NonEmptyArray2TypeLambda> = <A>(
   tree: TreeF.TreeF<A, NonEmptyArray2<A>>,

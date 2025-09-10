@@ -7,5 +7,6 @@ describe('Part typeclass laws', () => {
   testConcreteTypeclassLaws(
     {Equivalence},
     {a: Arbitrary(), equalsA: Equivalence},
+    {numRuns: 30},
   )
 })

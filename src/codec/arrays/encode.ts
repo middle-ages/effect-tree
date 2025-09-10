@@ -13,6 +13,7 @@ import type {TreeArray, TreeArrayLambda, ValidArrayTree} from './types.js'
  * we use `Array.isArray` to discriminate between leaves and branches.
  *
  * The function is perfectly safe if the type `A` is _not_ an array.
+ * @category fold
  */
 export const unsafeEncodeFold: TreeFolderK<TreeArrayLambda> = <A>(
   treeF: TreeF.TreeF<A, TreeArray<A>>,

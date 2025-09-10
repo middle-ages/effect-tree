@@ -1,9 +1,13 @@
+/**
+ * Tree types.
+ * @packageDocumentation
+ */
 import type {BranchF, LeafF, TreeFTypeLambda} from '#treeF'
 import {HKT} from 'effect'
 import {type Fix, type Unfixed} from 'effect-ts-folds'
 import {type NonEmptyReadonlyArray} from 'effect/Array'
 
-/** An N-ary strict tree with nodes carrying a value of type `A`. */
+/** Astrict Rose tree with nodes carrying a value of type `A`. */
 export type Tree<A> = Fix<TreeFTypeLambda, A>
 
 /** The leaf type of {@link Tree}. */

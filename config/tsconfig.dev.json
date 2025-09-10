@@ -6,6 +6,8 @@
   },
   "include": [
     "./eslint.config.ts",
-    "./vitest.config.ts"
+    "./vitest.config.ts",
+    "../examples/**/*.ts",
+    "../dev/repl.ts"
   ]
 }

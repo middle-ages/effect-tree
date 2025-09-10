@@ -1,29 +1,23 @@
-import {Number, pipe, String} from 'effect'
+import {Number, pipe} from 'effect'
 import {
   append as _append,
   appendAll as _appendAll,
   prepend as _prepend,
   prependAll as _prependAll,
-  dedupeWith,
-  headNonEmpty,
   initNonEmpty,
   lastNonEmpty,
   length,
   map,
   max,
   min,
-  tailNonEmpty,
-  zip,
-  zipWith,
   type NonEmptyArray,
   type NonEmptyReadonlyArray,
 } from 'effect/Array'
-import type {EndoOf} from './Function.js'
 
 export * from 'effect/Array'
 export {
   transpose,
-  transposeReadOnly,
+  type LiftNonEmptyArray2,
   type NonEmptyArray2,
 } from './Array/transpose.js'
 
@@ -74,9 +68,6 @@ export const prependAll = Object.assign(_prependAll, {
       _prependAll(self, init),
 })
 
-/** `dedupeWith` string equivalence. */
-export const dedupeStrings: EndoOf<string[]> = dedupeWith(String.Equivalence)
-
 export const lastInit = <A>(xs: NonEmptyReadonlyArray<A>): [A, A[]] => [
   lastNonEmpty(xs),
   initNonEmpty(xs),
@@ -110,44 +101,22 @@ export function mapInitLast<A, B>(onInit: (a: A) => B, onLast: (a: A) => B) {
 
 /** Get the length of the longest child in a list of lists. */
 export const longestChildLength: (
-    xs: NonEmptyArray<unknown[]>,
-  ) => number = children =>
-    max(Number.Order)([
-      0,
-      ...pipe(
-        children,
-        map(xs => length(xs)),
-      ),
-    ]),
-  /** Get the length of the shortest child in a list of lists. */
-  shortestChildLength: (xs: NonEmptyArray<unknown[]>) => number = children =>
-    pipe(
+  xs: NonEmptyArray<unknown[]>,
+) => number = children =>
+  max(Number.Order)([
+    0,
+    ...pipe(
       children,
       map(xs => length(xs)),
-      min(Number.Order),
-    )
-
-export const selfZipForward = <A>(
-  xs: NonEmptyReadonlyArray<A>,
-): NonEmptyReadonlyArray<[A, A]> => {
-  const [tail, last] = [tailNonEmpty(xs), lastNonEmpty(xs)]
-  return pipe(xs, zip([...tail, last])) as NonEmptyArray<[A, A]>
-}
-
-export const selfZipBackward = <A>(
-  xs: NonEmptyReadonlyArray<A>,
-): NonEmptyReadonlyArray<[A, A]> => {
-  const [init, head] = [initNonEmpty(xs), headNonEmpty(xs)]
-  return pipe(xs, zip([head, ...init]))
-}
-
-export const selfZip = <A>(xs: NonEmptyReadonlyArray<A>) =>
-  pipe(
-    xs,
-    selfZipBackward,
-    zipWith(
-      selfZipForward(xs),
-      ([center, backwards], [, forwards]) =>
-        [center, backwards, forwards] as [center: A, backwards: A, forwards: A],
     ),
+  ])
+
+/** Get the length of the shortest child in a list of lists. */
+export const shortestChildLength: (
+  xs: NonEmptyArray<unknown[]>,
+) => number = children =>
+  pipe(
+    children,
+    map(xs => length(xs)),
+    min(Number.Order),
   )

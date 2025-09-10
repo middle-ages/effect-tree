@@ -8,7 +8,10 @@ import {
   encode as encodeEdges,
   type EdgeList,
 } from './edges.js'
-import {decode as decodeIndented, encode as encodeIndented} from './indented.js'
+import {
+  decode as decodeIndented,
+  encode as encodeIndented,
+} from './indented/index.js'
 import {decode as decodePaths, encode as encodePaths} from './paths.js'
 import {decode as decodePrufer, encode as encodePrufer} from './prufer.js'
 

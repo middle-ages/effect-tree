@@ -3,7 +3,6 @@ import {treeCata} from '#tree'
 import * as TreeF from '#treeF'
 import {pipe} from 'effect'
 
-export type * from './draw/types.js'
 export * from './draw/index.js'
 export * from './draw/theme.js'
 

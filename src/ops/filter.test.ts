@@ -1,5 +1,5 @@
 import {numericTree} from '#test'
-import {branch, getNode, leaf, of, type Tree} from '#tree'
+import {branch, getValue, leaf, of, type Tree} from '#tree'
 import {Pair, Function, Number} from '#util'
 import {flow, Option, pipe, Predicate} from 'effect'
 import {describe, expect, test} from 'vitest'
@@ -43,7 +43,7 @@ describe('filter', () => {
   describe('filterNodes', () => {
     describe('leaf', () => {
       const predicate: Predicate.Predicate<Tree<number>> = flow(
-        getNode,
+        getValue,
         Number.isPositive,
       )
 
@@ -60,7 +60,7 @@ describe('filter', () => {
 
     test('numeric tree', () => {
       const predicate: Predicate.Predicate<Tree<number>> = flow(
-        getNode,
+        getValue,
         n => n !== 6,
       )
 
@@ -71,7 +71,7 @@ describe('filter', () => {
 
     test('remove single leaf', () => {
       const predicate: Predicate.Predicate<Tree<number>> = flow(
-        getNode,
+        getValue,
         (n: number) => n !== 9,
       )
       const actual = pipe(numericTree, filterNodes(predicate))

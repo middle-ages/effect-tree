@@ -1,6 +1,11 @@
+/**
+ * Convert a fold into one that replaces tree nodes with its intermediate
+ * values.
+ * @packageDocumentation
+ */
 import * as TreeF from '#treeF'
 import {Effect, pipe} from 'effect'
-import {fixTree, getNode, treeC} from '../../tree/index.js'
+import {fixTree, getValue, treeC} from '../../tree/index.js'
 import {type Tree} from '../../tree/types.js'
 import type {TreeEffectFolder, TreeFolder} from './types.js'
 
@@ -39,5 +44,5 @@ const replaceNode =
   (self: TreeF.TreeF<A, Tree<B>>): TreeF.TreeF<C, Tree<B>> =>
     pipe(
       self,
-      TreeF.mapNode(() => pipe(self, TreeF.map(getNode), φ)),
+      TreeF.mapValue(() => pipe(self, TreeF.map(getValue), φ)),
     )

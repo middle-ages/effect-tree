@@ -2,7 +2,8 @@ import type {EndoOf} from '#util/Function'
 import {flow, pipe} from 'effect'
 import {fix, unfix} from 'effect-ts-folds'
 import type {NonEmptyArray} from 'effect/Array'
-import {mapHorizontalAlignments, mapVerticalAlignments} from './align/data.js'
+import type {HorizontalAlignment, VerticalAlignment} from './align/data.js'
+import {mapVerticalAlignments} from './align/data.js'
 import {
   columnF,
   ColumnF,
@@ -16,14 +17,7 @@ import {
   type PartFTypeLambda,
   type Text,
 } from './partF.js'
-import {
-  type Column,
-  type Empty,
-  type HorizontalAlignment,
-  type Part,
-  type Row,
-  type VerticalAlignment,
-} from './types.js'
+import {type Column, type Empty, type Part, type Row} from './types.js'
 
 export const text = textPart
 
@@ -43,23 +37,24 @@ const defaultHStrut = text(' '),
 
 /** Combine parts horizontally. */
 export const row =
-    (vAlign: VerticalAlignment) =>
-    (hAlign: HorizontalAlignment) =>
-    (
-      cells: Part[],
-      [hStrut, vStrut]: [
-        hStrut: Text,
-        vStrut?: NonEmptyArray<Text>,
-      ] = defaultStruts,
-    ): Row =>
-      fixPart<Row>(
-        rowF([hAlign, vAlign])([hStrut, vStrut ?? defaultVStrut])(cells),
-      ),
-  /** Combine parts vertically. */
-  column =
-    (align: HorizontalAlignment) =>
-    (cells: Part[], strut?: Text): Column =>
-      fixPart<Column>(columnF(align, strut ?? defaultHStrut)(cells))
+  (vAlign: VerticalAlignment) =>
+  (hAlign: HorizontalAlignment) =>
+  (
+    cells: Part[],
+    [hStrut, vStrut]: [
+      hStrut: Text,
+      vStrut?: NonEmptyArray<Text>,
+    ] = defaultStruts,
+  ): Row =>
+    fixPart<Row>(
+      rowF([hAlign, vAlign])([hStrut, vStrut ?? defaultVStrut])(cells),
+    )
+
+/** Combine parts vertically. */
+export const column =
+  (align: HorizontalAlignment) =>
+  (cells: Part[], strut?: Text): Column =>
+    fixPart<Column>(columnF(align, strut ?? defaultHStrut)(cells))
 
 export const [isEmptyPart, isText, isRow, isColumn] = [
   (self: Part): self is Empty => pipe(self, unfixPart, isPartFOf('EmptyF')),
@@ -68,6 +63,7 @@ export const [isEmptyPart, isText, isRow, isColumn] = [
   (self: Part): self is Column => pipe(self, unfixPart, isPartFOf('ColumnF')),
 ]
 
+/** Get the text content of a {@link Text} part. */
 export const getText: (text: Text) => string = ({unfixed: {show}}) => show
 
 /**
@@ -75,57 +71,60 @@ export const getText: (text: Text) => string = ({unfixed: {show}}) => show
  * second.
  */
 export const prefixText: (prefix: Text) => EndoOf<Text> =
-    ({unfixed: {show: prefix}}) =>
-    ({unfixed: {show: suffix}}) =>
-      text(prefix + suffix),
-  /**
-   * Combine two text parts horizontally placing the first to the left of the
-   * second.
-   */
-  suffixText: (suffix: Text) => EndoOf<Text> =
-    ({unfixed: {show: suffix}}) =>
-    ({unfixed: {show: prefix}}) =>
-      text(prefix + suffix)
+  ({unfixed: {show: prefix}}) =>
+  ({unfixed: {show: suffix}}) =>
+    text(prefix + suffix)
+
+/**
+ * Combine two text parts horizontally placing the first to the left of the
+ * second.
+ */
+export const suffixText: (suffix: Text) => EndoOf<Text> =
+  ({unfixed: {show: suffix}}) =>
+  ({unfixed: {show: prefix}}) =>
+    text(prefix + suffix)
 
 /** Add the prefix part to the left of the suffix part. */
 export const before =
-    (vAlign: VerticalAlignment) =>
-    (hAlign: HorizontalAlignment) =>
-    (
-      prefix: Part,
-      [hStrut, vStrut]: [
-        hStrut: Text,
-        vStrut?: NonEmptyArray<Text>,
-      ] = defaultStruts,
-    ) =>
-    (suffix: Part) =>
-      row(vAlign)(hAlign)([prefix, suffix], [hStrut, vStrut ?? defaultVStrut]),
-  /** Add the suffix part to the right of the prefix part. */
-  after =
-    (vAlign: VerticalAlignment) =>
-    (hAlign: HorizontalAlignment) =>
-    (
-      suffix: Part,
-      [hStrut, vStrut]: [
-        hStrut: Text,
-        vStrut?: NonEmptyArray<Text>,
-      ] = defaultStruts,
-    ) =>
-    (prefix: Part) =>
-      row(vAlign)(hAlign)([prefix, suffix], [hStrut, vStrut ?? defaultVStrut])
+  (vAlign: VerticalAlignment) =>
+  (hAlign: HorizontalAlignment) =>
+  (
+    prefix: Part,
+    [hStrut, vStrut]: [
+      hStrut: Text,
+      vStrut?: NonEmptyArray<Text>,
+    ] = defaultStruts,
+  ) =>
+  (suffix: Part) =>
+    row(vAlign)(hAlign)([prefix, suffix], [hStrut, vStrut ?? defaultVStrut])
+
+/** Add the suffix part to the right of the prefix part. */
+export const after =
+  (vAlign: VerticalAlignment) =>
+  (hAlign: HorizontalAlignment) =>
+  (
+    suffix: Part,
+    [hStrut, vStrut]: [
+      hStrut: Text,
+      vStrut?: NonEmptyArray<Text>,
+    ] = defaultStruts,
+  ) =>
+  (prefix: Part) =>
+    row(vAlign)(hAlign)([prefix, suffix], [hStrut, vStrut ?? defaultVStrut])
 
 /** Add the `below` part below the `above` part. */
 export const below =
-    (align: HorizontalAlignment) =>
-    (above: Part, strut?: Text) =>
-    (below: Part) =>
-      column(align)([above, below], strut),
-  /** Add the `above` part above the `below` part. */
-  above =
-    (align: HorizontalAlignment) =>
-    (below: Part, strut?: Text) =>
-    (above: Part) =>
-      column(align)([above, below], strut)
+  (align: HorizontalAlignment) =>
+  (above: Part, strut?: Text) =>
+  (below: Part) =>
+    column(align)([above, below], strut)
+
+/** Add the `above` part above the `below` part. */
+export const above =
+  (align: HorizontalAlignment) =>
+  (below: Part, strut?: Text) =>
+  (above: Part) =>
+    column(align)([above, below], strut)
 
 /** Match part by type. */
 export const matchPart =
@@ -149,25 +148,66 @@ export const matchPart =
 
 export const emptyLine = text('')
 
-export const [topRow, middleRow, bottomRow] = mapVerticalAlignments(row),
-  [leftColumn, centerColumn, rightColumn] = mapHorizontalAlignments(column)
+const [rowTop, rowMiddle, rowBottom] = mapVerticalAlignments(row),
+  [beforeTop, beforeMiddle, beforeBottom] = mapVerticalAlignments(before),
+  [afterTop, afterMiddle, afterBottom] = mapVerticalAlignments(after)
 
-export const [topLeftRow, topCenterRow, topRightRow] =
-    mapHorizontalAlignments(topRow),
-  [middleLeftRow, middleCenterRow, middleRightRow] =
-    mapHorizontalAlignments(middleRow),
-  [bottomLeftRow, bottomCenterRow, bottomRightRow] =
-    mapHorizontalAlignments(bottomRow)
+column.left = column('left')
+column.center = column('center')
+column.right = column('right')
 
-export const [beforeTop, beforeMiddle, beforeBottom] =
-    mapVerticalAlignments(before),
-  [afterTop, afterMiddle, afterBottom] = mapVerticalAlignments(after),
-  [aboveLeft, aboveCenter, aboveRight] = mapHorizontalAlignments(above),
-  [belowLeft, belowCenter, belowRight] = mapHorizontalAlignments(below)
+above.left = above('left')
+above.center = above('center')
+above.right = above('right')
 
-export const [beforeTopLeft, beforeTopCenter, beforeTopRight] =
-    mapHorizontalAlignments(beforeTop),
-  [beforeMiddleLeft, beforeMiddleCenter, beforeMiddleRight] =
-    mapHorizontalAlignments(beforeMiddle),
-  [beforeBottomLeft, beforeBottomCenter, beforeBottomRight] =
-    mapHorizontalAlignments(beforeBottom)
+below.left = below('left')
+below.center = below('center')
+below.right = below('right')
+
+row.top = Object.assign(rowTop, {
+  left: rowTop('left'),
+  center: rowTop('center'),
+  right: rowTop('right'),
+})
+row.middle = Object.assign(rowMiddle, {
+  left: rowMiddle('left'),
+  center: rowMiddle('center'),
+  right: rowMiddle('right'),
+})
+row.bottom = Object.assign(rowBottom, {
+  left: rowBottom('left'),
+  center: rowBottom('center'),
+  right: rowBottom('right'),
+})
+
+before.top = Object.assign(beforeTop, {
+  left: beforeTop('left'),
+  center: beforeTop('center'),
+  right: beforeTop('right'),
+})
+before.middle = Object.assign(beforeMiddle, {
+  left: beforeMiddle('left'),
+  center: beforeMiddle('center'),
+  right: beforeMiddle('right'),
+})
+before.bottom = Object.assign(beforeBottom, {
+  left: beforeBottom('left'),
+  center: beforeBottom('center'),
+  right: beforeBottom('right'),
+})
+
+after.top = Object.assign(afterTop, {
+  left: afterTop('left'),
+  center: afterTop('center'),
+  right: afterTop('right'),
+})
+after.middle = Object.assign(afterMiddle, {
+  left: afterMiddle('left'),
+  center: afterMiddle('center'),
+  right: afterMiddle('right'),
+})
+after.bottom = Object.assign(afterBottom, {
+  left: afterBottom('left'),
+  center: afterBottom('center'),
+  right: afterBottom('right'),
+})

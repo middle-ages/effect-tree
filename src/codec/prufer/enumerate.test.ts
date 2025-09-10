@@ -1,12 +1,23 @@
 import {Prufer} from '#codec'
 import {drawTree} from '#test'
-import {branch, map, of} from '#tree'
+import {branch, from, map, of} from '#tree'
 import {Array, pipe} from 'effect'
 import {describe, expect, test} from 'vitest'
+import {
+  isFirstCode,
+  nextTree,
+  nextTreeWrap,
+  previousTree,
+  previousTreeWrap,
+} from './step.js'
 
 describe('prüfer enumerate', () => {
   test('codeCount', () => {
     expect(Prufer.codeCount(4)).toBe(2)
+  })
+
+  test('isFirstCode', () => {
+    expect(isFirstCode([])).toBe(true)
   })
 
   describe('labeledTreeCount', () => {
@@ -318,5 +329,25 @@ describe('prüfer enumerate', () => {
  └─4`,
       )
     })
+  })
+
+  test('previousTree', () => {
+    expect(previousTree(branch(1, [of(2), of(3)]))).toEqual(branch(1, [of(2)]))
+  })
+
+  test('nextTree', () => {
+    expect(nextTree(branch(1, [of(2), of(3)]))).toEqual(from(1, from(2, of(3))))
+  })
+
+  test('previousTreeWrap', () => {
+    expect(previousTreeWrap(branch(1, [of(2), of(3)]))).toEqual(
+      branch(1, [branch(3, [of(2)])]),
+    )
+  })
+
+  test('nextTreeWrap', () => {
+    expect(nextTreeWrap(branch(1, [of(2), of(3)]))).toEqual(
+      from(1, from(2, of(3))),
+    )
   })
 })

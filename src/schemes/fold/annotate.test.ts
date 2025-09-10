@@ -2,7 +2,7 @@ import {bracketFold} from '#test'
 import {annotateEffectFolder, annotateFolder, from, of} from '#tree'
 import {Effect, flow, pipe} from 'effect'
 import {describe, expect, test} from 'vitest'
-import {treeCata, treeCataE} from './index.js'
+import {treeCata, treeCataEffect} from './index.js'
 
 describe('annotate', () => {
   // tree = ┬A ⇒ A(B,C(D,E),F)
@@ -29,7 +29,7 @@ describe('annotate', () => {
     expect(
       pipe(
         tree,
-        treeCataE(annotateEffectFolder(flow(bracketFold, Effect.succeed))),
+        treeCataEffect(annotateEffectFolder(flow(bracketFold, Effect.succeed))),
         Effect.runSync,
       ),
     ).toEqual(

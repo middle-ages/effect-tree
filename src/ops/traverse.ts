@@ -1,4 +1,7 @@
-/** Traversals for accessing tree nodes. */
+/**
+ * Tree depth-first traversals.
+ * @packageDocumentation
+ */
 import type {Tree} from '#tree'
 import {treeCata, type NonEmptyArrayTypeLambda, type TreeFolderK} from '#tree'
 import * as TreeF from '#treeF'
@@ -67,16 +70,28 @@ export const preOrderValues: GetNodes = tree =>
 export const postOrderValues: GetNodes = tree =>
   pipe(tree, treeCata(postOrderFold))
 
+/**
+ * Collect nodes in depth-first pre-order for a single tree level.
+ * @category fold
+ */
 export const preOrderFold: TreeFolderK<NonEmptyArrayTypeLambda> = TreeF.match({
   onLeaf: node => [node],
   onBranch: (node, forest) => pipe(forest, Array.flatten, Array.prepend(node)),
 })
 
+/**
+ * Collect nodes in depth-first post-order for a single tree level.
+ * @category fold
+ */
 export const postOrderFold: TreeFolderK<NonEmptyArrayTypeLambda> = TreeF.match({
   onLeaf: node => [node],
   onBranch: (node, forest) => pipe(forest, Array.flatten, Array.append(node)),
 })
 
+/**
+ * Collect all _leaves_ from a single tree level.
+ * @category fold
+ */
 export const allLeavesFold: TreeFolderK<NonEmptyArrayTypeLambda> = TreeF.match({
   onLeaf: node => [node],
   onBranch: (_, forest) => Array.flatten(forest),

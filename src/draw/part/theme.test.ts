@@ -1,26 +1,26 @@
-import {describe, expect, test} from 'vitest'
 import {
+  column,
   draw as drawPart,
+  foreachThemed,
   getGlyph,
   getTheme,
   indentGlyph,
-  leftColumn,
   modGlyph,
   prefixGlyph,
-  foreachThemed,
   setGlyph,
   setGlyphs,
   setIndents,
   setSpacing,
+  suffixGlyph,
   text,
   themed,
   type Part,
   type Themed,
-  suffixGlyph,
 } from '#draw'
+import {prefix} from '#util/String'
 import {Array, pipe} from 'effect'
 import type {NonEmptyArray} from 'effect/Array'
-import {prefix} from '#util/String'
+import {describe, expect, test} from 'vitest'
 
 describe('theme', () => {
   describe('get', () => {
@@ -79,7 +79,7 @@ describe('theme', () => {
     const actual: string[] = pipe(
       theme,
       foreachThemed(parts),
-      leftColumn,
+      column.left,
       drawPart,
     )
 

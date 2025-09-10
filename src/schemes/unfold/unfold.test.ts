@@ -1,8 +1,9 @@
-import {bracketUnfold, lexer} from '#test'
+import {assertDrawNumericTree, bracketUnfold, lexer} from '#test'
 import {branch, of} from '#tree'
+import {Function} from '#util'
 import {pipe} from 'effect'
 import {describe, expect, test} from 'vitest'
-import {treeAna} from '../unfold.js'
+import {treeAna, unfold} from './index.js'
 
 describe('unfold', () => {
   test('treeAna', () => {
@@ -23,5 +24,18 @@ describe('unfold', () => {
     ])
 
     expect(actual).toEqual(expected)
+  })
+
+  test('unfold', () => {
+    const unfolder = (n: number): number[] => (n > 1 ? [n / 2, n / 2] : [])
+    const actual = pipe(unfolder, unfold, Function.apply(4))
+    assertDrawNumericTree(`
+┬4
+├┬2
+│├─1
+│└─1
+└┬2
+ ├─1
+ └─1`)(actual)
   })
 })

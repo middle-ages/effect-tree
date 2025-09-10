@@ -1,3 +1,7 @@
+/**
+ * Tree Traversable.
+ * @packageDocumentation
+ */
 import {
   Applicative,
   SemiApplicative,
@@ -13,7 +17,7 @@ import type {Tree, TreeTypeLambda} from '../tree/types.js'
 // Two types of depth-first order for N-ary trees.
 type DepthFirst = 'pre' | 'post'
 
-const orderedTraverseE =
+const orderedTraverseEffect =
   (order: DepthFirst) =>
   <F extends HKT.TypeLambda>(F: Applicative.Applicative<F>) =>
   <A, B, E1 = unknown, R1 = unknown, I = never, E2 = never, R2 = never>(
@@ -53,6 +57,10 @@ const orderedTraverseE =
     return run(self)
   }
 
+export const traverseEffect = Object.assign(orderedTraverseEffect('pre'), {
+  post: orderedTraverseEffect('post'),
+})
+
 export const traverse: traversable.Traversable<TreeTypeLambda>['traverse'] = <
   F extends HKT.TypeLambda,
 >(
@@ -63,18 +71,7 @@ export const traverse: traversable.Traversable<TreeTypeLambda>['traverse'] = <
     <I, R1, E1, A, _1, _2, _3, B>(
       self: Tree<A>,
       f: (a: A) => HKT.Kind<F, I, R1, E1, B>,
-    ) => pipe(self, orderedTraverseE('post')(F)(succeedBy(f)), Effect.runSync),
-  )
-
-export const traversePreOrder: typeof traverse = <F extends HKT.TypeLambda>(
-  F: Applicative.Applicative<F>,
-) =>
-  Function.dual(
-    2,
-    <I, R1, E1, A, _1, _2, _3, B>(
-      self: Tree<A>,
-      f: (a: A) => HKT.Kind<F, I, R1, E1, B>,
-    ) => pipe(self, orderedTraverseE('pre')(F)(succeedBy(f)), Effect.runSync),
+    ) => pipe(self, traverseEffect(F)(succeedBy(f)), Effect.runSync),
   )
 
 /** Convert a `Tree<F<A>>` into a `F<Tree<A>>`. */
@@ -86,18 +83,8 @@ export const sequence: <F extends HKT.TypeLambda>(
   pipe(self, traverse(F)(identity))
 
 /**
- * Traversable instance for the `Tree` datatype. Traversal is in post-order:
- * children before parents.
- */
+ * Traversable instance for the `Tree` datatype. */
 export const Traversable: traversable.Traversable<TreeTypeLambda> = {traverse}
-
-/**
- * Traversable instance for the `Tree` datatype. Traversal is in pre-order:
- * parents before children.
- */
-export const PreOrderTraversable: traversable.Traversable<TreeTypeLambda> = {
-  traverse: traversePreOrder,
-}
 
 /** Convert a `Tree<Effect<A>>` into an `Effect<Tree<A>>`. */
 export const sequenceEffect: <A, E = unknown, O = unknown>(

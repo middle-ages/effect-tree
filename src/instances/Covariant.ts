@@ -1,3 +1,7 @@
+/**
+ * Tree Covariant.
+ * @packageDocumentation
+ */
 import {Covariant as CO} from '@effect/typeclass'
 import {Effect, flow, Function, pipe} from 'effect'
 import {withForest, branch, leaf, match} from '../tree/index.js'
@@ -43,32 +47,16 @@ mapEffect.pre = <A, B, E = unknown, R = never>(
       ),
   })
 
-const _map: CO.Covariant<TreeTypeLambda>['map'] = Function.dual(
+export const map: CO.Covariant<TreeTypeLambda>['map'] = Function.dual(
   2,
   <A, B>(self: Tree<A>, f: (a: A) => B): Tree<B> =>
-    pipe(self, mapEffect(flow(f, Effect.succeed)), Effect.runSync),
+    pipe(self, mapEffect.pre(flow(f, Effect.succeed)), Effect.runSync),
 )
-
-export const map: typeof _map & {pre: typeof _map} = Object.assign(_map, {
-  /** Map over tree in depth-first pre-order. */
-  pre: Function.dual(
-    2,
-    <A, B>(self: Tree<A>, f: (a: A) => B): Tree<B> =>
-      pipe(self, mapEffect.pre(flow(f, Effect.succeed)), Effect.runSync),
-  ),
-})
 
 export const imap = CO.imap<TreeTypeLambda>(map)
 
-export const Covariant: CO.Covariant<TreeTypeLambda> = {
-  map: map.pre,
-  imap,
-}
-
-export const PreOrderCovariant: CO.Covariant<TreeTypeLambda> = {
-  map: map.pre,
-  imap: CO.imap<TreeTypeLambda>(map.pre),
-}
+/** Covariant instance for `Tree<A>`. */
+export const Covariant: CO.Covariant<TreeTypeLambda> = {map, imap}
 
 export const flap: {
   <A, B>(self: Tree<(a: A) => B>): (a: A) => Tree<B>

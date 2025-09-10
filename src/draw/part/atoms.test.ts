@@ -1,12 +1,12 @@
-import {describe, expect, test} from 'vitest'
-import {Array, pipe, String} from 'effect'
 import type {EndoOf} from '#util/Function'
-import type {Themed} from '../theme/types.js'
+import {Array, pipe, String} from 'effect'
+import {describe, expect, test} from 'vitest'
 import {atoms} from '../atoms.js'
-import {draw} from './draw.js'
-import {leftColumn, text} from './data.js'
-import type {Part} from './types.js'
 import {getTheme, setIndents} from '../theme.js'
+import type {Themed} from '../theme/types.js'
+import {column, text} from './data.js'
+import {draw} from './draw.js'
+import type {Part} from './types.js'
 
 const withTheme = <A>(f: Themed<A>): A => pipe('thin', getTheme, f)
 
@@ -31,7 +31,7 @@ describe('atoms', () => {
 
   describe('branch', () => {
     const theme = (indent: number) => pipe('thin', getTheme, setIndents(indent))
-    const part = leftColumn([text('A'), text('AB'), text('ABC')])
+    const part = column.left([text('A'), text('AB'), text('ABC')])
     const drawPart = (atom: EndoOf<Part>) =>
       pipe(part, atom, draw, Array.map(String.trimEnd))
 

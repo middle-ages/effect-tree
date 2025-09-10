@@ -1,4 +1,7 @@
-//import {Array, ComposeLambda, NeArray, NeArrayLambda, pipe, TU} from '#effect'
+/**
+ * Extract bottom-grounded subtrees of a tree.
+ * @packageDocumentation
+ */
 import {
   leaf,
   tree,
@@ -48,7 +51,10 @@ import type {NonEmptyArray} from 'effect/Array'
 export const bottomSubtrees = <A>(self: Tree<A>): NonEmptyArray<Tree<A>> =>
   pipe(self, treePara(bottomSubtreesFold))
 
-/** Collect all bottom-grounded subtrees of a single tree level. */
+/**
+ * Collect all bottom-grounded subtrees of a single tree level.
+ * @category fold
+ */
 export const bottomSubtreesFold: TreeProductFolderK<ForestTypeLambda> =
   TreeF.match({
     onLeaf: flow(leaf, Array.of),

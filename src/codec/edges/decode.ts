@@ -5,6 +5,10 @@ import {indexParents} from './map.js'
 import {getMapChildren, setMapRoot} from './ops.js'
 import type {EdgeList, EdgeMap, EdgeMapTypeLambda} from './types.js'
 
+/**
+ * Decode a level of a tree encoded as an edge list.
+ * @category unfold
+ */
 export const decodeUnfold: TreeUnfolderK<EdgeMapTypeLambda> = map => {
   const [root, children] = getMapChildren(map)
   return pipe(

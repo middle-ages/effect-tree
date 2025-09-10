@@ -1,13 +1,18 @@
+/**
+ * Tree Order.
+ * @packageDocumentation
+ */
 import {Array, Function, K, pipe, type Order} from '#util'
 import {Effect, identity} from 'effect'
 import {match} from '../tree/index.js'
 import type {Tree} from '../tree/types.js'
 
+/** Get an Order instance for `Tree<A>`. */
 export const getOrder =
   <A>(orderA: Order.Order<A>): Order.Order<Tree<A>> =>
   (self: Tree<A>, that: Tree<A>) =>
     pipe(
-      getOrderE(orderA)(self, that),
+      getOrderEffect(orderA)(self, that),
       Effect.match({
         onSuccess: K<0>(0),
         onFailure: identity<-1 | 1>,
@@ -15,14 +20,12 @@ export const getOrder =
       Effect.runSync,
     )
 
-/**
- * We use effect _success_ to encode equality and effect _failure_ of `-1 | 1` to
- * encode greater than/less than.
- */
-export const getOrderE =
+// We use effect _success_ to encode equality and effect _failure_ of `-1 | 1`
+// to encode greater than/less than.
+const getOrderEffect =
   <A>(orderA: Order.Order<A>) =>
   (self: Tree<A>, that: Tree<A>): Effect.Effect<void, -1 | 1> => {
-    const order = Function.tupled(getOrderE(orderA))
+    const order = Function.tupled(getOrderEffect(orderA))
 
     return pipe(
       self,

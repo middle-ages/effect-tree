@@ -1,6 +1,11 @@
+/**
+ * Convert a fold into one that annotates tree nodes with its intermediate
+ * values.
+ * @packageDocumentation
+ */
 import * as TreeF from '#treeF'
 import {Effect, flow, pipe, Tuple} from 'effect'
-import {fixTree, getNode, tree} from '../../tree/index.js'
+import {fixTree, getValue, tree} from '../../tree/index.js'
 import {type Tree} from '../../tree/types.js'
 import type {TreeEffectFolder, TreeFolder} from './types.js'
 
@@ -19,17 +24,9 @@ import type {TreeEffectFolder, TreeFolder} from './types.js'
  * )
  * ```
  */
-export const annotateFolder: {
-  <A, B>(φ: TreeFolder<A, B>): TreeFolder<A, Tree<[A, B]>>
-  readOnly: <A, B>(φ: TreeFolder<A, B>) => TreeFolder<A, Tree<readonly [A, B]>>
-} = Object.assign(
-  <A, B>(φ: TreeFolder<A, B>): TreeFolder<A, Tree<[A, B]>> =>
-    flow(annotateNode(φ), fixTree),
-  {
-    readOnly: <A, B>(φ: TreeFolder<A, B>) =>
-      flow(annotateNode(φ), fixTree<readonly [A, B]>),
-  },
-)
+export const annotateFolder = <A, B>(
+  φ: TreeFolder<A, B>,
+): TreeFolder<A, Tree<[A, B]>> => flow(annotateNode(φ), fixTree)
 
 /** Like {@link annotateFolder} but for _effect folders_. */
 export const annotateEffectFolder =
@@ -44,11 +41,11 @@ const annotateNode =
   (self: TreeF.TreeF<A, Tree<[A, B]>>): TreeF.TreeF<[A, C], Tree<[A, B]>> =>
     pipe(
       self,
-      TreeF.mapNode(
+      TreeF.mapValue(
         a =>
           [
             a,
-            pipe(self, TreeF.map(flow(getNode, Tuple.getSecond)), φ),
+            pipe(self, TreeF.map(flow(getValue, Tuple.getSecond)), φ),
           ] as const,
       ),
     )

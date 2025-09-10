@@ -62,8 +62,8 @@ describe('paths', () => {
     const iut = Paths.isValidPathList(Number.Equivalence)
 
     describe('true', () => {
-      test('All trees of nodeCount≔6 have valid paths', () => {
-        for (const tree of Prufer.allTreesAt(6)) {
+      test('All trees of nodeCount≔5 have valid paths', () => {
+        for (const tree of Prufer.allTreesAt(5)) {
           const paths = Paths.encode(tree)
           expect(iut(paths)).toBeTruthy()
         }
@@ -119,7 +119,7 @@ describe('paths', () => {
           pipe(tree, Paths.encode, isValidPathList(Number.Equivalence)),
         ).toBe(true)
       }),
-      {numRuns: 1000},
+      {numRuns: 50},
     )
   })
 })

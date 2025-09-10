@@ -49,10 +49,6 @@ export const transpose = <A>(
     ? _transposeNonEmpty(rows)
     : ([] as NonEmptyArray<Option<A>>[])
 
-export const transposeReadOnly = transpose as unknown as <A>(
-  rows: readonly NonEmptyArray<A>[],
-) => NonEmptyArray<Option<A>>[]
-
 const _transposeNonEmpty: LiftNonEmptyArray2 = ([head, ...tail]) =>
   isNonEmptyArray(tail)
     ? pipe(padSuffixNonEmpty([head, ...tail]), transposeRectangle.nonEmpty)
@@ -82,6 +78,6 @@ interface LiftNonEmptyArray {
   <A>(xss: NonEmptyArray<A>): NonEmptyArray<Option<A>>
 }
 
-interface LiftNonEmptyArray2 {
+export interface LiftNonEmptyArray2 {
   <A>(xss: NonEmptyArray2<A>): NonEmptyArray2<Option<A>>
 }

@@ -18,7 +18,7 @@ export const map: CO.Covariant<TreeFTypeLambda>['map'] = Function.dual(
       self,
       match({
         onLeaf: leafF,
-        onBranch: (node, forest) => ({node, forest: Array.map(forest, f)}),
+        onBranch: (value, forest) => ({value, forest: Array.map(forest, f)}),
       }),
     ),
 )
@@ -49,7 +49,7 @@ export const traverse: TA.Traversable<TreeFTypeLambda>['traverse'] = <
         self,
         match({
           onLeaf: flow(leafF, F.of),
-          onBranch: (node, forest) => treeFK(F)(node, Array.map(forest, f)),
+          onBranch: (value, forest) => treeFK(F)(value, Array.map(forest, f)),
         }),
       ),
   )
@@ -91,11 +91,11 @@ export const getEquivalence =
 const treeFK =
   <F extends HKT.TypeLambda>(F: AP.Applicative<F>) =>
   <A, C, E = unknown, O = unknown, R = never>(
-    node: A,
+    value: A,
     forest: NonEmptyArray<HKT.Kind<F, R, O, E, C>>,
   ): HKT.Kind<F, R, O, E, TreeF<A, C>> =>
     pipe(
-      node,
+      value,
       F.of,
       SE.lift2(F)(treeF<A, C>)(TA.sequence(ArrayTraversable)(F)(forest)),
     )

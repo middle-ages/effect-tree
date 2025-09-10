@@ -3,7 +3,7 @@ import {
   append,
   branch,
   firstChild,
-  getNode,
+  getValue,
   leaf,
   map,
   treeC,
@@ -23,10 +23,10 @@ export const voidTreeArbitrary = (
 
 /** A branch with nothing but structure. */
 export const voidBranchArbitrary = (
-  options: Partial<ArbitraryOptions> = {},
+  options: Partial<Omit<ArbitraryOptions, 'onlyBranches'>> = {},
 ): fc.Arbitrary<Branch<void>> =>
   getArbitrary(voidArbitrary, {
-    minDepth: 1,
+    onlyBranches: true,
     ...Record.filterDefined(options),
   }) as fc.Arbitrary<Branch<void>>
 
@@ -42,9 +42,7 @@ export const getNumberedArbitrary = (
 export const getNumberedBranchArbitrary = (
   options: Partial<NumberedArbitraryOptions> = {},
 ): fc.Arbitrary<Branch<number>> =>
-  voidBranchArbitrary({minDepth: 1, ...Record.filterDefined(options)}).map(
-    asOrdinalBranch.pre(options.initialize ?? 1),
-  )
+  voidBranchArbitrary(options).map(asOrdinalBranch.pre(options.initialize ?? 1))
 
 /**
  * Just like {@link getNumberedArbitrary} except the numeric nodes have been
@@ -82,8 +80,8 @@ export const pruferEncodableArbitrary: fc.Arbitrary<Branch<number>> =
         fc.oneof(
           fc.constant(append(self, leaf(3))),
           fc.constant(
-            branch(getNode(self), [
-              pipe(self, firstChild, getNode, treeC([leaf(3)])),
+            branch(getValue(self), [
+              pipe(self, firstChild, getValue, treeC([leaf(3)])),
             ]),
           ),
         ),

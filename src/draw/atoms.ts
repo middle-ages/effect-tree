@@ -63,7 +63,7 @@ function makeLabelPart(
           flow(prefix(prefixBullet), PR.text),
           flow(prefix(prefixPad), PR.text),
         ),
-        PR.leftColumn,
+        PR.column.left,
       )
     })
 }
@@ -76,7 +76,7 @@ function makeBranchPart(
     theme => part =>
       pipe(
         part,
-        PR.beforeTopLeft(branch(theme), [
+        PR.before.top.left(branch(theme), [
           themedSpace(theme),
           [pipe(theme, themedTextGlyph(glyphRole))],
         ]),

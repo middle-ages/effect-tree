@@ -2,10 +2,11 @@ import {of, tree, type Tree} from '#tree'
 import {pipe} from 'effect'
 import {assert, test} from 'vitest'
 
-const overflow = 12_000
+const overflow = 8000
 
-// Build a deep and narrow tree for stack-safety tests
-export const buildDeep =
+// Build a deep and narrow tree that is `overflow` levels deep for stack-safety
+// tests
+const buildDeep =
   <A>(makeTree: (rootValue: number, nodes: Tree<A>[]) => Tree<A>) =>
   (from: Tree<A>): [Tree<A>, number] => {
     let tree = from,

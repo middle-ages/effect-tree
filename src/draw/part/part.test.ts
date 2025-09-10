@@ -1,12 +1,12 @@
+import {unlines} from '#util/String'
+import {Array, pipe, String} from 'effect'
 import {describe, expect, test} from 'vitest'
-import {String, Array, pipe} from 'effect'
-import {bottomCenterRow, centerColumn, empty, text} from './data.js'
+import {column as dataColumn, row as dataRow, empty, text} from './data.js'
+import {draw} from './draw.js'
 import {showPart} from './ops.js'
 import type {Part} from './types.js'
-import {draw} from './draw.js'
-import {unlines} from '#util/String'
 
-const [row, column] = [bottomCenterRow, centerColumn]
+const [row, column] = [dataRow.bottom.center, dataColumn.center]
 
 const testShowPart = (name: string, expected: string) => (part: Part) => {
   test(name, () => {

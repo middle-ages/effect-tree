@@ -1,4 +1,4 @@
-import {String, pipe, Predicate} from 'effect'
+import {pipe, Predicate, String} from 'effect'
 import * as tty from 'tty-strings'
 import * as Array from './Array.js'
 import type {EndoOf} from './Function.js'
@@ -142,17 +142,6 @@ export const prefix =
 /** Suffix a string. A curried version of `String.concat`. */
 export const suffix: (suffix: string) => EndoOf<string> = String.concat
 
-/** Add an `s` suffix to the word unless the given number equals one. */
-export const plural = (word: string, n: number): string =>
-  n === 1 ? word : `${word}s`
-
-/**
- * Add an `s` suffix to the word unless the given number equals one,
- * and prefix with the string of the given numeric value.
- */
-export const pluralNumber = (word: string, n: number): string =>
-  unwords.spaced.rest(n.toString(), plural(word, n))
-
 /** Call `toString()` on the given number. */
 export const fromNumber = (n: number): string => n.toString()
 
@@ -200,19 +189,6 @@ export function fillLines(available: number) {
 
 export const widestLine = (lines: string[]): number =>
   Array.max(Number.Order)([0, ...stringWidths(lines)])
-
-export const hSeparator = (lines: string[]): string =>
-  pipe('─', String.repeat(widestLine(lines)))
-
-/** Convert `SomeLongWord` into `Some long word`. */
-export const toSpacedLowercase: EndoOf<string> = s =>
-  s === ''
-    ? ''
-    : pipe(
-        s.replaceAll(/([A-Z])/g, ' $1'),
-        String.toLowerCase,
-        toUpperCaseFirst,
-      ).slice(1)
 
 export const takeWhile = (f: Predicate.Predicate<string>) => (s: string) => {
   let i = 0

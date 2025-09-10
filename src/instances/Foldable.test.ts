@@ -1,17 +1,8 @@
 import {unfoldLevelTree} from '#ops'
-import {describe, expect, test} from 'vitest'
 import {from, leaf} from '#tree'
 import {identity, Predicate} from 'effect'
-import {
-  eqv,
-  eqvOf,
-  every,
-  everyOf,
-  some,
-  someOf,
-  xor,
-  xorOf,
-} from './Foldable.js'
+import {describe, expect, test} from 'vitest'
+import {eqv, every, everyOf, some, someOf, xor} from './Foldable.js'
 
 describe('Foldable', () => {
   {
@@ -37,26 +28,6 @@ describe('Foldable', () => {
 
       test('true', () => {
         expect(someOf(isEven)(self)).toEqual(true)
-      })
-    })
-
-    describe('xorOf', () => {
-      test('false', () => {
-        expect(xorOf(isPositive)(self)).toEqual(false)
-      })
-
-      test('true', () => {
-        expect(xorOf(isEven)(self)).toEqual(true)
-      })
-    })
-
-    describe('eqvOf', () => {
-      test('false', () => {
-        expect(eqvOf(isEven)(self)).toEqual(false)
-      })
-
-      test('true', () => {
-        expect(eqvOf(isNotPositive)(self)).toEqual(true)
       })
     })
   }

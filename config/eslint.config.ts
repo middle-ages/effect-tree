@@ -29,10 +29,7 @@ const config = defineConfig(
         ecmaVersion: 'latest',
         tsconfigRootDir: import.meta.dirname + '/..',
       },
-      globals: {
-        ...globals.node,
-        ...globals.vitest,
-      },
+      globals: globals.node,
     },
   },
 

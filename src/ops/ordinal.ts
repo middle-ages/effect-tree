@@ -1,9 +1,13 @@
+/**
+ * Annotate trees with their breadth-first ordinal.
+ * @packageDocumentation
+ */
 import {
   annotateEffectFolder,
   annotateEffectUnfolder,
   replaceEffectFolder,
   treeAnaE,
-  treeCataE,
+  treeCataEffect,
   unfixTree,
   type Branch,
   type Tree,
@@ -22,6 +26,10 @@ import {
 } from 'effect/Effect'
 import {constant} from 'effect/Function'
 
+/**
+ * Fold nodes of a tree level to their ordinal in depth-first pre-order.
+ * @category fold
+ */
 export const nodeOrdinalFold =
   (counter: Ref.Ref<number>) =>
   <A, E = never, R = never>(
@@ -29,6 +37,10 @@ export const nodeOrdinalFold =
   ): Effect<number, E, R> =>
     useCounter(counter)
 
+/**
+ * Unfold nodes of a tree level to their ordinal in depth-first pre-order.
+ * @category fold
+ */
 export const nodeOrdinalUnfold =
   (counter: Ref.Ref<number>) =>
   <A, E = never, R = never>(
@@ -37,10 +49,13 @@ export const nodeOrdinalUnfold =
     pipe(
       counter,
       useCounter,
-      mapEffect(n => pipe(self, unfixTree, treeF.mapNode(constant(n)))),
+      mapEffect(n => pipe(self, unfixTree, treeF.mapValue(constant(n)))),
     )
 
-//
+/**
+ * Unfold a tree level and annotate the nodes with their ordinal.
+ * @category fold
+ */
 export const annotateOrdinalUnfold =
   (counter: Ref.Ref<number>) =>
   <A, E = never, R = never>(
@@ -88,7 +103,7 @@ export const asOrdinal =
     return pipe(
       counterEffect,
       mapEffect(replace),
-      flatMapEffect(φ => treeCataE(φ)(self)),
+      flatMapEffect(φ => treeCataEffect(φ)(self)),
       runSync,
     )
   }
@@ -112,7 +127,7 @@ export const withOrdinal =
     return pipe(
       counterEffect,
       mapEffect(annotate),
-      flatMapEffect(φ => treeCataE(φ)(self)),
+      flatMapEffect(φ => treeCataEffect(φ)(self)),
       runSync,
     )
   }
@@ -141,6 +156,7 @@ withOrdinal.pre =
       runSync,
     )
 
+/* v8 ignore next 4 */
 export const asOrdinalBranch =
   (initialize: number) =>
   (self: Branch<any>): Branch<number> =>

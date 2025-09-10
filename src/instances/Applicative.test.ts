@@ -1,22 +1,20 @@
-import {branch, leaf} from '#tree'
+import {from, of} from '#tree'
 import {productAll} from './Applicative.js'
 import {describe, expect, test} from 'vitest'
 
 describe('Applicative', () => {
   describe('productAll', () => {
     test('empty', () => {
-      expect(productAll([])).toEqual(leaf([]))
+      expect(productAll([])).toEqual(of([]))
     })
 
     test('leaves', () => {
-      expect(productAll([leaf('foo'), leaf('bar')])).toEqual(
-        leaf(['foo', 'bar']),
-      )
+      expect(productAll([of('foo'), of('bar')])).toEqual(of(['foo', 'bar']))
     })
 
-    test('leaf and branch', () => {
-      expect(productAll([leaf('foo'), branch('bar', [leaf('baz')])])).toEqual(
-        branch(['foo', 'bar'], [leaf(['foo', 'baz'])]),
+    test('of and branch', () => {
+      expect(productAll([of('foo'), from('bar', of('baz'))])).toEqual(
+        from(['foo', 'bar'], of(['foo', 'baz'])),
       )
     })
   })

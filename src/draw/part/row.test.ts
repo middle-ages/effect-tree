@@ -3,7 +3,8 @@ import type {NonEmptyArray} from 'effect/Array'
 import {column, row, text} from './data.js'
 import {draw} from './draw.js'
 import type {Text} from './partF.js'
-import type {HorizontalAlignment, Part, VerticalAlignment} from './types.js'
+import type {Part} from './types.js'
+import type {HorizontalAlignment, VerticalAlignment} from './align.js'
 
 const [defaultHStrut, defaultVStrut]: [Text, NonEmptyArray<Text>] = [
   text('•'),

@@ -4,8 +4,10 @@ set -Eeuo pipefail
 
 COLOR="${COLOR:-true}"
 
-. "$(dirname "${0}")/lib/_"
+dir="$(dirname "${0}")"
 
-typedoc --options "$CONFIG_DIR"/typedoc.json index.ts
+. "${dir}/lib/_"
+
+typedoc --out "$API_DOCS_DIR" --options "$CONFIG_DIR"/typedoc.json
 
 show_done 'build:docs'

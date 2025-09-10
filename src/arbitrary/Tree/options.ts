@@ -3,28 +3,17 @@ import {Function, Record} from '#util'
 import type {Predicate} from 'effect'
 import fc from 'fast-check'
 
-/**
- * Type of functions that build a tree arbitrary from the arbitrary runtime
- * options.
- */
-export interface GetArbitrary<A> {
-  (options: RuntimeOptions): fc.Arbitrary<Tree<A>>
-}
-
-/**
- * Tree arbitrary generation options.
- */
+/** Tree arbitrary generation options. */
 export interface ArbitraryOptions {
   /**
-   * Minimum depth of trees generated. An error is thrown if
-   * `minDepth > maxDepth`. Set to a value greater than `0` to guarantee only
-   * branches will be generated and never leaves. Default is `0`.
+   * If true no leaves will be generated so that all trees will always have at
+   * least a height of `1`. Default is `false`.
    */
-  minDepth: number
+  onlyBranches: boolean
 
   /**
    * Maximum depth of trees generated. An error is thrown if
-   * `minDepth > maxDepth`. Default is `3`.
+   * `onlyBranches` is true but `maxDepth` is `0`.
    */
   maxDepth: number
 
@@ -58,10 +47,18 @@ export interface RuntimeOptions extends ArbitraryOptions {
   currentDepth: number
 }
 
+/**
+ * Type of functions that build a tree arbitrary from the arbitrary runtime
+ * options.
+ */
+export interface GetArbitrary<A> {
+  (options: RuntimeOptions): fc.Arbitrary<Tree<A>>
+}
+
 export const defaultOptions: ArbitraryOptions = {
   maxChildren: 5,
   branchBias: 1 / 4,
-  minDepth: 0,
+  onlyBranches: false,
   maxDepth: 3,
 }
 
@@ -70,23 +67,28 @@ export const defaultNumberedOptions: NumberedArbitraryOptions = {
   initialize: 1,
 }
 
-export const normalizeOptions = (
-  options: Partial<ArbitraryOptions> = defaultOptions,
-): ArbitraryOptions => {
+/**
+ * @category internal
+ */
+export const normalizeOptions = ({
+  onlyBranches,
+  ...options
+}: Partial<ArbitraryOptions> = defaultOptions): ArbitraryOptions => {
   const final = {
     ...defaultOptions,
     ...Record.filterDefined(options),
+    ...Record.filterDefined({onlyBranches}),
   }
 
-  const {minDepth, maxDepth, branchBias, maxChildren} = final
+  const {maxDepth, branchBias, maxChildren} = final
 
-  if (minDepth > maxDepth) {
-    const explain = `“${minDepth.toString()}” > “${maxDepth.toString()}”`
-    throw new Error(`minDepth > maxDepth (${explain}).`)
+  if (onlyBranches && maxDepth === 0) {
+    throw new Error('Cannot create a branch at maxDepth=0')
   }
 
-  if (branchBias < 0 || branchBias > 1) {
-    const explain = `“${branchBias.toString()}” not in inclusive range 0…1`
+  if (branchBias < 0 || branchBias >= 1) {
+    const range = `0 ≤ branchBias < 1`
+    const explain = `“${branchBias.toString()}” not in range ${range}.`
     throw new Error(`Out-of-bounds branchBias (${explain}).`)
   }
 
@@ -98,31 +100,19 @@ export const normalizeOptions = (
   return final
 }
 
-export const normalizeNumberedOptions = (
-  options: Partial<NumberedArbitraryOptions> = defaultNumberedOptions,
-): ArbitraryOptions => ({
-  ...defaultNumberedOptions,
-  ...Record.filterDefined(options),
-})
-
-/** If true, this level will be all leaves. */
+/**
+ * If true, this level will be all leaves.
+ * @category internal
+ */
 export const isAtMaxDepth: Predicate.Predicate<RuntimeOptions> = ({
   maxDepth,
   currentDepth,
 }) => currentDepth >= maxDepth
 
 /**
- * If true, this level could include only leaves. If false,
- * this level will surely include at least a single branch.
- */
-export const isAtMinDepth: Predicate.Predicate<RuntimeOptions> = ({
-  minDepth,
-  currentDepth,
-}) => currentDepth >= minDepth + 1
-
-/**
  * Choose one of the given leaf or branch arbitraries according to the branch
  * bias.
+ * @category internal
  */
 export const biasedOneOf =
   <A>(a: fc.Arbitrary<A>, branch: fc.Arbitrary<Branch<A>>) =>
@@ -134,6 +124,9 @@ export const biasedOneOf =
     )
   }
 
+/**
+ * @category internal
+ */
 export const nextDepth: Function.EndoOf<RuntimeOptions> = ({
   currentDepth,
   ...options
