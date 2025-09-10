@@ -7,10 +7,12 @@ export interface WithTreeLambda<T> extends HKT.TypeLambda {
   readonly type: [T, Tree<this['Target']>]
 }
 
+/** A type lambda for non-empty arrays. */
 export interface NonEmptyArrayTypeLambda extends HKT.TypeLambda {
   readonly type: Array.NonEmptyArray<this['Target']>
 }
 
+/** A type lambda for 2D non-empty arrays. */
 export type NonEmptyArray2TypeLambda = ComposeTypeLambda<
   NonEmptyArrayTypeLambda,
   NonEmptyArrayTypeLambda

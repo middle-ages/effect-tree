@@ -2,7 +2,7 @@ import {describe, expect, test} from 'vitest'
 import {bracketFold} from '#test'
 import {from, of} from '#tree'
 import {Effect, flow, pipe} from 'effect'
-import {treeCata, treeCataE} from './index.js'
+import {treeCata, treeCataEffect} from './index.js'
 import {replaceEffectFolder, replaceFolder} from './replace.js'
 
 describe('replace', () => {
@@ -30,7 +30,7 @@ describe('replace', () => {
     expect(
       pipe(
         tree,
-        treeCataE(replaceEffectFolder(flow(bracketFold, Effect.succeed))),
+        treeCataEffect(replaceEffectFolder(flow(bracketFold, Effect.succeed))),
         Effect.runSync,
       ),
     ).toEqual(

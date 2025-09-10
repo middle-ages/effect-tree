@@ -1,3 +1,7 @@
+/**
+ * Tree Applicative.
+ * @packageDocumentation
+ */
 import {
   Applicative as AP,
   Monoid,
@@ -39,6 +43,7 @@ export const productAll: AP.Applicative<TreeTypeLambda>['productAll'] = <A>(
   return head === undefined ? leaf<A[]>([]) : productMany(head, tail)
 }
 
+/** Applicative instance for `Tree<A>`. */
 export const Applicative: AP.Applicative<TreeTypeLambda> = {
   of: leaf,
   imap,

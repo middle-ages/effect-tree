@@ -1,4 +1,4 @@
-import {Either, identity, pipe, Tuple} from 'effect'
+import {Either, pipe, Tuple} from 'effect'
 
 export type Pair<A> = readonly [A, A]
 
@@ -28,9 +28,15 @@ export const pair = <A, B>(a: A, b: B): readonly [A, B] => [a, b]
 pair.removeReadOnly = <A, B>(a: A, b: B): [A, B] => [a, b]
 
 /** A curried version of {@link pair}. */
-pair.withFirst =
+pair.withFirst = Object.assign(
   <A>(first: A) =>
-  <B>(second: B): readonly [A, B] => [first, second]
+    <B>(second: B): readonly [A, B] => [first, second],
+  {
+    removeReadonly:
+      <A>(first: A) =>
+      <B>(second: B): [A, B] => [first, second],
+  },
+)
 
 const withSecond =
   <A>(second: A) =>
@@ -68,22 +74,3 @@ square.mapSecond =
  * Given a tuple `[A, (a: A) ⇒ B]` applies the function and return the result.
  */
 export const applyPair = <A, B>([a, f]: readonly [A, (a: A) => B]): B => f(a)
-
-/** Flatten a pair of pairs into a 4-tuple. */
-export const flatten = <A, B, C, D>([[a, b], [c, d]]: readonly [
-  [A, B],
-  [C, D],
-]): readonly [A, B, C, D] => [a, b, c, d] as const
-
-export const swap = <A, B>([a, b]: readonly [A, B]): readonly [B, A] => [b, a]
-
-/** Swap the given pair only if the flag is true. */
-export const swapIf: (
-  flag: boolean,
-) => <const A>(pair: Pair<A>) => typeof pair = flag =>
-  flag ? Tuple.swap : identity
-
-/** Swap the given pair only if the flag is false. */
-export const swapUnless: (
-  flag: boolean,
-) => <const A>(pair: Pair<A>) => typeof pair = flag => swapIf(!flag)

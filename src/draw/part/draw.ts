@@ -13,14 +13,18 @@ import {
 } from './partF.js'
 import {type Part} from './types.js'
 
-export const drawAlgebra: Algebra<PartFTypeLambda, string[]> = matchPartF(
+/**
+ * Render a single layer of the part into a list of strings.
+ * @category fold
+ */
+export const drawFold: Algebra<PartFTypeLambda, string[]> = matchPartF(
   [],
-  p => [p],
+  Array.of,
   drawRowF,
   drawColumnF,
 )
 
-export const draw: (part: Part) => string[] = partCata(drawAlgebra)
+export const draw: (part: Part) => string[] = partCata(drawFold)
 
 function drawRowF({
   hAlign,

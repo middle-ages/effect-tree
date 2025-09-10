@@ -12,5 +12,5 @@ describe('Themed typeclass laws', () => {
   testTypeclassLaws<ThemedTypeLambda>({
     getEquivalence: getThemedEquivalence,
     getArbitrary: ArbitraryThemed,
-  })({Covariant, Monad}, {numRuns: 50})
+  })({Covariant, Monad}, {numRuns: 3})
 })

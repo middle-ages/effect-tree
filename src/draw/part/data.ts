@@ -16,14 +16,8 @@ import {
   type PartFTypeLambda,
   type Text,
 } from './partF.js'
-import {
-  type Column,
-  type Empty,
-  type HorizontalAlignment,
-  type Part,
-  type Row,
-  type VerticalAlignment,
-} from './types.js'
+import {type Column, type Empty, type Part, type Row} from './types.js'
+import type {HorizontalAlignment, VerticalAlignment} from './align/data.js'
 
 export const text = textPart
 
@@ -43,23 +37,24 @@ const defaultHStrut = text(' '),
 
 /** Combine parts horizontally. */
 export const row =
-    (vAlign: VerticalAlignment) =>
-    (hAlign: HorizontalAlignment) =>
-    (
-      cells: Part[],
-      [hStrut, vStrut]: [
-        hStrut: Text,
-        vStrut?: NonEmptyArray<Text>,
-      ] = defaultStruts,
-    ): Row =>
-      fixPart<Row>(
-        rowF([hAlign, vAlign])([hStrut, vStrut ?? defaultVStrut])(cells),
-      ),
-  /** Combine parts vertically. */
-  column =
-    (align: HorizontalAlignment) =>
-    (cells: Part[], strut?: Text): Column =>
-      fixPart<Column>(columnF(align, strut ?? defaultHStrut)(cells))
+  (vAlign: VerticalAlignment) =>
+  (hAlign: HorizontalAlignment) =>
+  (
+    cells: Part[],
+    [hStrut, vStrut]: [
+      hStrut: Text,
+      vStrut?: NonEmptyArray<Text>,
+    ] = defaultStruts,
+  ): Row =>
+    fixPart<Row>(
+      rowF([hAlign, vAlign])([hStrut, vStrut ?? defaultVStrut])(cells),
+    )
+
+/** Combine parts vertically. */
+export const column =
+  (align: HorizontalAlignment) =>
+  (cells: Part[], strut?: Text): Column =>
+    fixPart<Column>(columnF(align, strut ?? defaultHStrut)(cells))
 
 export const [isEmptyPart, isText, isRow, isColumn] = [
   (self: Part): self is Empty => pipe(self, unfixPart, isPartFOf('EmptyF')),
@@ -68,6 +63,7 @@ export const [isEmptyPart, isText, isRow, isColumn] = [
   (self: Part): self is Column => pipe(self, unfixPart, isPartFOf('ColumnF')),
 ]
 
+/** Get the text content of a {@link Text} part. */
 export const getText: (text: Text) => string = ({unfixed: {show}}) => show
 
 /**
@@ -75,57 +71,60 @@ export const getText: (text: Text) => string = ({unfixed: {show}}) => show
  * second.
  */
 export const prefixText: (prefix: Text) => EndoOf<Text> =
-    ({unfixed: {show: prefix}}) =>
-    ({unfixed: {show: suffix}}) =>
-      text(prefix + suffix),
-  /**
-   * Combine two text parts horizontally placing the first to the left of the
-   * second.
-   */
-  suffixText: (suffix: Text) => EndoOf<Text> =
-    ({unfixed: {show: suffix}}) =>
-    ({unfixed: {show: prefix}}) =>
-      text(prefix + suffix)
+  ({unfixed: {show: prefix}}) =>
+  ({unfixed: {show: suffix}}) =>
+    text(prefix + suffix)
+
+/**
+ * Combine two text parts horizontally placing the first to the left of the
+ * second.
+ */
+export const suffixText: (suffix: Text) => EndoOf<Text> =
+  ({unfixed: {show: suffix}}) =>
+  ({unfixed: {show: prefix}}) =>
+    text(prefix + suffix)
 
 /** Add the prefix part to the left of the suffix part. */
 export const before =
-    (vAlign: VerticalAlignment) =>
-    (hAlign: HorizontalAlignment) =>
-    (
-      prefix: Part,
-      [hStrut, vStrut]: [
-        hStrut: Text,
-        vStrut?: NonEmptyArray<Text>,
-      ] = defaultStruts,
-    ) =>
-    (suffix: Part) =>
-      row(vAlign)(hAlign)([prefix, suffix], [hStrut, vStrut ?? defaultVStrut]),
-  /** Add the suffix part to the right of the prefix part. */
-  after =
-    (vAlign: VerticalAlignment) =>
-    (hAlign: HorizontalAlignment) =>
-    (
-      suffix: Part,
-      [hStrut, vStrut]: [
-        hStrut: Text,
-        vStrut?: NonEmptyArray<Text>,
-      ] = defaultStruts,
-    ) =>
-    (prefix: Part) =>
-      row(vAlign)(hAlign)([prefix, suffix], [hStrut, vStrut ?? defaultVStrut])
+  (vAlign: VerticalAlignment) =>
+  (hAlign: HorizontalAlignment) =>
+  (
+    prefix: Part,
+    [hStrut, vStrut]: [
+      hStrut: Text,
+      vStrut?: NonEmptyArray<Text>,
+    ] = defaultStruts,
+  ) =>
+  (suffix: Part) =>
+    row(vAlign)(hAlign)([prefix, suffix], [hStrut, vStrut ?? defaultVStrut])
+
+/** Add the suffix part to the right of the prefix part. */
+export const after =
+  (vAlign: VerticalAlignment) =>
+  (hAlign: HorizontalAlignment) =>
+  (
+    suffix: Part,
+    [hStrut, vStrut]: [
+      hStrut: Text,
+      vStrut?: NonEmptyArray<Text>,
+    ] = defaultStruts,
+  ) =>
+  (prefix: Part) =>
+    row(vAlign)(hAlign)([prefix, suffix], [hStrut, vStrut ?? defaultVStrut])
 
 /** Add the `below` part below the `above` part. */
 export const below =
-    (align: HorizontalAlignment) =>
-    (above: Part, strut?: Text) =>
-    (below: Part) =>
-      column(align)([above, below], strut),
-  /** Add the `above` part above the `below` part. */
-  above =
-    (align: HorizontalAlignment) =>
-    (below: Part, strut?: Text) =>
-    (above: Part) =>
-      column(align)([above, below], strut)
+  (align: HorizontalAlignment) =>
+  (above: Part, strut?: Text) =>
+  (below: Part) =>
+    column(align)([above, below], strut)
+
+/** Add the `above` part above the `below` part. */
+export const above =
+  (align: HorizontalAlignment) =>
+  (below: Part, strut?: Text) =>
+  (above: Part) =>
+    column(align)([above, below], strut)
 
 /** Match part by type. */
 export const matchPart =

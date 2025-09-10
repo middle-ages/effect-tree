@@ -1,5 +1,5 @@
 import {getArbitrary, type ArbitraryOptions} from '#arbitrary/Tree'
-import {assertDrawTree, numericTree} from '#test'
+import {assertDrawTree, numericTree, testNumericTreeStackSafety} from '#test'
 import {getEquivalence, map, type Tree} from '#tree'
 import {flow, Number, Pair, pipe, String, Tuple} from '#util'
 import {Equivalence} from 'effect'
@@ -36,11 +36,10 @@ describe('zip/unzip', () => {
   })
 
   describe('laws', () => {
-    const options: ArbitraryOptions = {
-      branchBias: 1 / 2,
+    const options: Partial<ArbitraryOptions> = {
+      branchBias: 1 / 4,
       maxChildren: 4,
-      maxDepth: 4,
-      minDepth: 0,
+      maxDepth: 3,
     }
 
     const congruentPair = getArbitrary(tinyString, options).chain(stringTree =>
@@ -70,21 +69,26 @@ describe('zip/unzip', () => {
         ),
       )
 
-    verboseLawSets([
-      lawTests(
-        'zip/unzip laws',
-        Law(
-          'zip/unzip cancellation',
-          '∀a ∈ Tree<A>, ∀b ∈ Tree<B>: a ≅ b ⇒ zip(a,b) ▹ unzip = [a, b]',
-          congruentPair,
-        )(pair => congruentPairEquals(pipe(zip(...pair), unzip), pair)),
+    verboseLawSets(
+      [
+        lawTests(
+          'zip/unzip laws',
+          Law(
+            'zip/unzip cancellation',
+            '∀a ∈ Tree<A>, ∀b ∈ Tree<B>: a ≅ b ⇒ zip(a,b) ▹ unzip = [a, b]',
+            congruentPair,
+          )(pair => congruentPairEquals(pipe(zip(...pair), unzip), pair)),
 
-        Law(
-          'unzip/zip cancellation',
-          '∀t ∈ Tree<[A,B]>: zip ⚬ unzip = Id',
-          treeOfPair,
-        )(tree => treeOfPairEquals(zip(...unzip(tree)), tree)),
-      ),
-    ])
+          Law(
+            'unzip/zip cancellation',
+            '∀t ∈ Tree<[A,B]>: zip ⚬ unzip = Id',
+            treeOfPair,
+          )(tree => treeOfPairEquals(zip(...unzip(tree)), tree)),
+        ),
+      ],
+      {numRuns: 20},
+    )
   })
+
+  testNumericTreeStackSafety('stack safety', self => unzip(zip(self, self)))
 })

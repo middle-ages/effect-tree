@@ -34,12 +34,6 @@ const addEdgeMap = <A>(index: EdgeMap<A>, edge: TreeEdge<A>): EdgeMap<A> =>
 type EdgeAndMap<A> = [TreeEdge<A>, EdgeMap<A>]
 type EdgeAndMapEndo = <A>(edgeAndMap: EdgeAndMap<A>) => EdgeAndMap<A>
 
-/** True if given edge has already been indexed. */
-export const isEdgeIndexed = <A>([
-  [child],
-  {toParent},
-]: EdgeAndMap<A>): boolean => HashMap.has(toParent, child)
-
 // Update the roots map of a `EdgeMap` index with a new edge.
 const updateRoots: EdgeAndMapEndo = ([[child, parent], {roots, ...rest}]) => [
   [child, parent],

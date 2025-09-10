@@ -1,7 +1,11 @@
+/**
+ * Add/remove nodes and forests.
+ * @packageDocumentation
+ */
 import {Array, Function, pipe} from '#util'
 import {
   branch,
-  getNode,
+  getValue,
   isLeaf,
   leaf,
   modBranchForest,
@@ -21,7 +25,7 @@ export const append: {
   2,
   <A>(self: Tree<A>, child: Tree<A>): Branch<A> =>
     isLeaf(self)
-      ? pipe(self, getNode, branch([child]))
+      ? pipe(self, getValue, branch([child]))
       : pipe(self, modBranchForest(Array.append(child))),
 )
 
@@ -33,7 +37,7 @@ export const prepend: {
   2,
   <A>(self: Tree<A>, child: Tree<A>): Branch<A> =>
     isLeaf(self)
-      ? pipe(self, getNode, branch([child]))
+      ? pipe(self, getValue, branch([child]))
       : pipe(self, modBranchForest(Array.prepend(child))),
 )
 

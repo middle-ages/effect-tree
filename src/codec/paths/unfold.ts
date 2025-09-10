@@ -10,9 +10,10 @@ import type {NonEmptyArray} from 'effect/Array'
  * ```ts
  * const paths = [['A', 'B'], ['A', 'C', 'D'], ['A', 'C', 'E']]
  *
- * const tree = treeAna(schemes.pathCoalgebra(STR.Order))(paths)
+ * const tree = treeAna(pathListUnfold(STR.Order))(paths)
  * // A(B, C(D, E))
  * ```
+ * @category unfold
  */
 export const pathListUnfold =
   <A>(order: Order.Order<A>): TreeUnfolder<A, NonEmptyArray2<A>> =>

@@ -1,6 +1,10 @@
+/**
+ * Zip trees.
+ * @packageDocumentation
+ */
 import {
   fixTree,
-  getNode,
+  getValue,
   leaf,
   match,
   treeCata,
@@ -30,6 +34,7 @@ export const unzip: <A, B>(t: Tree<[A, B]>) => [Tree<A>, Tree<B>] = tree =>
 /**
  * Unzip a single level in a tree of `[A, B]` into a pair of trees of types `A`
  * and `B`.
+ * @category fold
  */
 export const unzipFold = <A, B>(
   t: TreeF.TreeF<[A, B], [Tree<A>, Tree<B>]>,
@@ -51,11 +56,15 @@ export const unzipFold = <A, B>(
     }),
   )
 
+/**
+ * Just like {@link zipWith} except the given function returns its result in an
+ * `Effect`.
+ */
 export const zipWithEffect =
   <A, B, C>(f: (self: A, that: B) => C) =>
   (self: Tree<A>, that: Tree<B>): Effect.Effect<Tree<C>> => {
     const zip = Function.tupled(zipWithEffect(f)),
-      node = f(getNode(self), getNode(that)),
+      node = f(getValue(self), getValue(that)),
       onLeaf = () => pipe(node, leaf, Effect.succeed)
 
     return pipe(
@@ -82,6 +91,14 @@ export const zipWithEffect =
     )
   }
 
+/**
+ * Zip a pair of trees cropping to the smallest degree and depth, and apply the
+ * given function.
+ *
+ * Returns the smallest matching tree of pairs, one taken from each tree at the
+ * same position, and run the given function on this pair, returning a tree of
+ * its results.
+ */
 export const zipWith = <A, B, C>(
   self: Tree<A>,
   that: Tree<B>,
@@ -94,6 +111,9 @@ export const zipWith = <A, B, C>(
  * If their shapes do not match, the result will include only the intersection.
  * Any nodes not on the shape of the intersection of the two trees will  be
  * discarded.
+ * 
+ * See {@link zipThese} for a zip that does not crop and is therefore pleasantly
+ * associative.
  *
  * ```ts
  * // Zip two trees of identical shape
@@ -112,6 +132,7 @@ export const zipWith = <A, B, C>(
  * const zippedTree: Tree<[string, number]> = pipe(right, zip(left))
  * // zippedTree = leaf(['a', 1])
  * ```
+ * 
  */
 export const zip: {
   <A, B>(self: Tree<A>, that: Tree<B>): Tree<[A, B]>

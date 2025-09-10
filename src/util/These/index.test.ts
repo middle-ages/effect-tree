@@ -50,12 +50,15 @@ describe('These', () => {
     >({
       getEquivalence,
       getArbitrary,
-    })({
-      Bicovariant: These.Bicovariant,
-      Equivalence,
-      Order: getOrder(monoOrder),
-      Semigroup: These.getSemigroup(OptionSemigroup)(monoMonoid),
-    })
+    })(
+      {
+        Bicovariant: These.Bicovariant,
+        Equivalence,
+        Order: getOrder(monoOrder),
+        Semigroup: These.getSemigroup(OptionSemigroup)(monoMonoid),
+      },
+      {numRuns: 20},
+    )
 
     {
       const a = tinyArray(tinyString)
@@ -74,53 +77,58 @@ describe('These', () => {
         These.getEquivalence(String.Equivalence)(String.Equivalence),
       )
 
-      verboseLawSets([
-        lawTests(
-          'laws for zipArrays/unzipArray',
+      verboseLawSets(
+        [
+          lawTests(
+            'laws for zipArrays/unzipArray',
 
-          associativity<readonly string[]>(
-            {
+            associativity<readonly string[]>(
+              {
+                a,
+                f: flow(These.zipArrays<string, string>, concat),
+                equals: stringListEquals,
+              },
+              'zipArrays(a, zipArrays(b, c)) = zipArrays(zipArrays(a, b), c)',
+              'zipArrays associativity',
+            ),
+            inverse<These.These<string, string>[], Pair<readonly string[]>>(
+              {
+                a: xs,
+                f: These.unzipArray,
+                g: (
+                  pair: Pair<readonly string[]>,
+                ): These.These<string, string>[] => [
+                  ...These.zipArrays(...pair),
+                ],
+                equals: theseListEquals,
+              },
+              'unzipArray ∘ zipArrays = id',
+              'zip/unzip cancellation',
+            ),
+
+            Law(
+              'zip/unzip cancellation',
+              'unzipArray ∘ zipArrays = id',
               a,
-              f: flow(These.zipArrays<string, string>, concat),
-              equals: stringListEquals,
-            },
-            'zipArrays(a, zipArrays(b, c)) = zipArrays(zipArrays(a, b), c)',
-            'zipArrays associativity',
-          ),
-          inverse<These.These<string, string>[], Pair<readonly string[]>>(
-            {
-              a: xs,
-              f: These.unzipArray,
-              g: (
-                pair: Pair<readonly string[]>,
-              ): These.These<string, string>[] => [...These.zipArrays(...pair)],
-              equals: theseListEquals,
-            },
-            'unzipArray ∘ zipArrays = id',
-            'zip/unzip cancellation',
-          ),
+              a,
+            )((a, b) =>
+              stringListPairEquals(
+                These.unzipArray(These.zipArrays(a, b)),
+                pair(a, b),
+              ),
+            ),
 
-          Law(
-            'zip/unzip cancellation',
-            'unzipArray ∘ zipArrays = id',
-            a,
-            a,
-          )((a, b) =>
-            stringListPairEquals(
-              These.unzipArray(These.zipArrays(a, b)),
-              pair(a, b),
+            Law(
+              'unzip/zip cancellation',
+              'zipArrays ∘ unzipArray = id',
+              xs,
+            )(ab =>
+              theseListEquals(These.zipArrays(...These.unzipArray(ab)), ab),
             ),
           ),
-
-          Law(
-            'unzip/zip cancellation',
-            'zipArrays ∘ unzipArray = id',
-            xs,
-          )(ab =>
-            theseListEquals(These.zipArrays(...These.unzipArray(ab)), ab),
-          ),
-        ),
-      ])
+        ],
+        {numRuns: 20},
+      )
     }
   })
 

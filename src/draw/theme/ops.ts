@@ -2,13 +2,9 @@ import {flipCurried} from '#util/Function'
 import {Array, flow, Function, pipe} from 'effect'
 import type {NonEmptyArray, NonEmptyReadonlyArray} from 'effect/Array'
 import * as PR from '../part.js'
+import type {HorizontalAlignment, VerticalAlignment} from '../part/align.js'
 import type {Text} from '../part/partF.js'
-import type {
-  HorizontalAlignment,
-  Part,
-  Row,
-  VerticalAlignment,
-} from '../part/types.js'
+import type {Part, Row} from '../part/types.js'
 import {getGlyph} from './get.js'
 import {themed, type GlyphRole, type Theme} from './themes.js'
 import type {Themed} from './types.js'

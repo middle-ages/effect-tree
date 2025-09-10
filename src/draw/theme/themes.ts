@@ -1,6 +1,5 @@
-import {Array, pipe} from 'effect'
+import {Array, pipe, Record} from 'effect'
 import {glyphMap, glyphRoles} from './glyph.js'
-import {typedFromEntries} from '#util/Object'
 
 export const themeNames = [
   'ascii',
@@ -78,5 +77,5 @@ export const mapThemes = <A>(f: (theme: Theme) => A): Record<ThemeName, A> =>
   pipe(
     themeNames,
     Array.map(name => [name, f(themes[name])] as [ThemeName, A]),
-    typedFromEntries,
+    Record.fromEntries,
   )

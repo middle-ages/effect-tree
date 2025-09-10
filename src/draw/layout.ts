@@ -34,8 +34,8 @@ const parentLayout =
 
 const forestLayout = (
   trees: NonEmptyReadonlyArray<Tree<string>>,
-): Themed<Part> => {
-  return themed(theme => {
+): Themed<Part> =>
+  themed(theme => {
     const treePart = flow(treeLayout, Function.apply(theme))
 
     return pipe(
@@ -47,4 +47,3 @@ const forestLayout = (
       PR.leftColumn,
     )
   })
-}

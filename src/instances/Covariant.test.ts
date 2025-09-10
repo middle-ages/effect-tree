@@ -1,4 +1,4 @@
-import {numericTree} from '#test'
+import {numericTree, testNumericTreeStackSafety} from '#test'
 import {branch, of} from '#tree'
 import {describe, expect, it, test} from '@effect/vitest'
 import {Effect, flow, Number, pipe, type Function} from 'effect'
@@ -79,15 +79,12 @@ describe('Covariant', () => {
     })
   })
 
-  describe('map', () => {
-    test('post-order', () => {
-      const actual = pipe(numericTree, map(Number.increment))
-      expect(actual).toEqual(numericIncremented)
-    })
-
-    test('post-order', () => {
-      const actual = pipe(numericTree, map.pre(Number.increment))
-      expect(actual).toEqual(numericIncremented)
-    })
+  test('map', () => {
+    const actual = pipe(numericTree, map(Number.increment))
+    expect(actual).toEqual(numericIncremented)
   })
+
+  testNumericTreeStackSafety('stack safety', self =>
+    map(self, Number.increment),
+  )
 })

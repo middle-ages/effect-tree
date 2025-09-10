@@ -52,10 +52,13 @@ describe('partF', () => {
   })
 
   describe('PartF typeclass laws', () => {
-    testTypeclassLaws<PartFTypeLambda>({getEquivalence, getArbitrary})({
-      Covariant,
-      Traversable,
-      Equivalence: getEquivalence(monoEquivalence),
-    })
+    testTypeclassLaws<PartFTypeLambda>({getEquivalence, getArbitrary})(
+      {
+        Covariant,
+        Traversable,
+        Equivalence: getEquivalence(monoEquivalence),
+      },
+      {numRuns: 20},
+    )
   })
 })

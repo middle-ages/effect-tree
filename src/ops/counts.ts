@@ -1,6 +1,10 @@
+/**
+ * Counting nodes and tree levels.
+ * @packageDocumentation
+ */
 import {
   treeCata,
-  treeCataE,
+  treeCataEffect,
   type Tree,
   type TreeEffectFolderOf,
   type TreeFold,
@@ -17,28 +21,43 @@ export const countOf = <A>(
   predicate: Predicate.Predicate<A>,
 ): TreeFold<A, number> => pipe(predicate, countOfFold, treeCata)
 
-/** Count total node count at level. */
+/**
+ * Count total node count at level.
+ * @category fold
+ */
 export const descendantCountFold: TreeFolderOf<number> = TreeF.match({
   onLeaf: () => 1,
   onBranch: (_, forest) => Number.sumAll(forest) + 1,
 })
 
-/** Measure max node height from its deepest descendant at tree level. */
+/**
+ * Measure max node height from its deepest descendant at tree level.
+ * @category fold
+ */
 export const maximumHeightFold: TreeFolderOf<number> = TreeF.match({
   onLeaf: () => 1,
   onBranch: (_, forest) => Math.max(...forest) + 1,
 })
 
-/** Measure max node degree at tree level. */
+/**
+ * Measure max node degree at a tree level.
+ * @category fold
+ */
 export const maximumDegreeFold: TreeFolderOf<number> = TreeF.match({
   onLeaf: () => 0,
   onBranch: (_, forest) => Math.max(forest.length, ...forest),
 })
 
-/** Measure node degree at tree level. */
+/**
+ * Measure node degree at a tree level.
+ * @category fold
+ */
 export const degreeFold: TreeFolderOf<number> = TreeF.length
 
-/** Count tree nodes of a tree level that satisfy the given predicate. */
+/**
+ * Count tree nodes of a tree level that satisfy the given predicate.
+ * @category fold
+ */
 export const countOfFold = <A>(
   predicate: Predicate.Predicate<A>,
 ): TreeFolder<A, number> =>
@@ -80,7 +99,7 @@ export const nodeCountAtLeast =
   <A>(self: Tree<A>): boolean =>
     pipe(
       self,
-      treeCataE(nodeCountAtLeastFold(atLeast)<A>),
+      treeCataEffect(nodeCountAtLeastFold(atLeast)<A>),
       Effect.match({
         onFailure: constTrue,
         onSuccess: constFalse,

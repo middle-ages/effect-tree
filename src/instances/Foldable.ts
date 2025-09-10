@@ -1,3 +1,7 @@
+/**
+ * Tree Foldable.
+ * @packageDocumentation
+ */
 import * as TreeF from '#treeF'
 import {fanout} from '#util/Pair'
 import {Foldable as FO, Monoid} from '@effect/typeclass'
@@ -11,10 +15,10 @@ import {type Tree, type TreeTypeLambda} from '../tree/types.js'
 export const reduce: FO.Foldable<TreeTypeLambda>['reduce'] = Function.dual(
   3,
   <B, A>(self: Tree<A>, initial: B, reducer: (b: B, a: A) => B): B =>
-    pipe(initial, reduceE(reducer, self), Effect.runSync),
+    pipe(initial, reduceEffect(reducer, self), Effect.runSync),
 )
 
-const reduceE =
+const reduceEffect =
   <A, B = A>(reducer: (previous: B, current: A) => B, self: Tree<A>) =>
   (initial: B): Effect.Effect<B> =>
     pipe(
@@ -27,12 +31,13 @@ const reduceE =
             Effect.succeed(reducer(initial, node)),
             (initial, tree) =>
               Effect.suspend(() =>
-                pipe(initial, Effect.flatMap(reduceE(reducer, tree))),
+                pipe(initial, Effect.flatMap(reduceEffect(reducer, tree))),
               ),
           ),
       }),
     )
 
+/** Foldable instance for `Tree<A>`. */
 export const Foldable: FO.Foldable<TreeTypeLambda> = {reduce}
 
 /** Fold a `Tree<A>` into an `A` using a `Monoid<A>`. */
@@ -55,6 +60,7 @@ export const monoidFold =
 /**
  * Fold single level in a tree of type `A` using a predicate of `A` and
  * a boolean monoid.
+ * @category fold
  */
 export const predicateFold =
   (M: Monoid.Monoid<boolean>) =>
@@ -74,6 +80,7 @@ export type BooleanFolder = <A>(
   predicate: Predicate<A>,
 ) => TreeFolder<A, boolean>
 
+/** Type of tree folder that folds into a boolean value using a predicate. */
 export type BooleanFold = <A>(predicate: Predicate<A>) => TreeFold<A, boolean>
 
 export const [everyFold, someFold, xorFold, eqvFold]: [
@@ -88,26 +95,29 @@ export const [everyFold, someFold, xorFold, eqvFold]: [
   predicateFold(Boolean.MonoidEqv),
 ]
 
-export const [every, some, xor, eqv]: [
-  Predicate<Tree<boolean>>,
-  Predicate<Tree<boolean>>,
-  Predicate<Tree<boolean>>,
-  Predicate<Tree<boolean>>,
-] = [
-  foldMap(Boolean.MonoidEvery),
-  foldMap(Boolean.MonoidSome),
-  foldMap(Boolean.MonoidXor),
-  foldMap(Boolean.MonoidEqv),
-]
+/** True if every node in the given boolean tree is true. */
+export const every: Predicate<Tree<boolean>> = foldMap(Boolean.MonoidEvery)
 
-export const [everyOf, someOf, xorOf, eqvOf]: [
-  BooleanFold,
-  BooleanFold,
-  BooleanFold,
-  BooleanFold,
-] = [
-  flow(everyFold, treeCata),
-  flow(someFold, treeCata),
-  flow(xorFold, treeCata),
-  flow(eqvFold, treeCata),
-]
+/** True if some nodes in the given boolean tree are true. */
+export const some: Predicate<Tree<boolean>> = foldMap(Boolean.MonoidSome)
+
+/** Fold with `xor` over a boolean tree. */
+export const xor: Predicate<Tree<boolean>> = foldMap(Boolean.MonoidXor)
+
+/**
+ * Threads the logical connective `eqv`, also known as
+ * _bidirectional implication_, through all the nodes of a boolean tree and
+ * returns the boolean result.
+ */
+export const eqv: Predicate<Tree<boolean>> = foldMap(Boolean.MonoidEqv)
+
+/**
+ * True if the given predicate is true for every node in the given tree.
+ */
+export const everyOf: BooleanFold = flow(everyFold, treeCata)
+
+/**
+ * True if the given predicate is true for _some_ node or nodes in the given
+ * tree.
+ */
+export const someOf: BooleanFold = flow(someFold, treeCata)

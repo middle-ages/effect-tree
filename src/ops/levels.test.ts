@@ -9,6 +9,7 @@ import {maximumNodeHeight} from './counts.js'
 import {
   addLevelLabels,
   annotateDepth,
+  binaryTree,
   cropDepth,
   growLeaves,
   levels,
@@ -94,11 +95,24 @@ describe('tree breadth combinators', () => {
     })
   })
 
-  test('unfoldLevelTree', () => {
-    pipe(
-      1,
-      unfoldLevelTree({depth: 3, degree: Number.multiply(2)}),
-      assertDrawNumericTree(`
+  describe('unfoldLevelTree', () => {
+    test('basic', () => {
+      pipe(
+        1,
+        unfoldLevelTree({depth: 4}),
+        assertDrawNumericTree(`
+┬1
+└┬2
+ └┬3
+  └─4`),
+      )
+    })
+
+    test('degree=depth*2', () => {
+      pipe(
+        1,
+        unfoldLevelTree({depth: 3, degree: Number.multiply(2)}),
+        assertDrawNumericTree(`
 ┬1
 ├┬2
 │├─3
@@ -110,7 +124,8 @@ describe('tree breadth combinators', () => {
  ├─3
  ├─3
  └─3`),
-    )
+      )
+    })
   })
 
   describe('levelLabels', () => {
@@ -181,5 +196,24 @@ describe('tree breadth combinators', () => {
  └─10`),
       )
     })
+  })
+
+  test('binaryTree', () => {
+    assertDrawNumericTree(`
+┬1
+├┬2
+│├┬3
+││├─4
+││└─4
+│└┬3
+│ ├─4
+│ └─4
+└┬2
+ ├┬3
+ │├─4
+ │└─4
+ └┬3
+  ├─4
+  └─4`)(binaryTree(4))
   })
 })

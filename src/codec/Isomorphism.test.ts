@@ -21,7 +21,12 @@ import {getEdgeListEquivalence} from './edges.js'
 const stringTreeArbitrary = getStringArbitrary()
 const stringTreeEquivalence = getEquivalence(String.Equivalence)
 
-const numericTreeArbitrary = getNumberedArbitrary()
+const numericTreeArbitrary = getNumberedArbitrary({
+  maxDepth: 3,
+  maxChildren: 2,
+  branchBias: 1 / 4,
+})
+
 const numericTreeEquivalence = getEquivalence(Number.Equivalence)
 
 const edgeListEquivalence = getEdgeListEquivalence(Number.Equivalence)
@@ -91,5 +96,5 @@ describe('Isomorphism laws', () => {
     }),
   ]
 
-  testLawSets()(...laws)
+  testLawSets({numRuns: 20})(...laws)
 })

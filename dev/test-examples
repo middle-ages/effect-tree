@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+COLOR="${COLOR:-true}"
+
+dir="$(dirname "${0}")"
+
+. "${dir}/lib/_"
+
+tmp=$(mktemp) || { echo "No temp file."; exit 1; }
+trap 'rm -f "${tmp}"' EXIT
+
+snapshot="${EXAMPLES_DIR}/.snapshot"
+
+for f in "${EXAMPLES_DIR}"/*.ts; do
+  pnpm tsx "$f" >> "${tmp}"
+done
+
+if [[ -e "${snapshot}" ]]; then
+  diff "${snapshot}" "${tmp}"
+else
+  echo "📷 Creating snapshot file at “${snapshot}”."
+fi
+
+cp "${tmp}" "${snapshot}"

@@ -1,13 +1,11 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "entryPoints": ["../src/index.ts"],
-  "out": "../api-docs",
+  "entryPoints": ["../index.ts"],
   "readme": "../README.md",
   "hideGenerator": true,
   "searchInComments": true,
-  "json": "../api-docs/typedoc-index.json",
   "searchInDocuments": true,
-  "tsconfig": "./tsconfig.node.main.json",
+  "tsconfig": "./tsconfig.main.json",
   "githubPages": true,
   "cleanOutputDir": false,
   "navigation": {
@@ -19,6 +17,16 @@
     "@internal": false
   },
   "sourceLinkExternal": true,
-  "projectDocuments": []
+  "projectDocuments": [
+    "../docs/features.md",
+    "../docs/user-guide.md",
+    "../src/README.md",
+    "../examples/README.md"
+  ],
+  "excludeInternal": true,
+  "alwaysCreateEntryPointModule": true,
+  "externalSymbolLinkMappings": {
+    "@types/node": {"__global.module": "#"}
+  },
+  "logLevel": "Verbose"
 }
-

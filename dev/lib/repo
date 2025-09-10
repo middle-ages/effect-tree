@@ -18,6 +18,9 @@ function prepare() {
   export ICON_DIR="${dir}/public/icons"
   export ICON_INDEX_DIR="${dir}/src/icons"
   export DEV_DIR="${dir}/dev"
+  export COVERAGE_DIR="${dir}/node_modules/.coverage"
+  export COVERAGE_REPORT_DIR="$API_DOCS_DIR/coverage_report"
+  export EXAMPLES_DIR="${dir}/examples"
 }
 
 prepare "${DIR}"

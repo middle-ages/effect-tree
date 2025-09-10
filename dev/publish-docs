@@ -4,7 +4,16 @@ set -Eeuo pipefail
 
 COLOR="${COLOR:-true}"
 
-. "$(dirname "${0}")/lib/_"
+dir="$(dirname "${0}")"
+
+. "$dir/lib/_"
+
+"$dir/coverage"
+
+mkdir -p "$COVERAGE_REPORT_DIR"
+cp -r "$COVERAGE_DIR" "$COVERAGE_REPORT_DIR"
+
+"${dir}/build-docs"
 
 docs="../${NAME}-docs"
 

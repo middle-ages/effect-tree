@@ -2,10 +2,4 @@
 
 set -Eeuo pipefail
 
-COLOR="${COLOR:-true}"
-
-. "$(dirname "${0}")/lib/_"
-
-eslint --config="$CONFIG_DIR"/eslint.config.ts --fix "${@}"
-
-show_done 'lint:fix'
+"$(dirname "${0}")/lint" --fix "${@}"

@@ -82,6 +82,6 @@ interface LiftNonEmptyArray {
   <A>(xss: NonEmptyArray<A>): NonEmptyArray<Option<A>>
 }
 
-interface LiftNonEmptyArray2 {
+export interface LiftNonEmptyArray2 {
   <A>(xss: NonEmptyArray2<A>): NonEmptyArray2<Option<A>>
 }

@@ -8,9 +8,11 @@ import {
   removeNthChild,
   removeFirstChild,
   removeLastChild,
+  removeForest,
 } from './forest.js'
 import {from, leaf} from './index.js'
-import {type Tree} from './types.js'
+import {type Branch, type Tree} from './types.js'
+import {numericTree} from '#test'
 
 const aLeaf = leaf(1),
   aBranch = from(2, leaf(3)),
@@ -41,6 +43,10 @@ describe('forest', () => {
   })
 
   describe('appendAll', () => {
+    test('empty', () => {
+      expect(pipe(aLeaf, appendAll([]))).toEqual(aLeaf)
+    })
+
     test('leaf', () => {
       expect(pipe(aLeaf, appendAll(aForest))).toEqual(from(1, ...aForest))
     })
@@ -53,6 +59,10 @@ describe('forest', () => {
   })
 
   describe('prependAll', () => {
+    test('empty', () => {
+      expect(pipe(aLeaf, prependAll([]))).toEqual(aLeaf)
+    })
+
     test('leaf', () => {
       expect(pipe(aLeaf, prependAll(aForest))).toEqual(from(1, ...aForest))
     })
@@ -62,6 +72,10 @@ describe('forest', () => {
         from(2, ...aForest, leaf(3)),
       )
     })
+  })
+
+  test('removeForest', () => {
+    expect(removeForest(numericTree as Branch<number>)).toEqual(leaf(1))
   })
 
   describe('removeNthChild', () => {

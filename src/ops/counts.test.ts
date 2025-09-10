@@ -4,7 +4,7 @@ import {
   leaf,
   map,
   treeCata,
-  treeCataE,
+  treeCataEffect,
   withForest,
   type Tree,
   type TreeEffectFolderOf,
@@ -182,7 +182,7 @@ describe('counting', () => {
     }
     const isAtLeast = pipe(
       numericTree,
-      treeCataE(traceFold),
+      treeCataEffect(traceFold),
       Effect.match({
         onFailure: Function.constTrue,
         onSuccess: Function.constFalse,

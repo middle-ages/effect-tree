@@ -5,13 +5,12 @@ import {
   cropDepthUnfold,
   levelTreeUnfold,
 } from '#ops'
-import {byParentEffectUnfold, byParentUnfold} from '#tree'
+import {byParentUnfold} from '#tree'
 
 export const unfolds = {
   annotateDepth: annotateDepthUnfold,
   annotateLevelLabels: annotateLevelLabelsUnfold,
   byParent: byParentUnfold,
-  byParentEffect: byParentEffectUnfold,
   cropDepth: cropDepthUnfold,
   levelTree: levelTreeUnfold,
   paths: Paths.pathListUnfold,

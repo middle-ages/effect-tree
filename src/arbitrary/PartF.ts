@@ -25,6 +25,7 @@ import {
 
 /**
  * An arbitrary for a filled rectangular block of text used for drawing trees.
+ * @category internal
  */
 export const getArbitrary = <A>(a: fc.Arbitrary<A>): fc.Arbitrary<PartF<A>> =>
   fc.oneof(
@@ -34,12 +35,18 @@ export const getArbitrary = <A>(a: fc.Arbitrary<A>): fc.Arbitrary<PartF<A>> =>
     getRowFArbitrary(a),
   )
 
+/**
+ * @category internal
+ */
 export const EmptyPartFArbitrary: fc.Arbitrary<EmptyF> = fc.constant(emptyF),
   TextFPArtArbitrary: fc.Arbitrary<TextF> = tinyString.map(textF),
   TextPartArbitrary: fc.Arbitrary<Text> = TextFPArtArbitrary.map(textF => ({
     unfixed: textF,
   }))
 
+/**
+ * @category internal
+ */
 export const getColumnFArbitrary = <A>(
   a: fc.Arbitrary<A>,
 ): fc.Arbitrary<ColumnF<A>> =>
@@ -49,6 +56,9 @@ export const getColumnFArbitrary = <A>(
     ),
   )
 
+/**
+ * @category internal
+ */
 export const ArbitraryTheme: fc.Arbitrary<Theme> = fc.oneof(
   ...pipe(
     themeNames,
@@ -56,10 +66,16 @@ export const ArbitraryTheme: fc.Arbitrary<Theme> = fc.oneof(
   ),
 )
 
+/**
+ * @category internal
+ */
 export const ArbitraryThemed = <A>(
   a: fc.Arbitrary<A>,
 ): fc.Arbitrary<Themed<A>> => unary<Theme>()(a)
 
+/**
+ * @category internal
+ */
 export const getRowFArbitrary = <A>(
   a: fc.Arbitrary<A>,
 ): fc.Arbitrary<RowF<A>> =>

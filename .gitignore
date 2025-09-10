@@ -6,3 +6,4 @@ tmp
 .tsconfig.tsbuildinfo
 .eslintcache
 api-docs
+examples/.snapshot

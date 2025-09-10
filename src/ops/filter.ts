@@ -1,4 +1,7 @@
-/** Folds and unfolds for _filtering_. */
+/**
+ * Filtering and finding nodes.
+ * @packageDocumentation
+ */
 import {type Tree, type TreeFolder, leaf, tree, treeCata} from '#tree'
 import * as TreeF from '#treeF'
 import {orderToEqual} from '#util/Order'
@@ -65,7 +68,10 @@ export const filterLeaves: <A>(
 ) => (self: Tree<A>) => Tree<A> = predicate =>
   pipe(predicate, filterLeavesFold, treeCata)
 
-/** True if `needle` is found in tree level. */
+/**
+ * True if `needle` is found in tree level.
+ * @category fold
+ */
 export const includesFold =
   <A>(
     equals: Equivalence.Equivalence<A>,
@@ -76,7 +82,10 @@ export const includesFold =
       onBranch: (node, forest) => equals(a, node) || Boolean.some(forest),
     })
 
-/** Filter nodes at a level algebra. */
+/**
+ * Filter nodes at a tree level.
+ * @category fold
+ */
 export const filterNodesFold = <A>(
   predicate: Predicate.Predicate<Tree<A>>,
 ): TreeFolder<A, Tree<A>> =>
@@ -86,7 +95,10 @@ export const filterNodesFold = <A>(
       tree(node, pipe(forest, Array.filter(predicate))),
   })
 
-/** Filter leaves at a level algebra. */
+/**
+ * Filter leaves at a level algebra.
+ * @category fold
+ */
 export const filterLeavesFold = <A>(
   predicate: Predicate.Predicate<A>,
 ): TreeFolder<A, Tree<A>> =>

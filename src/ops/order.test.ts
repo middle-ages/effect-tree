@@ -1,6 +1,7 @@
 import {describe, expect, test} from 'vitest'
 import {
   maximumLeaf,
+  maximumLeafAndParent,
   maximumNode,
   minimumLeaf,
   minimumLeafAndParent,
@@ -30,6 +31,13 @@ describe('order', () => {
     expect(minimumLeafAndParent(Number.Order)(numericTree)).toEqual([
       3,
       Option.some(2),
+    ])
+  })
+
+  test('maximumLeafAndParent', () => {
+    expect(maximumLeafAndParent(Number.Order)(numericTree)).toEqual([
+      10,
+      Option.some(1),
     ])
   })
 })

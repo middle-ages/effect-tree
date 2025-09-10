@@ -12,19 +12,41 @@ import {
   type These,
 } from './index.js'
 
-export const [leftOption, rightOption, onlyLeft, onlyRight]: [
-  <R, E>(self: These<R, E>) => Option.Option<E>,
-  <R, E>(self: These<R, E>) => Option.Option<R>,
-  <R, E>(self: These<R, E>) => Option.Option<E>,
-  <R, E>(self: These<R, E>) => Option.Option<R>,
-] = [
-  self =>
-    isLeft(self) || isBoth(self) ? Option.some(self.left) : Option.none(),
-  self =>
-    isRight(self) || isBoth(self) ? Option.some(self.right) : Option.none(),
-  self => (isLeft(self) ? Option.some(self.left) : Option.none()),
-  self => (isRight(self) ? Option.some(self.right) : Option.none()),
-]
+/** Build a `Both` from left and right values. */
+export const both = <R, E>(left: E, right: R): These<R, E> =>
+  Both({left, right})
+
+/** Build a `Left` from a left value. */
+export const left = <E>(left: E): These<never, E> => Left({left})
+
+/** Build a `Left` from a left value. */
+export const right = <R>(right: R): These<R, unknown> => Right({right})
+
+/** Extract the left value of the given {@link These} as an `Option`. */
+export const leftOption: <R, E>(
+  self: These<R, E>,
+) => Option.Option<E> = self =>
+  isLeft(self) || isBoth(self) ? Option.some(self.left) : Option.none()
+
+/** Extract the right value of the given {@link These} as an `Option`. */
+export const rightOption: <R, E>(
+  self: These<R, E>,
+) => Option.Option<R> = self =>
+  isRight(self) || isBoth(self) ? Option.some(self.right) : Option.none()
+
+/**
+ * Extract the left value of the given {@link These} as an `Option`, but only if
+ * it is a `Left`. If it is `Both`, `Option.none()` is returned.
+ */
+export const onlyLeft: <R, E>(self: These<R, E>) => Option.Option<E> = self =>
+  isLeft(self) ? Option.some(self.left) : Option.none()
+
+/**
+ * Extract the left value of the given {@link These} as an `Option`, but only if
+ * it is a `Left`. If it is `Both`, `Option.none()` is returned.
+ */
+export const onlyRight: <R, E>(self: These<R, E>) => Option.Option<R> = self =>
+  isRight(self) ? Option.some(self.right) : Option.none()
 
 export const [onlyOne, onlyBoth]: [
   <R, E>(self: These<R, E>) => Option.Option<Either.Either<R, E>>,
@@ -52,6 +74,7 @@ export const pad = <R, E>(
     }),
   )
 
+/** Swap left-right sides of a {@link These}. */
 export const swap = <R, E>(self: These<R, E>): These<E, R> =>
   pipe(
     self,
@@ -62,6 +85,11 @@ export const swap = <R, E>(self: These<R, E>): These<E, R> =>
     }),
   )
 
+/**
+ * Zip a pair of arrays in an associative fashion without cropping.
+ *
+ * Missing values will appear as `Left` or `Right`, shared values as `Both`.
+ */
 export const zipArraysWith = <R, E, Result>(
   right: readonly R[],
   left: readonly E[],
@@ -90,7 +118,7 @@ export const zipArraysWith = <R, E, Result>(
  * Zip a pair of arrays. In case of arrays that are not of equal size, we do not
  * _crop_ as the default `Array.zip` does. Instead we wrap the results in a
  * {@link These}, which gives us an operation that is pleasantly associative, as
- * well as reversible with no loss of information via `unzipArray`.
+ * well as reversible with no loss of information.
  *
  * If the _left_ array is longer, the result will end in one or more `Left<A,B>`.
  *

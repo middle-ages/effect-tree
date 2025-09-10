@@ -1,0 +1,117 @@
+import {Option, pipe} from 'effect'
+import {
+  drawTree,
+  drill,
+  getValue,
+  leaf,
+  match,
+  maximumNodeDegree,
+  maximumNodeHeight,
+  nthChild,
+  tree,
+  type Tree,
+} from '../index.js'
+
+//  “tree” can be used to build trees with a single function.
+const stringTree: Tree<string> = tree('Root', [
+  tree(label('Top', 'one node'), [tree('🍂 Leaf₁\n')]),
+
+  tree(label('Middle', 'two nodes'), [tree('🍂 Leaf₂'), tree('🍂 Leaf₃\n')]),
+
+  tree(label('Bottom', 'four nodes'), [
+    tree('🍂 Leaf₄'),
+    tree('🍂 Leaf₅'),
+    tree('🍂 Leaf₆'),
+    tree('🍂 Leaf₇\n'),
+  ]),
+])
+
+console.log(drawTree.unixRounded(stringTree).join('\n'))
+
+/**
+
+─Root
+ ├─🌿 Top Branch
+ │ │  (one node)
+ │ ╰─🍂 Leaf₁
+ │
+ ├─🌿 Middle Branch
+ │ │  (two nodes)
+ │ ├─🍂 Leaf₂
+ │ ╰─🍂 Leaf₃
+ │
+ ╰─🌿 Bottom Branch
+   │  (four nodes)
+   ├─🍂 Leaf₄
+   ├─🍂 Leaf₅
+   ├─🍂 Leaf₆
+   ╰─🍂 Leaf₇
+
+*/
+
+// you can match nodes to leaves or branches using “match”. Here we match on the
+// root node:
+const rootNodeType = (tree: Tree<string>): string =>
+  pipe(
+    tree,
+    match({
+      onLeaf: () => 'leaf',
+      onBranch: (_, forest) =>
+        `branch of forest.length=${forest.length.toString()}`,
+    }),
+  )
+
+console.log(rootNodeType(stringTree))
+
+/**
+
+branch of forest.length=3
+
+*/
+
+// You can drill into the tree using “drill” and get node values using “getValue”:
+console.log(
+  pipe(
+    [2, 0], // the 1st child in the 3rd child of the root node.
+    drill(stringTree),
+    Option.getOrElse(() => leaf('Wrong path!')),
+    getValue,
+  ),
+)
+
+/**
+
+🍂 Leaf₄
+
+*/
+
+// Get direct children of a branch using “nthChild”/“firstChild”/“lastChild”.
+// They all return Option<Tree<A>>. Note “nthChild” accepts negative indexes.
+// This will get the same node value as above:
+console.log(
+  pipe(
+    stringTree,
+    nthChild.flip(-1),
+    Option.flatMap(nthChild.flip(0)),
+    Option.getOrElse(() => leaf('No such child!')),
+    getValue,
+  ),
+)
+
+/**
+
+🍂 Leaf₄
+
+*/
+
+// Print max node child count and max node height:
+console.log(maximumNodeHeight(stringTree), maximumNodeDegree(stringTree))
+/**
+
+3 4
+
+*/
+
+function label(name: string, note: string): string {
+  return [`🌿 ${name} Branch`, `  (${note})`].join('\n')
+}

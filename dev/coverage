@@ -2,10 +2,4 @@
 
 set -Eeuo pipefail
 
-COLOR="${COLOR:-true}"
-
-. "$(dirname "${0}")/lib/_"
-
-vitest run --coverage "$@"
-
-show_done 'coverage'
+"$(dirname "${0}")/test-watch" run --coverage "${@}"
