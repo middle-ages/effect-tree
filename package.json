@@ -1,0 +1,147 @@
+{
+  "name": "effect-ts-tree",
+  "description": "A strict N-ary tree datatype that wants to do everything.",
+  "version": "1.0.0",
+  "type": "module",
+  "author": "Ran Eilam <ran@haag59.com> (https://middle-ages.github.io/)",
+  "homepage": "https://github.com/middle-ages/effect-tree",
+  "bugs": "https://github.com/middle-ages/effect-tree/issues",
+  "license": "ISC",
+  "scripts": {
+    "clean": "dev/clean",
+    "lint": "dev/lint --cache",
+    "lint:fix": "dev/lint-fix --cache",
+    "lint:clean": "dev/lint",
+    "lint::clean:fix": "dev/lint-fix",
+    "test": "dev/test-run",
+    "test:watch": "dev/test-watch",
+    "coverage": "dev/coverage",
+    "typecheck": "dev/typecheck",
+    "circular": "dev/circular",
+    "build": "dev/build",
+    "build:docs": "dev/build-docs",
+    "build:all": "dev/build-all",
+    "publish:docs": "dev/publish-docs"
+  },
+  "devDependencies": {
+    "@effect/vitest": "catalog:",
+    "@eslint/js": "catalog:",
+    "@fast-check/vitest": "catalog:",
+    "@tsconfig/node24": "catalog:",
+    "@tsconfig/strictest": "catalog:",
+    "@types/node": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
+    "dependency-cruiser": "catalog:",
+    "effect-ts-laws": "catalog:",
+    "eslint": "catalog:",
+    "eslint-config-prettier": "catalog:",
+    "eslint-plugin-prettier": "catalog:",
+    "eslint-plugin-sonarjs": "catalog:",
+    "eslint-plugin-unicorn": "catalog:",
+    "fast-check": "catalog:",
+    "globals": "catalog:",
+    "jiti": "catalog:",
+    "tsx": "catalog:",
+    "typedoc": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:"
+  },
+  "dependencies": {
+    "@effect/typeclass": "catalog:",
+    "effect": "catalog:",
+    "effect-ts-folds": "catalog:",
+    "tty-strings": "catalog:"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./index.d.ts",
+        "import": "./index.js"
+      }
+    }
+  },
+  "imports": {
+    "#util": {
+      "types": "./src/util.d.ts",
+      "import": "./src/util.js"
+    },
+    "#util/*": {
+      "types": "./src/util/*.d.ts",
+      "import": "./src/util/*.js"
+    },
+    "#tree": {
+      "types": "./src/tree.d.ts",
+      "import": "./src/tree.js"
+    },
+    "#treeF": {
+      "types": "./src/treeF.d.ts",
+      "import": "./src/treeF.js"
+    },
+    "#ops": {
+      "types": "./src/ops.d.ts",
+      "import": "./src/ops.js"
+    },
+    "#codec": {
+      "types": "./src/codec.d.ts",
+      "import": "./src/codec.js"
+    },
+    "#folds": {
+      "types": "./src/folds.d.ts",
+      "import": "./src/folds.js"
+    },
+    "#unfolds": {
+      "types": "./src/unfolds.d.ts",
+      "import": "./src/unfolds.js"
+    },
+    "#draw": {
+      "types": "./src/draw.d.ts",
+      "import": "./src/draw.js"
+    },
+    "#draw/*": {
+      "types": "./src/draw/*.d.ts",
+      "import": "./src/draw/*.js"
+    },
+    "#arbitrary": {
+      "types": "./src/arbitrary.d.ts",
+      "import": "./src/arbitrary.js"
+    },
+    "#arbitrary/*": {
+      "types": "./src/arbitrary/*.d.ts",
+      "import": "./src/arbitrary/*.js"
+    },
+    "#test": {
+      "types": "./src/test.d.ts",
+      "import": "./src/test.js"
+    }
+  },
+  "publishConfig": {
+    "directory": "dist"
+  },
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/middle-ages/effect-tree"
+  },
+  "keywords": [
+    "effect",
+    "tree",
+    "data structures"
+  ],
+  "prettier": {
+    "trailingComma": "all",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true,
+    "arrowParens": "avoid",
+    "bracketSpacing": false,
+    "bracketSameLine": true,
+    "printWidth": 80,
+    "endOfLine": "lf"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=10.0.0"
+  }
+}

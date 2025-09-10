@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+COLOR="${COLOR:-true}"
+
+. "$(dirname "${0}")/lib/_"
+
+clean_dirs=("$DIST_DIR" "$API_DOCS_DIR")
+
+for dir in "${clean_dirs[@]}"; do
+  if [[ -d "${dir}" ]]; then
+    log "🧹 Cleaning “${dir}”"
+    rm -rf "${dir}"
+  fi
+done
+
+show_done 'clean'

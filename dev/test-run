@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+COLOR="${COLOR:-true}"
+
+. "$(dirname "${0}")/lib/_"
+
+vitest run --config "$CONFIG_DIR"/vitest.config.ts --reporter=verbose "$@"
+
+show_done 'test'

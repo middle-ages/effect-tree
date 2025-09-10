@@ -1,0 +1,27 @@
+import {type Branch, treeAna, type TreeUnfolderK} from '#tree'
+import * as TreeF from '#treeF'
+import {Array, flow, pipe} from 'effect'
+import {indexParents} from './map.js'
+import {getMapChildren, setMapRoot} from './ops.js'
+import type {EdgeList, EdgeMap, EdgeMapTypeLambda} from './types.js'
+
+export const decodeUnfold: TreeUnfolderK<EdgeMapTypeLambda> = map => {
+  const [root, children] = getMapChildren(map)
+  return pipe(
+    children,
+    Array.match({
+      onEmpty: () => TreeF.leafF(root),
+      onNonEmpty: xs => TreeF.treeF(root, Array.map(xs, setMapRoot(map))),
+    }),
+  )
+}
+
+/** Decode an edge map into a tree. */
+export const decodeMap = <A>(map: EdgeMap<A>) =>
+  pipe(map, treeAna(decodeUnfold)) as Branch<A>
+
+/** Decode an edge list into a tree. */
+export const decode: <A>(edges: EdgeList<A>) => Branch<A> = flow(
+  indexParents,
+  decodeMap,
+)

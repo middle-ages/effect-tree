@@ -1,0 +1,21 @@
+{
+  "display": "main",
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true
+  },
+  "include": [
+    "../src/**/*.ts",
+    "../index.ts"
+   ],
+  "exclude": [
+    "../src/test.ts",
+    "../src/test.setup.ts",
+    "../src/test",
+    "../src/**/*.test.ts",
+    "../src/**/*.test-d.ts"
+  ]
+}

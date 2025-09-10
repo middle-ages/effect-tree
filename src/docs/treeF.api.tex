@@ -1,0 +1,34 @@
+\documentclass{article}
+
+\input{preamble.tex}
+
+\begin{document}
+\setlength\tabcolsep{0pt}
+\setcounter{secnumdepth}{0}
+\section{}
+
+\begin{tabular}{K@{\AV} r K@{} K@{$\Ar$} K@{}}
+  \multicolumn{1}{c}{\head{Function}}  &
+  \multicolumn{2}{c}{\head{Arguments}} &
+  \multicolumn{2}{c}{\head{Returns}} \\
+  \hline\\[-1.5em]
+  \fn{leafF}          & \TPA   & \Args{\VarNodeA}                               && \LeafFofA \\
+  \fn{branchF}        & \TPAC  & \Args{\VarNodeA \C \Varforestof{\NeaC}}        && \BranchFofAC \\
+  \fn{tupledBranchF}  & \TPAC  & \Args{\Var{tuple}{\Sqof{\Ge{A} \C \Ge{C}\Sq}}} && \BranchFofAC \\
+  \fn{treeF}          & \TPAC  & \Args{\VarNodeA \C \Varforestof{\Ge{C}\a\Sq}}  && \TreeFofAC \\
+  \fn{withForest}     & \TPAC  & \Args{\Varforestof{\TreeFsofAC} \C \VarNodeA}  && \TreeFofAC \\
+  \fn{isLeaf}         & \TPAC  & \Args{\VarTreeF}                               && \it{self}\is\LeafFofA \\
+  \fn{isBranch}       & \TPAC  & \Args{\VarTreeF}                               && \it{self}\is\BranchFofAC \\
+  \fn{match}          & \TPACR & \Args{\VarmatcherF} \Ar \Args{\VarTreeF}       && \Ge{R} \\
+  \fn{length}         & \TPAC  & \Args{\VarTreeF}                               && \num  \\
+  \fn{getNode}        & \TPAC  & \Args{\VarTreeF}                               && \LeafFofA \\
+  \fn{getForest}      & \TPAC  & \Args{\Varbranchof{\BranchFofAC}}              && \NeaC \\
+  \fn{setNode}        & \TPAC  & \Args{\VarNodeB \C \VarTreeF}                  && \TreeFofBC \\
+  \fn{setForest}      & \TPACD & \Args{\Varforestof{\NeaD} \C \VarTreeF}        && \TreeFofAD \\
+  \fn{mapNode}        & \TPABC & \Args{\VarTreeF \C \Varf{\fnab}}               && \TreeFofBC \\
+  \fn{map}            & \TPACD & \Args{\VarTreeF \C \Varf{\fncd}}               && \TreeFofAD \\
+  \fn{flatMap}        & \TPACD & \Args{\VarTreeF \C \Varf{\fncTreeFad}}         && \TreeFofAD \\
+  \fn{getEquivalence} & \TPAC  & \Args{\VareqofA} \Ar \Args{\VareqofC}          && \EqofTreeFofAC \\
+\end{tabular}
+
+\end{document}

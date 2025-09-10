@@ -1,0 +1,14 @@
+{
+  "display": "test",
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+  },
+  "include": [
+    "../src/test.setup.ts",
+    "../src/test.ts",
+    "../src/test/**/*.ts",
+    "../src/**/*.test.ts",
+    "../src/**/*.test-d.*"
+, "../src/arbitrary/TreeF.ts"  ]
+}

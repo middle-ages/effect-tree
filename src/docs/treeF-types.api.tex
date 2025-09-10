@@ -1,0 +1,22 @@
+\documentclass{article}
+
+\input{preamble.tex}
+
+\begin{document}
+\setlength\tabcolsep{0pt}
+\setcounter{secnumdepth}{0}
+\section{}
+
+\begin{tabular}{*{2}{K@{\AV}}}
+  \head{Type} & \head{Definition}
+  \\\hline\\[-1em]
+  \LeafFofA                   & \Cn{\VarNodeA} \\
+  \BranchFofAC \Ex \LeafFofA  & \Cn{\Varforestof{\NeaC}} \\
+  \TreeFofAC                  & \LeafFofA \Un \BranchFofAC \\
+  \Type{MatcherF}\X\TPACR     & \Cn{
+    \Var{onLeaf}{\Pn{\VarNodeA} \Ar \Ge{R}}\Sc
+    \Var{onBranch}{\Pn{\VarNodeA\a\C\Varforestof{\NeaC}}\Ar\Ge{R}}\Sc
+  } \\
+\end{tabular}
+
+\end{document}

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+COLOR="${COLOR:-true}"
+
+. "$(dirname "${0}")/lib/_"
+
+typedoc --options "$CONFIG_DIR"/typedoc.json index.ts
+
+show_done 'build:docs'

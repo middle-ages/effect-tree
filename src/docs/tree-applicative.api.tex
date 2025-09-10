@@ -1,0 +1,21 @@
+\documentclass{article}
+
+\input{preamble.tex}
+
+\begin{document}
+\setlength\tabcolsep{0pt}
+\setcounter{secnumdepth}{0}
+\section{}
+
+\begin{tabular}{K@{\AV} *{5}K@{}}
+  \multicolumn{1}{c}{\head{Symbol}} & \multicolumn{4}{c}{\head{Type}} & \\
+  \hline\\[-1em]
+  \fn{treeK}             & \Applicative & \ArgsA{\Varforestof{\FofTreeofA\Aa\Sq} \C \VarNodeof{\FofA}} & \Ar & \FofTreeofA \\
+  \fn{sequence}          & \Applicative & \ArgsA{\Varselfof{\TreeofFofA}}                              & \Ar & \FofTreeofA \\
+  \fn{sequenceSuspended} & \Applicative & \ArgsA{\Varselfof{\TreeofFofA}}                              & \Ar & \Effectof{\FofTreeofA} \\
+  \fn{traverse}          & \Applicative & \ArgsAB{\VarTreeA\C\Varf{\fnaFb}\AA}                         & \Ar & \FofTreeofB \\
+  \fn{traverse}          & \Applicative & \ArgsAB{\Varf{\fnaFb}\AA} \Ar \Args{\VarTreeA}               & \Ar & \FofTreeofB \\
+  \fn{traverseSuspended} & \Applicative & \ArgsAB{\Varf{\fnaFb}\AA} \Ar \Args{\VarTreeA}               & \Ar & \Effectof{\FofTreeofB} \\
+\end{tabular}
+
+\end{document}

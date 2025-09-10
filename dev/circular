@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+COLOR="${COLOR:-true}"
+
+. "$(dirname "${0}")/lib/_"
+
+depcruise -c "$CONFIG_DIR"/dependency-cruiser.cjs index.ts src
+
+show_done 'circular'

@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+COLOR="${COLOR:-true}"
+
+. "$(dirname "${0}")/lib/_"
+
+export LEVEL=2
+
+"$DEV_DIR"/clean
+
+"$DEV_DIR"/circular &
+"$DEV_DIR"/build-docs &
+"$DEV_DIR"/lint &
+"$DEV_DIR"/test-run --reporter=dot &
+
+wait
+
+pnpm build
+
+show_done 'build:all'

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+if [[ -z "${PNPM_SCRIPT_SRC_DIR:-}" ]]; then
+  echo "No PNPM_SCRIPT_SRC_DIR found. Please run from pnpm." >&2
+  exit 1
+fi
+
+export DIR="${PNPM_SCRIPT_SRC_DIR}"
+export NAME="$(basename "${PNPM_SCRIPT_SRC_DIR}")"
+
+function prepare() {
+  local dir
+  dir="${1}"
+  export PACKAGE_JSON="${dir}/package.json"
+  export CONFIG_DIR="${dir}/config"
+  export DIST_DIR="${dir}/dist"
+  export API_DOCS_DIR="${dir}/api-docs"
+  export ICON_DIR="${dir}/public/icons"
+  export ICON_INDEX_DIR="${dir}/src/icons"
+  export DEV_DIR="${dir}/dev"
+}
+
+prepare "${DIR}"

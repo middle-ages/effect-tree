@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+SRC="src"
+SVG_FROM_SRC="docs/svg"
+SVG="$SRC/$SVG_FROM_SRC"
+README="$SRC/README.md"
+FILES=($(echo "$SVG/*".svg))
+EXTRACT_SVG_SIZE="s/([^:]+):.*width='(\d+).*'.*/\${1}:\${2}pt/"
+
+echo "> Updating ${#FILES[@]} SVG files at “$SVG”:"
+echo ">   #  WIDTH NAME"
+for i in "${!FILES[@]}"; do
+       file="${FILES[$i]}"
+   basename=$(basename "$file")
+       name=$(perl -pE 's/\.api\.svg$//' <<< "$basename")
+       line=$(grep "<svg version" "$file" | perl -pE "$EXTRACT_SVG_SIZE")
+      width=$(perl -pE 's/[^:]+:(.*)/$1/' <<< "$line")
+  from_docs="$SVG_FROM_SRC/$basename"
+     prefix="<img src=\"$from_docs\""
+      style="min-width:${width}"
+        img="$prefix title=\"$name\" alt=\"$name\" style=\"$style\">"
+
+  printf "> %3d. %s %s \n" $(( i+1 )) "$width" "$name"
+  perl -pi -E "s|^ *$prefix.*|$img|" "$README"
+done

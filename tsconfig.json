@@ -1,0 +1,9 @@
+{
+  "display": "root",
+  "files": [],
+  "references": [
+    {"path": "./config/tsconfig.main.json"},
+    {"path": "./config/tsconfig.dev.json"},
+    {"path": "./config/tsconfig.test.json"}
+  ]
+}

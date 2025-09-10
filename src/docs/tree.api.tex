@@ -1,0 +1,39 @@
+\documentclass{article}
+
+\input{preamble.tex}
+
+\begin{document}
+\setlength\tabcolsep{0pt}
+\setcounter{secnumdepth}{0}
+\section{}
+
+\begin{tabular}{K@{\AV} r K@{} K@{$\Ar$} K@{}}
+  \multicolumn{1}{c}{\head{Function}}  &
+  \multicolumn{2}{c}{\head{Arguments}} &
+  \multicolumn{2}{c}{\head{Returns}} \\
+  \hline\\[-1.5em]
+  \fn{fix{\X}Tree}     & \TPA  & \Args{\Varselfof{\UnfixedA}}                && \TreeA \\
+  \fn{unfix{\X}Tree}   & \TPA  & \Args{\VarTreeA}                            && \UnfixedA \\
+  \fn{leaf}            & \TPA  & \Args{\VarNodeA}                            && \LeafofA \\
+  \fn{branch}          & \TPA  & \Args{\VarNodeA   \C \VarForestA}           && \BranchofA \\
+  \fn{withForest}      & \TPA  & \Args{\VarForestA \C \VarNodeA}             && \TreeofA \\
+  \fn{tree}            & \TPA  & \Args{\VarNodeA   \C \VarTreesofA}          && \TreeofA \\
+  \fn{from}            & \TPA  & \Args{\VarNodeA   \C ...\VarTreesofA}       && \TreeofA \\
+  \fn{match}           & \TPAR & \Args{\VarTreeA   \C \Varmatcher}           && \Ge{R} \\
+  \fn{destruct}        & \TPA  & \Args{\VarTreeA}                            && \Pairr{\Ge{A}}{\TreesofA} \\
+  \fn{isLeaf}          & \TPA  & \Args{\VarTreeA}                            && \it{self}\is\LeafofA \\
+  \fn{isBranch}        & \TPA  & \Args{\VarTreeA}                            && \it{self}\is\BranchofA \\
+  \fn{length}          & \TPA  & \Args{\VarTreeA}                            && \num \\
+  \fn{getNode}         & \TPA  & \Args{\VarTreeA}                            && \Ge{A} \\
+  \fn{getForest}       & \TPA  & \Args{\VarTreeA}                            && \TreesofA \\
+  \fn{getBranchForest} & \TPA  & \Args{\Varbranchof{\BranchofA}}             && \ForestofA \\
+  \fn{setNode}         & \TPA  & \Args{\VarTreeA  \C \VarNodeA}              && \TreeofA \\
+  \fn{setForest}       & \TPA  & \Args{\VarTreeA  \C \VarForestA}            && \TreeA \\
+  \fn{map}             & \TPAB & \Args{\VarTreeA  \C \Varf{\fnab}}           && \TreeB \\
+  \fn{modNode}         & \TPA  & \Args{\Varf{\EndoofA}} \Ar \Args{\VarTreeA} && \TreeA \\
+  \fn{modForest}       & \TPA  & \Args{\Varf{\EndoofA}} \Ar \Args{\VarTreeA} && \TreeA \\
+  \fn{mapSuspended}    & \TPAB & \Args{\Varf{\fnab}}    \Ar \Args{\VarTreeA} && \Effectof{\FofTreeofB} \\
+  \fn{getEquivalence}  & \TPA  & \Args{\VareqofA}                            && \EqofTreeofA \\
+\end{tabular}
+
+\end{document}

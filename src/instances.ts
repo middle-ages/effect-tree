@@ -1,0 +1,7 @@
+export * from './instances/Applicative.js'
+export * from './instances/Covariant.js'
+export * from './instances/Equivalence.js'
+export * from './instances/Foldable.js'
+export * from './instances/Monad.js'
+export * from './instances/Order.js'
+export * from './instances/Traversable.js'

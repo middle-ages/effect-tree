@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+COLOR="${COLOR:-true}"
+
+. "$(dirname "${0}")/lib/_"
+
+vitest run --coverage "$@"
+
+show_done 'coverage'

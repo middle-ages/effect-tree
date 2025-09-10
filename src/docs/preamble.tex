@@ -1,0 +1,302 @@
+\usepackage[vcentering,dvips]{geometry}
+\geometry{papersize={26in,22in},total={22in,18in}}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amstext}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{bold-extra}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{nicefrac, xfrac}
+\usepackage{relsize}
+\usepackage{standalone}
+\usepackage{trimclip}
+
+\pagestyle{empty}
+
+\definecolor{ordGray}{gray}{0.45}
+\definecolor{sigGray}{gray}{0.4}
+\definecolor{symGray}{gray}{0.6}
+\definecolor{hi}{rgb}{0.7, 0.0, 0.0}
+\definecolor{lo}{rgb}{0.0, 0.7, 0.0}
+
+\newcolumntype{K}{>{\(}l<{\)}}
+
+\renewcommand*\ttdefault{cmvtt}
+
+\DeclareFontFamily{U}{mathb}{\hyphenchar\font45}
+\DeclareFontShape{U}{mathb}{m}{n}{<5> <6> <7> <8> <9> <10> gen * mathb <10.95> mathb10 <12> <14.4> <17.28> <20.74> <24.88> mathb12 }{}
+\DeclareSymbolFont{mathb}{U}{mathb}{m}{n}
+\DeclareFontSubstitution{U}{mathb}{m}{n}
+\DeclareMathSymbol{\sqsubsetneq}{1}{mathb}{"88}
+
+\renewcommand{\arraystretch}{1.25}
+
+% • Kern
+\newcommand{\x}{\kern-0.5pt}
+\newcommand{\xx}{\kern-0.75pt}
+\newcommand{\X}{\kern-1pt}
+\newcommand{\Xx}{\kern-1.5pt}
+\newcommand{\XX}{\kern-2pt}
+\newcommand{\XXX}{\kern-3pt}
+\newcommand{\XXXx}{\XXX\x}
+\newcommand{\XXXX}{\XXX\X}
+\newcommand{\XV}{\XXX\XX}
+
+\renewcommand{\a}{\kern0.3pt}
+\renewcommand{\aa}{\kern0.5pt}
+\newcommand{\A}{\kern1pt}
+\newcommand{\Aa}{\kern1.5pt}
+\renewcommand{\AA}{\kern2pt}
+\newcommand{\AAA}{\kern3pt}
+\newcommand{\AAAA}{\kern8pt}
+\newcommand{\AV}{\kern12pt}
+\newcommand{\AVi}{\kern16pt}
+
+% • Fonts
+\newcommand{\Ink}{\color{black}} % black color
+\newcommand{\fn}[1]{\textit{\ttfamily{#1}}} % function (mono italic gray)
+\newcommand{\caps}[1]{\text{\scshape{#1}}} % (small-caps)
+\newcommand{\Type}[1]{\Ink \caps{#1}} % type (black small-caps)
+\newcommand{\var}[1]{{\it{#1}}} % var (italic)
+
+\newcommand{\builtin}[1]{\XXXX\Ink\textsf{ % bold text (bold-sans-serif)
+\fontseries{sbc}\selectfont{#1}}}
+
+\newcommand{\head}[1]{\color{ordGray} % text (sans-serif lightest gray)
+\text{\large{\textsf{#1}}\Ink}}
+
+\newcommand{\Ge}[1]{\color{sigGray}{\textbf{#1}}\Ink} % type parameter (\Type but gray)
+
+% • Symbols
+\newcommand{\Com} {\color{symGray}{\textnormal{,}}\Ink\a} % comma (,)
+\newcommand{\Comm}{\Com\A} % comma with space (, )
+\newcommand{\C}   {\Comm}
+\newcommand{\Sep} {\color{hi}|\Ink}    % red bar (|)
+\newcommand{\Ar}  {\AAA\color{ordGray}{\Rightarrow}\AAA} % arrow (⇒)
+\newcommand{\Co}  {\color{symGray}{\ensuremath{\mathbb{:}}\,}\Ink} % colon (:)
+\newcommand{\Ex}  {\AA\color{symGray}{\sqsubsetneq\AA}\Ink} % extends (⋤)
+\newcommand{\Sc}  {\color{symGray}{\a;\A}\Ink} % semicolon (;)
+
+% lt/gt (<>)
+\newcommand{\br} [1]{\ensuremath{{
+\color{symGray} \raisebox{0.5pt}{\scriptsize{#1}}}}}
+\newcommand{\Br} [1]{\br{<}{#1}\br{>}}
+
+% open close parentheses (“(” “)”)
+\newcommand{\pn} [1]{\ensuremath{{
+\color{symGray}{#1}}}}
+\newcommand{\Pn} [1]{\pn{(}{#1}\pn{)}}
+\newcommand{\pna} {\pn{(}}
+\newcommand{\pnz} {\pn{)}}
+
+% open close curly brackets ({})
+\newcommand{\cn} [1]{\ensuremath{{
+\color{symGray} \raisebox{0.5pt}{#1}}}}
+\newcommand{\Cn} [1]{\cn{\{}{#1}\cn{\}}}
+
+\newcommand{\Un}      {\AA\color{
+symGray}{\raisebox{0.5pt} |}\AA\Ink} % union (|)
+
+\newcommand{\sq}[1]{ % square brackets ([])
+\aa\color{symGray}\raisebox{0.5pt}{\a{#1}}\Ink}
+\newcommand{\sqa}{\sq{[}}
+\newcommand{\sqz}{\sq{]}}
+\newcommand{\Sqof}[1]{\sqa{#1}\sqz}
+\newcommand{\Sq}{\Sqof{\,}}
+
+\newcommand{\sqq}[1]{ % square brackets ([])
+\color{symGray}\raisebox{0.19pt}{\a\big{#1}}\Ink}
+\newcommand{\sqqa}{\XX\sqq{[}}
+\newcommand{\sqqz}{\Xx\sqq{]}}
+\newcommand{\Sqqof}[1]{\sqqa{#1}\sqqz}
+
+\newcommand{\Pair}[2]{\Sqof{{#1}   \C {#2}}}
+\newcommand{\Pairr}[2]{\Sqqof{{#1} \C {#2}}}
+
+\newcommand{\TreeFLambda}{\Type{TreeF}\Xx\ensuremath{\Lambda}}
+\newcommand{\TreeLambda}{\Type{Tree}\ensuremath{\Lambda}}
+
+\newcommand{\TType}[2]{\Type{#1}\Br{#2}} % Generic type one level
+
+\newcommand{\never}   {\builtin{never}}
+\newcommand{\unknown} {\builtin{unknown}}
+\newcommand{\num}     {\builtin{number}}
+\newcommand{\str}     {\builtin{string}}
+\newcommand{\bool}    {\builtin{boolean}}
+\newcommand{\is}      {\AAA\builtin{is}\AAA}
+\newcommand{\Nea}     {\Type{\Ink NonEmpty{\X}Array}}
+
+\newcommand{\TP}               [1]{\Br{\Ge{#1}}}
+\newcommand{\TPA}                 {\TP{A}}
+\newcommand{\TPB}                 {\TP{B}}
+\newcommand{\TPC}                 {\TP{C}}
+\newcommand{\TPD}                 {\TP{D}}
+\newcommand{\TPF}                 {\TP{F}}
+\newcommand{\TPAC}                {\TP{A{\Com}C}}
+\newcommand{\TPAD}                {\TP{A{\Com}D}}
+\newcommand{\TPAB}                {\TP{A{\Com}B}}
+\newcommand{\TPAR}                {\TP{A{\Com}R}}
+\newcommand{\TPCD}                {\TP{C{\Com}D}}
+\newcommand{\TPACR}               {\TP{A{\Com}C{\Com}R}}
+\newcommand{\TPACD}               {\TP{A{\Com}C{\Com}D}}
+\newcommand{\TPABC}               {\TP{A{\Com}B{\Com}C}}
+
+\newcommand{\PnTP}             [2]{\TP{#1}\Pn{#2}}
+\newcommand{\PnTPA}            [1]{\PnTP{A}{#1}}
+\newcommand{\PnTPB}            [1]{\PnTP{B}{#1}}
+\newcommand{\PnTPC}            [1]{\PnTP{C}{#1}}
+\newcommand{\PnTPD}            [1]{\PnTP{D}{#1}}
+
+\newcommand{\TofTP}            [2]{\TType{\Ink{#1}}{\Ge{#2}}}
+\newcommand{\TofTPofTP}        [3]{\TType{#1}{\Ge{#2}\TP{#3}\XX}}
+\newcommand{\TofFofTP}         [2]{\TType{#1}{\Ge{F}\XX\TP{#2}\XX}}
+\newcommand{\TofFofA}          [1]{\TofFofTP{#1}{A}}
+
+% #1{#2} where both are type params
+\newcommand{\TPofTP}           [2]{\TType{\Ge{#1}}{\Ge{#2}}}
+\newcommand{\Fof}              [1]{\TType{\Ge{F\X}}{#1}}
+\newcommand{\FofTP}            [1]{\TPofTP{F\X}{#1}}
+\newcommand{\Fofof}            [2]{\Fof{\TType{#1}{#2}\XX}}
+
+\newcommand{\Forestof}         [1]{\TofTP{Forest\X}{#1}}
+\newcommand{\TreeofFof}        [1]{\TType{Tree}{\TType{\Ge{F}}{\Ge{#1}}\XX}}
+\newcommand{\Treeof}           [1]{\TofTP{Tree}{#1}}
+\newcommand{\TreeFof}          [2]{\TType{\Type{\Ink TreeF}\Xx}{{#1}\Com{#2}}}
+\newcommand{\TreeFofA}         [1]{\TreeFof{\Ge{A}}{#1}}
+\newcommand{\TreeFofAFofC}        {\TreeFofA{\FofTP{C}\XX}}
+\newcommand{\TreeFofAC}           {\TreeFofA{\Ge{C}}}
+\newcommand{\TreeFsofAC}          {\TreeFofAC\Sq}
+\newcommand{\TreeFofBC}           {\TreeFof{\Ge{B}}{\Ge{C}}}
+\newcommand{\TreeFofAD}           {\TreeFofA{\a\Ge{D}}}
+\newcommand{\FofTreeFofAC}        {\Fof{\TreeFofAC\XX}}
+\newcommand{\FofTreeFofBC}        {\Fof{\TreeFofBC\XX}}
+\newcommand{\FofTreeFofAD}        {\Fof{\TreeFofAD\XX}}
+\newcommand{\TreeA}               {\Treeof{A}}
+\newcommand{\TreeB}               {\Treeof{B}}
+\newcommand{\ForestofA}           {\Forestof{A}}
+\newcommand{\ForestofB}           {\Forestof{B}}
+\newcommand{\ForestofC}           {\Forestof{C}}
+
+\newcommand{\TreeofFofA}          {\TreeofFof{A}}
+
+\newcommand{\BranchFof}        [2]{\TType{\Type{BranchF}\X}{{#1}\Com{#2}}}
+\newcommand{\BranchFofAC}         {\BranchFof{\Ge{A}}{\Ge{C}}}
+\newcommand{\BranchFofBC}         {\BranchFof{\Ge{B}}{\Ge{C}}}
+\newcommand{\BranchFofAD}         {\BranchFof{\Ge{A}}{\Ge{D}}}
+
+\newcommand{\LeafFof}          [1]{\TofTP{LeafF\X}{{#1}}}
+\newcommand{\LeafFofA}            {\LeafFof{A}}
+\newcommand{\LeafFofB}            {\LeafFof{B}}
+
+\newcommand{\Fixof}            [2]{\TType{Fix}{\Type{#1}\Com\Ge{#2}}}
+\newcommand{\FixofTreeF}       [2]{\Fixof{\TreeFLambda}{{#1}\Com\Ge{#2}}}
+\newcommand{\FixofTree}        [1]{\Fixof{\TreeLambda}{#1}}
+
+\newcommand{\Branchof}         [1]{\TofTP{Branch}{{#1}}}
+\newcommand{\BranchofA}           {\Branchof{A}}
+\newcommand{\Leafof}           [1]{\TofTP{Leaf\x}{{#1}}}
+\newcommand{\LeafofA}             {\Leafof{A}}
+\newcommand{\TreeofA}             {\Treeof{A}}
+\newcommand{\TreeofB}             {\Treeof{B}}
+\newcommand{\TreeofC}             {\Treeof{C}}
+
+\newcommand{\Kind}            [1]{\Type{Kind}\A\Br{#1}\Xx}
+\newcommand{\KindF}           [1]{\Kind{\Ge{F}\XX \Comm \never \Comm \unknown \Comm {#1}}}
+
+\newcommand{\NeaA}               {\Nea\TPA}
+\newcommand{\NeaB}               {\Nea\TPB}
+\newcommand{\NeaC}               {\Nea\TPC}
+\newcommand{\NeaD}               {\Nea\TPD}
+\newcommand{\NeaTreeofA}         {\Nea\x\Br{\TreeofA\XX}}
+
+\newcommand{\Var}             [2]{\text{\Ink \it{#1}}\A\Co\X{#2}}
+\newcommand{\VarType}         [2]{\Var{#1}{\Type{#2}}}
+\newcommand{\VarGen}          [2]{\Var{#1}{\Ge{#2}}}
+\newcommand{\VarNeaof}        [2]{\Var{#1}{\Nea\TP{#2}}}
+\newcommand{\VarNodeof}       [1]{\Var{\Ink node}{#1}}
+\newcommand{\VarNodeA}           {\VarNodeof{\Ge{A}}}
+\newcommand{\VarNodeB}           {\VarNodeof{\Ge{B}}}
+\newcommand{\VarNodeC}           {\VarNodeof{\Ge{C}}}
+\newcommand{\VarNodeD}           {\VarNodeof{\Ge{D}}}
+\newcommand{\VarNeaofA}        [1]{\VarNeaof{#1}{A}}
+\newcommand{\VarNeaofB}        [1]{\VarNeaof{#1}{B}}
+\newcommand{\VarNeaofC}        [1]{\VarNeaof{#1}{C}}
+\newcommand{\Varforestof}      [1]{\A\Var{\Ink forest}{#1}}
+\newcommand{\VarForestA}          {\Varforestof{\ForestofA}}
+\newcommand{\VarForestB}          {\Varforestof{\ForestofB}}
+\newcommand{\VarForestC}          {\Varforestof{\ForestofC}}
+\newcommand{\Varunfixed}       [1]{\Var{unfixed}{#1}}
+\newcommand{\VarTreeA}            {\Varselfof{\TreeofA}}
+
+\newcommand{\Varselfof}        [1]{\Var{\Ink self}{#1}}
+\newcommand{\Varbranchof}      [1]{\Var{\Ink branch}{#1}}
+\newcommand{\VarTreeF}            {\Varselfof{\TreeFofAC}}
+
+\newcommand{\FofTreeof}        [1]{\Fofof{\Type{Tree}}{\Ge{#1}}\XX}
+\newcommand{\FofTreeofA}          {\FofTreeof{A}}
+\newcommand{\FofTreeofB}          {\FofTreeof{B}}
+\newcommand{\FofA}                {\FofTP{A}}
+\newcommand{\FofB}                {\FofTP{B}}
+\newcommand{\FofC}                {\FofTP{C}}
+\newcommand{\FofD}                {\FofTP{D}}
+\newcommand{\TreeOfTP}         [1]{\TType{Tree}{\Ge{#1}}}
+\newcommand{\TreesofA}            {\TreeofA\a\Sq\a}
+
+\newcommand{\Args}             [1]{\Pn{{#1}}}
+\newcommand{\ArgsA}            [1]{\TPA\Args{#1}}
+\newcommand{\ArgsB}            [1]{\TPB\Args{#1}}
+\newcommand{\ArgsC}            [1]{\TPC\Args{#1}}
+\newcommand{\ArgsD}            [1]{\TPD\Args{#1}}
+\newcommand{\ArgsAB}           [1]{\TPAB\Args{#1}}
+\newcommand{\ArgsAC}           [1]{\TPAC\Args{#1}}
+\newcommand{\ArgsABC}          [1]{\TPABC\Args{#1}}
+\newcommand{\ArgsCD}           [1]{\TPCD\Args{#1}}
+\newcommand{\ArgsACD}          [1]{\TPACD\Args{#1}}
+\newcommand{\ArgsACR}          [1]{\TPACR\Args{#1}}
+
+\newcommand{\UnfixedA}            {\Type{UnfixedTree}\aa\TPA}
+\newcommand{\Effectof}         [1]{\TType{Effect}{#1}}
+\newcommand{\Applicative}         {\Br{\Ge{F}\Ex\Type{Applicative}}\Args{\Var{F}{\TType{Applicative\A}{\Ge{F}}}} \Ar}
+\newcommand{\Eqof}             [1]{\TType{Equivalence}{#1}}
+\newcommand{\EqofA}               {\TType{Equivalence}{\Ge{A}}}
+\newcommand{\EqofC}               {\TType{Equivalence}{\Ge{C}}}
+\newcommand{\EqofTreeofA}         {\TType{Equivalence}{\TreeofA}}
+\newcommand{\EqofTreeFofAC}       {\TType{Equivalence}{\TreeFofAC\XX}}
+
+\newcommand{\Varf}             [1]{\Ink\A\Var{f}{#1}}
+\newcommand{\VarTreesofA}         {\Varforestof{\TreesofA}}
+\newcommand{\Varmatcher}          {\Var{m}{\Type{Matcher}\TPAR}}
+\newcommand{\VarmatcherF}         {\Var{m}{\Type{MatcherF}\TPACR}}
+
+\newcommand{\VareqofA}            {\VarType{equalsA\X}{\EqofA}}
+\newcommand{\VareqofC}            {\VarType{equalsC}{\EqofC}}
+
+\newcommand{\fnI}              [3]{\ensuremath{\Args{\x\Var{#1}{\Type{#2}}}\x\Ar\x{\Type{#3}\x}}}
+\newcommand{\fnofI}            [4]{\TP{#1}\Args{\Var{#2}{\Type{#3}}}\Ar{\Type{#4}}}
+\newcommand{\Endo}             [2]{\fnI{#1}{#2}{#2}}
+\newcommand{\EndoofA}             {\Endo{A}{\Ge{A}}}
+
+\newcommand{\fnab}                {\fnI{a}{\Ge{A}}{\Ge{B}\A}}
+\newcommand{\fnar}                {\fnI{a}{\Ge{A}}{\Ge{R}}}
+\newcommand{\fncd}                {\fnI{c}{\Ge{C}}{\Ge{D}}}
+\newcommand{\fnaFb}               {\fnI{a}{\Ge{A}}{\FofB}}
+\newcommand{\fncFd}               {\fnI{c}{\Ge{c}}{\FofD}}
+\newcommand{\fnFab}               {\fnI{\A{fa}}{\FofA\x}{\Ge{B}}}
+
+\newcommand{\fncTreeFad}          {\ensuremath{(\x\Var{c}{\Ge{C}\AA})\XX\Ar\XX\TreeFofAD}}
+
+\newcommand{\spanCols}         [3]{\multicolumn{#1}{#2}{#3}}
+\newcommand{\spanC}            [1]{\multicolumn{3}{l}{#1}}

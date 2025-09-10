@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+COLOR="${COLOR:-true}"
+
+. "$(dirname "${0}")/lib/_"
+
+mkdir -p "$DIST_DIR"
+
+cp "$PACKAGE_JSON" "$DIST_DIR"
+
+tsc --build "${@}"
+
+show_done 'build'

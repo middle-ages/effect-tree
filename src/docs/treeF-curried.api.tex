@@ -1,0 +1,27 @@
+\documentclass{article}
+
+\input{preamble.tex}
+
+\begin{document}
+\setlength\tabcolsep{0pt}
+\setcounter{secnumdepth}{0}
+\section{}
+
+\begin{tabular}{K@{\AAAA} r@{\pna} K@{$\Ar$} K@{} K@{\pna} K@{} K@{$\Ar$} K@{}}
+  \multicolumn{1}{c}{\head{Function}}  &
+  \multicolumn{5}{c}{\head{Arguments}} &
+  \multicolumn{2}{c}{\head{Returns}} \\
+  \hline\\[-1.5em]
+  % \multicolumn{1}{c}{\head{Symbol}} & \multicolumn{5}{c}{\head{Type}} \\
+  \hline\\[-1em]
+  \fn{branchF}    & \TPA  & \Varforestof{\NeaC}       \pnz &&      & \VarNodeA           \pnz && \BranchFofAC \\
+  \fn{treeF}      & \TPAC & \Varforestof{\Ge{C}\Sq}   \pnz &&      & \VarNodeA           \pnz && \TreeFofAC \\
+  \fn{withForest} & \TPAC & \Varforestof{\TreeFsofAC} \pnz &&      & \VarNodeA           \pnz && \TreeFofAC \\
+  \fn{setNode}    & \TPAC & \VarTreeF                 \pnz && \TPB & \VarNodeB           \pnz && \TreeFofBC \\
+  \fn{setForest}  & \TPAC & \VarTreeF                 \pnz && \TPD & \Varforestof{\NeaD} \pnz && \TreeFofAD \\
+  \fn{mapNode}    & \TPAB & \Varf{\fnab}              \pnz && \TPC & \VarTreeF           \pnz && \TreeFofBC \\
+  \fn{map}        & \TPCD & \Varf{\fncd}              \pnz && \TPA & \VarTreeF           \pnz && \TreeFofAD \\
+  \fn{flatMap}    & \TPAD & \Varf{\fncTreeFad}        \pnz && \TPC & \VarTreeF           \pnz && \TreeFofAD \\
+\end{tabular}
+
+\end{document}

@@ -1,0 +1,22 @@
+\documentclass{article}
+
+\input{preamble.tex}
+
+\begin{document}
+\setlength\tabcolsep{0pt}
+\setcounter{secnumdepth}{0}
+\section{}
+
+\begin{tabular}{K@{\AAAA} r@{\pna} K@{\pnz$\Ar$\pna} K@{} K@{\pnz} K@{$\Ar$} K@{}}
+  \multicolumn{1}{c}{\head{Symbol}} & \multicolumn{5}{c}{\head{Type}} \\
+  \hline\\[-1em]
+  \fn{treeC}      & \TPA  & \VarTreesofA && \VarNodeA    && \TreeofA \\
+  \fn{match}      & \TPAR & \Varmatcher  && \VarTreeA    && \Ge{R} \\
+  \fn{setNode}    & \TPA  & \VarNodeA    && \VarTreeA    && \TreeofA \\
+  \fn{withForest} & \TPA  & \VarNodeA    && \VarTreesofA && \TreeofA \\
+  \fn{branch}     & \TPA  & \VarForestA  && \VarNodeA    && \BranchofA \\
+  \fn{setForest}  & \TPA  & \VarForestA  && \VarTreeA    && \TreeA \\
+  \fn{map}        & \TPAB & \Varf{\fnab} && \VarTreeA    && \TreeB \\
+\end{tabular}
+
+\end{document}

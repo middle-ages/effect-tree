@@ -1,0 +1,24 @@
+\documentclass{article}
+
+\input{preamble.tex}
+
+\begin{document}
+\setlength\tabcolsep{0pt}
+\setcounter{secnumdepth}{0}
+\section{}
+
+\begin{tabular}{*{2}{K@{\AV}}}
+  \head{Type} & \head{Definition}
+  \\\hline\\[-1em]
+  \TreeofA               & \FixofTreeF{A}{C} \\
+  \LeafofA               & \Cn{\Varunfixed{\LeafFofA}} \\
+  \BranchofA             & \Cn{\Varunfixed{\BranchFof{\Ge{A}}{\TreeofA\XX}}} \\
+  \UnfixedA              & \TreeFof{\Ge{A}}{\TreeofA\XX} \\
+  \ForestofA             & \NeaTreeofA \\
+  \Type{Matcher}\a\TPACR & \{
+    \Var{onLeaf}{\Args{\VarNodeA}                   \Ar \Ge{R}}\Sc
+    \Var{onBranch}{\Args{\VarNodeA \C  \VarForestA} \Ar \Ge{R}}\Sc
+  \} \\
+\end{tabular}
+
+\end{document}

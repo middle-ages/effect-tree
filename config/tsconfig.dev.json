@@ -1,0 +1,11 @@
+{
+  "display": "dev",
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "./eslint.config.ts",
+    "./vitest.config.ts"
+  ]
+}

@@ -1,0 +1,69 @@
+\documentclass{article}
+
+\input{preamble.tex}
+
+\begin{document}
+\noindent
+\setlength\tabcolsep{0pt}
+\setcounter{secnumdepth}{0}
+\section{}
+
+\begin{tabular}{*{4}{K@{\AV}}}
+  \head{Type} & \head{Definition} & \head{Type} & \head{Definition} \\
+  \hline\\[-1em]
+  \texttt{Type}         & \Type{TypeName}                         & \texttt{Ge}           & \Ge{GenericParamName} \\
+  \texttt{fn}           & \fn{functionName}                       & \texttt{var}          & \var{variableName} \\
+  \texttt{builtin}      & \builtin{builtinName}                   & \texttt{head}         & \head{headline} \\
+  \texttt{Ar}           & \Sep\Ar\Sep \texttt{double arrow right} & \texttt{Co}           & {\Sep}a{\Co}b{\Co}c\Sep\AA\texttt{colon} \\
+  \texttt{Sq}           & \Sep\Type{Array}\Sq\Sep\Sq\Sep          & \texttt{never}        & \builtin{never} \\
+  \texttt{unknown}      & \builtin{unknown}                       & \texttt{num}          & \builtin{num} \\
+  \texttt{str}          & \builtin{str}                           & \texttt{bool}         & \builtin{bool} \\
+  \texttt{is}           & \var{foo}\is\num                        & \texttt{Nea}          & \Nea \\
+  \texttt{NeaA}         & \NeaA                                   & \texttt{NeaB}         & \NeaB \\
+  \texttt{NeaC}         & \NeaC                                   & \texttt{NeaD}         & \NeaD \\
+  \texttt{Un}           & \Type{UnionLeft}\Un\Type{UnionRight}    & \texttt{Ex}           & \Type{ExtendsLeft}\Ex\Type{ExtendsRight} \\
+  \texttt{Br}           & \Type{Outer\Br{\Type{Inner}}}           & \texttt{Pn}           & outer\Pn{inner}\Sep\Pn{}\Sep\Pn{\Sep}{\Sep}a\Pn{b\Pn{c}} \\
+  \texttt{Cn}           & outer\Cn{inner}\Sep\Cn{}\Sep\Cn{
+  \Sep}{\Sep}a\Cn{b\Cn{c}}                                        & \texttt{TreeFLambda}  & \TreeFLambda \\
+  \texttt{TreeLambda}   & \TreeLambda                             & \texttt{TType}        & \TType{Outer}{\Type{Inner}} \\
+  \texttt{TP}           & \Ge{F}\TP{B\TP{C\TP{D}\XX}\XX}          & \texttt{TPA}          & \TPA \\
+  \texttt{TPB}          & \TPB                                    & \texttt{TPC}          & \TPC \\
+  \texttt{TPAC}         & \TPAC                                   & \texttt{TPACR}        & \TPACR \\
+  \texttt{PnTP}         & \PnTP{A}{\VarNodeA}                     & \texttt{PnTPA}        & \PnTPA{\VarNodeA} \\
+  \texttt{PnTPB}        & \PnTPB{\VarNodeB}                       & \texttt{PnTPC}        & \PnTPC{\VarNodeC} \\
+  \texttt{PnTPD}        & \PnTPD{\VarNodeD}                       & \texttt{FofTP}        & \FofTP{A} \\
+  \texttt{TofTP}        & \TofTP{Tree}{A}                         & \texttt{TofTPofTP}    & \TofTPofTP{Tree}{F}{A} \\
+  \texttt{TofFofTP}     & \TofFofTP{Tree}{A}                      & \texttt{TofFofA}      & \TofFofA{Tree} \\
+  \texttt{Treeof}       & \Treeof{A}                              & \texttt{TreeFof}      & \TreeFof{A}{\Ge{C}} \\
+  \texttt{TreeFofAC}    & \TreeFofAC                              & \texttt{TreeFofBC}    & \TreeFofBC \\
+  \texttt{TreeFofAD}    & \TreeFofAD                              & \texttt{BranchFof}    & \BranchFof{\Ge{A}}{\Ge{C}} \\
+  \texttt{BranchFofAC}  & \BranchFofAC                            & \texttt{BranchFofBC}  & \BranchFofBC \\
+  \texttt{BranchFofAD}  & \BranchFofAD                            & \texttt{LeafFof}      & \LeafFof{A} \\
+  \texttt{LeafFofA}     & \LeafFofA                               & \texttt{LeafFofB}     & \LeafFofB \\
+  \texttt{FofTreeFofAC} & \FofTreeFofAC                           & \texttt{FofTreeFofBC} & \FofTreeFofBC \\
+  \texttt{FofTreeFofAD} & \FofTreeFofAD                           & \texttt{TreeA}        & \TreeA \\
+  \texttt{TreeB}        & \TreeB                                  & \texttt{ForestofA}    & \ForestofA \\
+  \texttt{FofA}         & \FofA                                   & \texttt{FofB}         & \FofB \\
+  \texttt{Fof}          & \Fof{\Type{Hello}}                      & \texttt{Fofof}        & \Fofof{\Type{Tree}}{A} \\
+  \texttt{FofTreeof}    & \FofTreeof{A}                           & \texttt{FofTreeofA}   & \FofTreeofA \\
+  \texttt{FofTreeofB}   & \FofTreeofB                             & \texttt{Kind}         & \Kind{\Ge{F} \Comm \never \Comm \unknown \Comm \unknown \Comm \Ge{A}} \\
+  \texttt{KindF}        & \KindF{\unknown \Comm \Ge{A}}           & \texttt{FixOf}        & \Fixof{\TreeLambda}{A} \\
+  \texttt{FixOfTreeF}   & \FixofTreeF{A}{C}                       & \texttt{FixOfTree}    & \FixofTree{A} \\
+  \texttt{Branchof}     & \Branchof{A}                            & \texttt{BranchofA}    & \BranchofA \\
+  \texttt{Leafof}       & \Leafof{A}                              & \texttt{LeafofA}      & \LeafofA \\
+  \texttt{Treeof}       & \Treeof{A}                              & \texttt{TreeofA}      & \TreeofA \\
+  \texttt{TreeofB}      & \TreeofB                                & \texttt{TreeofC}      & \TreeofC \\
+  \texttt{Var}          & \Var{self}{\Type{TypeName}}             & \texttt{VarType}      & \VarType{self}{Tree\TP{A}} \\
+  \texttt{VarGen}       & \VarGen{self}{A}                        & \texttt{VarNodeA}     & \VarNodeA \\
+  \texttt{VarNodeB}     & \VarNodeB                               & \texttt{VarNodeC}     & \VarNodeC \\
+  \texttt{VarNodeD}     & \VarNodeD                               & \texttt{VerNeaof}     & \VarNeaof{node}{A} \\
+  \texttt{VarNeaofA}    & \VarNeaofA{node}                        & \texttt{VarNeaofB}    & \VarNeaofB{node} \\
+  \texttt{VarNeaofC}    & \VarNeaofC{node}                        & \texttt{Varforestof}  & \Varforestof{\TreeA\Sq} \\
+  \texttt{Varunfixed}   & \Varunfixed{\TreeFofAC}                 & \texttt{fnI}          & \fnI{variableName}{VariableType}{ReturnType} \\
+  \texttt{fnofI}        & \fnofI{A}{self}{\TreeofA}{\FofA}        & \texttt{fnab}         & \fnab \\
+  \texttt{fnar}         & \fnar                                   & \texttt{fncd}         & \fncd \\
+  \texttt{Endo}         & \Endo{a}{\Ge{A}}                        & \texttt{fnaFb}        & \fnaFb \\
+  \texttt{fncFd}        & \fncFd                                  & \texttt{fnFab}        & \fnFab \\
+\end{tabular}
+
+\end{document}
