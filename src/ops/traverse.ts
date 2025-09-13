@@ -75,8 +75,9 @@ export const postOrderValues: GetNodes = tree =>
  * @category fold
  */
 export const preOrderFold: TreeFolderK<NonEmptyArrayTypeLambda> = TreeF.match({
-  onLeaf: node => [node],
-  onBranch: (node, forest) => pipe(forest, Array.flatten, Array.prepend(node)),
+  onLeaf: value => [value],
+  onBranch: (value, forest) =>
+    pipe(forest, Array.flatten, Array.prepend(value)),
 })
 
 /**
@@ -84,8 +85,8 @@ export const preOrderFold: TreeFolderK<NonEmptyArrayTypeLambda> = TreeF.match({
  * @category fold
  */
 export const postOrderFold: TreeFolderK<NonEmptyArrayTypeLambda> = TreeF.match({
-  onLeaf: node => [node],
-  onBranch: (node, forest) => pipe(forest, Array.flatten, Array.append(node)),
+  onLeaf: value => [value],
+  onBranch: (value, forest) => pipe(forest, Array.flatten, Array.append(value)),
 })
 
 /**
@@ -93,6 +94,6 @@ export const postOrderFold: TreeFolderK<NonEmptyArrayTypeLambda> = TreeF.match({
  * @category fold
  */
 export const allLeavesFold: TreeFolderK<NonEmptyArrayTypeLambda> = TreeF.match({
-  onLeaf: node => [node],
+  onLeaf: value => [value],
   onBranch: (_, forest) => Array.flatten(forest),
 })

@@ -54,10 +54,30 @@ export const traverse: TA.Traversable<TreeFTypeLambda>['traverse'] = <
       ),
   )
 
-export const Covariant: CO.Covariant<TreeFTypeLambda> = {map, imap},
-  FlatMap: FL.FlatMap<TreeFTypeLambda> = {flatMap},
-  Traversable: TA.Traversable<TreeFTypeLambda> = {traverse}
+/**
+ * Covariant instance for {@link TreeF}.
+ * @category instances
+ */
+export const Covariant: CO.Covariant<TreeFTypeLambda> = {map, imap}
 
+/**
+ * FlatMap instance for {@link TreeF}.
+ * @category instances
+ */
+export const FlatMap: FL.FlatMap<TreeFTypeLambda> = {flatMap}
+
+/**
+ * Traversable instance for {@link TreeF}.
+ * @category instances
+ */
+export const Traversable: TA.Traversable<TreeFTypeLambda> = {traverse}
+
+/**
+ * Build an equivalence for {@link TreeF} from an equivalence of the tree type
+ * and an equivalence of the carrier type.
+ *
+ * @category instances
+ */
 export const getEquivalence =
   <A>(equalsA: Equivalence.Equivalence<A>) =>
   <C>(

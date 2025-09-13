@@ -16,9 +16,9 @@ import {
   length,
   modBranchForest,
   modForest,
-  modNode,
+  modValue,
   setForest,
-  setNode,
+  setValue,
   tree,
   withForest,
   firstChild,
@@ -110,11 +110,11 @@ describe('tree api', () => {
 
   describe('setNode', () => {
     test('binary', () => {
-      expect(setNode(leaf42, 43)).toEqual(leaf43)
+      expect(setValue(leaf42, 43)).toEqual(leaf43)
     })
 
     test('curried', () => {
-      expect(setNode(44)(tree(42, [leaf43]))).toEqual(tree(44, [leaf43]))
+      expect(setValue(44)(tree(42, [leaf43]))).toEqual(tree(44, [leaf43]))
     })
   })
 
@@ -137,7 +137,7 @@ describe('tree api', () => {
   })
 
   test('modNode', () => {
-    expect(modNode((x: number) => x + 1)(tree(42, [leaf44]))).toEqual(
+    expect(modValue((x: number) => x + 1)(tree(42, [leaf44]))).toEqual(
       tree(43, [leaf44]),
     )
   })

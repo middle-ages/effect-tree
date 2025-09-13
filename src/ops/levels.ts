@@ -78,10 +78,10 @@ export const levelsFold = <A>(
   pipe(
     self,
     TreeF.match({
-      onLeaf: node => [[node]],
-      onBranch: (node, forest): NonEmptyArray2<A> => {
+      onLeaf: value => [[value]],
+      onBranch: (value, forest): NonEmptyArray2<A> => {
         return [
-          [node],
+          [value],
           ...(pipe(
             forest as NonEmptyArray<NonEmptyArray2<A>>,
             transpose,
@@ -122,8 +122,8 @@ export const annotateLevelLabelsUnfold: TreeUnfolder<
     self,
     match({
       onLeaf: prefixLeaf,
-      onBranch: (node, forest) =>
-        TreeF.branchF(prefixValue(node), Array.map(forest, prefixBranch)),
+      onBranch: (value, forest) =>
+        TreeF.branchF(prefixValue(value), Array.map(forest, prefixBranch)),
     }),
   )
 }
@@ -143,9 +143,9 @@ export const cropDepthUnfold = <A>([depth, self]: readonly [
         self,
         match<A, TreeF.TreeF<A, [number, Tree<A>]>>({
           onLeaf: TreeF.leafF,
-          onBranch: (node, forest) =>
+          onBranch: (value, forest) =>
             TreeF.branchF(
-              node,
+              value,
               pipe(forest, Array.map(pair.withFirst(depth - 1))),
             ),
         }),

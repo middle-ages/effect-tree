@@ -123,7 +123,7 @@ export const match =
 /**
  * Deconstruct a tree into its value and its possible empty forest.
  * @typeParam A - The underlying type of the tree. For example, in a numeric
- * tree it would be `number`.
+ * tree it would be `number`.w$lk
  * @typeParam C - The child node type, also called the _carrier type_.
  * @returns A pair of the tree root node value and a possibly empty list of
  * children of the type `C`.

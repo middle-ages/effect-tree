@@ -78,8 +78,8 @@ export const includesFold =
   ): ((needle: A) => TreeFolder<A, boolean>) =>
   a =>
     TreeF.match({
-      onLeaf: node => equals(a, node),
-      onBranch: (node, forest) => equals(a, node) || Boolean.some(forest),
+      onLeaf: value => equals(a, value),
+      onBranch: (value, forest) => equals(a, value) || Boolean.some(forest),
     })
 
 /**
@@ -91,8 +91,8 @@ export const filterNodesFold = <A>(
 ): TreeFolder<A, Tree<A>> =>
   TreeF.match({
     onLeaf: leaf,
-    onBranch: (node, forest) =>
-      tree(node, pipe(forest, Array.filter(predicate))),
+    onBranch: (value, forest) =>
+      tree(value, pipe(forest, Array.filter(predicate))),
   })
 
 /**

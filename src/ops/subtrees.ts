@@ -58,8 +58,8 @@ export const bottomSubtrees = <A>(self: Tree<A>): NonEmptyArray<Tree<A>> =>
 export const bottomSubtreesFold: TreeProductFolderK<ForestTypeLambda> =
   TreeF.match({
     onLeaf: flow(leaf, Array.of),
-    onBranch: (node, forest) => [
+    onBranch: (value, forest) => [
       ...pipe(forest, Array.map(Tuple.getSecond), Array.flatten),
-      tree(node, pipe(forest, Array.map(Tuple.getFirst))),
+      tree(value, pipe(forest, Array.map(Tuple.getFirst))),
     ],
   })

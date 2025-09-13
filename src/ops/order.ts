@@ -106,11 +106,11 @@ export const minimumLeafParentFold = <A>(
 ): TreeFolder<A, readonly [A, Option.Option<A>]> =>
   TreeF.match({
     onLeaf: pair.withSecond(Option.none<A>()),
-    onBranch: (node, forest) =>
+    onBranch: (value, forest) =>
       pipe(
         forest,
         Array.min(parentOrder(o)),
-        Tuple.mapSecond(Option.orElse<A>(() => Option.some(node))),
+        Tuple.mapSecond(Option.orElse<A>(() => Option.some(value))),
       ),
   })
 

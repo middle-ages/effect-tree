@@ -35,8 +35,8 @@ export const replaceEffectFolder =
     φ: TreeEffectFolder<A, B, E, R>,
   ): TreeEffectFolder<A, Tree<B>, E, R> =>
   self =>
-    pipe(self, replaceNode(φ), TreeF.destruct, ([node, forest]) =>
-      Effect.map(node, treeC(forest)),
+    pipe(self, replaceNode(φ), TreeF.destruct, ([value, forest]) =>
+      Effect.map(value, treeC(forest)),
     )
 
 const replaceNode =

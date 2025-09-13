@@ -38,20 +38,20 @@ export const zipTheseWithEffect = <A, B, C>(f: (these: These<A, B>) => C) => {
     mapEffect(succeedBy(flow(Left.from, f))),
   ]
 
-  const withNode: (
-    node: C,
+  const withValue: (
+    value: C,
   ) => <E, R>(
     self: Effect.Effect<Tree<C>[], E, R>,
-  ) => Effect.Effect<Tree<C>, E, R> = node => Effect.map(withForest(node))
+  ) => Effect.Effect<Tree<C>, E, R> = value => Effect.map(withForest(value))
 
   const buildTree =
-    (node: C) =>
+    (value: C) =>
     <T>(f: (tree: Tree<T>) => Effect.Effect<Tree<C>>) =>
     (forest: Array.NonEmptyReadonlyArray<Tree<T>>): Effect.Effect<Tree<C>> =>
-      pipe(forest, Effect.forEach(f), withNode(node))
+      pipe(forest, Effect.forEach(f), withValue(value))
 
   return (self: Tree<A>, that: Tree<B>): Effect.Effect<Tree<C>> => {
-    const node: C = f(Both.from(getValue(self), getValue(that)))
+    const value: C = f(Both.from(getValue(self), getValue(that)))
 
     return pipe(
       self,
@@ -60,16 +60,16 @@ export const zipTheseWithEffect = <A, B, C>(f: (these: These<A, B>) => C) => {
           pipe(
             that,
             match({
-              onLeaf: () => pipe(node, leaf, Effect.succeed),
+              onLeaf: () => pipe(value, leaf, Effect.succeed),
               onBranch: (_, thatForest) =>
-                buildTree(node)(fromRight)(thatForest),
+                buildTree(value)(fromRight)(thatForest),
             }),
           ),
         onBranch: (_, selfForest) =>
           pipe(
             that,
             match({
-              onLeaf: () => buildTree(node)(fromLeft)(selfForest),
+              onLeaf: () => buildTree(value)(fromLeft)(selfForest),
               onBranch: (_, thatForest) =>
                 pipe(
                   zipArraysWith(
@@ -83,7 +83,7 @@ export const zipTheseWithEffect = <A, B, C>(f: (these: These<A, B>) => C) => {
                     }),
                   ),
                   Effect.all,
-                  withNode(node),
+                  withValue(value),
                 ),
             }),
           ),
@@ -100,10 +100,10 @@ export const zipTheseWithEffect = <A, B, C>(f: (these: These<A, B>) => C) => {
 export const unzipTheseFold: <A, B>(
   self: TreeF.TreeF<These<A, B>, These<Tree<A>, Tree<B>>>,
 ) => These<Tree<A>, Tree<B>> = TreeF.match({
-  onLeaf: node => pipe(node, bimapThese(leaf, leaf)),
-  onBranch: (node, forest) => {
+  onLeaf: bimapThese(leaf, leaf),
+  onBranch: (value, forest) => {
     const [leftForest, rightForest] = unzipArray(forest)
-    return pipe(node, bimapThese(treeC(rightForest), treeC(leftForest)))
+    return pipe(value, bimapThese(treeC(rightForest), treeC(leftForest)))
   },
 })
 

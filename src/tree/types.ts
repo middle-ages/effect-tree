@@ -4,16 +4,30 @@
  */
 import type {BranchF, LeafF, TreeFTypeLambda} from '#treeF'
 import {HKT} from 'effect'
-import {type Fix, type Unfixed} from 'effect-ts-folds'
+import {type Fix} from 'effect-ts-folds'
 import {type NonEmptyReadonlyArray} from 'effect/Array'
 
-/** Astrict Rose tree with nodes carrying a value of type `A`. */
+/**
+ * A strict Rose tree with nodes carrying a value of type `A`.
+ * @typeParam A - the tree value type.
+ * @category basic
+ */
 export type Tree<A> = Fix<TreeFTypeLambda, A>
 
-/** The leaf type of {@link Tree}. */
+/**
+ * The leaf type of {@link Tree}. Leaves are simple wrappers over
+ * {@link LeafF} values.
+ * @typeParam A - the tree value type.
+ * @category basic
+ */
 export type Leaf<A> = Record<'unfixed', LeafF<A>>
 
-/** The branch type of {@link Tree}. */
+/**
+ * The branch type of {@link Tree}. Leaves are simple wrappers over
+ * {@link BranchF} values.
+ * @typeParam A - the tree value type.
+ * @category basic
+ */
 export type Branch<A> = Record<'unfixed', BranchF<A, Tree<A>>>
 
 export interface Matcher<A, R> {
@@ -21,13 +35,20 @@ export interface Matcher<A, R> {
   onBranch: (node: A, forest: ForestOf<A>) => R
 }
 
-/** The unfixed `TreeF<A, Tree<A>>` version of {@link Tree}. */
-export type UnfixedTree<A> = Unfixed<TreeFTypeLambda, A>
-
-/** Type lambda for the `Tree<A>` type. */
+/**
+ * Type lambda for the `Tree<A>` type.
+ *
+ * ```txt
+ * Kind<TreeTypeLambda, unknown, unknown, unknown, A> ≡ TreeF<A, Tree<A>>
+ * ```
+ * @category basic
+ */
 export interface TreeTypeLambda extends HKT.TypeLambda {
   readonly type: Tree<this['Target']>
 }
 
-/** A non-empty list of trees. */
+/**
+ * A non-empty list of trees.
+ * @category basic
+ */
 export type ForestOf<A> = NonEmptyReadonlyArray<Tree<A>>
