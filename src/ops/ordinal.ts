@@ -49,7 +49,7 @@ export const nodeOrdinalUnfold =
     pipe(
       counter,
       useCounter,
-      mapEffect(n => pipe(self, unfixTree, treeF.mapValue(constant(n)))),
+      mapEffect(n => pipe(self, unfixTree, treeF.mapNode(constant(n)))),
     )
 
 /**

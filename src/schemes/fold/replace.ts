@@ -44,5 +44,5 @@ const replaceNode =
   (self: TreeF.TreeF<A, Tree<B>>): TreeF.TreeF<C, Tree<B>> =>
     pipe(
       self,
-      TreeF.mapValue(() => pipe(self, TreeF.map(getValue), φ)),
+      TreeF.mapNode(() => pipe(self, TreeF.map(getValue), φ)),
     )

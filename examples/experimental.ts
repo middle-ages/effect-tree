@@ -1,0 +1,153 @@
+export const x = 1
+
+/*
+-const folded: Result = pipe(self, treeCata(structFold))
+-
+-console.table(folded)
+-
+-const cvFolded: <A>(
+-  fa: TreeF.TreeF<
+-    A,
+-    Cofree<TreeF.TreeFTypeLambda, Result, A, unknown, unknown>
+-  >,
+-) => Result = algebraToCVAlgebra(TreeF.Traversable)(structFold)
+-
+-const cv = pipe(self, histo(TreeF.Traversable)(cvFolded))
+-console.log(cv)
+-
+-// >
+-const rFolder: RAlgebra<TreeF.TreeFTypeLambda, Tree<string>, string> = (
+-  fa: TreeF.TreeF<string, [Tree<string>, Tree<string>]>,
+-): Tree<string> =>
+-  pipe(
+-    fa,
+-    TreeF.match({
+-      onLeaf: node => leaf(node),
+-      onBranch: (node, forest) => {
+-        return tree(
+-          node,
+-          pipe(
+-            forest,
+-            Array.map(([previous, current]) => {
+-              if (length(current) === 1) {
+-                const [head]: Tree<string>[] = getForest(current)
+-                if (head === undefined) throw new Error('no head')
+-                return head
+-              } else {
+-                return current
+-              }
+-            }),
+-          ),
+-        )
+-        //
+-      },
+-    }),
+-  )
+-
+-const x = pipe(self, map(number), treePara(rFolder))
+-
+-showN(self)
+-showS(x)
+-
+-/*
+-RAlgebra
+-(fa: TreeF<A, [Tree<A>, A]>)  => A
+-(fa: F<[Fix<F, E, R, I>, A], E, R, I>) ⇒ A
+-
+-(fa: F<Cofree<F, A, E, R, I>, E, R, I>) ⇒ A
+-
+-Cofree<F, A> ≡ [A, F<Cofree<F, A>>]
+-
+-
+-
+-      // (f: TreeEffectFold<number, Tree<number>>): Effect.Effect<Tree<number>> =>
+-      //  f(self),
+-      x  =>
+-
+-  //  Effect.flatMap(counter => pipe(self, treeCataE<number, Tree<number>>(indexEffectFold(counter)))),
+-const initCount = (initialize: number): Effect.Effect<Counter> =>
+-  pipe(initialize, Ref.make, Effect.andThen(buildCounter))
+-effect tree number
+-
+-        (self: UnfixedTree<number>): Effect.Effect<UnfixedTree<number>> =>(self)
+-console.log('done')
+-  const a = yield* counter.getNext
+-  const b = yield* counter.getNext
+-  const c = yield* counter.getNext
+-  console.log(
+-    `This counter has a value of ${a.toString()}, ${b.toString()}, ${c.toString()}.`,
+-  )
+
+-//const mapped = pipe(self, mapE(n  => ))
+-
+-export const incFold: TreeFolder<number, number> = (
+-  fa: TreeF<number, number>,
+-) => pipe(fa, getNodeF, increment)
+-
+-const ordinalFold: DistLeft<TreeFTypeLambda, number, number, number> = (
+-  self: TreeF<number, [number, number]>,
+-) => {
+-  return undefined as unknown as number
+-}
+-
+-const foo = zygo(Traversable)(ordinalFold, incFold)
+-
+-const self2 = foo(self)
+-
+-console.log(self2)
+-
+-//const scanFold = show(self)
+-
+-TreeFolder<A,B> = (self: TreeF<A, B>)  => B
+-
+-DistLeft<A,B,C> = (self: TreeF<C, [A, B]>)  => A
+-
+-
+-const aaa = (a: TreeFolder<number, boolean>) => {
+-  const xx = a(undefined as unknown as TreeF.TreeF<wbumber, boolean>)
+-}
+-
+-dist left
+- * `(fa: F<[A, B], E, R, I>) ⇒ A`.
+- * `(fa: F<Cofree<F, A, E, R, I>, E, R, I>) ⇒ A`.
+-const foldId: TreeFolder<string, Tree<number>> = (
+-  self: TreeF<string, number>,
+-): Tree<number> => {
+-  const res = pipe(
+-    self,
+-    matchF({
+-      onLeaf: (node: number): Tree<number> => leaf(node),
+-      onBranch: (
+-        node: number,
+-        forest: NonEmptyArray<Tree<number>>,
+-      ): Tree<number> =>
+-        tree(
+-          node,
+:-            forest,
+-            Array.map((child: Tree<number>, index: number) =>
+-              pipe(
+-                child,
+-                modNode(n => n + index),
+-              ),
+-            ),
+-          ),
+-        ),
+-    }),
+-  )
+-  return res
+-  //  return undefined as unknown as Tree<number>
+-}
+-
+-const foldedId = pipe(self, treeCata(foldId))
+-
+-show(foldedId)
+-
+-
+-TreeFolder<A, B> ≡ TreeF.TreeF<A, B> => B
+-
+-
+-
+-const unfolder: TreeProductFolder<string, number> = (
+
+
+*/

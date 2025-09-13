@@ -29,22 +29,22 @@ export const fixBranch = fix<TreeFTypeLambda> as <A>(
 ) => Branch<A>
 
 /** Create a new leaf from a node value. */
-export const leaf = flow(leafF, fixTree) as <A>(value: A) => Leaf<A>
+export const leaf = flow(leafF, fixTree) as <A>(node: A) => Leaf<A>
 
 /** Create a new branch from its value and a non-empty list of child nodes. */
 export const branch: {
-  <A>(value: A, forest: ForestOf<A>): Branch<A>
-  <A>(forest: ForestOf<A>): (value: A) => Branch<A>
-  flip: <A>(value: A) => (forest: ForestOf<A>) => Branch<A>
+  <A>(node: A, forest: ForestOf<A>): Branch<A>
+  <A>(forest: ForestOf<A>): (node: A) => Branch<A>
+  flip: <A>(node: A) => (forest: ForestOf<A>) => Branch<A>
 } = Object.assign(
-  Function.dual(2, <A>(value: A, forest: ForestOf<A>) =>
-    fixBranch(branchF<A, Tree<A>>(value, forest)),
+  Function.dual(2, <A>(node: A, forest: ForestOf<A>) =>
+    fixBranch(branchF<A, Tree<A>>(node, forest)),
   ),
   {
     flip:
-      <A>(value: A) =>
+      <A>(node: A) =>
       (forest: ForestOf<A>) =>
-        fixBranch(branchF<A, Tree<A>>(value, forest)),
+        fixBranch(branchF<A, Tree<A>>(node, forest)),
   },
 )
 
@@ -52,28 +52,28 @@ export const branch: {
  * Create a new `Tree` from a node value and a possibly empty list of
  * child nodes.
  */
-export const tree = <A>(value: A, forest: readonly Tree<A>[] = []): Tree<A> =>
+export const tree = <A>(node: A, forest: readonly Tree<A>[] = []): Tree<A> =>
   Array.isNonEmptyReadonlyArray(forest)
-    ? {unfixed: {value, forest}}
-    : {unfixed: {value}}
+    ? {unfixed: {node, forest}}
+    : {unfixed: {node}}
 
 /** A curried version of {@link tree}. */
 export const treeC =
-  <A>(forest: Tree<A>[]): ((value: A) => Tree<A>) =>
-  value =>
-    tree(value, forest)
+  <A>(forest: Tree<A>[]): ((node: A) => Tree<A>) =>
+  node =>
+    tree(node, forest)
 
 /** A flipped version of {@link tree} */
 export const withForest: {
-  <A>(forest: Tree<A>[], value: A): Tree<A>
-  <A>(value: A): (forest: Tree<A>[]) => Tree<A>
+  <A>(forest: Tree<A>[], node: A): Tree<A>
+  <A>(node: A): (forest: Tree<A>[]) => Tree<A>
 } = Function.dual(
   2,
-  <A>(forest: ForestOf<A>, value: A): Tree<A> => tree(value, forest),
+  <A>(forest: ForestOf<A>, node: A): Tree<A> => tree(node, forest),
 )
 
 /** A version of {@link tree} where the forest is a rest argument. */
-export const from = <A>(value: A, ...forest: Tree<A>[]) => tree(value, forest)
+export const from = <A>(node: A, ...forest: Tree<A>[]) => tree(node, forest)
 
 /** Type guard for the tree {@link Leaf} type. */
 export const isLeaf = <A>(tree: Tree<A>): tree is Leaf<A> =>
@@ -97,7 +97,7 @@ export const length: <A>(tree: Tree<A>) => number = match({
 })
 
 /** Get the value of a node. */
-export const getValue = <A>({unfixed: {value}}: Tree<A>): A => value
+export const getValue = <A>({unfixed: {node}}: Tree<A>): A => node
 
 /** Get the forest of a branch node. */
 export const getBranchForest = <A>({
@@ -127,18 +127,18 @@ export const destruct = <A>(self: Tree<A>): readonly [A, readonly Tree<A>[]] =>
     }),
   )
 
-/** Set the value of a tree root to the a value of the same type. */
+/** Set the node of a tree root to the a node of the same type. */
 export const setNode: {
-  <A>(tree: Tree<A>, value: A): Tree<A>
-  <A>(value: A): (tree: Tree<A>) => Tree<A>
+  <A>(tree: Tree<A>, node: A): Tree<A>
+  <A>(node: A): (tree: Tree<A>) => Tree<A>
 } = Function.dual(
   2,
-  <A>(tree: Tree<A>, value: A): Tree<A> => ({
+  <A>(tree: Tree<A>, node: A): Tree<A> => ({
     unfixed: pipe(
       tree,
       match({
-        onLeaf: () => ({value}),
-        onBranch: (_, forest) => ({value, forest}),
+        onLeaf: () => ({node}),
+        onBranch: (_, forest) => ({node, forest}),
       }),
     ),
   }),
@@ -156,15 +156,15 @@ export const setForest: {
 } = Object.assign(
   Function.dual(
     2,
-    <A>({unfixed: {value}}: Tree<A>, forest: ForestOf<A>): Tree<A> => ({
-      unfixed: {value, forest},
+    <A>({unfixed: {node}}: Tree<A>, forest: ForestOf<A>): Tree<A> => ({
+      unfixed: {node, forest},
     }),
   ),
   {
     flip:
-      <A>({unfixed: {value}}: Tree<A>) =>
+      <A>({unfixed: {node}}: Tree<A>) =>
       (forest: ForestOf<A>) => ({
-        unfixed: {value, forest},
+        unfixed: {node, forest},
       }),
   },
 )

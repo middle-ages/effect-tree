@@ -41,7 +41,7 @@ const annotateNode =
   (self: TreeF.TreeF<A, Tree<[A, B]>>): TreeF.TreeF<[A, C], Tree<[A, B]>> =>
     pipe(
       self,
-      TreeF.mapValue(
+      TreeF.mapNode(
         a =>
           [
             a,

@@ -70,8 +70,8 @@ export const prependAll: {
 )
 
 /** Strip a branch from its children and return the new leaf. */
-export const removeForest = <A>({unfixed: {value}}: Branch<A>): Leaf<A> =>
-  leaf(value)
+export const removeForest = <A>({unfixed: {node}}: Branch<A>): Leaf<A> =>
+  leaf(node)
 
 const _removeNthChild = <A>(rawN: number, self: Tree<A>): Tree<A> =>
   pipe(

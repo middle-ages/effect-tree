@@ -12,6 +12,6 @@ export const show: (self: Tree<string>) => string = self =>
 
 /** Format a single level of a string tree for debug output. */
 export const showFold: TreeFolder<string, string> = TreeF.match({
-  onLeaf: node => `“${node}”`,
-  onBranch: (node, forest) => `“${node}”:(${forest.join(', ')})`,
+  onLeaf: value => `“${value}”`,
+  onBranch: (value, forest) => `“${value}”:(${forest.join(', ')})`,
 })

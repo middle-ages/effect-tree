@@ -11,7 +11,7 @@ import * as TreeF from '#treeF'
 //
 export const bracketFold: TreeFolder<string, string> = TreeF.match({
   onLeaf: identity,
-  onBranch: (node, forest) => `${node}(${forest.join(', ')})`,
+  onBranch: (value, forest) => `${value}(${forest.join(', ')})`,
 })
 
 //
