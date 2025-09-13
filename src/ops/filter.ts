@@ -104,5 +104,5 @@ export const filterLeavesFold = <A>(
 ): TreeFolder<A, Tree<A>> =>
   filterNodesFold(
     ({unfixed}) =>
-      TreeF.length(unfixed) !== 0 || pipe(unfixed, TreeF.getNode, predicate),
+      TreeF.length(unfixed) !== 0 || pipe(unfixed, TreeF.getValue, predicate),
   )

@@ -10,7 +10,7 @@ import type {BranchF, LeafF, MatcherF, TreeF} from './types.js'
  * @typeParam C - The child node type, also called the _carrier type_.
  * @category folds
  */
-export const leafF = <A>(node: A): TreeF<A> => ({node})
+export const leafF = <A>(value: A): TreeF<A> => ({node: value})
 
 /**
  * Create a branch from its value and a non-empty list of children.
@@ -20,23 +20,23 @@ export const leafF = <A>(node: A): TreeF<A> => ({node})
  * @category folds
  */
 export const branchF: {
-  <A, C>(node: A, forest: NonEmptyReadonlyArray<C>): BranchF<A, C>
-  <C>(forest: NonEmptyReadonlyArray<C>): <A>(node: A) => BranchF<A, C>
+  <A, C>(value: A, forest: NonEmptyReadonlyArray<C>): BranchF<A, C>
+  <C>(forest: NonEmptyReadonlyArray<C>): <A>(value: A) => BranchF<A, C>
   tupled: <A, C>([node, forest]: [A, Array.NonEmptyArray<C>]) => BranchF<A, C>
 } = Object.assign(
   Function.dual(
     2,
-    <A, C>(node: A, forest: NonEmptyReadonlyArray<C>): TreeF<A, C> => ({
-      node,
+    <A, C>(value: A, forest: NonEmptyReadonlyArray<C>): TreeF<A, C> => ({
+      node: value,
       forest,
     }),
   ),
   {
     /** A tupled version of {@link branchF}. */
-    tupled: <A, C>([node, forest]: [A, Array.NonEmptyArray<C>]): BranchF<
+    tupled: <A, C>([value, forest]: [A, Array.NonEmptyArray<C>]): BranchF<
       A,
       C
-    > => ({node, forest}),
+    > => ({node: value, forest}),
   },
 )
 
@@ -49,12 +49,27 @@ export const branchF: {
  * @category folds
  */
 export const treeF: {
-  <A, C>(node: A, forest: readonly C[]): TreeF<A, C>
-  <C>(forest: readonly C[]): <A>(node: A) => TreeF<A, C>
-} = Function.dual(
-  2,
-  <A, C>(node: A, forest: readonly C[]): TreeF<A, C> =>
-    Array.isNonEmptyReadonlyArray(forest) ? {node, forest} : {node},
+  <A, C>(value: A, forest: readonly C[]): TreeF<A, C>
+  <C>(forest: readonly C[]): <A>(value: A) => TreeF<A, C>
+  flip: {
+    <A, C>(forest: readonly C[], value: A): TreeF<A, C>
+    <A>(value: A): <C>(forest: readonly C[]) => TreeF<A, C>
+  }
+} = Object.assign(
+  Function.dual(
+    2,
+    <A, C>(value: A, forest: readonly C[]): TreeF<A, C> =>
+      Array.isNonEmptyReadonlyArray(forest)
+        ? branchF(value, forest)
+        : leafF(value),
+  ),
+  {
+    flip: Function.dual(
+      2,
+      <A, C>(forest: readonly TreeF<A, C>[], value: A): TreeF<A, C> =>
+        treeF(value, forest),
+    ),
+  },
 )
 
 /**
@@ -65,11 +80,11 @@ export const treeF: {
  * @category folds
  */
 export const withForest: {
-  <A, C>(forest: C[], node: A): TreeF<A, C>
-  <A>(node: A): <C>(forest: C[]) => TreeF<A, C>
+  <A, C>(forest: C[], value: A): TreeF<A, C>
+  <A>(value: A): <C>(forest: C[]) => TreeF<A, C>
 } = Function.dual(
   2,
-  <A, C>(forest: TreeF<A, C>[], node: A): TreeF<A, C> => treeF(node, forest),
+  <A, C>(forest: TreeF<A, C>[], value: A): TreeF<A, C> => treeF(value, forest),
 )
 
 /**
@@ -119,7 +134,7 @@ export const destruct = <A, B>(self: TreeF<A, B>): readonly [A, B[]] =>
     self,
     match({
       onLeaf: Pair.pair.withSecond([] as B[]),
-      onBranch: (node, forest) => [node, [...forest]] as const,
+      onBranch: (value, forest) => [value, [...forest]] as const,
     }),
   )
 
@@ -144,7 +159,7 @@ export const length: <A, C>(self: TreeF<A, C>) => number = match({
  * @returns Root node value.
  * @category folds
  */
-export const getNode = <A, C>({node}: TreeF<A, C>): A => node
+export const getValue = <A, C>({node}: TreeF<A, C>): A => node
 
 /**
  * Get the value of the root tree forest.
@@ -178,18 +193,18 @@ export const getBranchForest = <A, C>({
  * @returns A tree with the new value.
  * @category folds
  */
-export const setNode: {
-  <A, B, C>(node: B, self: TreeF<A, C>): TreeF<B, C>
-  <A, C>(self: TreeF<A, C>): <B>(node: B) => TreeF<B, C>
+export const setValue: {
+  <A, B, C>(value: B, self: TreeF<A, C>): TreeF<B, C>
+  <A, C>(self: TreeF<A, C>): <B>(value: B) => TreeF<B, C>
 } = Function.dual(
   2,
-  <A, B, C>(node: B, self: TreeF<A, C>): TreeF<B, C> =>
+  <A, B, C>(value: B, self: TreeF<A, C>): TreeF<B, C> =>
     pipe(
       self,
 
       match({
-        onLeaf: () => ({node}),
-        onBranch: (_, forest) => ({node, forest}),
+        onLeaf: () => leafF(value),
+        onBranch: (_, forest) => branchF(value, forest),
       }),
     ),
 )
@@ -212,8 +227,8 @@ export const setForest: {
     pipe(
       self,
       match({
-        onLeaf: node => ({node, forest}),
-        onBranch: node => ({node, forest}),
+        onLeaf: value => treeF(value, forest),
+        onBranch: value => treeF(value, forest),
       }),
     ),
 )
@@ -229,11 +244,11 @@ export const setForest: {
  * @returns A tree with the mapped value.
  * @category folds
  */
-export const mapNode: {
+export const mapValue: {
   <A, B, C>(self: TreeF<A, C>, f: (a: A) => B): TreeF<B, C>
   <A, B>(f: (a: A) => B): <C>(self: TreeF<A, C>) => TreeF<B, C>
 } = Function.dual(
   2,
   <A, B, C>(self: TreeF<A, C>, f: (a: A) => B): TreeF<B, C> =>
-    pipe(self, getNode, f, setNode(self)),
+    pipe(self, getValue, f, setValue(self)),
 )

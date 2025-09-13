@@ -9,7 +9,7 @@ export const annotateEffectUnfolder =
   <A, B, E = never, R = never>(
     ψ: TreeEffectUnfolder<A, Tree<B>, E, R>,
   ): TreeEffectUnfolder<[B, A], [Tree<B>, A], E, R> =>
-  ([self, a0]) =>
+  ([self, value]) =>
     pipe(
       self,
       ψ,
@@ -17,7 +17,7 @@ export const annotateEffectUnfolder =
         const [b, a] = pipe(
           self,
           getValue,
-          pipe(unfolded, TreeF.getNode, pair.withSecond),
+          pipe(unfolded, TreeF.getValue, pair.withSecond),
         )
 
         return pipe(
@@ -29,9 +29,7 @@ export const annotateEffectUnfolder =
                 [b, a],
                 Array.map(
                   forest,
-                  square.mapSecond(
-                    flow(getForest, forest => TreeF.treeF(a0, forest)),
-                  ),
+                  square.mapSecond(flow(getForest, TreeF.treeF.flip(value))),
                 ),
               ),
           }),

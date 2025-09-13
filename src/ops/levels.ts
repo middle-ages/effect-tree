@@ -219,7 +219,7 @@ export const cropDepth =
 export const growLeavesFold =
   <A>(grow: TreeUnfold<A, A>): TreeFolder<A, Tree<A>> =>
   self =>
-    TreeF.isBranch(self) ? fixTree(self) : grow(TreeF.getNode(self))
+    TreeF.isBranch(self) ? fixTree(self) : grow(TreeF.getValue(self))
 
 /**
  * Grows the tree at its leaves.

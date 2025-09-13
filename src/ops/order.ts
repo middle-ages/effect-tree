@@ -56,7 +56,7 @@ export const maximumLeafAndParent = <A>(
 export const minimumNodeFold: <A>(Order: Order.Order<A>) => TreeFolder<A, A> =
   Order => self =>
     Array.min(Order)([
-      TreeF.getNode(self),
+      TreeF.getValue(self),
       ...(TreeF.isBranch(self) ? TreeF.getForest(self) : []),
     ])
 
@@ -66,7 +66,7 @@ export const minimumNodeFold: <A>(Order: Order.Order<A>) => TreeFolder<A, A> =
  */
 export const maximumNodeFold: <A>(Order: Order.Order<A>) => TreeFolder<A, A> =
   Order => self =>
-    Array.max(Order)([TreeF.getNode(self), ...TreeF.getForest(self)])
+    Array.max(Order)([TreeF.getValue(self), ...TreeF.getForest(self)])
 
 /**
  * Find minimum leaf at tree level.

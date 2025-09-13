@@ -18,7 +18,7 @@ import type {TreeArray, TreeArrayLambda, ValidArrayTree} from './types.js'
 export const unsafeEncodeFold: TreeFolderK<TreeArrayLambda> = <A>(
   treeF: TreeF.TreeF<A, TreeArray<A>>,
 ): TreeArray<A> => {
-  if (Array.isArray(TreeF.getNode(treeF)))
+  if (Array.isArray(TreeF.getValue(treeF)))
     throw new Error('Cannot encode a tree of arrays as an array tree.')
 
   // To convert to nested arrays, at each node:

@@ -70,7 +70,7 @@ export const predicateFold =
       ...pipe(
         self,
         fanout(
-          flow(TreeF.getNode, predicate),
+          flow(TreeF.getValue, predicate),
           flow(TreeF.getForest, Array.reduce(M.empty, M.combine)),
         ),
       ),

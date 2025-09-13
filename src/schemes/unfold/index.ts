@@ -34,4 +34,4 @@ export const unfold: <A>(
 export const byParentUnfold = <A>(
   unfolder: (parent: A) => A[],
 ): TreeUnfolder<A, A> =>
-  flow(fanout(unfolder, TreeF.withForest<A>), applyPair<A[], TreeF.TreeF<A, A>>)
+  flow(fanout(unfolder, TreeF.treeF.flip<A>), applyPair<A[], TreeF.TreeF<A, A>>)
