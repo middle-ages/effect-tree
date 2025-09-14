@@ -5,6 +5,9 @@ import {getForest, getValue, match} from '../../tree/index.js'
 import type {Tree} from '../../tree/types.js'
 import type {TreeEffectUnfolder} from './types.js'
 
+/**
+ * @category unfold
+ */
 export const annotateEffectUnfolder =
   <A, B, E = never, R = never>(
     ψ: TreeEffectUnfolder<A, Tree<B>, E, R>,

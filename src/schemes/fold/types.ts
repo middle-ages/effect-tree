@@ -6,12 +6,14 @@ import {type Tree} from '../../tree/types.js'
 /**
  * Type of a function that folds a single level of the tree.
  * Same type as: `(self: TreeF.TreeF<A, B>) => B`.
+ * @category fold
  */
 export type TreeFolder<A, B> = Algebra<TreeF.TreeFTypeLambda, B, A>
 
 /**
  * Also: `Folder<TreeF.TreeFTypeLambda, IdentityTypeLambda, B>`.
  * Same as {@link TreeFolder} except the type parameter `B` is given.
+ * @category fold
  */
 export interface TreeFolderOf<B> {
   <A>(self: TreeF.TreeF<A, B>): B
@@ -20,23 +22,36 @@ export interface TreeFolderOf<B> {
 /**
  * Just like {@link TreeFolder} except it folds into an effect.
  * Same type as `EffectAlgebra<TreeFTypeLambda, B, E, R, A>.
+ * @category fold
  */
 export type TreeEffectFolder<A, B, E = never, R = never> = (
   self: TreeF.TreeF<A, B>,
 ) => Effect.Effect<B, E, R>
 
-/** A version of {@link TreeEffectFolder} where the node type is open. */
+/**
+ * A version of {@link TreeEffectFolder} where the node type is open.
+ * @category fold
+ */
 export interface TreeEffectFolderOf<B, E = never, R = never> {
   <A>(self: TreeF.TreeF<A, B>): Effect.Effect<B, E, R>
 }
 
-/** The result type of all folds. */
+/**
+ * The result type of all folds.
+ * @category fold
+ */
 export type TreeFold<A, B> = (self: Tree<A>) => B
 
-/** Same as {@link TreeFold} except the `A` type parameter is open. */
+/**
+ * Same as {@link TreeFold} except the `A` type parameter is open.
+ * @category fold
+ */
 export type TreeFoldOf<B> = <A>(self: Tree<A>) => B
 
-/** The result type of all effectful folds. */
+/**
+ * The result type of all effectful folds.
+ * @category fold
+ */
 export type TreeEffectFold<A, B, E = never, R = never> = (
   self: Tree<A>,
 ) => Effect.Effect<B, E, R>
@@ -61,6 +76,7 @@ export type TreeEffectFold<A, B, E = never, R = never> = (
  * ```ts
  * type MyFolder = TreeFolderK<OptionTypeLambda>
  * ```
+ * @category fold
  */
 export interface TreeFolderK<F extends HKT.TypeLambda> {
   <A, E = undefined, R = undefined, I = never>(
@@ -68,10 +84,16 @@ export interface TreeFolderK<F extends HKT.TypeLambda> {
   ): HKT.Kind<F, E, R, I, A>
 }
 
-/** The type of the function `(self: TreeF.TreeF<B, [Tree<T>, A]>) => A`. */
+/**
+ * The type of the function `(self: TreeF.TreeF<B, [Tree<T>, A]>) => A`.
+ * @category fold
+ */
 export type TreeProductFolder<A, B> = RAlgebra<TreeF.TreeFTypeLambda, B, A>
 
-/** Same `TreeFolderK` but for `RAlgebra`s. */
+/**
+ * Same {@link TreeFolderK} but for `RAlgebra`s.
+ * @category fold
+ */
 export interface TreeProductFolderK<F extends HKT.TypeLambda> {
   <A, E = unknown, R = unknown, I = never>(
     t: TreeF.TreeF<A, [Tree<A>, HKT.Kind<F, I, R, E, A>]>,

@@ -89,6 +89,7 @@ export const annotateOrdinalUnfold =
  *   ├─2
  *   └─3
  * ```
+ * @category ops
  */
 export const asOrdinal =
   (initialize: number) =>
@@ -108,8 +109,10 @@ export const asOrdinal =
     )
   }
 
-/** Annotate tree nodes with their post-order depth-first ordinal. */
-//: Tree<[A, number]>
+/**
+ * Annotate tree nodes with their post-order depth-first ordinal.
+ * @category ops
+ */
 export const withOrdinal =
   (initialize: number) =>
   <A>(self: Tree<A>) => {

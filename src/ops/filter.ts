@@ -18,7 +18,10 @@ import {
 } from 'effect'
 import {minimumLeafParentFold} from './order.js'
 
-/** True if `needle` is found in the tree. */
+/**
+ * True if `needle` is found in the tree.
+ * @category ops
+ */
 export const includes = <A>(
   equals: Equivalence.Equivalence<A>,
 ): ((a: A) => Predicate.Predicate<Tree<A>>) =>
@@ -30,6 +33,7 @@ export const includes = <A>(
  * 1. The given tree with its minimal leaf removed.
  * 2. The minimal leaf that was removed.
  * 3. The minimal leaf parent, or `None` if the tree is a leaf.
+ * @category ops
  */
 export const filterMinimumLeaf =
   <A>(order: Order.Order<A>) =>
@@ -56,13 +60,19 @@ export const filterMinimumLeaf =
     ]
   }
 
-/** Filter nodes so that only those satisfying the given predicate remain. */
+/**
+ * Filter nodes so that only those satisfying the given predicate remain.
+ * @category ops
+ */
 export const filterNodes: <A>(
   predicate: Predicate.Predicate<Tree<A>>,
 ) => (self: Tree<A>) => Tree<A> = predicate =>
   pipe(predicate, filterNodesFold, treeCata)
 
-/** Filter leaves so that only those satisfying the given predicate remain. */
+/**
+ * Filter leaves so that only those satisfying the given predicate remain.
+ * @category ops
+ */
 export const filterLeaves: <A>(
   predicate: Predicate.Predicate<A>,
 ) => (self: Tree<A>) => Tree<A> = predicate =>

@@ -4,21 +4,39 @@ import {type Part} from '../part/types.js'
 import {glyphMap} from './glyph.js'
 import {type GlyphRoleMap, type Theme} from './themes.js'
 
+/**
+ * @category drawing
+ */
 export interface ThemedTypeLambda extends HKT.TypeLambda {
   readonly type: Themed<this['Target']>
 }
 
-/** Names of available glyph sets mapping roles to glyphs. */
+/**
+ * Names of available glyph sets mapping roles to glyphs.
+ * @category drawing
+ */
 export type GlyphSetName = keyof typeof glyphMap
 
-/** Dictionary of glyph role sets by name. */
+/**
+ * Dictionary of glyph role sets by name.
+ * @category drawing
+ */
 export type GlyphMap = Record<GlyphSetName, GlyphRoleMap>
 
-/** A function that requires a theme. */
+/**
+ * A function that requires a theme.
+ * @category drawing
+ */
 export type Themed<A> = (theme: Theme) => A
 
-/** A part that requires a theme. */
+/**
+ * A part that requires a theme.
+ * @category drawing
+ */
 export type ThemedPart<A> = (theme: Theme, a: A) => Part
 
-/** A string tree that requires a theme. */
+/**
+ * A string tree that requires a theme.
+ * @category drawing
+ */
 export type TreeLayout = ThemedPart<Tree<string>>

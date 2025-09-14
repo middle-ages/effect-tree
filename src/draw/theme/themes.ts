@@ -13,19 +13,34 @@ export const themeNames = [
   'unixRounded',
 ] as const
 
-/** A builtin theme name. */
+/**
+ * A builtin theme name.
+ * @category drawing
+ */
 export type ThemeName = (typeof themeNames)[number]
 
-/** A role for a glyph in a glyph role map. */
+/**
+ * A role for a glyph in a glyph role map.
+ * @category drawing
+ */
 export type GlyphRole = (typeof glyphRoles)[number]
 
-/** A glyph role mapping roles to glyphs. */
+/**
+ * A glyph role mapping roles to glyphs.
+ * @category drawing
+ */
 export type GlyphRoleMap = Record<GlyphRole, string>
 
-/** Type of the theme map. Maps theme name to theme. */
+/**
+ * Type of the theme map. Maps theme name to theme.
+ * @category drawing
+ */
 export type ThemeMap = Record<ThemeName, Theme>
 
-/** Everything required to theme a part */
+/**
+ * Everything required to theme a part.
+ * @category drawing
+ */
 export interface Theme {
   /**
    * The number of empty lines added between vertical nodes. A higher
@@ -47,7 +62,10 @@ export interface Theme {
   glyphs: GlyphRoleMap
 }
 
-/** Theme constructor. */
+/**
+ * Theme constructor.
+ * @category drawing
+ */
 const theme = ({
   spacing = 0,
   indents = 0,
@@ -56,7 +74,10 @@ const theme = ({
 
 const thin = theme({glyphs: glyphMap['thin']})
 
-/** Maps of theme name to theme. */
+/**
+ * Maps of theme name to theme.
+ * @category drawing
+ */
 export const themes = {
   space: theme({indents: 1, glyphs: glyphMap['space']}),
   bullets: theme({indents: 1, glyphs: glyphMap['bullets']}),
@@ -69,10 +90,16 @@ export const themes = {
   unixRounded: theme({glyphs: glyphMap['unixRounded']}),
 } satisfies ThemeMap
 
-/** Run a function that requires a theme. */
+/**
+ * Run a function that requires a theme.
+ * @category drawing
+ */
 export const themed = <A>(f: (theme: Theme) => A): typeof f => f
 
-/** Map over all themes to build a record theme `name` ⇒ `f(theme)`. */
+/**
+ * Map over all themes to build a record theme `name` ⇒ `f(theme)`.
+ * @category drawing
+ */
 export const mapThemes = <A>(
   f: (theme: Theme, name: ThemeName) => A,
 ): Record<ThemeName, A> =>

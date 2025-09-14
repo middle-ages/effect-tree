@@ -28,7 +28,10 @@ import {
 import {Effect, identity, type Option} from 'effect'
 import {succeedBy} from 'effect-ts-folds'
 
-/** Just like {@link zipThese} except the result is in an effect. */
+/**
+ * Just like {@link zipThese} except the result is in an effect.
+ * @category ops
+ */
 export const zipTheseWithEffect = <A, B, C>(f: (these: These<A, B>) => C) => {
   const [fromLeft, fromRight]: [
     (tree: Tree<A>) => Effect.Effect<Tree<C>>,
@@ -111,6 +114,7 @@ export const unzipTheseFold: <A, B>(
  * Unzip a tree of {@link These} into a pair of optional trees.
  *
  * See also {@link zipThese} for the opposite operation.
+ * @category ops
  */
 export const unzipThese = <A, B>(
   self: Tree<These<A, B>>,
@@ -122,6 +126,7 @@ export const unzipThese = <A, B>(
  * {@link These} value for the pair. If both are present, the function will
  * receive a {@link Both}. Otherwise it will receive either a
  * {@link Left} or a {@link Right}.
+ * @category ops
  */
 export const zipTheseWith = <A, B, C>(
   f: (these: These<A, B>) => C,
@@ -141,6 +146,7 @@ export const zipTheseWith = <A, B, C>(
  *
  * 1. {@link unzipThese} for the opposite operation.
  * 2. {@link zipTheseWith} to run a function on the partial pair.
+ * @category ops
  */
 export const zipThese: {
   <A, B>(self: Tree<A>, that: Tree<B>): Tree<These<A, B>>

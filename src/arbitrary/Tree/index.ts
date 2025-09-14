@@ -12,10 +12,19 @@ import {
 } from './options.js'
 import {pipe} from 'effect'
 
+/**
+ * Get an arbitrary for a tree from an arbitrary of its underlying type and
+ * partial {@link ArbitraryOptions}.
+ *
+ * @param a - Arbitrary for the underlying type.
+ * @param rawOptions - partial arbitrary options.
+ * @returns A tree arbitrary.
+ * @category arbitrary
+ */
 export const getArbitrary = <A>(
   a: fc.Arbitrary<A>,
   rawOptions?: Partial<ArbitraryOptions>,
-) => {
+): fc.Arbitrary<Tree.Tree<A>> => {
   const options = {...normalizeOptions(rawOptions), currentDepth: 1}
   const tree = arbitrary(a)
   return options.onlyBranches

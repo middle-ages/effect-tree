@@ -7,25 +7,37 @@ import * as TreeF from '#treeF'
 import {Array, flow, identity, Option, Order, pipe, Tuple} from 'effect'
 import {pair} from '#util/Pair'
 
-/** Return the smallest value in the tree according to the given order. */
+/**
+ * Return the smallest value in the tree according to the given order.
+ * @category ops
+ */
 export const minimumNode =
   <A>(Order: Order.Order<A>) =>
   (tree: Tree<A>): A =>
     pipe(tree, treeCata(minimumNodeFold(Order)))
 
-/** Return the largest value in the tree according to the given order. */
+/**
+ * Return the largest value in the tree according to the given order.
+ * @category ops
+ */
 export const maximumNode =
   <A>(Order: Order.Order<A>) =>
   (tree: Tree<A>): A =>
     pipe(tree, treeCata(maximumNodeFold(Order)))
 
-/** Return the smallest leaf in the tree according to the given order. */
+/**
+ * Return the smallest leaf in the tree according to the given order.
+ * @category ops
+ */
 export const minimumLeaf =
   <A>(Order: Order.Order<A>) =>
   (tree: Tree<A>): A =>
     pipe(tree, treeCata(minimumLeafFold(Order)))
 
-/** Return the largest leaf in the tree according to the given order. */
+/**
+ * Return the largest leaf in the tree according to the given order.
+ * @category ops
+ */
 export const maximumLeaf =
   <A>(Order: Order.Order<A>) =>
   (tree: Tree<A>): A =>
@@ -34,6 +46,7 @@ export const maximumLeaf =
 /**
  * Just like `minimumLeaf` but returns the leaf tupled with its parent or `None`
  * if the tree if a leaf.
+ * @category ops
  */
 export const minimumLeafAndParent = <A>(
   Order: Order.Order<A>,
@@ -43,6 +56,7 @@ export const minimumLeafAndParent = <A>(
 /**
  * Just like `maximumLeaf` but returns the leaf tupled with its parent or `None`
  * if the tree if a leaf.
+ * @category ops
  */
 export const maximumLeafAndParent = <A>(
   Order: Order.Order<A>,

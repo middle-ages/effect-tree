@@ -16,7 +16,10 @@ import type {
   TreeEdge,
 } from './types.js'
 
-/** Build a `EdgeMap` index from a non-empty list of tree edges. */
+/**
+ * Build a `EdgeMap` index from a non-empty list of tree edges.
+ * @category internal
+ */
 export const indexParents = <A>(edges: EdgeList<A>): EdgeMap<A> =>
   pipe(edges, Array.reduce(emptyEdgeMap(), addEdgeMap<A>))
 

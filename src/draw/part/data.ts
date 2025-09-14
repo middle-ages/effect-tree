@@ -28,14 +28,20 @@ export const fixPart = <Type extends Part>(unfixed: PartF<Part>): Type =>
   unfixRow = (fixed: Row): RowF<Part> => unfixPart(fixed),
   unfixColumn = (fixed: Column): ColumnF<Part> => unfixPart(fixed)
 
-/** The empty part constant. */
+/**
+ * The empty part constant.
+ * @category drawing
+ */
 export const empty: Empty = fixPart<Empty>(emptyF)
 
 const defaultHStrut = text(' '),
   defaultVStrut: NonEmptyArray<Text> = [defaultHStrut],
   defaultStruts: [Text, NonEmptyArray<Text>] = [defaultHStrut, defaultVStrut]
 
-/** Combine parts horizontally. */
+/**
+ * Combine parts horizontally.
+ * @category drawing
+ */
 export const row =
   (vAlign: VerticalAlignment) =>
   (hAlign: HorizontalAlignment) =>
@@ -50,7 +56,10 @@ export const row =
       rowF([hAlign, vAlign])([hStrut, vStrut ?? defaultVStrut])(cells),
     )
 
-/** Combine parts vertically. */
+/**
+ * Combine parts vertically.
+ * @category drawing
+ */
 export const column =
   (align: HorizontalAlignment) =>
   (cells: Part[], strut?: Text): Column =>
@@ -63,12 +72,16 @@ export const [isEmptyPart, isText, isRow, isColumn] = [
   (self: Part): self is Column => pipe(self, unfixPart, isPartFOf('ColumnF')),
 ]
 
-/** Get the text content of a {@link Text} part. */
+/**
+ * Get the text content of a {@link Text} part.
+ * @category drawing
+ */
 export const getText: (text: Text) => string = ({unfixed: {show}}) => show
 
 /**
  * Combine two text parts horizontally placing the first to the right of the
  * second.
+ * @category drawing
  */
 export const prefixText: (prefix: Text) => EndoOf<Text> =
   ({unfixed: {show: prefix}}) =>
@@ -78,13 +91,17 @@ export const prefixText: (prefix: Text) => EndoOf<Text> =
 /**
  * Combine two text parts horizontally placing the first to the left of the
  * second.
+ * @category drawing
  */
 export const suffixText: (suffix: Text) => EndoOf<Text> =
   ({unfixed: {show: suffix}}) =>
   ({unfixed: {show: prefix}}) =>
     text(prefix + suffix)
 
-/** Add the prefix part to the left of the suffix part. */
+/**
+ * Add the prefix part to the left of the suffix part.
+ * @category drawing
+ */
 export const before =
   (vAlign: VerticalAlignment) =>
   (hAlign: HorizontalAlignment) =>
@@ -98,7 +115,10 @@ export const before =
   (suffix: Part) =>
     row(vAlign)(hAlign)([prefix, suffix], [hStrut, vStrut ?? defaultVStrut])
 
-/** Add the suffix part to the right of the prefix part. */
+/**
+ * Add the suffix part to the right of the prefix part.
+ * @category drawing
+ */
 export const after =
   (vAlign: VerticalAlignment) =>
   (hAlign: HorizontalAlignment) =>
@@ -112,21 +132,30 @@ export const after =
   (prefix: Part) =>
     row(vAlign)(hAlign)([prefix, suffix], [hStrut, vStrut ?? defaultVStrut])
 
-/** Add the `below` part below the `above` part. */
+/**
+ * Add the `below` part below the `above` part.
+ * @category drawing
+ */
 export const below =
   (align: HorizontalAlignment) =>
   (above: Part, strut?: Text) =>
   (below: Part) =>
     column(align)([above, below], strut)
 
-/** Add the `above` part above the `below` part. */
+/**
+ * Add the `below` part below the `above` part.
+ * @category drawing
+ */
 export const above =
   (align: HorizontalAlignment) =>
   (below: Part, strut?: Text) =>
   (above: Part) =>
     column(align)([above, below], strut)
 
-/** Match part by type. */
+/**
+ * Match part by type.
+ * @category drawing
+ */
 export const matchPart =
   <R>(
     onEmpty: R,

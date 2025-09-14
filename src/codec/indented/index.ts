@@ -7,6 +7,7 @@ import {Array, pipe, String} from '#util'
  * Given an encoder that can format a value of type `A` into a single line
  * string, encode a tree of `A` into a `YAML`-like indented format where
  * indentation indicates node depth.
+ * @category codec
  */
 export const encode =
   (indent: number) =>
@@ -23,7 +24,10 @@ export const encode =
     )
   }
 
-/** Decode a list of indented lines into a string tree. */
+/**
+ * Decode a list of indented lines into a string tree.
+ * @category codec
+ */
 export const decode = (lines: Array.NonEmptyArray<string>): Tree<string> => {
   const [first, second] = lines
   if (second === undefined) return fixTree(TreeF.leafF(first))
@@ -41,6 +45,7 @@ export const decode = (lines: Array.NonEmptyArray<string>): Tree<string> => {
 /**
  * Decode a level of a tree from a list of indented lines where indentation
  * represents node depth.
+ * @category codec
  */
 export const decodeIndentedUnfold = ([
   [value, depth],

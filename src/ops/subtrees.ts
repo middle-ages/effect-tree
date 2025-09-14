@@ -47,6 +47,7 @@ import type {NonEmptyArray} from 'effect/Array'
  *      ├─b         ├─e        ├─e
  *      └─c         └─f        └─f
  * ```
+ * @category ops
  */
 export const bottomSubtrees = <A>(self: Tree<A>): NonEmptyArray<Tree<A>> =>
   pipe(self, treePara(bottomSubtreesFold))

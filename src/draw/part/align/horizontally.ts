@@ -8,6 +8,7 @@ import {type HorizontalAlignment, matchHorizontal} from './data.js'
  * Align an array of single line strings according to the given alignment.
  * All strings in the returned array will be as wide as the widest among them.
  * The given padding string is used to fill available space, if it exists.
+ * @category drawing
  */
 export const alignHorizontally =
   (pad: string, align: HorizontalAlignment): EndoOf<string[]> =>

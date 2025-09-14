@@ -19,6 +19,7 @@ export interface PartRowData<A> extends PartColumnData<A> {
 /**
  * A filled rectangular block of characters used by the tree drawing routines as
  * an output type.
+ * @category drawing
  */
 export type PartF<A> = TaggedEnum<{
   EmptyF: {}

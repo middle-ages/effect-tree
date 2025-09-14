@@ -9,12 +9,18 @@ import type {
   TreeUnfolder,
 } from './types.js'
 
-/** Unfold a tree. */
+/**
+ * Unfold a tree.
+ * @category unfold
+ */
 export const treeAna: <A, B>(ψ: TreeUnfolder<A, B>) => TreeUnfold<A, B> = ana(
   TreeF.Traversable,
 )
 
-/** Unfold a tree into an effect. */
+/**
+ * Unfold a tree into an effect.
+ * @category unfold
+ */
 export const treeAnaE = <A, B, E = unknown, R = unknown>(
   ψ: TreeEffectUnfolder<A, B, E, R>,
 ): TreeEffectUnfold<A, B, E, R> => anaE(TreeF.Traversable)(ψ)
@@ -22,6 +28,7 @@ export const treeAnaE = <A, B, E = unknown, R = unknown>(
 /**
  * The simplest unfold: unfold a tree as long as the given function of type
  * `(parent: A) ⇒ A[]` keeps producing new child nodes.
+ * @category unfold
  */
 export const unfold: <A>(
   unfolder: (parent: A) => A[],
@@ -30,6 +37,7 @@ export const unfold: <A>(
 /**
  * Unfold a level of a tree defined by its unfolding function which must decide,
  * given the current node, who are its children?
+ * @category unfold
  */
 export const byParentUnfold = <A>(
   unfolder: (parent: A) => A[],

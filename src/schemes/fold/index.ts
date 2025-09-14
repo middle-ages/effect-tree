@@ -11,6 +11,7 @@ import type {
 /**
  * Run a {@link TreeFolder}<A, B> on a {@link Tree}<A> to fold into a value of
  * type `B`.
+ * @category fold
  */
 export const treeCata: <A, B>(φ: TreeFolder<A, B>) => TreeFold<A, B> = cata(
   TreeF.Traversable,
@@ -20,11 +21,15 @@ export const treeCata: <A, B>(φ: TreeFolder<A, B>) => TreeFold<A, B> = cata(
  * Run a {@link TreeProductFolder}<A, B> on a {@link Tree}<A> to fold into a value of
  * type `B`. Just like {@link treeCata} except the folder function
  * gets all previous computed values.
+ * @category fold
  */
 export const treePara: <A, B>(φ: TreeProductFolder<A, B>) => TreeFold<A, B> =
   para(TreeF.Traversable)
 
-/** Just like {@link treeCata}, except the folder is _effectful_.  */
+/**
+ * Just like {@link treeCata}, except the folder is _effectful_.
+ * @category fold
+ */
 export const treeCataEffect: <A, B, E = never, R = never>(
   φ: TreeEffectFolder<A, B, E, R>,
 ) => TreeEffectFold<A, B, E, R> = cataE(TreeF.Traversable)
@@ -32,8 +37,12 @@ export const treeCataEffect: <A, B, E = never, R = never>(
 /**
  * Zip a pair of folds to create a single fold. It will fold into a pair of the
  * result of the zipped folds.
+ * @category fold
  */
 export const zipTreeFolds = zipFolds(TreeF.Covariant)
 
-/** Create a fold that folds into a struct from a struct of folds. */
+/**
+ * Create a fold that folds into a struct from a struct of folds.
+ * @category fold
+ */
 export const structTreeFolds = struct(TreeF.Covariant)

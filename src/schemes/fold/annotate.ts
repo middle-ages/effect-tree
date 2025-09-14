@@ -23,12 +23,16 @@ import type {TreeEffectFolder, TreeFolder} from './types.js'
  *   self, treeCata(annotateFolder(folds.descendantCount))),
  * )
  * ```
+ * @category fold
  */
 export const annotateFolder = <A, B>(
   φ: TreeFolder<A, B>,
 ): TreeFolder<A, Tree<[A, B]>> => flow(annotateNode(φ), fixTree)
 
-/** Like {@link annotateFolder} but for _effect folders_. */
+/**
+ * Like {@link annotateFolder} but for _effect folders_.
+ * @category fold
+ */
 export const annotateEffectFolder =
   <A, B, E = never, R = never>(φ: TreeEffectFolder<A, B, E, R>) =>
   (self: TreeF.TreeF<A, Tree<[A, B]>>): Effect.Effect<Tree<[A, B]>, E, R> =>

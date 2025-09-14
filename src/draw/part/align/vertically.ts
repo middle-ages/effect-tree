@@ -13,6 +13,7 @@ import {matchVertical, type VerticalAlignment} from './data.js'
  * For each column we run the given `alignOrthogonal` function, where you
  * can set horizontal alignment and padding to make sure every row, per
  * column, is of the same width.
+ * @category drawing
  */
 export const alignVertically =
   (

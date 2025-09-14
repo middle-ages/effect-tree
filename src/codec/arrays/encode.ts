@@ -38,6 +38,9 @@ export const unsafeEncodeFold: TreeFolderK<TreeArrayLambda> = <A>(
   )
 }
 
-/** Encode a tree as nested arrays. */
+/**
+ * Encode a tree as nested arrays.
+ * @category codec
+ */
 export const encode: <A>(tree: ValidArrayTree<A>) => TreeArray<A> = tree =>
   pipe(tree, treeCata(unsafeEncodeFold))

@@ -38,9 +38,13 @@ import {HKT} from 'effect'
  * const encoded = codec.array.encode(tree)
  * // [1, [[2, [3, 4]], [5, [6]], 7]]
  * ```
+ * @category codec
  */
 export type TreeArray<A> = A | [A, TreeArray<A>[]]
 
+/**
+ * @category codec
+ */
 export interface TreeArrayLambda extends HKT.TypeLambda {
   readonly type: TreeArray<this['Target']>
 }
@@ -48,6 +52,7 @@ export interface TreeArrayLambda extends HKT.TypeLambda {
 /**
  * You cannot encode a tree of arrays as nested arrays because we use
  * `Array.isArray` to discriminate between leaves and branches.
+ * @category codec
  */
 export type NonArrayType<A> = A extends unknown[]
   ? [never, 'Cannot encode a tree of arrays as an array tree']
@@ -55,8 +60,14 @@ export type NonArrayType<A> = A extends unknown[]
     ? [never, 'Cannot encode a tree of readonly arrays as an array tree']
     : A
 
-/** An array tree with a non-array type. */
+/**
+ * An array tree with a non-array type.
+ * @category codec
+ */
 export type ValidArrayTree<A> = Tree<NonArrayType<A>> & Tree<A>
 
-/** Encode a single level of `Tree<A> ⇒ TreeArray<A>` */
+/**
+ * Encode a single level of `Tree<A> ⇒ TreeArray<A>`
+ * @category codec
+ */
 export type EncodeFolder<A> = TreeFolder<A, TreeArray<A>>

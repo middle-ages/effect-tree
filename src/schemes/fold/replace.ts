@@ -23,6 +23,7 @@ import type {TreeEffectFolder, TreeFolder} from './types.js'
  *   self, treeCata(replaceFolder(folds.descendantCount))),
  * )
  * ```
+ * @category fold
  */
 export const replaceFolder =
   <A, B>(φ: TreeFolder<A, B>): TreeFolder<A, Tree<B>> =>

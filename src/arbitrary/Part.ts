@@ -16,6 +16,7 @@ const EmptyPartArbitrary: fc.Arbitrary<Empty> = EmptyPartFArbitrary.map(
 /**
  * An arbitrary for a recursive {@link Part} that describes how to render a
  * rectangular block.
+ * @category arbitrary
  */
 export const Arbitrary = (options?: {
   maxDepth?: number
