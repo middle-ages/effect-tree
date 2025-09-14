@@ -2,12 +2,14 @@
  * Add/remove nodes and forests.
  * @packageDocumentation
  */
-import {Array, flow, Function, pipe} from '#util'
+import {Array} from '#util'
+import {dual, flow, pipe} from '#util/Function'
 import {
   branch,
   getValue,
   isLeaf,
   leaf,
+  match,
   modBranchForest,
   modForest,
   setForest,
@@ -22,7 +24,7 @@ import type {Branch, Leaf, Tree} from './types.js'
 export const append: {
   <A>(self: Tree<A>, child: Tree<A>): Branch<A>
   <A>(child: Tree<A>): (self: Tree<A>) => Branch<A>
-} = Function.dual(
+} = dual(
   2,
   <A>(self: Tree<A>, child: Tree<A>): Branch<A> =>
     isLeaf(self)
@@ -37,7 +39,7 @@ export const append: {
 export const prepend: {
   <A>(self: Tree<A>, child: Tree<A>): Branch<A>
   <A>(child: Tree<A>): (self: Tree<A>) => Branch<A>
-} = Function.dual(
+} = dual(
   2,
   <A>(self: Tree<A>, child: Tree<A>): Branch<A> =>
     isLeaf(self)
@@ -52,7 +54,7 @@ export const prepend: {
 export const appendAll: {
   <A>(self: Tree<A>, children: Tree<A>[]): Tree<A>
   <A>(children: Tree<A>[]): (self: Tree<A>) => Tree<A>
-} = Function.dual(
+} = dual(
   2,
   <A>(self: Tree<A>, children: Tree<A>[]): Tree<A> =>
     Array.isNonEmptyArray(children)
@@ -69,7 +71,7 @@ export const appendAll: {
 export const prependAll: {
   <A>(self: Tree<A>, children: Tree<A>[]): Tree<A>
   <A>(children: Tree<A>[]): (self: Tree<A>) => Tree<A>
-} = Function.dual(
+} = dual(
   2,
   <A>(self: Tree<A>, children: Tree<A>[]): Tree<A> =>
     Array.isNonEmptyArray(children)
@@ -107,7 +109,7 @@ export const removeNthChild: {
   <A>(self: Tree<A>): (n: number) => Tree<A>
   flip: (n: number) => <A>(self: Tree<A>) => Tree<A>
 } = Object.assign(
-  Function.dual(2, <A>(n: number, self: Tree<A>) => _removeNthChild(n, self)),
+  dual(2, <A>(n: number, self: Tree<A>) => _removeNthChild(n, self)),
   {
     flip:
       (n: number) =>
@@ -127,3 +129,20 @@ export const removeFirstChild = removeNthChild.flip(0)
  * @category basic
  */
 export const removeLastChild = removeNthChild.flip(-1)
+
+/**
+ * Get a slice from the forest of the given tree.
+ * @category basic
+ */
+export const sliceForest: {
+  (low: number, high?: number): <A>(self: Tree<A>) => Tree<A>[]
+  <A>(self: Tree<A>, low: number, high?: number): Tree<A>[]
+} = dual(3, <A>(self: Tree<A>, low: number, high?: number) =>
+  pipe(
+    self,
+    match({
+      onLeaf: _ => [] as Tree<typeof _>[],
+      onBranch: (_, forest) => forest.slice(low, high),
+    }),
+  ),
+)

@@ -1,3 +1,4 @@
+import {numericTree} from '#test'
 import {pipe} from 'effect'
 import {describe, expect, test} from 'vitest'
 import {
@@ -5,14 +6,14 @@ import {
   appendAll,
   prepend,
   prependAll,
-  removeNthChild,
   removeFirstChild,
-  removeLastChild,
   removeForest,
+  removeLastChild,
+  removeNthChild,
+  sliceForest,
 } from './forest.js'
 import {from, leaf} from './index.js'
 import {type Branch, type Tree} from './types.js'
-import {numericTree} from '#test'
 
 const aLeaf = leaf(1),
   aBranch = from(2, leaf(3)),
@@ -117,5 +118,22 @@ describe('forest', () => {
 
   test('removeLastChild', () => {
     expect(removeLastChild(parent)).toEqual(from(7, childLeaf))
+  })
+
+  describe('slice', () => {
+    test('empty: leaf', () => {
+      expect(sliceForest(0, 1)(leaf(1))).toEqual([])
+    })
+
+    test('empty: out-of-bounds', () => {
+      expect(sliceForest(3, 9)(from(1, leaf(2)))).toEqual([])
+    })
+
+    test('found', () => {
+      expect(sliceForest(0)(from(1, leaf(2), leaf(3)))).toEqual([
+        leaf(2),
+        leaf(3),
+      ])
+    })
   })
 })
