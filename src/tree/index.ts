@@ -112,7 +112,8 @@ export const withForest: {
 )
 
 /** A version of {@link tree} where the forest is a rest argument. */
-export const from = <A>(value: A, ...forest: Tree<A>[]) => tree(value, forest)
+export const from = <A>(value: A, ...forest: Tree<A>[]): Tree<A> =>
+  tree(value, forest)
 
 /**
  * Type guard for the tree {@link Leaf} type.

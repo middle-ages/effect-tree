@@ -9,6 +9,7 @@
   "license": "ISC",
   "scripts": {
     "check": "dev/check",
+    "repl": "tsx --import=./dev/repl.ts",
     "clean": "dev/clean",
     "lint": "dev/lint --cache",
     "lint:fix": "dev/lint-fix --cache",

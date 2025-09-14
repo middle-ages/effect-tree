@@ -15,7 +15,7 @@ import {
 //   'Metuselah',          //   first argument is branch value
 //   ...                   //   thee rest are members of the node forest
 //
-const genealogy = from(
+export const genealogy = from(
   'Metuselah',
   from(
     'Lamech',
@@ -51,7 +51,9 @@ const genealogy = from(
   ),
 )
 
-console.log(drawTree(genealogy).join('\n'))
+if (import.meta.url === `file://${process.argv[1] ?? 'NOPE'}`) {
+  console.log(drawTree(genealogy).join('\n'))
+}
 
 /**
 
