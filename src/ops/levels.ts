@@ -176,6 +176,7 @@ export const levels: <A>(self: Tree<A>) => NonEmptyArray2<A> = self =>
  * │└─3
  * └─2
  * ```
+ * @category ops
  */
 export const unfoldLevelTree: (
   settings: LevelTreeSettings,

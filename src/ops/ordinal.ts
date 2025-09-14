@@ -159,7 +159,10 @@ withOrdinal.pre =
       runSync,
     )
 
-/* v8 ignore next 4 */
+/**
+ * A version of {@link asOrdinal} specialized for _branches_.
+ * @category ops
+ */
 export const asOrdinalBranch =
   (initialize: number) =>
   (self: Branch<any>): Branch<number> =>

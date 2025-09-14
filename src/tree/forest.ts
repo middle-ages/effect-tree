@@ -130,19 +130,30 @@ export const removeFirstChild = removeNthChild.flip(0)
  */
 export const removeLastChild = removeNthChild.flip(-1)
 
-/**
- * Get a slice from the forest of the given tree.
- * @category basic
- */
-export const sliceForest: {
-  (low: number, high?: number): <A>(self: Tree<A>) => Tree<A>[]
-  <A>(self: Tree<A>, low: number, high?: number): Tree<A>[]
-} = dual(3, <A>(self: Tree<A>, low: number, high?: number) =>
+const _sliceForest = <A>(self: Tree<A>, low: number, high?: number) =>
   pipe(
     self,
     match({
       onLeaf: _ => [] as Tree<typeof _>[],
       onBranch: (_, forest) => forest.slice(low, high),
     }),
-  ),
-)
+  )
+
+/**
+ * Get a slice from the forest of the given tree.
+ * @category basic
+ */
+export const sliceForest: {
+  <A>(self: Tree<A>, low: number, high?: number): Tree<A>[]
+  flip: <A>(self: Tree<A>) => (low: number, high?: number) => Tree<A>[]
+  curry: (low: number, high?: number) => <A>(self: Tree<A>) => Tree<A>[]
+} = Object.assign(_sliceForest, {
+  curry:
+    (low: number, high?: number) =>
+    <A>(self: Tree<A>) =>
+      _sliceForest(self, low, high),
+  flip:
+    <A>(self: Tree<A>) =>
+    (low: number, high?: number) =>
+      _sliceForest(self, low, high),
+})

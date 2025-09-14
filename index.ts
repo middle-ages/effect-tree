@@ -8,6 +8,7 @@ export * as Arbitrary from './src/arbitrary.js'
 export * as Draw from './src/draw.js'
 export * as TreeF from './src/treeF.js'
 export * as Theme from './src/draw/theme.js'
+export * as Zipper from './src/zipper.js'
 
 export {drawTree, themedTree} from './src/draw.js'
 export {type EndoOf} from './src/util/Function.js'

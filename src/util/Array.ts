@@ -41,28 +41,28 @@ export const insertSorted =
   }
 
 export const append = Object.assign(_append, {
-  flipped:
+  flip:
     <A>(self: A[]): ((last: A) => A[]) =>
     last =>
       _append(self, last),
 })
 
 export const prepend = Object.assign(_prepend, {
-  flipped:
+  flip:
     <A>(self: A[]): ((last: A) => A[]) =>
     head =>
       _prepend(self, head),
 })
 
 export const appendAll = Object.assign(_appendAll, {
-  flipped:
+  flip:
     <A>(self: A[]): ((tail: A[]) => A[]) =>
     tail =>
       _appendAll(self, tail),
 })
 
 export const prependAll = Object.assign(_prependAll, {
-  flipped:
+  flip:
     <A>(self: A[]): ((head: A[]) => A[]) =>
     init =>
       _prependAll(self, init),

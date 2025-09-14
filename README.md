@@ -1,13 +1,16 @@
-# effect-ts-tree
+# 🌳 effect-ts-tree
 
-# TO BE RELEASED SOON
+<b><font color=red>NOT RELEASED YET</font></b>
 
 A Typescript library for working with trees.
 
+1. [Synopsis](#about)
 1. [About](#about)
+1. [Quick Start](#about)
 1. [Dependencies](#dependencies)
 1. [Not Ready Yet](#not-ready-yet)
 1. [See Also](#see-also)
+1. [Related](#related)
 
 ## Synopsis
 
@@ -34,7 +37,7 @@ Prints:
 ## About
 
 1. The basic immutable generic data structure for encoding _generic eager trees_ with 0-n child nodes per branch, also called [Rose Trees](https://en.wikipedia.org/wiki/Rose_tree) and everything you need to efficiently query and operate on them.
-1. Stack-safe [folds](src/folds.ts)/[unfolds](src/unfolds.ts), and a [library of operations](src/ops.ts) on trees, from [counting](src/ops/counts.ts) to [zipping](src/ops/zip.ts).
+1. Stack-safe [folds](src/folds.ts)/[unfolds](src/unfolds.ts), a [zipper](https://en.wikipedia.org/wiki/Zipper_(data_structure)) and a [library of operations](src/ops.ts) on trees, from [counting](src/ops/counts.ts) to [zipping](src/ops/zip.ts).
 1. [Encode/decode trees](src/codec.ts) into indented strings à la YAML, nested arrays, edge lists, path lists, and [Prüfer codes](https://en.wikipedia.org/wiki/Pr%C3%BCfer_sequence).
 1. Instances for [@effect/typeclass](https://github.com/Effect-TS/effect/blob/main/packages/typeclass/README.md) with [law tests](src/instances/laws.test.ts).
 1. [Draw themeable trees](src/draw/tree.test.ts) on the terminal with support for multiline labels.
@@ -64,40 +67,26 @@ const myLeaf: Tree<string> = leaf('hello')
 
 * Create
 
-You can create leaves and branches with the functions [leaf]() and [branch]()
+You can create leaves and branches with functions like [of](https://middle-ages.github.io/effect-tree-docs/variables/index.of.html) and
+[from](https://middle-ages.github.io/effect-tree-docs/functions/index.from.html):
 
 ```ts
-import {Tree, branch, leaf} from 'effect-tree
+import {Tree, from, of} from 'effect-tree
 
-const myBranch: Tree<string> = branch(
-  'root branch', [
-    leaf('hello'),
-    leaf('world'),
-  ]
-)
+const myBranch: Tree<string> = from( 'root branch', of('hello'), of('world'))
 ```
-
-Other ways to create trees:
-
-1. **Building from code** Functions like [tree](https://middle-ages.github.io/effect-tree-docs/functions/index.tree.html), [branch](https://middle-ages.github.io/effect-tree-docs/functions/index.tree.html), [from](https://middle-ages.github.io/effect-tree-docs/functions/index.tree.html), [of](https://middle-ages.github.io/effect-tree-docs/functions/index.tree.html) (and alias for [leaf](https://middle-ages.github.io/effect-tree-docs/functions/index.tree.html)), [withForest](https://middle-ages.github.io/effect-tree-docs/functions/index.tree.html) are versions of the basic [branch](https://middle-ages.github.io/effect-tree-docs/functions/index.branch.html) and [leaf](https://middle-ages.github.io/effect-tree-docs/functions/index.branch.html) functions, specialized for composing tree building pipelines.
-1. **Decoding from data** Decode trees from common encodings: [edge lists](https://middle-ages.github.io/effect-tree-docs/), [nested arrays](https://middle-ages.github.io/effect-tree-docs/), [indented strings](https://middle-ages.github.io/effect-tree-docs/), [Prüfer codes](https://middle-ages.github.io/effect-tree-docs/), and a [list of tree paths](https://middle-ages.github.io/effect-tree-docs/).
-
-1. **Unfold with unfolding functions** . Functions like [unfoldLevelTree](src/ops/levels.ts#L158) unfold trees using functions for [unfolding a single level of tree](src/unfolds.ts).
 
 * Draw
 
 ```ts
-import {Tree, binaryTree, drawTree, map} from 'effect-tree'
+import {Tree, binaryTree, drawTree} from 'effect-tree'
 import {pipe} from 'effect'
 
-console.log(
-  pipe(
-    3,
-    binaryTree,
-    map(s => s.toString()),
-    drawTree,
-  )
-)
+//                           A variant of “drawTree” that renders
+//                           numeric trees into a string
+//                                         ┊
+//                             ╭┄┄┄┄┄┄┄┄┄┄┄┴┄┄┄┄┄┄┄┄┄┄┄╮
+console.log(pipe(3, binaryTree, drawTree.number.unlines))
 //┬1
 //├┬2
 //│├─3
@@ -109,6 +98,31 @@ console.log(
 
 * Operate
 
+```ts
+import {Tree, binaryTree, drawTree, Zipper} from 'effect-tree'
+import {pipe} from 'effect'
+
+console.log(
+  pipe(
+    3,
+    binaryTree,
+    Zipper.fromTree,
+    Zipper.unsafeHead,
+    Zipper.unsafeHead,
+    Zipper.replace(42),
+    Zipper.toTree,
+    drawTree.unixRounded.number.unlines,
+  )
+)
+// ─1
+//  ├─2
+//  │ ├─42 ← replaced
+//  │ ╰─3
+//  ╰─2
+//    ├─3
+//    ╰─3
+```
+
 ## Dependencies
 
 1. [@effect/typeclass](https://www.npmjs.com/package/@effect/typeclass)
@@ -118,9 +132,8 @@ console.log(
 
 ## Not Ready Yet
 
-1. Zipper feature.
-1. Api docs.
-1. More examples.
+1. User guide.
+1. Add zipper API sugar.
 1. Effect.Schema codec.
 1. Folds for collecting tree metrics.
 
@@ -129,6 +142,7 @@ console.log(
 1. [API Documentation](https://middle-ages.github.io/effect-tree-docs)
 1. [Examples folder](https://middle-ages.github.io/effect-tree/blob/main/examples)
 1. [Users guide](https://middle-ages.github.io/effect-tree/blob/main/docs/user-guide.md)
+1. [Codecs readme](https://middle-ages.github.io/effect-tree/blob/main/src/codec/README.md)
 1. [List of features](https://middle-ages.github.io/effect-tree/blob/main/docs/features.md)
 
 ## Related

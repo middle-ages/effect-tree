@@ -122,15 +122,15 @@ describe('forest', () => {
 
   describe('slice', () => {
     test('empty: leaf', () => {
-      expect(sliceForest(0, 1)(leaf(1))).toEqual([])
+      expect(sliceForest(leaf(1), 0, 1)).toEqual([])
     })
 
     test('empty: out-of-bounds', () => {
-      expect(sliceForest(3, 9)(from(1, leaf(2)))).toEqual([])
+      expect(sliceForest.flip(from(1, leaf(2)))(3, 9)).toEqual([])
     })
 
     test('found', () => {
-      expect(sliceForest(0)(from(1, leaf(2), leaf(3)))).toEqual([
+      expect(sliceForest.curry(0)(from(1, leaf(2), leaf(3)))).toEqual([
         leaf(2),
         leaf(3),
       ])

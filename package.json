@@ -85,6 +85,10 @@
       "types": "./src/ops.d.ts",
       "import": "./src/ops.js"
     },
+    "#ops/*": {
+      "types": "./src/ops/*.d.ts",
+      "import": "./src/ops/*.js"
+    },
     "#codec": {
       "types": "./src/codec.d.ts",
       "import": "./src/codec.js"
