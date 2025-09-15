@@ -28,3 +28,4 @@ The expected terminal output of each example appears inline with the source code
 | [Fibonacci](https://github.com/middle-ages/effect-tree/blob/main/examples/fibonacci.ts)| A custom fold: unfold the Fibonacci sequence into a linear tree.         |
 | [Folds](https://github.com/middle-ages/effect-tree/blob/main/examples/folds.ts)        | Fusing folds into tuples and structs.                                    |
 | [Genealogy](https://github.com/middle-ages/effect-tree/blob/main/examples/genealogy.ts)| Level labels, bottom grounded subtrees, and encoding to indented strings.|
+| [Zipper](https://github.com/middle-ages/effect-tree/blob/main/examples/zipper.ts)| Use a zipper to navigate and change trees.|

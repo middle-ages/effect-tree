@@ -1,9 +1,12 @@
 import {numericTree} from '#test'
-import {pipe} from 'effect'
-import {describe, expect, test} from 'vitest'
 import {
   append,
   appendAll,
+  removeSlice,
+  from,
+  insertAllAt,
+  insertAt,
+  leaf,
   prepend,
   prependAll,
   removeFirstChild,
@@ -11,8 +14,9 @@ import {
   removeLastChild,
   removeNthChild,
   sliceForest,
-} from './forest.js'
-import {from, leaf} from './index.js'
+} from '#tree'
+import {pipe} from 'effect'
+import {describe, expect, test} from 'vitest'
 import {type Branch, type Tree} from './types.js'
 
 const aLeaf = leaf(1),
@@ -134,6 +138,48 @@ describe('forest', () => {
         leaf(2),
         leaf(3),
       ])
+    })
+  })
+
+  describe('insertAllAt', () => {
+    test('leaf', () => {
+      expect(insertAllAt(leaf(1), 1, [leaf(2), leaf(3)])).toEqual(
+        from(1, leaf(2), leaf(3)),
+      )
+    })
+
+    test('basic', () => {
+      expect(
+        insertAllAt(from(1, leaf(2), leaf(3)), 1, [leaf(4), leaf(5)]),
+      ).toEqual(from(1, leaf(2), leaf(4), leaf(5), leaf(3)))
+    })
+
+    test('negative index', () => {
+      expect(
+        pipe(from(1, leaf(2), leaf(3)), insertAllAt(-2, [leaf(4), leaf(5)])),
+      ).toEqual(from(1, leaf(4), leaf(5), leaf(2), leaf(3)))
+    })
+
+    test('out-of-bounds', () => {
+      expect(
+        insertAllAt(from(1, leaf(2), leaf(3)), 2, [leaf(4), leaf(5)]),
+      ).toEqual(from(1, leaf(2), leaf(3), leaf(4), leaf(5)))
+    })
+  })
+
+  describe('insertAt', () => {
+    test('basic', () => {
+      expect(insertAt(from(1, leaf(2), leaf(3)), leaf(4), 1)).toEqual(
+        from(1, leaf(2), leaf(4), leaf(3)),
+      )
+    })
+  })
+
+  describe('removeSlice', () => {
+    test('basic', () => {
+      expect(
+        removeSlice(1, 2)(from(1, leaf(2), leaf(3), leaf(4), leaf(5))),
+      ).toEqual(from(1, leaf(2), leaf(5)))
     })
   })
 })

@@ -2,6 +2,7 @@ import {
   fromTree,
   next,
   unsafeNext,
+  getRights,
   head,
   previous,
   toTree,
@@ -10,10 +11,14 @@ import {
   unsafePrevious,
   unsafeUp,
   up,
-  value,
+  getValue,
   type Zipper,
   type ZipperLevel,
   replace,
+  root,
+  getLefts,
+  append,
+  prepend,
 } from '#zipper'
 import {branch, from, of, type Branch} from '#tree'
 import {pairMap, type Pair} from '#util/Pair'
@@ -66,8 +71,9 @@ describe('zipper', () => {
       })
     })
 
+    const deep2 = pipe(deep, fromTree, unsafeHead, unsafeHead)
     test('deep × 2', () => {
-      expect(pipe(deep, fromTree, unsafeHead, unsafeHead)).toEqual({
+      expect(deep2).toEqual({
         focus: of(3),
         levels: [
           rootLevel,
@@ -77,6 +83,9 @@ describe('zipper', () => {
         rights: [of(4), of(5)],
         parent: Option.some(2),
       })
+
+      expect(getLefts(deep2), 'lefts').toEqual([])
+      expect(getRights(deep2), 'rights').toEqual([of(4), of(5)])
     })
   })
 
@@ -139,7 +148,7 @@ describe('zipper', () => {
         fromTree,
         unsafeLast,
         unsafePrevious,
-        value,
+        getValue,
       )
 
       expect(actual).toBe(2)
@@ -153,7 +162,7 @@ describe('zipper', () => {
         unsafeLast,
         unsafePrevious,
         unsafePrevious,
-        value,
+        getValue,
       )
 
       expect(actual).toBe(3)
@@ -172,7 +181,7 @@ describe('zipper', () => {
         unsafeHead,
         unsafeNext,
         unsafeNext,
-        value,
+        getValue,
       )
 
       expect(actual).toBe(7)
@@ -189,7 +198,7 @@ describe('zipper', () => {
         unsafeNext,
         unsafePrevious,
         unsafePrevious,
-        value,
+        getValue,
       )
       expect(actual).toBe(2)
     })
@@ -203,10 +212,16 @@ describe('zipper', () => {
         unsafePrevious,
         unsafeNext,
         unsafeNext,
-        value,
+        getValue,
       )
       expect(actual).toBe(7)
     })
+  })
+
+  test('root', () => {
+    expect(
+      pipe(deep, fromTree, unsafeHead, unsafeHead, unsafeNext, root),
+    ).toEqual(fromTree(deep))
   })
 
   describe('up', () => {
@@ -295,5 +310,23 @@ describe('zipper', () => {
  └─8`),
       )
     })
+  })
+
+  test('append', () => {
+    expect(pipe(leaf, fromTree, append(of(2)), append(of(3)))).toEqual(
+      fromTree(small),
+    )
+  })
+
+  test('append.unsafeMove', () => {
+    expect(
+      pipe(leaf, fromTree, append(of(2)), append.unsafeMove(of(3))),
+    ).toEqual(pipe(small, fromTree, unsafeLast))
+  })
+
+  test('prepend', () => {
+    expect(pipe(leaf, fromTree, prepend(of(2)), prepend(of(3)))).toEqual(
+      fromTree(from(1, of(3), of(2))),
+    )
   })
 })

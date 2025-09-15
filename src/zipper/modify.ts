@@ -47,17 +47,21 @@ prepend.unsafeMove =
     pipe(zipper, prepend(that), unsafeHead)
 
 /**
- * Insert the given node _after_ the zipper focus.
+ * Append the given node as the last child of the given focus.
+ *
+ * At the keys `move` and `unsafeMove` you will find versions where the focus
+ * has been _moved_ to the newly appended node.
+ *
  * @typeParam A - The underlying type of the tree.
  * @param zipper - The zipper that will be modified.
- * @returns An updated zipper where the given node has been added.
+ * @returns An updated zipper where the given node has been appended.
  * @category zipper
  */
 export const append =
-  <A>(add: Tree.Tree<A>): EndoOf<Zipper<A>> =>
-  ({rights, ...rest}) => ({
+  <A>(that: Tree.Tree<A>): EndoOf<Zipper<A>> =>
+  ({focus, ...rest}) => ({
     ...rest,
-    rights: [add, ...rights],
+    focus: Tree.append(focus, that),
   })
 
 append.move =

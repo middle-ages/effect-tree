@@ -51,9 +51,7 @@ export const genealogy = from(
   ),
 )
 
-if (import.meta.url === `file://${process.argv[1] ?? 'NOPE'}`) {
-  console.log(drawTree(genealogy).join('\n'))
-}
+console.log(drawTree(genealogy).join('\n'))
 
 /**
 

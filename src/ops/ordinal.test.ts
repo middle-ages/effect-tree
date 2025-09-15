@@ -1,9 +1,9 @@
 import {assertDrawTree, numericTree} from '#test'
-import {map} from '#tree'
+import {map, type Branch} from '#tree'
 import {Array, flow, pipe} from 'effect'
 import {pairMap} from 'effect-ts-folds'
 import {describe, test} from 'vitest'
-import {asOrdinal, withOrdinal} from './ordinal.js'
+import {asOrdinal, asOrdinalBranch, withOrdinal} from './ordinal.js'
 
 describe('ordinals', () => {
   describe('asOrdinal', () => {
@@ -46,6 +46,48 @@ describe('ordinals', () => {
 └─11`),
       )
     })
+  })
+})
+
+describe('asOrdinalBranch', () => {
+  test('post-order', () => {
+    pipe(
+      numericTree as Branch<number>,
+      asOrdinalBranch(1),
+      map(n => n.toString()),
+      assertDrawTree(`
+┬11
+├┬4
+│├─1
+│├─2
+│└─3
+├┬9
+│├─5
+│├─6
+│└┬8
+│ └─7
+└─10`),
+    )
+  })
+
+  test('pre-order', () => {
+    pipe(
+      numericTree as Branch<number>,
+      asOrdinalBranch.pre(1),
+      map(n => n.toString()),
+      assertDrawTree(`
+┬1
+├┬2
+│├─3
+│├─4
+│└─5
+├┬6
+│├─7
+│├─8
+│└┬9
+│ └─10
+└─11`),
+    )
   })
 })
 

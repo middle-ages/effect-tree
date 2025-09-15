@@ -1,7 +1,8 @@
 import * as TreeF from '#treeF'
 import {pair, square} from '#util/Pair'
 import {Array, Effect, flow, pipe} from 'effect'
-import {getForest, getValue, match} from '../../tree/index.js'
+import {getValue, match} from '../../tree/index.js'
+import {getForest} from '../../tree/data.js'
 import type {Tree} from '../../tree/types.js'
 import type {TreeEffectUnfolder} from './types.js'
 

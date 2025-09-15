@@ -14,6 +14,8 @@ import {
   type OptionalZipper,
   type Zipper,
   type ZipperType,
+  toTree,
+  fromTree,
   type ZipperTypeLambda,
 } from './index.js'
 
@@ -171,6 +173,16 @@ export const at = <A>(
     parent: pipe(parentNode, Tree.getValue, Option.some),
   })
 }
+
+/**
+ * Navigate from any node to the root node.
+ * @typeParam A - The underlying type of the tree.
+ * @param zipper - The zipper that will be navigated.
+ * @returns An updated zipper pointing at the root node of the tree.
+ * @category zipper
+ */
+export const root: EndoK<ZipperTypeLambda> = zipper =>
+  pipe(zipper, toTree, fromTree)
 
 export const [
   unsafeHead,

@@ -1,17 +1,8 @@
 import {Array} from '#util'
-import {dual, flow, pipe} from '#util/Function'
-import {
-  branch,
-  getValue,
-  isLeaf,
-  leaf,
-  length,
-  match,
-  modBranchForest,
-  modForest,
-  setForest,
-} from './index.js'
-import type {Branch, ForestOf, Leaf, Tree} from './types.js'
+import {dual, pipe} from '#util/Function'
+import {branch, getValue, isLeaf, match} from './index.js'
+import {length, modBranchForest, modForest, setForest} from './data.js'
+import type {Branch, ForestOf, Tree} from './types.js'
 
 /**
  * Insert a list of trees before Nth child of the given tree. The list is
@@ -20,23 +11,23 @@ import type {Branch, ForestOf, Leaf, Tree} from './types.js'
  *
  * Negative indexes are handled as offsets from the final tree in the forest so
  * that inserting a list to index `-1` inserts the list _before_ the last
- * tree of the forest. Use {@link AppendAll} to append _after_ the last tree.
+ * tree of the forest. Use {@link AppendAll} to append _after_ the last tree
+ * in the forest.
  *
  * If `self` is a _leaf_, it is converted into a branch.
  *
  * If the index is out-of-bounds, I.E.: negative or greater than `forest length
  * - 1`, the list is appended to the _end_ of the forest.
- *
  * @typeParam A - Tree underlying type.
  * @param self - The tree to modify.
  * @param children - Non-empty list of child trees to insert.
- * @returns A new updated tree, or the given tree if unchanged.
+ * @returns A new updated tree with the new child trees inserted.
  * @category basic
  */
 export const insertAllAt: {
-  <A>(self: Tree<A>, children: ForestOf<A>, n: number): Branch<A>
-  <A>(children: ForestOf<A>): (self: Tree<A>, n: number) => Branch<A>
-} = dual(3, <A>(self: Tree<A>, children: ForestOf<A>, n: number): Branch<A> => {
+  <A>(self: Tree<A>, n: number, children: ForestOf<A>): Branch<A>
+  <A>(n: number, children: ForestOf<A>): (self: Tree<A>) => Branch<A>
+} = dual(3, <A>(self: Tree<A>, n: number, children: ForestOf<A>): Branch<A> => {
   const index = n + (n < 0 ? length(self) : 0)
   return pipe(
     self,
@@ -69,8 +60,8 @@ export const insertAllAt: {
  * - 1`, the tree is appended to the _end_ of the forest.
  * @typeParam A - Tree underlying type.
  * @param self - The tree to modify.
- * @param child - Child to insert.
- * @returns A new updated tree, or the given tree if unchanged.
+ * @param child- Child to insert.
+ * @returns A new updated tree with the new node inserted.
  * @category basic
  */
 export const insertAt: {
@@ -79,12 +70,16 @@ export const insertAt: {
 } = dual(
   3,
   <A>(self: Tree<A>, child: Tree<A>, n: number): Branch<A> =>
-    insertAllAt(self, [child], n),
+    insertAllAt(self, n, [child]),
 )
 
 /**
  * Append a tree to the children of the root node. If `self` is a _leaf_, it is
  * converted into a branch.
+ * @typeParam A - Tree underlying type.
+ * @param self - The tree to modify.
+ * @param child - Child to append.
+ * @returns A new updated tree with the new node appended.
  * @category basic
  */
 export const append: {
@@ -99,7 +94,12 @@ export const append: {
 )
 
 /**
- * Prepend a tree to the children of the root node.
+ * Prepend a tree to the children of the root node. If `self` is a _leaf_, it is
+ * converted into a branch.
+ * @typeParam A - Tree underlying type.
+ * @param self - The tree to modify.
+ * @param child - Child to prepend.
+ * @returns A new updated tree with the new node prepended.
  * @category basic
  */
 export const prepend: {
@@ -114,7 +114,12 @@ export const prepend: {
 )
 
 /**
- * Append a list of trees to the children of the root node.
+ * Append a list of trees to the children of the root node. If `self` is a
+ * _leaf_, it is converted into a branch.
+ * @typeParam A - Tree underlying type.
+ * @param self - The tree to modify.
+ * @param children - A non-empty list of trees to append to the tree.
+ * @returns A new updated tree with the new nodes appended.
  * @category basic
  */
 export const appendAll: {
@@ -131,7 +136,12 @@ export const appendAll: {
 )
 
 /**
- * Prepend a list of trees to the children of the root node.
+ * Prepend a list of trees to the children of the root node. If `self` is a
+ * _leaf_, it is converted into a branch.
+ * @typeParam A - Tree underlying type.
+ * @param self - The tree to modify.
+ * @param children - A non-empty list of trees to prepend to the tree.
+ * @returns A new updated tree with the new nodes prepended.
  * @category basic
  */
 export const prependAll: {
@@ -146,80 +156,3 @@ export const prependAll: {
         : pipe(self, modForest(Array.prependAll(children)))
       : self,
 )
-
-/**
- * Strip a branch from its children and return the new leaf.
- * @category basic
- */
-export const removeForest: <A>(node: Branch<A>) => Leaf<A> = flow(
-  getValue,
-  leaf,
-)
-
-const _removeNthChild = <A>(rawN: number, self: Tree<A>): Tree<A> =>
-  pipe(
-    self,
-    modForest(forest =>
-      Array.remove(forest, rawN < 0 ? forest.length + rawN : rawN),
-    ),
-  )
-
-/**
- * Removes the nth direct child of the given tree. If the tree is a branch with
- * a single child then a `Leaf` is returned. If the given index is
- * out-of-bounds, or the given tree is a leaf, it is returned unchanged.
- * @category basic
- */
-export const removeNthChild: {
-  <A>(n: number, self: Tree<A>): Tree<A>
-  <A>(self: Tree<A>): (n: number) => Tree<A>
-  flip: (n: number) => <A>(self: Tree<A>) => Tree<A>
-} = Object.assign(
-  dual(2, <A>(n: number, self: Tree<A>) => _removeNthChild(n, self)),
-  {
-    flip:
-      (n: number) =>
-      <A>(self: Tree<A>) =>
-        _removeNthChild(n, self),
-  },
-)
-
-/**
- * Remove first child of given tree.
- * @category basic
- */
-export const removeFirstChild = removeNthChild.flip(0)
-
-/**
- * Remove last child of given tree.
- * @category basic
- */
-export const removeLastChild = removeNthChild.flip(-1)
-
-const _sliceForest = <A>(self: Tree<A>, low: number, high?: number) =>
-  pipe(
-    self,
-    match({
-      onLeaf: _ => [] as Tree<typeof _>[],
-      onBranch: (_, forest) => forest.slice(low, high),
-    }),
-  )
-
-/**
- * Get a slice from the forest of the given tree.
- * @category basic
- */
-export const sliceForest: {
-  <A>(self: Tree<A>, low: number, high?: number): Tree<A>[]
-  flip: <A>(self: Tree<A>) => (low: number, high?: number) => Tree<A>[]
-  curry: (low: number, high?: number) => <A>(self: Tree<A>) => Tree<A>[]
-} = Object.assign(_sliceForest, {
-  curry:
-    (low: number, high?: number) =>
-    <A>(self: Tree<A>) =>
-      _sliceForest(self, low, high),
-  flip:
-    <A>(self: Tree<A>) =>
-    (low: number, high?: number) =>
-      _sliceForest(self, low, high),
-})

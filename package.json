@@ -62,6 +62,12 @@
         "types": "./index.d.ts",
         "import": "./index.js"
       }
+    },
+    "./Zipper": {
+      "import": {
+        "types": "./src/zipper.d.ts",
+        "import": "./src/zipper.js"
+      }
     }
   },
   "imports": {

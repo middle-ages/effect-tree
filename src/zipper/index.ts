@@ -34,13 +34,40 @@ export interface ZipperLevel<A> {
 }
 
 /**
+ * Get the current focus of the zipper.
+ * @typeParam A - The underlying type of the tree.
+ * @param zipper - Zipper to be queried.
+ * @returns The focus of the zipper.
+ * @category zipper
+ */
+export const getFocus = <A>({focus}: Zipper<A>): Tree.Tree<A> => focus
+
+/**
  * Get the value of the tree node under focus.
  * @typeParam A - The underlying type of the tree.
  * @param zipper - Zipper to be queried.
  * @returns Value of the focus node.
  * @category zipper
  */
-export const value = <A>({focus}: Zipper<A>): A => Tree.getValue(focus)
+export const getValue = <A>({focus}: Zipper<A>): A => Tree.getValue(focus)
+
+/**
+ * Get the nodes to the left of the focus node.
+ * @typeParam A - The underlying type of the tree.
+ * @param zipper - Zipper to be queried.
+ * @returns Possibly empty list of trees.
+ * @category zipper
+ */
+export const getLefts = <A>({lefts}: Zipper<A>): Tree.Tree<A>[] => lefts
+
+/**
+ * Get the nodes to the left of the focus node.
+ * @typeParam A - The underlying type of the tree.
+ * @param zipper - Zipper to be queried.
+ * @returns Possibly empty list of trees.
+ * @category zipper
+ */
+export const getRights = <A>({rights}: Zipper<A>): Tree.Tree<A>[] => rights
 
 /**
  * Create a new zipper focused on the root node of the given tree.

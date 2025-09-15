@@ -6,6 +6,7 @@ import {
   branch,
   from,
   getBranchForest,
+  removeForest,
   nthChild,
   drill,
   getForest,
@@ -24,9 +25,8 @@ import {
   firstChild,
   lastChild,
   modBranch,
-} from './index.js'
+} from '#tree'
 import type {Tree} from './types.js'
-import {removeForest} from './forest.js'
 import {numericTree} from '../test.js'
 
 const [leaf42, leaf43, leaf44] = [leaf(42), leaf(43), leaf(44)]
