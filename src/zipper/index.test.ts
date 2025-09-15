@@ -1,5 +1,7 @@
 import {
   fromTree,
+  next,
+  unsafeNext,
   head,
   previous,
   toTree,
@@ -11,11 +13,13 @@ import {
   value,
   type Zipper,
   type ZipperLevel,
-} from '#ops/zipper'
+  replace,
+} from '#zipper'
 import {branch, from, of, type Branch} from '#tree'
 import {pairMap, type Pair} from '#util/Pair'
 import {Option, pipe} from 'effect'
 import {describe, expect, test} from 'vitest'
+import {assertDrawNumericTree} from '../test.js'
 
 const leaf = of(1)
 
@@ -129,7 +133,7 @@ describe('zipper', () => {
       expect(pipe(leaf, fromTree, previous)).toEqual(Option.none())
     })
 
-    test('deep', () => {
+    test('small', () => {
       const actual: number = pipe(
         small,
         fromTree,
@@ -139,6 +143,69 @@ describe('zipper', () => {
       )
 
       expect(actual).toBe(2)
+    })
+
+    test('deep', () => {
+      const actual: number = pipe(
+        deep,
+        fromTree,
+        unsafeHead,
+        unsafeLast,
+        unsafePrevious,
+        unsafePrevious,
+        value,
+      )
+
+      expect(actual).toBe(3)
+    })
+  })
+
+  describe('next', () => {
+    test('leaf', () => {
+      expect(pipe(leaf, fromTree, next)).toEqual(Option.none())
+    })
+
+    test('deep', () => {
+      const actual: number = pipe(
+        deep,
+        fromTree,
+        unsafeHead,
+        unsafeNext,
+        unsafeNext,
+        value,
+      )
+
+      expect(actual).toBe(7)
+    })
+  })
+
+  describe('next/previous cancel each other', () => {
+    test('previous cancels next', () => {
+      const actual: number = pipe(
+        deep,
+        fromTree,
+        unsafeHead,
+        unsafeNext,
+        unsafeNext,
+        unsafePrevious,
+        unsafePrevious,
+        value,
+      )
+      expect(actual).toBe(2)
+    })
+
+    test('next cancels previous', () => {
+      const actual: number = pipe(
+        deep,
+        fromTree,
+        unsafeLast,
+        unsafePrevious,
+        unsafePrevious,
+        unsafeNext,
+        unsafeNext,
+        value,
+      )
+      expect(actual).toBe(7)
     })
   })
 
@@ -167,6 +234,66 @@ describe('zipper', () => {
       test('up twice', () => {
         expect(toTree(upTwice)).toEqual(deep)
       })
+    })
+  })
+
+  describe('replace', () => {
+    test('leaf', () => {
+      expect(replace(small)(fromTree(leaf))).toEqual(fromTree(small))
+    })
+
+    test('deep', () => {
+      pipe(
+        deep,
+        fromTree,
+        unsafeHead,
+        unsafeHead,
+        unsafeNext,
+        replace(of(42)),
+        unsafeUp,
+        unsafeNext,
+        replace(of(43)),
+        toTree,
+        assertDrawNumericTree(`
+┬1
+├┬2
+│├─3
+│├─42
+│└─5
+├─43
+└┬7
+ └─8`),
+      )
+    })
+  })
+
+  describe('insert', () => {
+    test('leaf', () => {
+      expect(replace(small)(fromTree(leaf))).toEqual(fromTree(small))
+    })
+
+    test('deep', () => {
+      pipe(
+        deep,
+        fromTree,
+        unsafeHead,
+        unsafeHead,
+        unsafeNext,
+        replace(of(42)),
+        unsafeUp,
+        unsafeNext,
+        replace(of(43)),
+        toTree,
+        assertDrawNumericTree(`
+┬1
+├┬2
+│├─3
+│├─42
+│└─5
+├─43
+└┬7
+ └─8`),
+      )
     })
   })
 })

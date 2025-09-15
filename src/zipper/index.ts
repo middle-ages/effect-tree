@@ -6,7 +6,7 @@ import {HKT, Option, pipe, Struct} from 'effect'
 /**
  * A zipper encodes a location with a tree, allowing for efficient navigation
  * and update of immutable trees.
- * @category ops
+ * @category zipper
  */
 export interface Zipper<A> extends ZipperLevel<A> {
   /** Tree node that is the current focus. */
@@ -19,7 +19,7 @@ export interface Zipper<A> extends ZipperLevel<A> {
 
 /**
  * Everything required to rebuild a level of the tree and all below it.
- * @category ops
+ * @category zipper
  */
 export interface ZipperLevel<A> {
   /** All children of the parent that are _to the left_ of the focus node. */
@@ -38,7 +38,7 @@ export interface ZipperLevel<A> {
  * @typeParam A - The underlying type of the tree.
  * @param zipper - Zipper to be queried.
  * @returns Value of the focus node.
- * @category ops
+ * @category zipper
  */
 export const value = <A>({focus}: Zipper<A>): A => Tree.getValue(focus)
 
@@ -47,7 +47,7 @@ export const value = <A>({focus}: Zipper<A>): A => Tree.getValue(focus)
  * @typeParam A - The underlying type of the tree.
  * @param focus - The tree at the focus of the new zipper.
  * @returns A new zipper focused on the given tree root node.
- * @category ops
+ * @category zipper
  */
 export const fromTree = <A>(focus: Tree.Tree<A>): Zipper<A> => ({
   focus,
@@ -62,7 +62,7 @@ export const fromTree = <A>(focus: Tree.Tree<A>): Zipper<A> => ({
  * @typeParam A - The underlying type of the tree.
  * @param zipper - The zipper that will be converted into a tree.
  * @returns The tree encoded by the zipper.
- * @category ops
+ * @category zipper
  */
 export const toTree = <A>(zipper: Zipper<A>): Tree.Tree<A> => {
   const {focus, levels} = zipper
@@ -83,7 +83,7 @@ export const toTree = <A>(zipper: Zipper<A>): Tree.Tree<A> => {
 /**
  * Type lambda for the `Zipper<A>` type.
  * `Kind<ZipperTypeLambda, never, unknown, unknown, A> ≡ Zipper<A>`
- * @category ops
+ * @category zipper
  */
 export interface ZipperTypeLambda extends HKT.TypeLambda {
   readonly type: Zipper<this['Target']>
@@ -92,7 +92,7 @@ export interface ZipperTypeLambda extends HKT.TypeLambda {
 /**
  * Type lambda for the `ZipperLevel<A>` type.
  * `Kind<ZipperLevelTypeLambda, never, unknown, unknown, A> ≡ ZipperLevel<A>`
- * @category ops
+ * @category zipper
  */
 export interface ZipperLevelTypeLambda extends HKT.TypeLambda {
   readonly type: ZipperLevel<this['Target']>
@@ -104,7 +104,7 @@ export interface OptionalZipper {
 
 /**
  * Extract the underlying type `A` of the zipper.
- * @category ops
+ * @category zipper
  */
 export type ZipperType<Z extends Zipper<any>> =
   Z extends Zipper<infer A> ? A : never

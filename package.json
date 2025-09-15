@@ -85,6 +85,10 @@
       "types": "./src/ops.d.ts",
       "import": "./src/ops.js"
     },
+    "#zipper": {
+      "types": "./src/zipper.d.ts",
+      "import": "./src/zipper.js"
+    },
     "#ops/*": {
       "types": "./src/ops/*.d.ts",
       "import": "./src/ops/*.js"

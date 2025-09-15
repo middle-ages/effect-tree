@@ -334,7 +334,8 @@ const _nthChild = <A>(n: number, self: Tree<A>): Option<Tree<A>> =>
     self,
     match({
       onLeaf: K(none<Tree<A>>()),
-      onBranch: (_, forest) => Array.get(forest, n < 0 ? forest.length + n : n),
+      onBranch: (_, forest) =>
+        Array.get(forest, n + (n < 0 ? forest.length : 0)),
     }),
   )
 

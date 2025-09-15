@@ -26,20 +26,55 @@
 - unfoldLevelTree
 - byParentUnfold
 
-## Zipper
+## Decoding from Data
+
+## Basic Operations
+
+- isLeaf
+- isBranch
+- length
+- getValue
+- getBranchForest
+- getForest
+- destruct
+- destructBranch
+- setValue
+- setForest
+- modBranch
+- modValue
+- modForest
+- modBranchForest
+- firstChild
+- lastChild
+- nthChild
+- drill
+- insertAllAt
+- insertAt
+- append
+- prepend
+- appendAll
+- prependAll
+- removeForest
+- removeNthChild
+- removeFirstChild
+- removeLastChild
+- sliceForest
+
+### Zipper
 
 - fromTree
 - toTree
 
-### Navigate
+#### Navigate
 
 - head
 - last
 - previous
 - next
 - up
+- at
 
-### Modify
+#### Modify
 
 - replace
 - insert

@@ -1,8 +1,3 @@
-/**
- * Zipper focus change combinators.
- * @module
- */
-import {type EndoK} from '#util/Function'
 import * as Tree from '#tree'
 import {
   headNonEmpty,
@@ -10,16 +5,17 @@ import {
   lastInit,
   lastNonEmpty,
 } from '#util/Array'
-import {flow, Option} from 'effect'
+import {type EndoK} from '#util/Function'
+import {flow, Option, pipe} from 'effect'
+import type {TupleOf} from 'effect/Types'
 import {
+  fromLevel,
+  pushSelf,
   type OptionalZipper,
   type Zipper,
   type ZipperType,
   type ZipperTypeLambda,
-  fromLevel,
-  pushSelf,
 } from './index.js'
-import type {TupleOf} from 'effect/Types'
 
 /**
  * Navigate from a node to its first child.
@@ -27,7 +23,7 @@ import type {TupleOf} from 'effect/Types'
  * @param zipper - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if
  * there is no first child.
- * @category ops
+ * @category zipper
  */
 export const head: OptionalZipper = zipper => {
   const {focus} = zipper
@@ -50,7 +46,7 @@ export const head: OptionalZipper = zipper => {
  * @param zipper - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if
  * there is no last child.
- * @category ops
+ * @category zipper
  */
 export const last: OptionalZipper = zipper => {
   const {focus} = zipper
@@ -73,18 +69,18 @@ export const last: OptionalZipper = zipper => {
  * @param zipper - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if
  * there is no previous sibling.
- * @category ops
+ * @category zipper
  */
 export const previous: OptionalZipper = ({focus, lefts, rights, ...rest}) => {
   if (!isNonEmptyArray(lefts)) {
     return Option.none()
   }
-  const [newFocus, ...newLefts] = lefts
+  const [newFocus, newLefts] = lastInit(lefts)
   return Option.some({
     ...rest,
     focus: newFocus,
-    lefts: [focus, ...rights],
-    rights: newLefts,
+    lefts: newLefts,
+    rights: [focus, ...rights],
   })
 }
 
@@ -94,7 +90,7 @@ export const previous: OptionalZipper = ({focus, lefts, rights, ...rest}) => {
  * @param zipper - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if
  * there is no next sibling.
- * @category ops
+ * @category zipper
  */
 export const next: OptionalZipper = ({focus, lefts, rights, ...rest}) => {
   if (!isNonEmptyArray(rights)) {
@@ -115,7 +111,7 @@ export const next: OptionalZipper = ({focus, lefts, rights, ...rest}) => {
  * @param zipper - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if
  * zipper is pointing at root node.
- * @category ops
+ * @category zipper
  */
 export const up: OptionalZipper = <A>({
   parent,
@@ -135,6 +131,47 @@ export const up: OptionalZipper = <A>({
   })
 }
 
+/**
+ * Navigate from a node to its Nth child.
+ *
+ * Negative indexes are handled as offsets from the final tree in the forest so
+ * that focusing on index `-1` focuses on the last tree in the forest, `-2` on
+ * the tree before that and so on.
+ * @typeParam A - The underlying type of the tree.
+ * @param zipper - The zipper that will be navigated.
+ * @param n - Index of child that will be the new zipper focus.
+ * @returns An updated zipper pointing at a new focus or `Option.none()` if
+ * the node is a leaf or the given index is out-of-bounds.
+ * @category zipper
+ */
+export const at = <A>(
+  zipper: Zipper<A>,
+  n: number,
+): Option.Option<Zipper<A>> => {
+  const {focus: oldFocus} = zipper
+
+  const length = Tree.length(oldFocus)
+  const index = n + (n < 0 ? length : 0)
+  if (Tree.isLeaf(oldFocus) || index >= Tree.length(oldFocus)) {
+    return Option.none()
+  }
+  const parentNode: Tree.Branch<A> = oldFocus
+  const oldForest = Tree.getBranchForest(parentNode)
+  const [lefts, focus, rights] = [
+    oldForest.slice(0, n),
+    oldForest.at(index) as Tree.Tree<A>,
+    oldForest.slice(n),
+  ]
+
+  return Option.some({
+    ...pushSelf(zipper),
+    focus,
+    lefts,
+    rights,
+    parent: pipe(parentNode, Tree.getValue, Option.some),
+  })
+}
+
 export const [
   unsafeHead,
   unsafeLast,
@@ -148,3 +185,8 @@ export const [
   flow(next, Option.getOrThrow),
   flow(up, Option.getOrThrow),
 ]
+
+export const unsafeAt: <A>(zipper: Zipper<A>, n: number) => Zipper<A> = flow(
+  at,
+  Option.getOrThrow,
+)
