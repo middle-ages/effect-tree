@@ -8,7 +8,7 @@ import {
   type Tree,
   type TreeFolder,
   type TreeUnfolder,
-} from '../index.js'
+} from 'effect-tree'
 
 type NonEmptyArray2<A> = Array.NonEmptyArray<Array.NonEmptyArray<A>>
 

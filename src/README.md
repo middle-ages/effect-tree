@@ -1,4 +1,4 @@
-# `effect-ts-tree` Source
+# `effect-tree` Source
 
 1. [TreeF (src)](#treef-src)
    1. [TreeF\<A, C\> Types](#treefa-c-types)

@@ -5,6 +5,7 @@ import {HKT, Option, pipe, Struct} from 'effect'
 
 /**
  * A zipper encodes a location with a tree, allowing for efficient navigation
+ * @typeParam A - The underlying type of the tree.
  * and update of immutable trees.
  * @category zipper
  */
@@ -13,12 +14,18 @@ export interface Zipper<A> extends ZipperLevel<A> {
   focus: Tree.Tree<A>
   /**
    * Everything required to rebuild all levels of the tree _above_ this one.
+   * At the root level of a tree this array will be empty, when focused
+   * on any of the children of the root node it will hold a single level,
+   * and so on. The number of levels found is the depth of the zipper.
    */
   levels: ZipperLevel<A>[]
 }
 
 /**
  * Everything required to rebuild a level of the tree and all below it.
+ * To recreate the level we add thee focus node between the `lefts` and the
+ * `rights` then add this forest to the parent value to get a tree.
+ * @typeParam A - The underlying type of the tree.
  * @category zipper
  */
 export interface ZipperLevel<A> {
@@ -32,42 +39,6 @@ export interface ZipperLevel<A> {
    */
   parent: Option.Option<A>
 }
-
-/**
- * Get the current focus of the zipper.
- * @typeParam A - The underlying type of the tree.
- * @param zipper - Zipper to be queried.
- * @returns The focus of the zipper.
- * @category zipper
- */
-export const getFocus = <A>({focus}: Zipper<A>): Tree.Tree<A> => focus
-
-/**
- * Get the value of the tree node under focus.
- * @typeParam A - The underlying type of the tree.
- * @param zipper - Zipper to be queried.
- * @returns Value of the focus node.
- * @category zipper
- */
-export const getValue = <A>({focus}: Zipper<A>): A => Tree.getValue(focus)
-
-/**
- * Get the nodes to the left of the focus node.
- * @typeParam A - The underlying type of the tree.
- * @param zipper - Zipper to be queried.
- * @returns Possibly empty list of trees.
- * @category zipper
- */
-export const getLefts = <A>({lefts}: Zipper<A>): Tree.Tree<A>[] => lefts
-
-/**
- * Get the nodes to the left of the focus node.
- * @typeParam A - The underlying type of the tree.
- * @param zipper - Zipper to be queried.
- * @returns Possibly empty list of trees.
- * @category zipper
- */
-export const getRights = <A>({rights}: Zipper<A>): Tree.Tree<A>[] => rights
 
 /**
  * Create a new zipper focused on the root node of the given tree.

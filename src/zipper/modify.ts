@@ -2,7 +2,7 @@ import * as Tree from '#tree'
 import {type EndoOf} from '#util/Function'
 import {Option, pipe} from 'effect'
 import {type Zipper} from './index.js'
-import {head, last, unsafeHead, unsafeLast} from './navigate.js'
+import {tryHead, tryLast} from './navigate.js'
 
 /**
  * Replace the focus tree node of the zipper with the given tree node.
@@ -21,7 +21,7 @@ export const replace =
 /**
  * Insert the given node as the first child of the given focus.
  *
- * At the keys `move` and `unsafeMove` you will find versions where the focus
+ * At the keys `move` and `tryMove` you will find versions where the focus
  * has been _moved_ to the newly inserted node.
  *
  * @typeParam A - The underlying type of the tree.
@@ -36,15 +36,15 @@ export const prepend =
     focus: Tree.prepend(focus, that),
   })
 
-prepend.move =
+prepend.tryMove =
   <A>(that: Tree.Tree<A>) =>
   (zipper: Zipper<A>): Option.Option<Zipper<A>> =>
-    pipe(zipper, prepend(that), head)
+    pipe(zipper, prepend(that), tryHead)
 
-prepend.unsafeMove =
+prepend.move =
   <A>(that: Tree.Tree<A>): EndoOf<Zipper<A>> =>
   zipper =>
-    pipe(zipper, prepend(that), unsafeHead)
+    pipe(zipper, prepend.tryMove(that), Option.getOrThrow)
 
 /**
  * Append the given node as the last child of the given focus.
@@ -64,12 +64,12 @@ export const append =
     focus: Tree.append(focus, that),
   })
 
-append.move =
+append.tryMove =
   <A>(that: Tree.Tree<A>) =>
   (zipper: Zipper<A>): Option.Option<Zipper<A>> =>
-    pipe(zipper, append(that), last)
+    pipe(zipper, append(that), tryLast)
 
-append.unsafeMove =
+append.move =
   <A>(that: Tree.Tree<A>): EndoOf<Zipper<A>> =>
   zipper =>
-    pipe(zipper, append(that), unsafeLast)
+    pipe(zipper, append.tryMove(that), Option.getOrThrow)

@@ -1,4 +1,4 @@
-import {Codec, drawTree, type Tree, Draw} from '../index.js'
+import {Codec, drawTree, type Tree, Draw} from 'effect-tree'
 
 // Get a nice looking 12-node tree from the list of all trees.
 const tree: Tree<number> = Codec.Prufer.getNthTree(9_876_543_210, 12)

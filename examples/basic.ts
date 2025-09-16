@@ -10,7 +10,7 @@ import {
   nthChild,
   tree,
   type Tree,
-} from '../index.js'
+} from 'effect-tree'
 
 //  “tree” can be used to build trees with a single function.
 const stringTree: Tree<string> = tree('Root', [

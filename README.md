@@ -1,4 +1,4 @@
-# 🌳 effect-ts-tree
+# 🌳 effect-tree
 
 <b><font color=red>NOT RELEASED YET</font></b>
 

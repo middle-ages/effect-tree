@@ -1,5 +1,5 @@
 {
-  "name": "effect-ts-tree",
+  "name": "effect-tree",
   "description": "A strict tree datatype that wants to do everything.",
   "version": "1.0.0",
   "type": "module",
@@ -63,10 +63,10 @@
         "import": "./index.js"
       }
     },
-    "./Zipper": {
+    "./*": {
       "import": {
-        "types": "./src/zipper.d.ts",
-        "import": "./src/zipper.js"
+        "types": "./src/*.d.ts",
+        "import": "./src/*.js"
       }
     }
   },

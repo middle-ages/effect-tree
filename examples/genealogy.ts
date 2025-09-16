@@ -6,7 +6,7 @@ import {
   drawTree,
   from,
   of,
-} from '../index.js'
+} from 'effect-tree'
 
 // “from” lets you create trees with less brackets than would be required with
 // “branch” or “tree”.
