@@ -6,9 +6,7 @@ const tree: Tree<number> = Codec.Prufer.getNthTree(9_876_543_210, 12)
 // Note we use the numeric.unlines variant which draws numeric trees to a string
 // instead of a list of string rows.
 log(drawTree.number.unlines(tree))
-
-/**
-
+/*
 ┬1
 └┬6
  └┬8
@@ -21,7 +19,6 @@ log(drawTree.number.unlines(tree))
   ├─10
   └┬11
    └─4
-
 */
 
 // There are eight other themes, besides the default “thin” theme:
@@ -41,9 +38,7 @@ for (const themeName of Draw.themeNames) {
   log(`\nTheme: “${themeName}”`)
   log(drawTree[themeName].number.unlines(tree))
 }
-
-/**
-
+/*
 Theme: “ascii”
 +1
 '-+6
@@ -180,7 +175,6 @@ Theme: “unixRounded”
      ├─10
      ╰─11
        ╰─4
-
 */
 
 function log(s: string): void {

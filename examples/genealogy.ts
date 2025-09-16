@@ -52,9 +52,7 @@ export const genealogy = from(
 )
 
 console.log(drawTree.unlines(genealogy))
-
-/**
-
+/*
 ┬Metuselah      
 └┬Lamech        
  ├┬Noah         
@@ -80,7 +78,6 @@ console.log(drawTree.unlines(genealogy))
   ├─Tubal       
   ├─Meshech     
   └─Tiras       
-
 */
 
 // Annotate each tree node with its level label encoding its path to root.
@@ -88,8 +85,7 @@ const labeled = addLevelLabels(genealogy)
 
 console.log(drawTree.unlines(labeled))
 
-/**
-
+/*
 ┬1. Metuselah              
 └┬1.1. Lamech              
  ├┬1.1.1. Noah             
@@ -115,7 +111,6 @@ console.log(drawTree.unlines(labeled))
   ├─1.1.2.5. Tubal         
   ├─1.1.2.6. Meshech       
   └─1.1.2.7. Tiras         
-
 */
 
 // Loop over all bottom-grounded subtrees and draw them.  For a tree with 25
@@ -128,8 +123,7 @@ for (const tree of bottomSubtrees(genealogy)) {
   console.log(drawTree.unlines(tree))
 }
 
-/**
-
+/*
 Subtree #1
 ─Elam
 
@@ -285,16 +279,13 @@ Subtree #25
   ├─Tubal       
   ├─Meshech     
   └─Tiras       
-
 */
 
 // Encode a string tree as an indented list of strings à la YAML.
 const encoded = Codec.Indented.encode(2)(identity<string>)(genealogy)
 
 console.log(encoded.join('\n'))
-
-/**
-
+/*
 Metuselah
   Lamech
     Noah
@@ -320,5 +311,4 @@ Metuselah
       Tubal
       Meshech
       Tiras
-
 */

@@ -22,9 +22,7 @@ const treeOfZeros = pipe(Codec.Prufer.getNthTree(4e14, 16), map(constant(0)))
 
 console.log('The 400,000,000,000,000th labeled tree with 16 nodes:')
 logNumericTree(treeOfZeros)
-
-/**
-
+/*
 ┬0
 ├─0
 └┬0
@@ -41,7 +39,6 @@ logNumericTree(treeOfZeros)
    ├─0
    └┬0
     └─0
-
 */
 
 // Run th given fold on our treeOfZeros.
@@ -85,9 +82,7 @@ const descendentCountFold: TreeFolderOf<number> = TreeF.match({
 
 // Run the “heightFold“
 showFoldN('height', heightFold)
-
-/**
- 
+/*
 “height” fold: 6
 replaced:
 ┬6
@@ -123,14 +118,11 @@ annotated:
    ├─0:1
    └┬0:2
     └─0:1
-
 */
 
 // Run the “descendentCountFold”
 showFoldN('descendentCount', descendentCountFold)
-
-/**
-
+/*
 “descendentCount” fold: 16
 replaced:
 ┬16
@@ -166,7 +158,6 @@ annotated:
    ├─0:1
    └┬0:2
     └─0:1
-
 */
 
 // Zip the “heightFold” and the “descendentCountFold” in a single fold.
@@ -176,8 +167,7 @@ showFold(
   ([n, m]) => [n.toString(), m.toString()].join(':'),
 )
 
-/**
-
+/*
 “height ¥ descendentCount” fold: 6:16
 replaced:
 ┬6:16
@@ -213,7 +203,6 @@ annotated:
    ├─0:1:1
    └┬0:2:2
     └─0:1:1
-
 */
 
 const showNumericPair = (pair: readonly [number, number]): string =>
@@ -232,9 +221,7 @@ pipe(
   ),
   logStringTree,
 )
-
-/**
-
+/*
 ┬0:1;6:16
 ├─0:2;1:1
 └┬0:2;5:14
@@ -251,7 +238,6 @@ pipe(
    ├─0:5;1:1
    └┬0:5;2:2
     └─0:6;1:1
-
 */
 
 type Result = {
@@ -267,16 +253,13 @@ const structFold: TreeFolderOf<Result> = structTreeFolds({
 })
 
 console.table(runFold(structFold))
-
-/**
-
+/*
 ┌─────────────┬────────┐
 │ (index)     │ Values │
 ├─────────────┼────────┤
 │ height      │ 6      │
 │ descendants │ 16     │
 └─────────────┴────────┘
-
 */
 
 function logStringTree(self: Tree<string>): void {

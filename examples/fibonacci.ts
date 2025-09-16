@@ -20,9 +20,7 @@ const unfolder: TreeUnfolder<number, State> = ([f0, f1, f2]) =>
 const fibUnfold = (n: number): Tree<number> => treeAna(unfolder)([n - 1, 1, 2])
 
 log(fibUnfold(10))
-
-/**
-
+/*
  1. ┬1
  2. └┬2
  3.  └┬3
@@ -33,7 +31,6 @@ log(fibUnfold(10))
  8.       └┬34
  9.        └┬55
 10.         └─89
-
 */
 
 // Groups tree nodes at a tree level. A function of the type:
@@ -53,11 +50,8 @@ const fibN = (n: number) =>
     ?.at(0)
 
 console.log(fibN(100))
-
-/**
- 
+/*
 573147844013817200000
-
 */
 
 function log(tree: Tree<number>): void {

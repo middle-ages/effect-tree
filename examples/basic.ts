@@ -27,9 +27,7 @@ const stringTree: Tree<string> = tree('Root', [
 ])
 
 console.log(drawTree.unixRounded.unlines(stringTree))
-
-/**
-
+/*
 ─Root
  ├─🌿 Top Branch
  │ │  (one node)
@@ -46,7 +44,6 @@ console.log(drawTree.unixRounded.unlines(stringTree))
    ├─🍂 Leaf₅
    ├─🍂 Leaf₆
    ╰─🍂 Leaf₇
-
 */
 
 // you can match nodes to leaves or branches using “match”. Here we match on the
@@ -62,11 +59,8 @@ const rootNodeType = (tree: Tree<string>): string =>
   )
 
 console.log(rootNodeType(stringTree))
-
-/**
-
+/*
 branch of forest.length=3
-
 */
 
 // You can drill into the tree using “drill” and get node values using “getValue”:
@@ -78,11 +72,8 @@ console.log(
     getValue,
   ),
 )
-
-/**
-
+/*
 🍂 Leaf₄
-
 */
 
 // Get direct children of a branch using “nthChild”/“firstChild”/“lastChild”.
@@ -97,19 +88,14 @@ console.log(
     getValue,
   ),
 )
-
-/**
-
+/*
 🍂 Leaf₄
-
 */
 
 // Print max node child count and max node height:
 console.log(maximumNodeHeight(stringTree), maximumNodeDegree(stringTree))
-/**
-
+/*
 3 4
-
 */
 
 function label(name: string, note: string): string {

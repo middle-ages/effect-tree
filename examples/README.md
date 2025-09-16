@@ -28,4 +28,41 @@ The expected terminal output of each example appears inline with the source code
 | [Fibonacci](https://github.com/middle-ages/effect-tree/blob/main/examples/fibonacci.ts)| A custom fold: unfold the Fibonacci sequence into a linear tree.         |
 | [Folds](https://github.com/middle-ages/effect-tree/blob/main/examples/folds.ts)        | Fusing folds into tuples and structs.                                    |
 | [Genealogy](https://github.com/middle-ages/effect-tree/blob/main/examples/genealogy.ts)| Level labels, bottom grounded subtrees, and encoding to indented strings.|
-| [Zipper](https://github.com/middle-ages/effect-tree/blob/main/examples/zipper.ts)| Use a zipper to navigate and change trees.|
+| [Generate](https://github.com/middle-ages/effect-tree/blob/main/examples/generate.ts)  | Enumerate and generate trees.                                            |
+| [Zipper](https://github.com/middle-ages/effect-tree/blob/main/examples/zipper.ts)      | Use a zipper to navigate and change trees.                               |
+
+### REPL
+
+Inside the repository `pnpm repl` (or `tsx dev/repl.ts`) will run the [Node.js REPL](https://nodejs.org/api/repl.html) with symbols useful for
+quick experimentation [added to the global scope](https://github.com/middle-ages/effect-tree/blob/main/dev/repl.ts).
+
+Type `help` for more info. You should see this:
+
+```txt
+> tsx --import=./dev/repl.ts
+» Loaded “dev/repl.ts”.
+
+• .help............Node.js help
+• help.............this help message
+• _................previous result
+• demoTree.........a small tree of strings
+• getValue(tree)...get root node value
+• draw(tree).......draw string or numeric tree to console
+• of('hello')......create leaf from value
+• from(............create tree from value and possibly empty tree list
+       'root',
+       of('leaf₁'),                               •┬─root
+       from('branch', of('leaf₂'), of('leaf₃')) ┄→ ├───leaf₁
+      )      ┊    ┊  ┊                        ┊    └─┬─branch
+             ╰┄┬┄┄╯  ╰┄┄┄┄┄┄┄┄┄┄┬┄┄┄┄┄┄┄┄┄┄┄┄┄╯      └─┬─leaf₂
+  branch value┄╯                ╰┄list of leaves       └─leaf₃
+
+Try: > draw(demoTree)                  Global namespace:
+     > pipe(8, binaryTree, draw)       ‣ effect exports under “effect”
+                                       ‣ effect/Function exports
+                                       ‣ effect-tree exports
+
+Welcome to Node.js v22.14.0.
+Type ".help" for more information.
+>
+```

@@ -13,8 +13,7 @@ import {constant} from 'effect/Function'
 
 const tree = pipe(4, binaryTree, map(constant('')), addLevelLabels)
 console.log(drawTree.unlines(tree))
-/**
-
+/*
 ─┬1. 
  ╰─┬───────────────────┐
    ├1.1.               ├1.2.                          
@@ -66,31 +65,25 @@ const lastValue: string = pipe(
   getValue,
 )
 console.log(`head × 3=${lastValue}`)
-/**
-
+/*
 head × 3=1.1.1.1.
-
 */
 
 // The “repeat” combinator will repeat a navigation N times, and there are
 // repeating variants of “head” and “last” called “headN” and “lastN”.
 // Above can be rewritten:
 console.log(`headN × 1=${pipe(zipper, headN(3), getValue)}`)
-/**
-
+/*
 headN × 1=1.1.1.1.
-
 */
 
 // The same can be done with `drill`:
 console.log(
   `drill\n${pipe([0, 0, 0], drill(tree), Option.getOrThrow, drawTree.unlines)}`,
 )
-/**
-
+/*
 drill
 ─1.1.1.1.
-
 */
 
 // But the zipper can also modify the tree. For example: append a leaf to the
@@ -104,8 +97,7 @@ const updated = pipe(
   toTree,
 )
 console.log(drawTree.unlines(updated))
-/**
-  
+/*
 ─┬1. 
  ╰─┬───────────────────┐
    ├1.1.               ├1.2.                          
@@ -130,7 +122,5 @@ const invalid = pipe(
 
 console.log(`invalid path=${Option.isNone(invalid).toString()}`)
 /*
-
 invalid path=true
-
 */
