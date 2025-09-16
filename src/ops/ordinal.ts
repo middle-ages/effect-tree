@@ -114,7 +114,7 @@ export const asOrdinal =
  * @category ops
  */
 export const withOrdinal =
-  (initialize: number) =>
+  (initialize = 1) =>
   <A>(self: Tree<A>) => {
     const counterEffect: Effect<Ref.Ref<number>> = Ref.make(initialize)
 

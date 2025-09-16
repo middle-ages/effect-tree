@@ -115,7 +115,7 @@ describe('modify', () => {
   })
 
   test('prepend.move', () => {
-    expect(pipe(leaf, fromTree, append.move(of(2)))).toEqual(
+    expect(pipe(leaf, fromTree, prepend.move(of(2)))).toEqual(
       pipe(1, branch([of(2)]), fromTree, head),
     )
   })

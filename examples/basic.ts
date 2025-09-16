@@ -26,7 +26,7 @@ const stringTree: Tree<string> = tree('Root', [
   ]),
 ])
 
-console.log(drawTree.unixRounded(stringTree).join('\n'))
+console.log(drawTree.unixRounded.unlines(stringTree))
 
 /**
 

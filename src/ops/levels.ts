@@ -202,7 +202,7 @@ export const addLevelLabels: (self: Tree<string>) => Tree<string> = tree =>
  * Crop all nodes from a tree that are deeper than the given depth. For example:
  *
  * ```ts
- * import {leaf, branch, cropDepth} from 'effect-ts-tree'
+ * import {leaf, branch, cropDepth} from 'effect-tree'
  *
  * //  ┬1        A tree of depth=4
  * //  └┬2       with 3 branches and

@@ -51,7 +51,7 @@ export const genealogy = from(
   ),
 )
 
-console.log(drawTree(genealogy).join('\n'))
+console.log(drawTree.unlines(genealogy))
 
 /**
 
@@ -86,7 +86,7 @@ console.log(drawTree(genealogy).join('\n'))
 // Annotate each tree node with its level label encoding its path to root.
 const labeled = addLevelLabels(genealogy)
 
-console.log(drawTree(labeled).join('\n'))
+console.log(drawTree.unlines(labeled))
 
 /**
 
@@ -125,7 +125,7 @@ let i = 0
 for (const tree of bottomSubtrees(genealogy)) {
   i++
   console.log(`\nSubtree #${i.toString()}`)
-  console.log(drawTree(tree).join('\n'))
+  console.log(drawTree.unlines(tree))
 }
 
 /**
