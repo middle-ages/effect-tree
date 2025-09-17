@@ -1,3 +1,4 @@
+import {String} from '#util'
 import {transpose, type NonEmptyArray2} from '#util/Array'
 import {Array, flow, pipe} from 'effect'
 import {type Algebra} from 'effect-ts-folds'
@@ -14,8 +15,8 @@ import {
 import {type Part} from './types.js'
 
 /**
- * Render a single layer of the part into a list of strings.
- * @category fold
+ * Render a single layer of the part into a list of strings, one per row.
+ * @category drawing
  */
 export const drawFold: Algebra<PartFTypeLambda, string[]> = matchPartF(
   [],
@@ -24,6 +25,12 @@ export const drawFold: Algebra<PartFTypeLambda, string[]> = matchPartF(
   drawColumnF,
 )
 
+/**
+ * Render a part into a list of strings rows.
+ * @param part - Part to be drawn.
+ * @returns Possibly empty array of lines.
+ * @category drawing
+ */
 export const draw: (part: Part) => string[] = partCata(drawFold)
 
 function drawRowF({
@@ -45,7 +52,7 @@ function drawRowF({
   return pipe(
     aligned,
     transpose,
-    Array.map(flow(Array.map(getOrElse(() => ' ')), Array.join(''))),
+    Array.map(flow(Array.map(getOrElse(() => ' ')), String.unwords)),
   )
 }
 

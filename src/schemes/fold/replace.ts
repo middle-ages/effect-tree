@@ -5,7 +5,7 @@
  */
 import * as TreeF from '#treeF'
 import {Effect, pipe} from 'effect'
-import {fixTree, getValue, treeC} from '../../tree/index.js'
+import {fixTree, getValue, tree} from '../../tree/index.js'
 import {type Tree} from '../../tree/types.js'
 import type {TreeEffectFolder, TreeFolder} from './types.js'
 
@@ -37,7 +37,7 @@ export const replaceEffectFolder =
   ): TreeEffectFolder<A, Tree<B>, E, R> =>
   self =>
     pipe(self, replaceNode(φ), TreeF.destruct, ([value, forest]) =>
-      Effect.map(value, treeC(forest)),
+      Effect.map(value, tree.curried(forest)),
     )
 
 const replaceNode =

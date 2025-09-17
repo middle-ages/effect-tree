@@ -1,15 +1,10 @@
-/**
- * Associative zipping of trees without cropping.
- * @packageDocumentation
- */
 import {
   getValue,
   leaf,
   mapEffect,
   match,
-  treeC,
+  tree,
   treeCata,
-  withForest,
   type Tree,
 } from '#tree'
 import * as TreeF from '#treeF'
@@ -34,8 +29,8 @@ import {succeedBy} from 'effect-ts-folds'
  */
 export const zipTheseWithEffect = <A, B, C>(f: (these: These<A, B>) => C) => {
   const [fromLeft, fromRight]: [
-    (tree: Tree<A>) => Effect.Effect<Tree<C>>,
-    (tree: Tree<B>) => Effect.Effect<Tree<C>>,
+    (self: Tree<A>) => Effect.Effect<Tree<C>>,
+    (self: Tree<B>) => Effect.Effect<Tree<C>>,
   ] = [
     mapEffect(succeedBy(flow(Right.from, f))),
     mapEffect(succeedBy(flow(Left.from, f))),
@@ -45,11 +40,11 @@ export const zipTheseWithEffect = <A, B, C>(f: (these: These<A, B>) => C) => {
     value: C,
   ) => <E, R>(
     self: Effect.Effect<Tree<C>[], E, R>,
-  ) => Effect.Effect<Tree<C>, E, R> = value => Effect.map(withForest(value))
+  ) => Effect.Effect<Tree<C>, E, R> = value => Effect.map(tree.flipped(value))
 
   const buildTree =
     (value: C) =>
-    <T>(f: (tree: Tree<T>) => Effect.Effect<Tree<C>>) =>
+    <T>(f: (self: Tree<T>) => Effect.Effect<Tree<C>>) =>
     (forest: Array.NonEmptyReadonlyArray<Tree<T>>): Effect.Effect<Tree<C>> =>
       pipe(forest, Effect.forEach(f), withValue(value))
 
@@ -106,7 +101,10 @@ export const unzipTheseFold: <A, B>(
   onLeaf: bimapThese(leaf, leaf),
   onBranch: (value, forest) => {
     const [leftForest, rightForest] = unzipArray(forest)
-    return pipe(value, bimapThese(treeC(rightForest), treeC(leftForest)))
+    return pipe(
+      value,
+      bimapThese(tree.curried(rightForest), tree.curried(leftForest)),
+    )
   },
 })
 

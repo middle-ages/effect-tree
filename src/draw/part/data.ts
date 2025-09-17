@@ -17,7 +17,13 @@ import {
   type PartFTypeLambda,
   type Text,
 } from './partF.js'
-import {type Column, type Empty, type Part, type Row} from './types.js'
+import {
+  type Column,
+  type Empty,
+  type Part,
+  type Row,
+  type RowStruts,
+} from './types.js'
 
 export const text = textPart
 
@@ -36,21 +42,35 @@ export const empty: Empty = fixPart<Empty>(emptyF)
 
 const defaultHStrut = text(' '),
   defaultVStrut: NonEmptyArray<Text> = [defaultHStrut],
-  defaultStruts: [Text, NonEmptyArray<Text>] = [defaultHStrut, defaultVStrut]
+  defaultStruts: RowStruts = [defaultHStrut, defaultVStrut]
 
 /**
  * Combine parts horizontally.
+ * @param vAlign - we are combining parts horizontally, and they could be of
+ * different heights. But we must always produce a rectangular area. We need
+ * to fill the areas that are empty. But where do we place the vertical strut
+ * intended for this purpose: above or below the part we are aligning, or
+ * maybe both? This is set by this argument: how to align parts when they are
+ * shorter than the tallest part in the row.
+ * @returns A new part where all the given parts are arranged in a row layout.
  * @category drawing
  */
 export const row =
   (vAlign: VerticalAlignment) =>
+  /**
+   * The vertical struts we use to fill the rectangular area
+   * according to the given vertical alignment are given as a list of strings that
+   * could be 1 to N glyphs wide. This means they could leave space in the row. We
+   * fill it with the given horizontal strut and use this argument to determine
+   * the horizontal alignment of the single vertical strut. We add a vertical
+   * strut per each part that is shorter than the tallest part in the row.
+   */
   (hAlign: HorizontalAlignment) =>
+  /** Possibly empty list of parts. */
   (
     cells: Part[],
-    [hStrut, vStrut]: [
-      hStrut: Text,
-      vStrut?: NonEmptyArray<Text>,
-    ] = defaultStruts,
+    /** A {@link RowStruts} that configures how empty space will be rendered. */
+    [hStrut, vStrut]: RowStruts = defaultStruts,
   ): Row =>
     fixPart<Row>(
       rowF([hAlign, vAlign])([hStrut, vStrut ?? defaultVStrut])(cells),
@@ -65,12 +85,33 @@ export const column =
   (cells: Part[], strut?: Text): Column =>
     fixPart<Column>(columnF(align, strut ?? defaultHStrut)(cells))
 
-export const [isEmptyPart, isText, isRow, isColumn] = [
-  (self: Part): self is Empty => pipe(self, unfixPart, isPartFOf('EmptyF')),
-  (self: Part): self is Text => pipe(self, unfixPart, isPartFOf('TextF')),
-  (self: Part): self is Row => pipe(self, unfixPart, isPartFOf('RowF')),
-  (self: Part): self is Column => pipe(self, unfixPart, isPartFOf('ColumnF')),
-]
+/**
+ * Type guard for the {@link Empty} {@link Part}.
+ * @category drawing
+ */
+export const isEmptyPart = (self: Part): self is Empty =>
+  pipe(self, unfixPart, isPartFOf('EmptyF'))
+
+/**
+ * Type guard for the {@link Text} {@link Part}.
+ * @category drawing
+ */
+export const isText = (self: Part): self is Text =>
+  pipe(self, unfixPart, isPartFOf('TextF'))
+
+/**
+ * Type guard for the {@link Row} {@link Part}.
+ * @category drawing
+ */
+export const isRow = (self: Part): self is Row =>
+  pipe(self, unfixPart, isPartFOf('RowF'))
+
+/**
+ * Type guard for the {@link Column} {@link Part}.
+ * @category drawing
+ */
+export const isColumn = (self: Part): self is Column =>
+  pipe(self, unfixPart, isPartFOf('ColumnF'))
 
 /**
  * Get the text content of a {@link Text} part.
@@ -143,7 +184,7 @@ export const below =
     column(align)([above, below], strut)
 
 /**
- * Add the `below` part below the `above` part.
+ * Add the `above` part above the `below` part.
  * @category drawing
  */
 export const above =
@@ -175,6 +216,10 @@ export const matchPart =
       ),
     )
 
+/**
+ * An empty line part.
+ * @category drawing
+ */
 export const emptyLine = text('')
 
 const [rowTop, rowMiddle, rowBottom] = mapVerticalAlignments(row),

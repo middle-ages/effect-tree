@@ -12,7 +12,10 @@ import {
   type Tree,
 } from 'effect-tree'
 
-//  “tree” can be used to build trees with a single function.
+const label = (name: string, note: string): string =>
+  [`🌿 ${name} Branch`, `  (${note})`].join('\n')
+
+//  “tree” can be used to build trees with a single import.
 const stringTree: Tree<string> = tree('Root', [
   tree(label('Top', 'one node'), [tree('🍂 Leaf₁\n')]),
 
@@ -27,6 +30,7 @@ const stringTree: Tree<string> = tree('Root', [
 ])
 
 console.log(drawTree.unixRounded.unlines(stringTree))
+
 /*
 ─Root
  ├─🌿 Top Branch
@@ -97,7 +101,3 @@ console.log(maximumNodeHeight(stringTree), maximumNodeDegree(stringTree))
 /*
 3 4
 */
-
-function label(name: string, note: string): string {
-  return [`🌿 ${name} Branch`, `  (${note})`].join('\n')
-}

@@ -1,7 +1,3 @@
-/**
- * Working breadth-first to fold, unfold, crop and grow trees.
- * @packageDocumentation
- */
 import {
   byParentUnfold,
   fixTree,

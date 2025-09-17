@@ -6,6 +6,8 @@ export {
   matchVertical,
   showAlignment,
   verticalAlignments,
+  mapHorizontalAlignments,
+  mapVerticalAlignments,
   type Aligned,
   type Alignment,
   type HorizontalAlignment,

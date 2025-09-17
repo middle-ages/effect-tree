@@ -160,7 +160,7 @@ export const modValue: {
 /**
  * Run a function to change the root node forest. If the tree is a {@link Leaf}
  * the given function will receive the empty array as a parameter, if it returns
- * any trees then leaves will be turned into a {@link Branche}s, and if it
+ * any trees then leaves will be turned into a {@link Branch}es, and if it
  * returns the empty array branches will be turned into leaves.
  * @typeParam A - Underlying tree type.
  * @param self - Tree on which to run the given function.
@@ -181,13 +181,13 @@ export const modForest: {
  * Same as {@link modForest} but only accepts branches, so the given function is
  * guaranteed to get a non empty forest as its argument.
  * @typeParam A - Underlying tree type.
- * @param self - Branch on which to run the given function.
  * @param f - Function to apply on the root forest.
  * @returns The given branch with its root forest set to the result of the given function.
  * @category basic
  */
 export const modBranchForest =
   <A>(f: (a: ForestOf<A>) => ForestOf<A>): ((self: Branch<A>) => Branch<A>) =>
+  /** Branch on which to run the given function. */
   self =>
     setForest(self, pipe(self, getBranchForest, f))
 
@@ -305,7 +305,7 @@ const _sliceForest = <A>(self: Tree<A>, low: number, high?: number) =>
  * @param self - The tree to query.
  * accepted.
  * @param low - Index of slice start.
- * @param height - Optional length of slice. Default is a single tree node.
+ * @param high - Optional length of slice. Default is a single tree node.
  * @returns Possibly empty list of trees.
  * @category basic
  */

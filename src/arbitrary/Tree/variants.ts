@@ -6,11 +6,11 @@ import {
   getValue,
   leaf,
   map,
-  treeC,
+  tree,
   type Branch,
   type Tree,
 } from '#tree'
-import {pipe, Record, String} from '#util'
+import {Array, pipe, Record, String} from '#util'
 import fc from 'fast-check'
 import {voidArbitrary} from '../util.js'
 import {getArbitrary} from './index.js'
@@ -93,7 +93,12 @@ export const pruferEncodableArbitrary: fc.Arbitrary<Branch<number>> =
           fc.constant(append(self, leaf(3))),
           fc.constant(
             branch(getValue(self), [
-              pipe(self, firstChild, getValue, treeC([leaf(3)])),
+              pipe(
+                self,
+                firstChild,
+                getValue,
+                pipe(3, leaf, Array.of, tree.curried),
+              ),
             ]),
           ),
         ),

@@ -1,7 +1,3 @@
-/**
- * Working with numeric trees: sums, products, maximum, minimum, and average.
- * @packageDocumentation
- */
 import {map, monoidFold, treeCata, type Tree, type TreeFolder} from '#tree'
 import {flow, pipe, type Function} from '#util'
 import {Monoid} from '@effect/typeclass'

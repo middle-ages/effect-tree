@@ -133,7 +133,7 @@ console.log(
 ## Not Ready Yet
 
 1. User guide.
-1. Add zipper API sugar.
+1. Add zipper API sugar, repeatWhile/until, find.
 1. Effect.Schema codec.
 1. Folds for collecting tree metrics.
 

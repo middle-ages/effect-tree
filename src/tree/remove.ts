@@ -10,7 +10,7 @@ import type {Branch, Leaf, Tree, TreeTypeLambda} from './types.js'
  * @returns A leaf tree node.
  * @category basic
  */
-export const removeForest: <A>(node: Branch<A>) => Leaf<A> = flow(
+export const removeForest: <A>(self: Branch<A>) => Leaf<A> = flow(
   getValue,
   leaf,
 )
@@ -27,12 +27,12 @@ export const removeForest: <A>(node: Branch<A>) => Leaf<A> = flow(
  * @typeParam A - Tree underlying type.
  * @param n - Index in root node forest.
  * @param deleteCount - Count of nodes to be deleted.
- * @param self - The tree from which nodes will be removed.
  * @returns The tree with on less node.
  * @category basic
  */
 export const removeSlice =
   (n: number, deleteCount: number): EndoK<TreeTypeLambda> =>
+  /** The tree from which nodes will be removed. */
   self => {
     const index = n + (n < 0 ? length(self) : 0)
     return pipe(

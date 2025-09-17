@@ -14,7 +14,7 @@ trap 'rm -f "${tmp}"' EXIT
 snapshot="${EXAMPLES_DIR}/.snapshot"
 
 for f in "${EXAMPLES_DIR}"/*.ts; do
-  pnpm tsx "$f" >> "${tmp}"
+  pnpm tsx "$f" >> "${tmp}" || { echo "Example “$f” crashed."; exit 1; }
 done
 
 if [[ -e "${snapshot}" ]]; then

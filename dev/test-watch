@@ -6,6 +6,6 @@ COLOR="${COLOR:-true}"
 
 . "$(dirname "${0}")/lib/_"
 
-vitest "$@" --config "$CONFIG_DIR"/vitest.config.ts --reporter=verbose
+vitest "$@" --config "$CONFIG_DIR"/vitest.config.ts
 
 show_done "test ${@}"

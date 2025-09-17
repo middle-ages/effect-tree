@@ -8,6 +8,13 @@ import {
   getRowFArbitrary,
   TextPartArbitrary,
 } from './PartF.js'
+import {
+  mapHorizontalAlignments,
+  mapVerticalAlignments,
+  type Aligned,
+  type VerticallyAligned,
+  type HorizontallyAligned,
+} from '#draw'
 
 const EmptyPartArbitrary: fc.Arbitrary<Empty> = EmptyPartFArbitrary.map(
   unfixed => ({unfixed}),
@@ -41,3 +48,25 @@ export const Arbitrary = (options?: {
     }
   }).part
 }
+
+/**
+ * @category arbitrary
+ */
+export const HorizontalArbitrary: fc.Arbitrary<HorizontallyAligned> = fc.oneof(
+  ...mapHorizontalAlignments(hAlign => fc.constant({hAlign})),
+)
+
+/**
+ * @category arbitrary
+ */
+export const VerticalArbitrary: fc.Arbitrary<VerticallyAligned> = fc.oneof(
+  ...mapVerticalAlignments(vAlign => fc.constant({vAlign})),
+)
+
+/**
+ * @category arbitrary
+ */
+export const AlignedArbitrary: fc.Arbitrary<Aligned> =
+  HorizontalArbitrary.chain(hAlign =>
+    VerticalArbitrary.map(vAlign => ({...hAlign, ...vAlign})),
+  )

@@ -1,35 +1,34 @@
-import * as TreeF from '#treeF'
-import {Array, pipe} from 'effect'
-import {none, some} from 'effect/Option'
-import {describe, expect, test} from 'vitest'
 import {
   branch,
+  drill,
+  firstChild,
   from,
   getBranchForest,
-  removeForest,
-  nthChild,
-  drill,
   getForest,
   getValue,
   isBranch,
   isLeaf,
+  lastChild,
   leaf,
   length,
+  modBranch,
   modBranchForest,
   modForest,
   modValue,
+  nthChild,
+  removeForest,
   setForest,
   setValue,
   tree,
-  withForest,
-  firstChild,
-  lastChild,
-  modBranch,
 } from '#tree'
-import type {Tree} from './types.js'
+import * as TreeF from '#treeF'
+import {Array, pipe} from 'effect'
+import {none, some} from 'effect/Option'
+import {describe, expect, test} from 'vitest'
 import {numericTree} from '../test.js'
+import type {Tree} from './types.js'
 
-const [leaf42, leaf43, leaf44] = [leaf(42), leaf(43), leaf(44)]
+const [leaf42, leaf43, leaf44] = [leaf(42), leaf(43), tree(44)]
 
 describe('tree api', () => {
   test('leaf', () => {
@@ -46,14 +45,12 @@ describe('tree api', () => {
     })
   })
 
-  describe('withForest', () => {
-    test('binary', () => {
-      expect(withForest([leaf43], 42)).toEqual(tree(42, [leaf43]))
-    })
+  test('curried', () => {
+    expect(tree.curried([leaf43])(42)).toEqual(tree(42, [leaf43]))
+  })
 
-    test('curried', () => {
-      expect(withForest(42)([leaf43])).toEqual(tree(42, [leaf43]))
-    })
+  test('flipped', () => {
+    expect(tree.flipped(42)([leaf43])).toEqual(tree(42, [leaf43]))
   })
 
   test('tree', () => {

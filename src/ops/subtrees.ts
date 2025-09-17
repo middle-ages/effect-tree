@@ -1,7 +1,3 @@
-/**
- * Extract bottom-grounded subtrees of a tree.
- * @packageDocumentation
- */
 import {
   leaf,
   tree,

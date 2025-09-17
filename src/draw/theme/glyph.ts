@@ -1,3 +1,7 @@
+/**
+ * Glyph role names.
+ * @category drawing
+ */
 export const glyphRoles = [
   'tee',
   'rightTee',
@@ -11,6 +15,11 @@ export const glyphRoles = [
   'leafBullet',
 ] as const
 
+/**
+ * Glyph set names. Each glyph set name has an associated
+ * {@link GlyphRoleMap} that maps each {@link GlyphRole} to a glyph.
+ * @category drawing
+ */
 export const glyphSetNames = [
   'space',
   'bullets',
@@ -48,6 +57,12 @@ const unix = {
   leafBullet: '',
 } satisfies Record<(typeof glyphRoles)[number], string>
 
+/**
+ * Maps every {@link GlyphSetName} to its {@link GlyphRoleMap}.
+ * Given a {@link GlyphSetName}  and {@link GlyphRole}
+ * the author of the {@link ThemedPart} can find here a glyph.
+ * @category drawing
+ */
 export const glyphMap = {
   space: {
     tee: ' ',

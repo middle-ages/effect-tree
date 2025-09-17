@@ -6,7 +6,7 @@ export * from 'effect/Function'
 /**
  * A function from a type `A` to itself.
  * Just like {@link EndoOf} except the type `A` is open.
- * @category util
+ * @category internal
  */
 export interface EndoOf<A> {
   (a: A): A
@@ -14,7 +14,7 @@ export interface EndoOf<A> {
 
 /**
  * Just like {@link EndoOf} except the type `A` is open.
- * @category util
+ * @category internal
  */
 export interface Endo {
   <A>(a: A): A
@@ -22,7 +22,7 @@ export interface Endo {
 /**
  * Just like {@link Endo} except the endomorphism is between higher-kinded
  * types.
- * @category util
+ * @category internal
  */
 export interface EndoK<F extends HKT.TypeLambda> {
   <A>(a: HKT.Kind<F, never, unknown, unknown, A>): typeof a

@@ -3,9 +3,9 @@ import {
   annotateFolder,
   leaf,
   map,
+  tree,
   treeCata,
   treeCataEffect,
-  withForest,
   type Tree,
   type TreeEffectFolderOf,
 } from '#tree'
@@ -155,7 +155,7 @@ describe('counting', () => {
 
       test('2 nodes', () => {
         expect(
-          pipe('bar', leaf, Array.of, withForest('bar'), nodeCountAtLeast(2)),
+          pipe('bar', leaf, Array.of, tree.flipped('bar'), nodeCountAtLeast(2)),
         ).toBe(true)
       })
     })
@@ -167,7 +167,7 @@ describe('counting', () => {
 
       test('2 nodes', () => {
         expect(
-          pipe('bar', leaf, Array.of, withForest('bar'), nodeCountAtLeast(3)),
+          pipe('bar', leaf, Array.of, tree.flipped('bar'), nodeCountAtLeast(3)),
         ).toBe(false)
       })
     })

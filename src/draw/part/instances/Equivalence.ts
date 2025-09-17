@@ -13,7 +13,10 @@ import {
 import {BasePartFEquals, BaseRowFEquals} from '../partF.js'
 import type {Column, Part, Row} from '../types.js'
 
-/** An {@link Equivalence} for {@link Part}. */
+/**
+ * An `Equivalence` for {@link Part}.
+ * @category drawing
+ */
 export const Equivalence: EQ.Equivalence<Part> = (self, that) =>
   pipe(
     EquivalenceE(self, that),

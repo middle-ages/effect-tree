@@ -59,16 +59,23 @@ const traverse: TA.Traversable<PartFTypeLambda>['traverse'] = <
     ) => pipe(tfa, map(f), sequenceParts(F)),
   )
 
-/** {@link Covariant} instance for {@link PartF}. */
+/**
+ * `Covariant` instance for {@link PartF}.
+ * @category drawing
+ */
 export const Covariant: CO.Covariant<PartFTypeLambda> = {map, imap}
 
-/** {@link Traversable} instance for {@link PartF}. */
+/**
+ * `Traversable` instance for {@link PartF}.
+ * @category drawing
+ */
 export const Traversable: TA.Traversable<PartFTypeLambda> = {traverse}
 
 /**
  * Build an
  * [Equivalence](https://effect-ts.github.io/effect/effect/Equivalence.ts.html)
  * for a {@link PartF} from an equivalence of its underlying type.
+ * @category drawing
  */
 export const getEquivalence = <A>(
   equalsA: EQ.Equivalence<A>,
@@ -101,15 +108,21 @@ const getRowFEquals =
       BasePartFEquals(self, that) &&
       getArrayEquivalence(equalsA)(self.cells, that.cells)
 
-export const TextPartEquivalence: EQ.Equivalence<Text> = (self, that) =>
+const TextPartEquivalence: EQ.Equivalence<Text> = (self, that) =>
   self.unfixed.show === that.unfixed.show
 
+/**
+ * @category drawing
+ */
 export const BasePartFEquals = (
   self: {hAlign: HorizontalAlignment; hStrut: Text},
   that: typeof self,
 ): boolean =>
   self.hAlign === that.hAlign && TextPartEquivalence(self.hStrut, that.hStrut)
 
+/**
+ * @category drawing
+ */
 export const BaseRowFEquals = (
   self: RowF<unknown>,
   that: RowF<unknown>,

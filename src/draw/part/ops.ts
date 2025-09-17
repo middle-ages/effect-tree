@@ -11,8 +11,14 @@ import {
 import {type Part} from './types.js'
 import {surround} from '#util/String'
 
+/**
+ * @category drawing
+ */
 export const partCata = cata(PartFTraversable)
 
+/**
+ * @category drawing
+ */
 export const showPartAlgebra: Algebra<PartFTypeLambda, string> = matchPartF(
   '∅',
   surround.quote.fancy,
@@ -20,9 +26,15 @@ export const showPartAlgebra: Algebra<PartFTypeLambda, string> = matchPartF(
   showColumn,
 )
 
+/**
+ * @category internal
+ */
 export const showPart = (part: Part): string =>
   pipe(part, partCata(showPartAlgebra))
 
+/**
+ * @category internal
+ */
 function showRow({
   hAlign,
   vAlign,
@@ -43,6 +55,9 @@ function showRow({
   ].join('')
 }
 
+/**
+ * @category internal
+ */
 function showColumn({
   hAlign,
   hStrut: {

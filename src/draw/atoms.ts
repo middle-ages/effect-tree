@@ -28,6 +28,9 @@ const childTee = makeChildPart('rightTee', 'indent'),
   headBranch = makeBranchPart(childTee, 'vLine'),
   tailBranch = makeBranchPart(childElbow, 'space')
 
+/**
+ * @category drawing
+ */
 export const atoms = {
   leafLabel,
   branchLabel,

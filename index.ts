@@ -11,5 +11,5 @@ export * as Theme from './src/draw/theme.js'
 export * as Zipper from './src/zipper.js'
 
 export {drawTree, themedTree} from './src/draw.js'
-export {type EndoOf} from './src/util/Function.js'
+export {type Endo, type EndoK, type EndoOf} from './src/util/Function.js'
 export {type NonEmptyArray2} from './src/util/Array.js'

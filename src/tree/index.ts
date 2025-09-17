@@ -46,6 +46,12 @@ export const leaf = flow(leafF, fixTree) as <A>(value: A) => Leaf<A>
 /**
  * Create a new branch from its value and a non-empty list of child nodes.
  * child nodes.
+ *
+ * At the `flipped` key you will find a flipped curried version that accepts two
+ * argument lists: the first with the value and the second with the forest.
+ *
+ * At the `tupled` key you will find a tupled version that accepts as its single
+ * argument a tuple of value and forest.
  * @typeParam A - Underlying tree type.
  * @param value - The tree root value.
  * @param forest - A non-empty list of child nodes, all of the same type as this
@@ -56,25 +62,41 @@ export const leaf = flow(leafF, fixTree) as <A>(value: A) => Leaf<A>
 export const branch: {
   <A>(value: A, forest: ForestOf<A>): Branch<A>
   <A>(forest: ForestOf<A>): (value: A) => Branch<A>
-  flip: <A>(value: A) => (forest: ForestOf<A>) => Branch<A>
+  flipped: <A>(value: A) => (forest: ForestOf<A>) => Branch<A>
+  tupled: <A>(valueAndForest: [value: A, forest: ForestOf<A>]) => Branch<A>
 } = Object.assign(
   Function.dual(2, <A>(value: A, forest: ForestOf<A>) =>
     fixBranch(branchF<A, Tree<A>>(value, forest)),
   ),
   {
-    flip:
+    flipped:
       <A>(value: A) =>
       (forest: ForestOf<A>) =>
         fixBranch(branchF<A, Tree<A>>(value, forest)),
+
+    tupled: <A>([value, forest]: [A, ForestOf<A>]): Branch<A> =>
+      fixBranch(branchF<A, Tree<A>>(value, forest)),
   },
 )
 
+const _tree = <A>(value: A, forest: readonly Tree<A>[] = []): Tree<A> =>
+  Array.isNonEmptyReadonlyArray(forest) ? branch(value, forest) : leaf(value)
+
 /**
  * Create a new `Tree` from a node value and a possibly empty list of
- * child nodes.
+ * child nodes. If the given forest is missing or empty a {@link Leaf}
+ * will be returned, else a {@link Branch}.
+ *
+ * At the `curried` key you will find a curried version that accepts two
+ * argument lists: the first with the optional forest and the second with the
+ * required value.
+ *
+ * At the `flipped` key you will find a flipped curried version that accepts two
+ * argument lists: the first with the required value and the second with the
+ * optional forest.
  *
  * At the `tupled` key you will find a tupled version that accepts the arguments
- * as a single tulpe argument.
+ * as a single tuple argument of value and optional forest.
  * @typeParam A - Underlying tree type.
  * @param value - The tree root value.
  * @param forest - A possibly empty or missing list of child nodes, all of the
@@ -84,49 +106,23 @@ export const branch: {
  */
 export const tree: {
   <A>(value: A, forest?: readonly Tree<A>[]): Tree<A>
-  <A>(forest?: readonly Tree<A>[]): (value: A) => Tree<A>
+  curried: <A>(forest?: readonly Tree<A>[]) => (value: A) => Tree<A>
+  flipped: <A>(value: A) => (forest?: readonly Tree<A>[]) => Tree<A>
   tupled: <A>(pair: readonly [A, (readonly Tree<A>[])?]) => Tree<A>
-} = Object.assign(
-  Function.dual(
-    2,
-    <A>(value: A, forest: readonly Tree<A>[] = []): Tree<A> =>
-      Array.isNonEmptyReadonlyArray(forest)
-        ? branch(value, forest)
-        : leaf(value),
-  ),
-  {
-    tupled: <A>([value, forest]: readonly [
-      A,
-      (readonly Tree<A>[])?,
-    ]): Tree<A> =>
-      forest !== undefined && Array.isNonEmptyReadonlyArray(forest)
-        ? branch(value, forest)
-        : leaf(value),
-  },
-)
+} = Object.assign(_tree, {
+  curried:
+    <A>(forest?: readonly Tree<A>[]) =>
+    (value: A): Tree<A> =>
+      _tree(value, forest),
 
-/**
- * A curried version of {@link tree}.
- * @typeParam A - Underlying tree type.
- * @category basic
- */
-export const treeC =
-  <A>(forest: Tree<A>[]): ((value: A) => Tree<A>) =>
-  value =>
-    tree(value, forest)
+  flipped:
+    <A>(value: A) =>
+    (forest?: readonly Tree<A>[]): Tree<A> =>
+      _tree(value, forest),
 
-/**
- * A flipped version of {@link tree}.
- * @typeParam A - Underlying tree type.
- * @category basic
- */
-export const withForest: {
-  <A>(forest: Tree<A>[], value: A): Tree<A>
-  <A>(value: A): (forest: Tree<A>[]) => Tree<A>
-} = Function.dual(
-  2,
-  <A>(forest: ForestOf<A>, value: A): Tree<A> => tree(value, forest),
-)
+  tupled: <A>([value, forest]: readonly [A, (readonly Tree<A>[])?]): Tree<A> =>
+    _tree(value, forest),
+})
 
 /**
  * A version of {@link tree} where the forest is a rest argument.

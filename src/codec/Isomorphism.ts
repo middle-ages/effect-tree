@@ -15,7 +15,16 @@ import {
 import {decode as decodePaths, encode as encodePaths} from './paths.js'
 import {decode as decodePrufer, encode as encodePrufer} from './prufer.js'
 
+/**
+ * An isomorphism between a tree of underlying type `A` and the type `B`.
+ * @category codec
+ */
 export type TreeIsomorphism<A, B> = Isomorphism.Isomorphism<Tree<A>, B>
+
+/**
+ * Encode/decode losslessly tree ↔ edge list.
+ * @category codec
+ */
 export type BranchIsomorphism<A, B> = Isomorphism.Isomorphism<Branch<A>, B>
 
 /**

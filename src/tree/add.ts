@@ -11,7 +11,7 @@ import type {Branch, ForestOf, Tree} from './types.js'
  *
  * Negative indexes are handled as offsets from the final tree in the forest so
  * that inserting a list to index `-1` inserts the list _before_ the last
- * tree of the forest. Use {@link AppendAll} to append _after_ the last tree
+ * tree of the forest. Use {@link appendAll} to append _after_ the last tree
  * in the forest.
  *
  * If `self` is a _leaf_, it is converted into a branch.

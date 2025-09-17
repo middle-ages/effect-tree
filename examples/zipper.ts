@@ -113,7 +113,6 @@ console.log(drawTree.unlines(updated))
 // If you are unsure of the path validity, you can use the safe versions.
 // They have the same names but prefixed with “try”.
 // Navigate safely to an invalid path:
-
 const invalid = pipe(
   tree,
   fromTree,

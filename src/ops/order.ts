@@ -1,7 +1,3 @@
-/**
- * Find minimum/maximum nodes.
- * @packageDocumentation
- */
 import {type Tree, treeCata, type TreeFolder} from '#tree'
 import * as TreeF from '#treeF'
 import {Array, flow, identity, Option, Order, pipe, Tuple} from 'effect'

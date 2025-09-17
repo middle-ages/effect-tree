@@ -1,7 +1,3 @@
-/**
- * Annotate trees with their breadth-first ordinal.
- * @packageDocumentation
- */
 import {
   annotateEffectFolder,
   annotateEffectUnfolder,

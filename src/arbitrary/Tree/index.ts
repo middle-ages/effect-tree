@@ -43,7 +43,7 @@ const forestArbitrary = <A>(
 const branchArbitrary =
   <A>(treeA: GetArbitrary<A>, a: fc.Arbitrary<A>) =>
   (options: RuntimeOptions): fc.Arbitrary<Tree.Branch<A>> =>
-    a.chain(a => forestArbitrary(treeA, options).map(Tree.branch.flip(a)))
+    a.chain(a => forestArbitrary(treeA, options).map(Tree.branch.flipped(a)))
 
 const arbitrary =
   <A>(a: fc.Arbitrary<A>) =>

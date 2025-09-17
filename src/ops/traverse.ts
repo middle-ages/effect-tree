@@ -1,7 +1,3 @@
-/**
- * Tree depth-first traversals.
- * @packageDocumentation
- */
 import type {Tree} from '#tree'
 import {treeCata, type NonEmptyArrayTypeLambda, type TreeFolderK} from '#tree'
 import * as TreeF from '#treeF'

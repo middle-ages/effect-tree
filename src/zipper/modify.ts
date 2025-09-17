@@ -7,8 +7,7 @@ import {tryHead, tryLast} from './navigate.js'
 /**
  * Replace the focus tree node of the zipper with the given tree node.
  * @typeParam A - The underlying type of the tree.
- * @param zipper - The zipper that will be modified.
- * @returns An updated zipper where the focus node has been replaced.
+ * @returns A function that takes a zipper and returns an updated zipper where the focus node has been replaced.
  * @category zipper
  */
 export const replace =
@@ -25,8 +24,7 @@ export const replace =
  * has been _moved_ to the newly inserted node.
  *
  * @typeParam A - The underlying type of the tree.
- * @param zipper - The zipper that will be modified.
- * @returns An updated zipper where the given node has been inserted.
+ * @returns A function that takes a zipper and returns an updated zipper where the focus node has been replaced.
  * @category zipper
  */
 export const prepend =
@@ -53,8 +51,7 @@ prepend.move =
  * has been _moved_ to the newly appended node.
  *
  * @typeParam A - The underlying type of the tree.
- * @param zipper - The zipper that will be modified.
- * @returns An updated zipper where the given node has been appended.
+ * @returns A function that takes a zipper and returns an updated zipper where the focus node has been replaced.
  * @category zipper
  */
 export const append =
