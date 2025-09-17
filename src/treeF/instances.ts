@@ -11,6 +11,9 @@ import type {NonEmptyArray} from 'effect/Array'
 import {branchF, leafF, match, treeF} from './index.js'
 import type {TreeF, TreeFTypeLambda} from './types.js'
 
+/**
+ * @category fold
+ */
 export const map: CO.Covariant<TreeFTypeLambda>['map'] = Function.dual(
   2,
   <A, C, D>(self: TreeF<A, C>, f: (c: C) => D): TreeF<A, D> =>
@@ -23,8 +26,14 @@ export const map: CO.Covariant<TreeFTypeLambda>['map'] = Function.dual(
     ),
 )
 
+/**
+ * @category fold
+ */
 export const imap = CO.imap<TreeFTypeLambda>(map)
 
+/**
+ * @category fold
+ */
 export const flatMap: FL.FlatMap<TreeFTypeLambda>['flatMap'] = Function.dual(
   2,
   <_R2, _O2, A, C, _R1, _O1, _E1, D>(
@@ -34,6 +43,9 @@ export const flatMap: FL.FlatMap<TreeFTypeLambda>['flatMap'] = Function.dual(
     pipe(self, map(f), match({onLeaf: leafF<A>, onBranch: branchF})),
 )
 
+/**
+ * @category fold
+ */
 export const traverse: TA.Traversable<TreeFTypeLambda>['traverse'] = <
   F extends HKT.TypeLambda,
 >(
@@ -56,27 +68,26 @@ export const traverse: TA.Traversable<TreeFTypeLambda>['traverse'] = <
 
 /**
  * Covariant instance for {@link TreeF}.
- * @category instances
+ * @category fold
  */
 export const Covariant: CO.Covariant<TreeFTypeLambda> = {map, imap}
 
 /**
  * FlatMap instance for {@link TreeF}.
- * @category instances
+ * @category fold
  */
 export const FlatMap: FL.FlatMap<TreeFTypeLambda> = {flatMap}
 
 /**
  * Traversable instance for {@link TreeF}.
- * @category instances
+ * @category fold
  */
 export const Traversable: TA.Traversable<TreeFTypeLambda> = {traverse}
 
 /**
  * Build an equivalence for {@link TreeF} from an equivalence of the tree type
  * and an equivalence of the carrier type.
- *
- * @category instances
+ * @category fold
  */
 export const getEquivalence =
   <A>(equalsA: Equivalence.Equivalence<A>) =>
@@ -108,6 +119,9 @@ export const getEquivalence =
       }),
     )
 
+/**
+ * @category fold
+ */
 const treeFK =
   <F extends HKT.TypeLambda>(F: AP.Applicative<F>) =>
   <A, C, E = unknown, O = unknown, R = never>(

@@ -4,6 +4,9 @@ import * as TreeF from '#treeF'
 import {Array, pipe} from 'effect'
 import {levels} from './levels.js'
 
+/**
+ * @category ops
+ */
 export type GetNodes = <A>(self: Tree<A>) => Array.NonEmptyArray<A>
 
 /**

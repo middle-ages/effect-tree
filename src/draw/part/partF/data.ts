@@ -139,7 +139,7 @@ export const emptyF: EmptyF = EmptyF(),
 
 /**
  * Build a part from a single line of text.
- * @category internal
+ * @category drawing
  */
 export const text = (show: string): Text => ({unfixed: textF(show)})
 

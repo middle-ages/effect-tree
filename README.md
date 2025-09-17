@@ -132,7 +132,6 @@ console.log(
 
 ## Not Ready Yet
 
-1. User guide.
 1. Add zipper API sugar, repeatWhile/until, find.
 1. Effect.Schema codec.
 1. Folds for collecting tree metrics.
@@ -141,7 +140,6 @@ console.log(
 
 1. [API Documentation](https://middle-ages.github.io/effect-tree-docs)
 1. [Examples folder](https://middle-ages.github.io/effect-tree/blob/main/examples)
-1. [Users guide](https://middle-ages.github.io/effect-tree/blob/main/docs/user-guide.md)
 1. [Codecs readme](https://middle-ages.github.io/effect-tree/blob/main/src/codec/README.md)
 1. [List of features](https://middle-ages.github.io/effect-tree/blob/main/docs/features.md)
 

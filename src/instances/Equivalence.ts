@@ -1,7 +1,3 @@
-/**
- * Tree Equivalence.
- * @packageDocumentation
- */
 import {Array, Effect, Equivalence, flow, pipe} from 'effect'
 import {constFalse, constTrue, tupled} from 'effect/Function'
 import {destruct} from '../tree/data.js'

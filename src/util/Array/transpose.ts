@@ -14,7 +14,10 @@ import {
 } from 'effect/Array'
 import {none, some, type Option} from 'effect/Option'
 
-/** A 2D readonly non-empty array of `A`. */
+/**
+ * A 2D readonly non-empty array of `A`.
+ * @category basic
+ */
 export type NonEmptyArray2<A> = NonEmptyArray<NonEmptyArray<A>>
 
 export const _transposeNonEmptyRectangle: NonEmptyArray2Endo = rows => {

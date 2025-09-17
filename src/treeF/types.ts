@@ -6,7 +6,7 @@ import {Array, HKT} from 'effect'
  * @typeParam A - The underlying type of the tree. For example, in a numeric
  * tree it would be `number`.
  * @typeParam C - The child node type, also called the _carrier type_.
- * @category folds
+ * @category fold
  */
 export type TreeF<A, C = unknown> = LeafF<A> | BranchF<A, C>
 
@@ -14,7 +14,7 @@ export type TreeF<A, C = unknown> = LeafF<A> | BranchF<A, C>
  * A tree with no nodes.
  * @typeParam A - The underlying type of the tree. For example, in a numeric
  * tree it would be `number`.
- * @category folds
+ * @category fold
  */
 export interface LeafF<A> {
   node: A
@@ -25,7 +25,7 @@ export interface LeafF<A> {
  * @typeParam A - The underlying type of the tree. For example, in a numeric
  * tree it would be `number`.
  * @typeParam C - The child node type, also called the _carrier type_.
- * @category folds
+ * @category fold
  */
 export interface BranchF<A, C> extends LeafF<A> {
   forest: Array.NonEmptyReadonlyArray<C>
@@ -39,7 +39,7 @@ export interface MatcherF<A, C, R> {
 /**
  * Type lambda for the `TreeF<A, C>` type.
  * `Kind<TreeFTypeLambda, never, unknown, A, C> = TreeF<A, C>`
- * @category folds
+ * @category fold
  */
 export interface TreeFTypeLambda extends HKT.TypeLambda {
   readonly type: TreeF<this['Out1'], this['Target']>

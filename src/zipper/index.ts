@@ -96,6 +96,10 @@ export interface ZipperLevelTypeLambda extends HKT.TypeLambda {
   readonly type: ZipperLevel<this['Target']>
 }
 
+/**
+ * Type of function that takes a zipper and returns an option of a zipper.
+ * @category zipper
+ */
 export interface OptionalZipper {
   <A>(zipper: Zipper<A>): Option.Option<Zipper<A>>
 }
@@ -110,7 +114,7 @@ export type ZipperType<Z extends Zipper<any>> =
 /**
  * Push the zipper itself into its own level stack.
  * Helpful when navigating _down_.
- * @category internal
+ * @category zipper
  */
 export function pushSelf<A>(zipper: Zipper<A>): {
   levels: NonEmptyArray<ZipperLevel<A>>
@@ -127,7 +131,7 @@ export function pushSelf<A>(zipper: Zipper<A>): {
 
 /**
  * Rebuild a level of the tree.
- * @category internal
+ * @category zipper
  */
 export function fromLevel<A>(
   focus: Tree.Tree<A>,

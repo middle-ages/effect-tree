@@ -1,8 +1,3 @@
-/**
- * Convert a fold into one that replaces tree nodes with its intermediate
- * values.
- * @packageDocumentation
- */
 import * as TreeF from '#treeF'
 import {Effect, pipe} from 'effect'
 import {fixTree, getValue, tree} from '../../tree/index.js'
@@ -30,7 +25,10 @@ export const replaceFolder =
   self =>
     pipe(self, replaceNode(φ), fixTree)
 
-/** Like {@link replaceFolder} but for _effect folders_. */
+/**
+ * Like {@link replaceFolder} but for _effect folders_.
+ * @category fold
+ */
 export const replaceEffectFolder =
   <A, B, E = never, R = never>(
     φ: TreeEffectFolder<A, B, E, R>,

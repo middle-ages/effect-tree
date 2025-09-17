@@ -11,16 +11,16 @@
   "navigation": {
     "includeCategories": true,
     "includeGroups": false,
-    "includeFolders": true
+    "includeFolders": false
   },
   "visibilityFilters": {
     "@internal": false
   },
   "sourceLinkExternal": true,
   "projectDocuments": [
-    "../docs/features.md",
-    "../docs/user-guide.md",
     "../src/README.md",
+    "../docs/features.md",
+    "../src/codec/README.md",
     "../examples/README.md"
   ],
   "excludeInternal": true,

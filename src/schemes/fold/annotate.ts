@@ -1,8 +1,3 @@
-/**
- * Convert a fold into one that annotates tree nodes with its intermediate
- * values.
- * @packageDocumentation
- */
 import * as TreeF from '#treeF'
 import {Effect, flow, pipe, Tuple} from 'effect'
 import {fixTree, getValue, tree} from '../../tree/index.js'

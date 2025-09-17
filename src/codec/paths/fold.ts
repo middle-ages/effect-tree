@@ -14,6 +14,7 @@ import {Array, pipe} from 'effect'
  *
  * ```
  * @category fold
+ * @category codec
  */
 export const pathListFold: TreeFolderK<NonEmptyArray2TypeLambda> = <A>(
   tree: TreeF.TreeF<A, NonEmptyArray2<A>>,

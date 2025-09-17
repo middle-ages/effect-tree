@@ -18,18 +18,21 @@ import {decode as decodePrufer, encode as encodePrufer} from './prufer.js'
 /**
  * An isomorphism between a tree of underlying type `A` and the type `B`.
  * @category codec
+ * @category instances
  */
 export type TreeIsomorphism<A, B> = Isomorphism.Isomorphism<Tree<A>, B>
 
 /**
  * Encode/decode losslessly tree ↔ edge list.
  * @category codec
+ * @category instances
  */
 export type BranchIsomorphism<A, B> = Isomorphism.Isomorphism<Branch<A>, B>
 
 /**
  * Encode/decode losslessly tree ↔ edge list.
  * @category codec
+ * @category instances
  */
 export const EdgeListIsomorphism = <A>(): TreeIsomorphism<A, EdgeList<A>> => ({
   to: encodeEdges,
@@ -39,6 +42,7 @@ export const EdgeListIsomorphism = <A>(): TreeIsomorphism<A, EdgeList<A>> => ({
 /**
  * Encode/decode losslessly tree ↔ nested arrays.
  * @category codec
+ * @category instances
  */
 export const ArraysIsomorphism = <A>(
   order: Order.Order<A>,
@@ -50,6 +54,7 @@ export const ArraysIsomorphism = <A>(
 /**
  * Encode/decode losslessly a numeric tree ↔ prüfer code.
  * @category codec
+ * @category instances
  */
 export const PruferIsomorphism: BranchIsomorphism<number, number[]> = {
   to: encodePrufer(Number.Order),
@@ -59,6 +64,7 @@ export const PruferIsomorphism: BranchIsomorphism<number, number[]> = {
 /**
  * Encode/decode losslessly a string tree ↔ indented tree.
  * @category codec
+ * @category instances
  */
 export const IndentedIsomorphism = (
   indent: number,

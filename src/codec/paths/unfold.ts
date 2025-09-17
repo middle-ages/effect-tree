@@ -14,6 +14,7 @@ import type {NonEmptyArray} from 'effect/Array'
  * // A(B, C(D, E))
  * ```
  * @category unfold
+ * @category codec
  */
 export const pathListUnfold =
   <A>(order: Order.Order<A>): TreeUnfolder<A, NonEmptyArray2<A>> =>

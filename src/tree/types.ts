@@ -19,13 +19,16 @@ export type Tree<A> = Fix<TreeFTypeLambda, A>
 export type Leaf<A> = Record<'unfixed', LeafF<A>>
 
 /**
- * The branch type of {@link Tree}. Leaves are simple wrappers over
+ * The branch type of {@link Tree}. Branches are simple wrappers over
  * {@link BranchF} values.
  * @typeParam A - Underlying tree type.
  * @category basic
  */
 export type Branch<A> = Record<'unfixed', BranchF<A, Tree<A>>>
 
+/**
+ * @category basic
+ */
 export interface Matcher<A, R> {
   onLeaf: (node: A) => R
   onBranch: (node: A, forest: ForestOf<A>) => R

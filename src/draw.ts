@@ -6,11 +6,17 @@ import {pipe} from 'effect'
 export * from './draw/index.js'
 export * from './draw/theme.js'
 
-/** Format a string tree for debug output. */
+/**
+ * Format a string tree for debug output.
+ * @internal
+ */
 export const show: (self: Tree<string>) => string = self =>
   pipe(self, treeCata(showFold))
 
-/** Format a single level of a string tree for debug output. */
+/**
+ * Format a single level of a string tree for debug output.
+ * @internal
+ */
 export const showFold: TreeFolder<string, string> = TreeF.match({
   onLeaf: value => `“${value}”`,
   onBranch: (value, forest) => `“${value}”:(${forest.join(', ')})`,

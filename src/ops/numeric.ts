@@ -21,6 +21,7 @@ export interface RunningAverage {
 
 /**
  * A monoid for running a running average.
+ * @category ops
  */
 export const MonoidAverage: Monoid.Monoid<RunningAverage> = Monoid.struct({
   numerator: NumberData.MonoidSum,
@@ -29,6 +30,7 @@ export const MonoidAverage: Monoid.Monoid<RunningAverage> = Monoid.struct({
 
 /**
  * A starting value for a {@link RunningAverage}.
+ * @category ops
  */
 export const RunningAverage: RunningAverage = {numerator: 0, denominator: 0}
 

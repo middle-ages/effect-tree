@@ -7,6 +7,7 @@ import type {EdgeList, EdgeMap, EdgeMapTypeLambda} from './types.js'
 
 /**
  * Decode a level of a tree encoded as an edge list.
+ * @category codec
  * @category unfold
  */
 export const decodeUnfold: TreeUnfolderK<EdgeMapTypeLambda> = map => {

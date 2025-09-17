@@ -34,7 +34,7 @@ for (let i = 0; i < 16; i++) {
 ┬1    ┬1     ┬1     ┬1    
 ├┬3   └┬2    └┬3    └┬4   
 │└─2   └┬3    ├─2    └┬3  
-└─4     └─4   └─4     └─  
+└─4     └─4   └─4     └─2
                    
 13.   14.    15.    16.  
 ┬1    ┬1     ┬1     ┬1
@@ -45,9 +45,17 @@ for (let i = 0; i < 16; i++) {
 
 // To get a random tree use “getArbitrary”:
 const arbitrary = getArbitrary(fc.integer({min: 0, max: 10_000}), {
+  // When generating a new tree node, what is the chance that it will be a
+  // branch vs. a leaf?
   branchBias: 1 / 2,
+
+  // Max degree of branches.
   maxChildren: 5,
+
+  // No node will have a depth over 4.
   maxDepth: 4,
+
+  // Don't generate any leaves. Make sure the returned arbitrary is a branch.
   onlyBranches: true,
 })
 

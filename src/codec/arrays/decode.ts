@@ -7,12 +7,13 @@ import type {TreeArray} from './types.js'
 /**
  * Decode a single level of the encoding.
  * @category unfold
+ * @category codec
  */
 export const decodeUnfold = <A>(a: TreeArray<A>): TreeF.TreeF<A> =>
   Array.isArray(a) ? TreeF.treeF(...a) : TreeF.leafF(a)
 
 /**
- *  Decode nested arrays into a tree.
+ * Decode nested arrays into a tree.
  *
  * ```ts
  * import {Codec, drawTree} from 'effect-tree'

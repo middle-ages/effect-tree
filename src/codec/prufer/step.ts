@@ -108,6 +108,7 @@ export const nextCodeWrap: EndoOf<number[]> = code =>
  * ordered set, we decrement node count and return the last tree in this
  * ordered set. The process stops when node count reaches 3, after which
  * the given tree is returned unchanged.
+ * @category codec
  */
 export const previousTree: EndoOf<Branch<number>> = self =>
   pipe(self, encode(Number.Order), previousCode, decode)

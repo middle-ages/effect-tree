@@ -13,7 +13,16 @@ import {Array, flow, Function, pipe} from 'effect'
 import {fix, unfix} from 'effect-ts-folds'
 import type {Branch, ForestOf, Leaf, Matcher, Tree} from './types.js'
 
-export const [fixTree, unfixTree]: [
+export const [
+  /**
+   * @category basic
+   */
+  fixTree,
+  /**
+   * @category basic
+   */
+  unfixTree,
+]: [
   <A>(treeF: TreeF<A, Tree<A>>) => Tree<A>,
   <A>(fixed: Tree<A>) => TreeF<A, Tree<A>>,
 ] = [fix, unfix]
@@ -106,12 +115,12 @@ const _tree = <A>(value: A, forest: readonly Tree<A>[] = []): Tree<A> =>
  */
 export const tree: {
   <A>(value: A, forest?: readonly Tree<A>[]): Tree<A>
-  curried: <A>(forest?: readonly Tree<A>[]) => (value: A) => Tree<A>
+  curried: <A>(forest: readonly Tree<A>[]) => (value: A) => Tree<A>
   flipped: <A>(value: A) => (forest?: readonly Tree<A>[]) => Tree<A>
   tupled: <A>(pair: readonly [A, (readonly Tree<A>[])?]) => Tree<A>
 } = Object.assign(_tree, {
   curried:
-    <A>(forest?: readonly Tree<A>[]) =>
+    <A>(forest: readonly Tree<A>[]) =>
     (value: A): Tree<A> =>
       _tree(value, forest),
 
