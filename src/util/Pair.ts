@@ -68,3 +68,11 @@ square.mapSecond =
  * Given a tuple `[A, (a: A) ⇒ B]` applies the function and return the result.
  */
 export const applyPair = <A, B>([a, f]: readonly [A, (a: A) => B]): B => f(a)
+
+/**
+ * Run the left function on the first of the given pair and the second on the second
+ * element, and return the results in a pair.
+ */
+export const bimap =
+  <A, B, C, D>(f: (a: A) => C, g: (b: B) => D) =>
+  ([a, b]: [A, B]): [C, D] => [f(a), g(b)]

@@ -1,30 +1,28 @@
 import {describe, expect, test} from 'vitest'
-import {leafF, setForest, branchF, getBranchForest} from './index.js'
+import {branchF, getBranchForest, leafF, setForest} from './index.js'
 
-describe('treeF', () => {
-  describe('branchF', () => {
-    test('tupled', () => {
-      expect(branchF.tupled([42, ['foo']])).toEqual(branchF(42, ['foo']))
-    })
-
-    test('curried', () => {
-      expect(branchF(42, ['foo'])).toEqual(branchF(['foo'])(42))
-    })
+describe('branchF', () => {
+  test('tupled', () => {
+    expect(branchF.tupled([42, ['foo']])).toEqual(branchF(42, ['foo']))
   })
 
-  test('getBranchForest', () => {
-    expect(getBranchForest(branchF(42, ['foo']))).toEqual(['foo'])
+  test('curried', () => {
+    expect(branchF(42, ['foo'])).toEqual(branchF(['foo'])(42))
+  })
+})
+
+test('getBranchForest', () => {
+  expect(getBranchForest(branchF(42, ['foo']))).toEqual(['foo'])
+})
+
+describe('setForest', () => {
+  test('leafF', () => {
+    expect(setForest(['foo'], leafF(42))).toEqual(branchF(42, ['foo']))
   })
 
-  describe('setForest', () => {
-    test('leafF', () => {
-      expect(setForest(['foo'], leafF(42))).toEqual(branchF(42, ['foo']))
-    })
-
-    test('branch', () => {
-      expect(setForest(['bar'], branchF(42, ['foo']))).toEqual(
-        branchF(42, ['bar']),
-      )
-    })
+  test('branch', () => {
+    expect(setForest(['bar'], branchF(42, ['foo']))).toEqual(
+      branchF(42, ['bar']),
+    )
   })
 })

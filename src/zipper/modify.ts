@@ -1,8 +1,10 @@
 import * as Tree from '#tree'
+import {isNonEmptyArray, lastInit} from '#util/Array'
 import {type EndoOf} from '#util/Function'
 import {Option, pipe} from 'effect'
-import {type Zipper} from './index.js'
-import {tryHead, tryLast} from './navigate.js'
+import {hasRights} from './data.js'
+import {type OptionalZipper, type Zipper} from './index.js'
+import {next, tryHead, tryLast} from './navigate.js'
 
 /**
  * Replace the focus tree node of the zipper with the given tree node.
@@ -70,3 +72,41 @@ append.move =
   <A>(that: Tree.Tree<A>): EndoOf<Zipper<A>> =>
   zipper =>
     pipe(zipper, append.tryMove(that), Option.getOrThrow)
+
+/**
+ * Remove the current focused  tree node from the tree, and return the zipper
+ * focused on the _next_ sibling. In case none exists focuses _up_ on the
+ * parent of the removed node.
+ *
+ * If the zipper is focused on tree root returns `Option.none()`.
+ * @typeParam A - The underlying type of the tree.
+ * @param self - The zipper whose focus is being removed.
+ * @returns A zipper without the previously focused node focused on next node, or failing that, on the parent node. If the zipper is focused on the tree root returns `Option.none()`.
+ * @category zipper
+ */
+export const remove: OptionalZipper = <A>(self: Zipper<A>) => {
+  // Try to remove, then move _next_ in forest.
+  if (hasRights(self)) {
+    const {lefts, ...rest} = next(self)
+    // Discard final element in “lefts” because we just moved right and that is
+    // where the focus node we need to remove will be found.
+    return Option.some({...rest, lefts: lefts.splice(0, -1)})
+  }
+
+  const {levels: previousLevels, parent: previousParent, lefts, rights} = self
+  if (!isNonEmptyArray(previousLevels)) {
+    return Option.none()
+  }
+
+  // Remove and move _up_.
+  const [lastLevel, levels] = lastInit(previousLevels)
+  return Option.some({
+    focus: Tree.from(
+      (previousParent as Option.Some<A>).value,
+      ...lefts, // Previous focus node is NOT added.
+      ...rights,
+    ),
+    levels,
+    ...lastLevel,
+  })
+}

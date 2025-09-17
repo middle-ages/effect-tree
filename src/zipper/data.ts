@@ -32,6 +32,26 @@ export const getForest = <A>({focus}: Zipper<A>): readonly Tree.Tree<A>[] =>
   Tree.getForest(focus)
 
 /**
+ * True if there are trees to the _left_ of the focus, false if focused node is
+ * head in its forest.
+ * @typeParam A - Underlying tree type.
+ * @param zipper - Zipper to be queried.
+ * @returns True if there are trees to the _left_ of the focus.
+ * @category zipper
+ */
+export const hasLefts = <A>({lefts}: Zipper<A>): boolean => lefts.length > 0
+
+/**
+ * True if there are trees to the _right_ of the focus, false if focused node is
+ * last in its forest.
+ * @typeParam A - Underlying tree type.
+ * @param zipper - Zipper to be queried.
+ * @returns True if there are trees to the _right_ of the focus.
+ * @category zipper
+ */
+export const hasRights = <A>({rights}: Zipper<A>): boolean => rights.length > 0
+
+/**
  * Get the nodes to the left of the focus node.
  * @typeParam A - Underlying tree type.
  * @param zipper - Zipper to be queried.

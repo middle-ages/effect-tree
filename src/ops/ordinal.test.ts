@@ -5,14 +5,13 @@ import {pairMap} from 'effect-ts-folds'
 import {describe, test} from 'vitest'
 import {asOrdinal, asOrdinalBranch, withOrdinal} from './ordinal.js'
 
-describe('ordinals', () => {
-  describe('asOrdinal', () => {
-    test('post-order', () => {
-      pipe(
-        numericTree,
-        asOrdinal(1),
-        map(n => n.toString()),
-        assertDrawTree(`
+describe('asOrdinal', () => {
+  test('post-order', () => {
+    pipe(
+      numericTree,
+      asOrdinal(1),
+      map(n => n.toString()),
+      assertDrawTree(`
 ┬11
 ├┬4
 │├─1
@@ -24,15 +23,15 @@ describe('ordinals', () => {
 │└┬8
 │ └─7
 └─10`),
-      )
-    })
+    )
+  })
 
-    test('pre-order', () => {
-      pipe(
-        numericTree,
-        asOrdinal.pre(1),
-        map(n => n.toString()),
-        assertDrawTree(`
+  test('pre-order', () => {
+    pipe(
+      numericTree,
+      asOrdinal.pre(1),
+      map(n => n.toString()),
+      assertDrawTree(`
 ┬1
 ├┬2
 │├─3
@@ -44,8 +43,7 @@ describe('ordinals', () => {
 │└┬9
 │ └─10
 └─11`),
-      )
-    })
+    )
   })
 })
 

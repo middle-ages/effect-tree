@@ -135,6 +135,7 @@ console.log(
 1. Add zipper API sugar, repeatWhile/until, find.
 1. Effect.Schema codec.
 1. Folds for collecting tree metrics.
+1. A lazy version where the Branch.forest field is not an array but a stream.
 
 ## See Also
 

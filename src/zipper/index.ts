@@ -98,10 +98,19 @@ export interface ZipperLevelTypeLambda extends HKT.TypeLambda {
 
 /**
  * Type of function that takes a zipper and returns an option of a zipper.
+ * See {@link OptionalZipperOf} for a version that fixes the type parameter.
  * @category zipper
  */
 export interface OptionalZipper {
   <A>(zipper: Zipper<A>): Option.Option<Zipper<A>>
+}
+
+/**
+ * Just like {@link OptionalZipper} except the type parameter `A` is fixed.
+ * @category zipper
+ */
+export interface OptionalZipperOf<A> {
+  (zipper: Zipper<A>): Option.Option<Zipper<A>>
 }
 
 /**

@@ -22,76 +22,74 @@ import {Array, pipe} from 'effect'
 import type {NonEmptyArray} from 'effect/Array'
 import {describe, expect, test} from 'vitest'
 
-describe('theme', () => {
-  describe('get', () => {
-    test('getGlyph', () => {
-      expect(getGlyph(getTheme('thick'))('rightTee')).toBe('┣')
-    })
-
-    test('prefixGlyph', () => {
-      expect(prefixGlyph(getTheme('thin'))('tee')('foo')).toBe('┬foo')
-    })
-
-    describe('indentGlyph', () => {
-      test('indents=0', () => {
-        const theme = pipe('thick', getTheme, setIndents(0))
-        expect(indentGlyph('rightTee', 'hLine')(theme)).toBe('┣')
-      })
-      test('indents=2', () => {
-        const theme = pipe('thick', getTheme, setIndents(2))
-        expect(indentGlyph('rightTee', 'hLine')(theme)).toBe('┣━━')
-      })
-    })
+describe('get', () => {
+  test('getGlyph', () => {
+    expect(getGlyph(getTheme('thick'))('rightTee')).toBe('┣')
   })
 
-  describe('set', () => {
-    test('setGlyph', () => {
-      const theme = getTheme('thick')
-      const updatedTheme = setGlyph(theme)('elbow')('X')
-      const actual = getGlyph(updatedTheme)('elbow')
-      expect(actual).toBe('X')
+  test('prefixGlyph', () => {
+    expect(prefixGlyph(getTheme('thin'))('tee')('foo')).toBe('┬foo')
+  })
+
+  describe('indentGlyph', () => {
+    test('indents=0', () => {
+      const theme = pipe('thick', getTheme, setIndents(0))
+      expect(indentGlyph('rightTee', 'hLine')(theme)).toBe('┣')
     })
-
-    test('setSpacing', () => {
-      const theme = setSpacing(10)(getTheme('thick'))
-      expect(theme.spacing).toBe(10)
-    })
-
-    test('setGlyphs', () => {
-      const theme = setGlyphs(getTheme('thick'))({
-        tee: 'T',
-        elbow: 'E',
-      })
-
-      expect(getGlyph(theme)('tee')).toBe('T')
-      expect(getGlyph(theme)('elbow')).toBe('E')
+    test('indents=2', () => {
+      const theme = pipe('thick', getTheme, setIndents(2))
+      expect(indentGlyph('rightTee', 'hLine')(theme)).toBe('┣━━')
     })
   })
+})
 
-  test('sequenceThemed', () => {
-    const theme = getTheme('thin')
-
-    const parts: NonEmptyArray<Themed<Part>> = pipe(
-      Array.range(1, 5),
-      Array.map(i => themed(() => text(i.toString()))),
-    )
-
-    const actual: string[] = pipe(
-      theme,
-      foreachThemed(parts),
-      column.left,
-      drawPart,
-    )
-
-    expect(actual).toEqual(['1', '2', '3', '4', '5'])
+describe('set', () => {
+  test('setGlyph', () => {
+    const theme = getTheme('thick')
+    const updatedTheme = setGlyph(theme)('elbow')('X')
+    const actual = getGlyph(updatedTheme)('elbow')
+    expect(actual).toBe('X')
   })
 
-  test('modGlyph', () => {
-    const theme = modGlyph(getTheme('thin'))(prefix('«prefix»'))('tee')
-    expect(getGlyph(theme)('tee')).toBe('«prefix»┬')
+  test('setSpacing', () => {
+    const theme = setSpacing(10)(getTheme('thick'))
+    expect(theme.spacing).toBe(10)
   })
 
-  test('suffixGlyph', () => {
-    expect(suffixGlyph(getTheme('thin'))('tee')('foo')).toBe('foo┬')
+  test('setGlyphs', () => {
+    const theme = setGlyphs(getTheme('thick'))({
+      tee: 'T',
+      elbow: 'E',
+    })
+
+    expect(getGlyph(theme)('tee')).toBe('T')
+    expect(getGlyph(theme)('elbow')).toBe('E')
   })
+})
+
+test('sequenceThemed', () => {
+  const theme = getTheme('thin')
+
+  const parts: NonEmptyArray<Themed<Part>> = pipe(
+    Array.range(1, 5),
+    Array.map(i => themed(() => text(i.toString()))),
+  )
+
+  const actual: string[] = pipe(
+    theme,
+    foreachThemed(parts),
+    column.left,
+    drawPart,
+  )
+
+  expect(actual).toEqual(['1', '2', '3', '4', '5'])
+})
+
+test('modGlyph', () => {
+  const theme = modGlyph(getTheme('thin'))(prefix('«prefix»'))('tee')
+  expect(getGlyph(theme)('tee')).toBe('«prefix»┬')
+})
+
+test('suffixGlyph', () => {
+  expect(suffixGlyph(getTheme('thin'))('tee')('foo')).toBe('foo┬')
 })

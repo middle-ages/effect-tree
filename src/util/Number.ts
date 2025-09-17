@@ -51,5 +51,9 @@ export const floorMod2 = (
   ): [quotient: number, remainder: number] => floorMod(dividend, 2),
   isPositive: Predicate.Predicate<number> = n => n > 0,
   isNonZero: Predicate.Predicate<number> = n => n !== 0,
+  isZero: Predicate.Predicate<number> = n => n === 0,
   isEven: Predicate.Predicate<number> = n => n % 2 === 0,
-  isOdd: Predicate.Predicate<number> = n => n % 2 !== 0
+  isOdd: Predicate.Predicate<number> = n => n % 2 !== 0,
+  isNegative: Predicate.Predicate<number> = n => n < 0,
+  isEqual: (self: number) => Predicate.Predicate<number> = self => that =>
+    self === that

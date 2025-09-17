@@ -26,160 +26,158 @@ const aLeaf = leaf(1),
   aForest: Tree<number>[] = [childLeaf, childBranch],
   parent = from(7, ...aForest)
 
-describe('forest', () => {
-  describe('append', () => {
-    test('leaf', () => {
-      expect(pipe(7, leaf, append(aLeaf))).toEqual(from(7, aLeaf))
-    })
-
-    test('branch', () => {
-      expect(pipe(aBranch, append(aLeaf))).toEqual(from(2, leaf(3), aLeaf))
-    })
+describe('append', () => {
+  test('leaf', () => {
+    expect(pipe(7, leaf, append(aLeaf))).toEqual(from(7, aLeaf))
   })
 
-  describe('prepend', () => {
-    test('leaf', () => {
-      expect(pipe(7, leaf, prepend(aLeaf))).toEqual(from(7, aLeaf))
-    })
+  test('branch', () => {
+    expect(pipe(aBranch, append(aLeaf))).toEqual(from(2, leaf(3), aLeaf))
+  })
+})
 
-    test('branch', () => {
-      expect(pipe(aBranch, prepend(aLeaf))).toEqual(from(2, aLeaf, leaf(3)))
-    })
+describe('prepend', () => {
+  test('leaf', () => {
+    expect(pipe(7, leaf, prepend(aLeaf))).toEqual(from(7, aLeaf))
   })
 
-  describe('appendAll', () => {
-    test('empty', () => {
-      expect(pipe(aLeaf, appendAll([]))).toEqual(aLeaf)
-    })
+  test('branch', () => {
+    expect(pipe(aBranch, prepend(aLeaf))).toEqual(from(2, aLeaf, leaf(3)))
+  })
+})
 
-    test('leaf', () => {
-      expect(pipe(aLeaf, appendAll(aForest))).toEqual(from(1, ...aForest))
-    })
-
-    test('branch', () => {
-      expect(pipe(aBranch, appendAll(aForest))).toEqual(
-        from(2, leaf(3), ...aForest),
-      )
-    })
+describe('appendAll', () => {
+  test('empty', () => {
+    expect(pipe(aLeaf, appendAll([]))).toEqual(aLeaf)
   })
 
-  describe('prependAll', () => {
-    test('empty', () => {
-      expect(pipe(aLeaf, prependAll([]))).toEqual(aLeaf)
-    })
-
-    test('leaf', () => {
-      expect(pipe(aLeaf, prependAll(aForest))).toEqual(from(1, ...aForest))
-    })
-
-    test('branch', () => {
-      expect(pipe(aBranch, prependAll(aForest))).toEqual(
-        from(2, ...aForest, leaf(3)),
-      )
-    })
+  test('leaf', () => {
+    expect(pipe(aLeaf, appendAll(aForest))).toEqual(from(1, ...aForest))
   })
 
-  test('removeForest', () => {
-    expect(removeForest(numericTree as Branch<number>)).toEqual(leaf(1))
+  test('branch', () => {
+    expect(pipe(aBranch, appendAll(aForest))).toEqual(
+      from(2, leaf(3), ...aForest),
+    )
+  })
+})
+
+describe('prependAll', () => {
+  test('empty', () => {
+    expect(pipe(aLeaf, prependAll([]))).toEqual(aLeaf)
   })
 
-  describe('removeNthChild', () => {
-    describe('not found', () => {
-      test('out-of-bounds', () => {
-        expect(removeNthChild(2, parent)).toEqual(parent)
-      })
-      test('leaf', () => {
-        expect(removeNthChild(0, childLeaf)).toEqual(childLeaf)
-      })
-    })
-
-    describe('found', () => {
-      describe('positive index', () => {
-        test('head', () => {
-          expect(removeNthChild(0, parent)).toEqual(from(7, childBranch))
-        })
-
-        test('tail', () => {
-          expect(removeNthChild(1, parent)).toEqual(from(7, childLeaf))
-        })
-      })
-
-      describe('negative index', () => {
-        test('head', () => {
-          expect(removeNthChild(-2, parent)).toEqual(from(7, childBranch))
-        })
-
-        test('tail', () => {
-          expect(removeNthChild(-1, parent)).toEqual(from(7, childLeaf))
-        })
-      })
-    })
+  test('leaf', () => {
+    expect(pipe(aLeaf, prependAll(aForest))).toEqual(from(1, ...aForest))
   })
 
-  test('removeFirstChild', () => {
-    expect(removeFirstChild(parent)).toEqual(from(7, childBranch))
+  test('branch', () => {
+    expect(pipe(aBranch, prependAll(aForest))).toEqual(
+      from(2, ...aForest, leaf(3)),
+    )
   })
+})
 
-  test('removeLastChild', () => {
-    expect(removeLastChild(parent)).toEqual(from(7, childLeaf))
-  })
+test('removeForest', () => {
+  expect(removeForest(numericTree as Branch<number>)).toEqual(leaf(1))
+})
 
-  describe('slice', () => {
-    test('empty: leaf', () => {
-      expect(sliceForest(leaf(1), 0, 1)).toEqual([])
-    })
-
-    test('empty: out-of-bounds', () => {
-      expect(sliceForest.flip(from(1, leaf(2)))(3, 9)).toEqual([])
-    })
-
-    test('found', () => {
-      expect(sliceForest.curry(0)(from(1, leaf(2), leaf(3)))).toEqual([
-        leaf(2),
-        leaf(3),
-      ])
-    })
-  })
-
-  describe('insertAllAt', () => {
-    test('leaf', () => {
-      expect(insertAllAt(leaf(1), 1, [leaf(2), leaf(3)])).toEqual(
-        from(1, leaf(2), leaf(3)),
-      )
-    })
-
-    test('basic', () => {
-      expect(
-        insertAllAt(from(1, leaf(2), leaf(3)), 1, [leaf(4), leaf(5)]),
-      ).toEqual(from(1, leaf(2), leaf(4), leaf(5), leaf(3)))
-    })
-
-    test('negative index', () => {
-      expect(
-        pipe(from(1, leaf(2), leaf(3)), insertAllAt(-2, [leaf(4), leaf(5)])),
-      ).toEqual(from(1, leaf(4), leaf(5), leaf(2), leaf(3)))
-    })
-
+describe('removeNthChild', () => {
+  describe('not found', () => {
     test('out-of-bounds', () => {
-      expect(
-        insertAllAt(from(1, leaf(2), leaf(3)), 2, [leaf(4), leaf(5)]),
-      ).toEqual(from(1, leaf(2), leaf(3), leaf(4), leaf(5)))
+      expect(removeNthChild(2, parent)).toEqual(parent)
+    })
+    test('leaf', () => {
+      expect(removeNthChild(0, childLeaf)).toEqual(childLeaf)
     })
   })
 
-  describe('insertAt', () => {
-    test('basic', () => {
-      expect(insertAt(from(1, leaf(2), leaf(3)), leaf(4), 1)).toEqual(
-        from(1, leaf(2), leaf(4), leaf(3)),
-      )
+  describe('found', () => {
+    describe('positive index', () => {
+      test('head', () => {
+        expect(removeNthChild(0, parent)).toEqual(from(7, childBranch))
+      })
+
+      test('tail', () => {
+        expect(removeNthChild(1, parent)).toEqual(from(7, childLeaf))
+      })
+    })
+
+    describe('negative index', () => {
+      test('head', () => {
+        expect(removeNthChild(-2, parent)).toEqual(from(7, childBranch))
+      })
+
+      test('tail', () => {
+        expect(removeNthChild(-1, parent)).toEqual(from(7, childLeaf))
+      })
     })
   })
+})
 
-  describe('removeSlice', () => {
-    test('basic', () => {
-      expect(
-        removeSlice(1, 2)(from(1, leaf(2), leaf(3), leaf(4), leaf(5))),
-      ).toEqual(from(1, leaf(2), leaf(5)))
-    })
+test('removeFirstChild', () => {
+  expect(removeFirstChild(parent)).toEqual(from(7, childBranch))
+})
+
+test('removeLastChild', () => {
+  expect(removeLastChild(parent)).toEqual(from(7, childLeaf))
+})
+
+describe('slice', () => {
+  test('empty: leaf', () => {
+    expect(sliceForest(leaf(1), 0, 1)).toEqual([])
+  })
+
+  test('empty: out-of-bounds', () => {
+    expect(sliceForest.flip(from(1, leaf(2)))(3, 9)).toEqual([])
+  })
+
+  test('found', () => {
+    expect(sliceForest.curry(0)(from(1, leaf(2), leaf(3)))).toEqual([
+      leaf(2),
+      leaf(3),
+    ])
+  })
+})
+
+describe('insertAllAt', () => {
+  test('leaf', () => {
+    expect(insertAllAt(leaf(1), 1, [leaf(2), leaf(3)])).toEqual(
+      from(1, leaf(2), leaf(3)),
+    )
+  })
+
+  test('basic', () => {
+    expect(
+      insertAllAt(from(1, leaf(2), leaf(3)), 1, [leaf(4), leaf(5)]),
+    ).toEqual(from(1, leaf(2), leaf(4), leaf(5), leaf(3)))
+  })
+
+  test('negative index', () => {
+    expect(
+      pipe(from(1, leaf(2), leaf(3)), insertAllAt(-2, [leaf(4), leaf(5)])),
+    ).toEqual(from(1, leaf(4), leaf(5), leaf(2), leaf(3)))
+  })
+
+  test('out-of-bounds', () => {
+    expect(
+      insertAllAt(from(1, leaf(2), leaf(3)), 2, [leaf(4), leaf(5)]),
+    ).toEqual(from(1, leaf(2), leaf(3), leaf(4), leaf(5)))
+  })
+})
+
+describe('insertAt', () => {
+  test('basic', () => {
+    expect(insertAt(from(1, leaf(2), leaf(3)), leaf(4), 1)).toEqual(
+      from(1, leaf(2), leaf(4), leaf(3)),
+    )
+  })
+})
+
+describe('removeSlice', () => {
+  test('basic', () => {
+    expect(
+      removeSlice(1, 2)(from(1, leaf(2), leaf(3), leaf(4), leaf(5))),
+    ).toEqual(from(1, leaf(2), leaf(5)))
   })
 })

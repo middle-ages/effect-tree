@@ -25,38 +25,36 @@ const deep: Branch<number> = branch(1, [
   from(7, of(8)),
 ])
 
-describe('zipper', () => {
-  describe('toTree', () => {
-    const [leafZipper, smallZipper, deepZipper] = [
-      fromTree(leaf),
-      fromTree(small),
-      fromTree(deep),
-    ]
+describe('toTree', () => {
+  const [leafZipper, smallZipper, deepZipper] = [
+    fromTree(leaf),
+    fromTree(small),
+    fromTree(deep),
+  ]
 
-    test('root', () => {
-      expect(toTree(leafZipper)).toEqual(leaf)
-      expect(toTree(smallZipper)).toEqual(small)
-      expect(toTree(deepZipper)).toEqual(deep)
-    })
+  test('root', () => {
+    expect(toTree(leafZipper)).toEqual(leaf)
+    expect(toTree(smallZipper)).toEqual(small)
+    expect(toTree(deepZipper)).toEqual(deep)
+  })
 
-    const [smallFirst, deepFirst]: Pair<Zipper<number>> = pipe(
-      [smallZipper, deepZipper] as const,
-      pairMap(head),
-    )
+  const [smallFirst, deepFirst]: Pair<Zipper<number>> = pipe(
+    [smallZipper, deepZipper] as const,
+    pairMap(head),
+  )
 
-    test('head', () => {
-      expect(toTree(smallFirst), 'small').toEqual(small)
-      expect(toTree(deepFirst), 'deep').toEqual(deep)
-    })
+  test('head', () => {
+    expect(toTree(smallFirst), 'small').toEqual(small)
+    expect(toTree(deepFirst), 'deep').toEqual(deep)
+  })
 
-    const deepFirst2 = head(deepFirst)
-    test('head × 2', () => {
-      expect(toTree(deepFirst2)).toEqual(deep)
-    })
+  const deepFirst2 = head(deepFirst)
+  test('head × 2', () => {
+    expect(toTree(deepFirst2)).toEqual(deep)
+  })
 
-    const deepFirstLast = last(deepFirst)
-    test('head → last', () => {
-      expect(toTree(deepFirstLast)).toEqual(deep)
-    })
+  const deepFirstLast = last(deepFirst)
+  test('head → last', () => {
+    expect(toTree(deepFirstLast)).toEqual(deep)
   })
 })

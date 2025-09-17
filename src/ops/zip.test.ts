@@ -15,12 +15,11 @@ const formatPair: (pair: [number, number]) => string = flow(
   String.unwords.comma,
 )
 
-describe('zip/unzip', () => {
-  describe('zip', () => {
-    test('basic', () => {
-      const actual = pipe(numericTree, zip(numericTree), map(formatPair))
+describe('zip', () => {
+  test('basic', () => {
+    const actual = pipe(numericTree, zip(numericTree), map(formatPair))
 
-      assertDrawTree(`
+    assertDrawTree(`
 ┬1, 1
 ├┬2, 2
 │├─3, 3
@@ -32,63 +31,62 @@ describe('zip/unzip', () => {
 │└┬11, 11
 │ └─9, 9
 └─10, 10`)(actual)
-    })
   })
+})
 
-  describe('laws', () => {
-    const options: Partial<ArbitraryOptions> = {
-      branchBias: 1 / 4,
-      maxChildren: 4,
-      maxDepth: 3,
-    }
+describe('laws', () => {
+  const options: Partial<ArbitraryOptions> = {
+    branchBias: 1 / 4,
+    maxChildren: 4,
+    maxDepth: 3,
+  }
 
-    const congruentPair = getArbitrary(tinyString, options).chain(stringTree =>
-      fc.tuple(
-        fc.constant(stringTree),
-        pipe(stringTree, asOrdinal(1), fc.constant),
+  const congruentPair = getArbitrary(tinyString, options).chain(stringTree =>
+    fc.tuple(
+      fc.constant(stringTree),
+      pipe(stringTree, asOrdinal(1), fc.constant),
+    ),
+  )
+
+  const congruentPairEquals: Equivalence.Equivalence<
+    [Tree<string>, Tree<number>]
+  > = Tuple.getEquivalence(
+    getEquivalence(String.Equivalence),
+    getEquivalence(Number.Equivalence),
+  )
+
+  const treeOfPair: fc.Arbitrary<Tree<[string, number]>> = getArbitrary(
+    fc.tuple(tinyString, tinyPositive),
+    options,
+  )
+
+  const treeOfPairEquals: Equivalence.Equivalence<Tree<[string, number]>> =
+    getEquivalence(
+      Tuple.getEquivalence.removeReadOnly(
+        String.Equivalence,
+        Number.Equivalence,
       ),
     )
 
-    const congruentPairEquals: Equivalence.Equivalence<
-      [Tree<string>, Tree<number>]
-    > = Tuple.getEquivalence(
-      getEquivalence(String.Equivalence),
-      getEquivalence(Number.Equivalence),
-    )
+  verboseLawSets(
+    [
+      lawTests(
+        'zip/unzip laws',
+        Law(
+          'zip/unzip cancellation',
+          '∀a ∈ Tree<A>, ∀b ∈ Tree<B>: a ≅ b ⇒ zip(a,b) ▹ unzip = [a, b]',
+          congruentPair,
+        )(pair => congruentPairEquals(pipe(zip(...pair), unzip), pair)),
 
-    const treeOfPair: fc.Arbitrary<Tree<[string, number]>> = getArbitrary(
-      fc.tuple(tinyString, tinyPositive),
-      options,
-    )
-
-    const treeOfPairEquals: Equivalence.Equivalence<Tree<[string, number]>> =
-      getEquivalence(
-        Tuple.getEquivalence.removeReadOnly(
-          String.Equivalence,
-          Number.Equivalence,
-        ),
-      )
-
-    verboseLawSets(
-      [
-        lawTests(
-          'zip/unzip laws',
-          Law(
-            'zip/unzip cancellation',
-            '∀a ∈ Tree<A>, ∀b ∈ Tree<B>: a ≅ b ⇒ zip(a,b) ▹ unzip = [a, b]',
-            congruentPair,
-          )(pair => congruentPairEquals(pipe(zip(...pair), unzip), pair)),
-
-          Law(
-            'unzip/zip cancellation',
-            '∀t ∈ Tree<[A,B]>: zip ⚬ unzip = Id',
-            treeOfPair,
-          )(tree => treeOfPairEquals(zip(...unzip(tree)), tree)),
-        ),
-      ],
-      {numRuns: 20},
-    )
-  })
-
-  testNumericTreeStackSafety('stack safety', self => unzip(zip(self, self)))
+        Law(
+          'unzip/zip cancellation',
+          '∀t ∈ Tree<[A,B]>: zip ⚬ unzip = Id',
+          treeOfPair,
+        )(tree => treeOfPairEquals(zip(...unzip(tree)), tree)),
+      ),
+    ],
+    {numRuns: 20},
+  )
 })
+
+testNumericTreeStackSafety('stack safety', self => unzip(zip(self, self)))

@@ -12,25 +12,23 @@ import {
   VerticalOrder,
 } from './data.js'
 
-describe('aligned order and equivalence', () => {
-  describe('horizontally aligned', () => {
-    testConcreteTypeclassLaws(
-      {Order: VerticalOrder, Equivalence: VerticalEquivalence},
-      {a: VerticalArbitrary, equalsA: VerticalEquivalence},
-    )
-  })
+describe('horizontally aligned', () => {
+  testConcreteTypeclassLaws(
+    {Order: VerticalOrder, Equivalence: VerticalEquivalence},
+    {a: VerticalArbitrary, equalsA: VerticalEquivalence},
+  )
+})
 
-  describe('horizontally aligned', () => {
-    testConcreteTypeclassLaws(
-      {Order: HorizontalOrder, Equivalence: HorizontalEquivalence},
-      {a: HorizontalArbitrary, equalsA: HorizontalEquivalence},
-    )
-  })
+describe('horizontally aligned', () => {
+  testConcreteTypeclassLaws(
+    {Order: HorizontalOrder, Equivalence: HorizontalEquivalence},
+    {a: HorizontalArbitrary, equalsA: HorizontalEquivalence},
+  )
+})
 
-  describe('aligned', () => {
-    testConcreteTypeclassLaws(
-      {Order: AlignedOrder, Equivalence: AlignedEquivalence},
-      {a: AlignedArbitrary, equalsA: AlignedEquivalence},
-    )
-  })
+describe('aligned', () => {
+  testConcreteTypeclassLaws(
+    {Order: AlignedOrder, Equivalence: AlignedEquivalence},
+    {a: AlignedArbitrary, equalsA: AlignedEquivalence},
+  )
 })

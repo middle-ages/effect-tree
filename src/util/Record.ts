@@ -21,3 +21,34 @@ export const filterDefined = <const Key extends PropertyKey, Value extends {}>(
   pipe(record, Record.filter(Predicate.isNotUndefined)) as Partial<
     Record<Key, Value>
   >
+
+/**
+ * Merge `self` with `that`. `that` entries will override `self` entries with
+ * the same key.
+ */
+export const mergeWith =
+  <Self extends {}>(self: Self) =>
+  <That extends {}>(that: That): Self & That => ({
+    ...self,
+    ...that,
+  })
+
+mergeWith.tupled = <Self extends {}, That extends {}>([self, that]: [
+  Self,
+  That,
+]): Self & That => mergeWith(self)(that)
+
+/**
+ * The object with the keys `keys` and all its values set to `value`
+ */
+export const monoRecord =
+  <const V>(value: V) =>
+  <const KS extends readonly [string, ...string[]]>(
+    ...keys: KS
+  ): Record<KS[number], V> => {
+    const result = {} as Record<KS[number], V>
+    for (const key of keys) {
+      result[key as KS[number]] = value
+    }
+    return result
+  }
