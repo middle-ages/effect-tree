@@ -21,7 +21,8 @@
     "../src/README.md",
     "../docs/features.md",
     "../src/codec/README.md",
-    "../examples/README.md"
+    "../examples/README.md",
+    "../src/draw/README.md"
   ],
   "excludeInternal": true,
   "alwaysCreateEntryPointModule": true,

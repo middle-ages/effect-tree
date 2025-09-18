@@ -39,12 +39,6 @@ export * as Draw from './src/draw.js'
 export * as TreeF from './src/treeF.js'
 
 /**
- * Themes for the {@link_Draw} module.
- * @category drawing
- */
-export * as Theme from './src/draw/theme.js'
-
-/**
  * Efficiently navigate and modify trees.
  * @category zipper
  */

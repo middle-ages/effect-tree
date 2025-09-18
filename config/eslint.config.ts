@@ -68,12 +68,16 @@ const config = defineConfig(
       'sonarjs/no-nested-conditional': 'off',
       'sonarjs/void-use': 'off',
       'sonarjs/class-name': 'off',
+      'unicorn/no-null': 'off',
 
       // Can't do module augmentation.
       '@typescript-eslint/no-namespace': 'off',
 
       // Does not understand unions
       'sonarjs/function-return-type': 'off',
+
+      // Does not understand intersections
+      'sonarjs/no-useless-intersection': 'off',
 
       'unicorn/filename-case': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',

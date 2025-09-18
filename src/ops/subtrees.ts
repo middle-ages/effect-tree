@@ -57,6 +57,6 @@ export const bottomSubtreesFold: TreeProductFolderK<ForestTypeLambda> =
     onLeaf: flow(leaf, Array.of),
     onBranch: (value, forest) => [
       ...pipe(forest, Array.map(Tuple.getSecond), Array.flatten),
-      tree(value, pipe(forest, Array.map(Tuple.getFirst))),
+      pipe(forest, Array.map(Tuple.getFirst), tree.flipped(value)),
     ],
   })

@@ -4,6 +4,7 @@ import {
   bottomSubtrees,
   Codec,
   drawTree,
+  Draw,
   from,
   of,
 } from 'effect-tree'
@@ -51,33 +52,86 @@ export const genealogy = from(
   ),
 )
 
-console.log(drawTree.unlines(genealogy))
+console.log(Draw.boxedNodes('thin')(genealogy).join('\n'))
+
 /*
-┬Metuselah      
-└┬Lamech        
- ├┬Noah         
- │├┬Shem        
- ││├─Elam       
- ││├─Asshur     
- ││├─Arphachshad
- ││├─Lud        
- ││└─Aram       
- │├┬Ham         
- ││├─Cush       
- ││├─Egypt      
- ││├─Put        
- ││└┬Canaan     
- ││ ├─Sidon     
- ││ └─Heth      
- │└─Aram        
- └┬Japheth      
-  ├─Gomer       
-  ├─Magog       
-  ├─Media       
-  ├─Javan       
-  ├─Tubal       
-  ├─Meshech     
-  └─Tiras       
+┬┬─────────┐
+││Metuselah│
+│└─────────┘
+└────┬┬──────┐
+     ││Lamech│
+     │└──────┘
+     ├────┬┬────┐
+     │    ││Noah│
+     │    │└────┘
+     │    ├────┬┬────┐
+     │    │    ││Shem│
+     │    │    │└────┘
+     │    │    ├─────┬────┐
+     │    │    │     │Elam│
+     │    │    │     └────┘
+     │    │    ├─────┬──────┐
+     │    │    │     │Asshur│
+     │    │    │     └──────┘
+     │    │    ├─────┬───────────┐
+     │    │    │     │Arphachshad│
+     │    │    │     └───────────┘
+     │    │    ├─────┬───┐
+     │    │    │     │Lud│
+     │    │    │     └───┘
+     │    │    └─────┬────┐
+     │    │          │Aram│
+     │    │          └────┘
+     │    ├────┬┬───┐
+     │    │    ││Ham│
+     │    │    │└───┘
+     │    │    ├─────┬────┐
+     │    │    │     │Cush│
+     │    │    │     └────┘
+     │    │    ├─────┬─────┐
+     │    │    │     │Egypt│
+     │    │    │     └─────┘
+     │    │    ├─────┬───┐
+     │    │    │     │Put│
+     │    │    │     └───┘
+     │    │    └────┬┬──────┐
+     │    │         ││Canaan│
+     │    │         │└──────┘
+     │    │         ├─────┬─────┐
+     │    │         │     │Sidon│
+     │    │         │     └─────┘
+     │    │         └─────┬────┐
+     │    │               │Heth│
+     │    │               └────┘
+     │    └─────┬────┐
+     │          │Aram│
+     │          └────┘
+     └────┬┬───────┐
+          ││Japheth│
+          │└───────┘
+          ├─────┬─────┐
+          │     │Gomer│
+          │     └─────┘
+          ├─────┬─────┐
+          │     │Magog│
+          │     └─────┘
+          ├─────┬─────┐
+          │     │Media│
+          │     └─────┘
+          ├─────┬─────┐
+          │     │Javan│
+          │     └─────┘
+          ├─────┬─────┐
+          │     │Tubal│
+          │     └─────┘
+          ├─────┬───────┐
+          │     │Meshech│
+          │     └───────┘
+          └─────┬─────┐
+                │Tiras│
+                └─────┘
+┬1. Metuselah
+
 */
 
 // Annotate each tree node with its level label encoding its path to root.

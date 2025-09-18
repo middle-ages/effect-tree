@@ -46,13 +46,10 @@ export const toEdges = (code: NonEmptyArray<number>): EdgeList<number> => {
  * Convert the prüfer code of a tree into the tree.
  * @category codec
  */
-export const decode: (code: number[]) => Branch<number> = code => {
-  //  console.log('decode')
-  //  console.log(JSON.stringify(code, undefined, 2))
-  return Array.isNonEmptyArray(code)
+export const decode: (code: number[]) => Branch<number> = code =>
+  Array.isNonEmptyArray(code)
     ? pipe(code, toEdges, decodeEdges)
     : branch(1, [leaf(2)])
-}
 
 // Compute sorted list of leaves and the degree map
 const makeDegreeMap = (

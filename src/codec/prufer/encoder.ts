@@ -26,8 +26,6 @@ import {Effect, Option} from 'effect'
 export const encode =
   <A>(order: Order.Order<A>): ((self: Branch<A>) => A[]) =>
   self => {
-    //    console.log('encode')
-    //    console.log(JSON.stringify(self, undefined, 2))
     const [head, ...rest] = getBranchForest(self)
 
     // Return empty array if we are encoding branch(1, leaf(2))

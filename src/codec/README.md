@@ -22,6 +22,3 @@ console.log(encoded)
 
 
 ```
-
-
-

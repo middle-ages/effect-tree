@@ -3,8 +3,15 @@ import {treeCata} from '#tree'
 import * as TreeF from '#treeF'
 import {pipe} from 'effect'
 
-export * from './draw/index.js'
-export * from './draw/theme.js'
+export * from './draw/glyph.js'
+export * from './draw/struts.js'
+export * from './draw/tree.js'
+export * from './draw/align.js'
+export * from './draw/direction.js'
+export * from './draw/part.js'
+export * from './draw/parts.js'
+export * from './draw/variants.js'
+export * as PartF from './draw/partF.js'
 
 /**
  * Format a string tree for debug output.

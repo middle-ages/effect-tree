@@ -1,24 +1,21 @@
-import {fixPart} from '#draw/part/data'
-import {type Text} from '#draw/part/partF'
+import {fixPart} from '#draw/part'
 import type {Column, Empty, Part, Row} from '#draw/part/types'
+import {type Text} from '#draw/part'
 import * as fc from 'fast-check'
 import {
   EmptyPartFArbitrary,
   getColumnFArbitrary,
   getRowFArbitrary,
-  TextPartArbitrary,
+  TextFPArtArbitrary,
 } from './PartF.js'
-import {
-  mapHorizontalAlignments,
-  mapVerticalAlignments,
-  type Aligned,
-  type VerticallyAligned,
-  type HorizontallyAligned,
-} from '#draw'
 
 const EmptyPartArbitrary: fc.Arbitrary<Empty> = EmptyPartFArbitrary.map(
   unfixed => ({unfixed}),
 )
+
+const TextPartArbitrary: fc.Arbitrary<Text> = TextFPArtArbitrary.map(textF => ({
+  unfixed: textF,
+}))
 
 /**
  * An arbitrary for a recursive {@link Part} that describes how to render a
@@ -48,25 +45,3 @@ export const Arbitrary = (options?: {
     }
   }).part
 }
-
-/**
- * @category arbitrary
- */
-export const HorizontalArbitrary: fc.Arbitrary<HorizontallyAligned> = fc.oneof(
-  ...mapHorizontalAlignments(hAlign => fc.constant({hAlign})),
-)
-
-/**
- * @category arbitrary
- */
-export const VerticalArbitrary: fc.Arbitrary<VerticallyAligned> = fc.oneof(
-  ...mapVerticalAlignments(vAlign => fc.constant({vAlign})),
-)
-
-/**
- * @category arbitrary
- */
-export const AlignedArbitrary: fc.Arbitrary<Aligned> =
-  HorizontalArbitrary.chain(hAlign =>
-    VerticalArbitrary.map(vAlign => ({...hAlign, ...vAlign})),
-  )

@@ -1,24 +1,20 @@
-import {String} from '#util'
-import {transpose, type NonEmptyArray2} from '#util/Array'
-import {Array, flow, pipe} from 'effect'
+import {K} from '#util'
+import {flatten, map, transpose, type NonEmptyArray2} from '#util/Array'
+import {unlines, unwords} from '#util/String'
+import {Array, Option, pipe} from 'effect'
 import {type Algebra} from 'effect-ts-folds'
-import {getOrElse} from 'effect/Option'
-import {alignHorizontally, alignVertically} from './align.js'
-import {getText} from './data.js'
-import {partCata} from './ops.js'
+import {alignHorizontally, alignVertically} from '../align.js'
 import {
   matchPartF,
   type ColumnF,
   type PartFTypeLambda,
   type RowF,
-} from './partF.js'
+} from '../partF.js'
+import {normalizeAreaStruts} from '../struts.js'
+import {partCata} from './fold.js'
 import {type Part} from './types.js'
 
-/**
- * Render a single layer of the part into a list of strings, one per row.
- * @category drawing
- */
-export const drawFold: Algebra<PartFTypeLambda, string[]> = matchPartF(
+const drawFold: Algebra<PartFTypeLambda, string[]> = matchPartF(
   [],
   Array.of,
   drawRowF,
@@ -31,31 +27,37 @@ export const drawFold: Algebra<PartFTypeLambda, string[]> = matchPartF(
  * @returns Possibly empty array of lines.
  * @category drawing
  */
-export const draw: (part: Part) => string[] = partCata(drawFold)
+export const drawPart: {
+  (part: Part): string[]
+  unlines: (part: Part) => string
+} = Object.assign(partCata(drawFold), {
+  unlines: (part: Part): string => pipe(part, partCata(drawFold), unlines),
+})
 
 function drawRowF({
   hAlign,
   vAlign,
-  hStrut,
-  vStrut: [headVStrut, ...tailVStrut],
-  cells: [head, ...rest],
+  cells: [cellsHead, ...cellsTail],
+  ...struts
 }: RowF<string[]>): string[] {
-  if (head === undefined) {
+  if (cellsHead === undefined) {
     return []
   }
-  const aligned = alignVertically(
-    [getText(headVStrut), ...pipe(tailVStrut, Array.map(getText))],
-    vAlign,
-    alignHorizontally(getText(hStrut), hAlign),
-  )([head, ...rest]) as NonEmptyArray2<string>
+
+  const {hStrut, vStrut} = normalizeAreaStruts(struts)
+  const aligned = pipe(
+    [cellsHead, ...cellsTail],
+    alignVertically(vStrut, vAlign, alignHorizontally(hStrut, hAlign)),
+  ) as unknown as NonEmptyArray2<string>
 
   return pipe(
     aligned,
     transpose,
-    Array.map(flow(Array.map(getOrElse(() => ' ')), String.unwords)),
+    map(map(Option.getOrElse(K(' ')))),
+    map(unwords),
   )
 }
 
-function drawColumnF({hAlign, hStrut, cells}: ColumnF<string[]>): string[] {
-  return pipe(cells, Array.flatten, alignHorizontally(getText(hStrut), hAlign))
+function drawColumnF({cells, hAlign, hStrut}: ColumnF<string[]>): string[] {
+  return pipe(cells, flatten, alignHorizontally(hStrut, hAlign))
 }

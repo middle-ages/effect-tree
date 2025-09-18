@@ -34,7 +34,7 @@ const stringTreeUsingTree: Tree<string> = tree('Root', [
   ])(label('Bottom', 'four nodes')),
 ])
 
-console.log(drawTree.unixRounded.unlines(stringTreeUsingTree))
+console.log(drawTree.unixRound.unlines(stringTreeUsingTree))
 
 /*
 ─Root
@@ -71,7 +71,7 @@ const stringTreeUsingFrom: Tree<string> = from(
   ),
 )
 
-console.log(drawTree.unixRounded.unlines(stringTreeUsingFrom))
+console.log(drawTree.unixRound.unlines(stringTreeUsingFrom))
 
 /*
 ─Root

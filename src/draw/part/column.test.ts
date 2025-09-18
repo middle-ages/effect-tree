@@ -1,32 +1,32 @@
-import {describe, expect, test} from 'vitest'
+import {column, text} from '#draw'
 import {Array, flow, pipe} from 'effect'
 import type {NonEmptyArray} from 'effect/Array'
-import {type HorizontalAlignment, showAlignment} from './align/data.js'
-import {column, text} from './data.js'
-import {draw} from './draw.js'
-import type {Text} from './partF/data.js'
-import type {Part} from './types.js'
+import {describe, expect, test} from 'vitest'
+import {type HorizontalAlignment, showAlignment} from '../align.js'
+import {HStrut} from '../struts.js'
+import {drawPart} from './draw.js'
+import type {Part, Text} from './types.js'
 
-type MakeColumn = (align?: HorizontalAlignment) => (hStrut?: Text) => Part
+type MakeColumn = (align?: HorizontalAlignment) => (hStrut?: HStrut) => Part
 
 const makeColumn =
   (cells: Part[]): MakeColumn =>
   (align = 'left') =>
-  (hStrut = text('•')) =>
+  (hStrut = HStrut(['•'])) =>
     column(align)(cells, hStrut)
 
 const [narrowText, wideText] = [text('foo'), text('123456')]
 
 test('lineCount≔0', () => {
-  expect(draw(makeColumn([])()())).toEqual([])
+  expect(drawPart(makeColumn([])()())).toEqual([])
 })
 
 test('lineCount≔1', () => {
-  expect(draw(makeColumn([narrowText])()())).toEqual(['foo'])
+  expect(drawPart(makeColumn([narrowText])()())).toEqual(['foo'])
 })
 
 test('lineCount≔2', () => {
-  expect(draw(makeColumn([narrowText, wideText])()())).toEqual([
+  expect(drawPart(makeColumn([narrowText, wideText])()())).toEqual([
     'foo•••',
     '123456',
   ])
@@ -42,7 +42,7 @@ describe('lineCount≔6', () => {
   )
 
   const render = (align: HorizontalAlignment): string[] =>
-    draw(makeColumn(oneToSixText)(align)())
+    drawPart(makeColumn(oneToSixText)(align)())
 
   test(showAlignment('left'), () => {
     expect(render('left')).toEqual([

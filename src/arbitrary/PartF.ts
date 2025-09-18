@@ -1,33 +1,58 @@
-import {nonEmptyArrayArbitrary} from './util.js'
-import {pipe, Array} from 'effect'
-import {unary, tinyArray, tinyString} from 'effect-ts-laws'
-import fc from 'fast-check'
-import {HorizontalArbitrary, VerticalArbitrary} from '#draw/part/align/data'
+import {
+  mapHorizontalAlignments,
+  mapVerticalAlignments,
+  type Aligned,
+  type HorizontallyAligned,
+  type PartF,
+  type VerticallyAligned,
+} from '#draw'
 import {
   columnF,
   ColumnF,
   EmptyF,
   emptyF,
+  rowF,
   RowF,
-  text,
   TextF,
   textF,
-  type PartF,
-  type Text,
-} from '#draw/part/partF/data'
-import {
-  type Themed,
-  themes,
-  type Theme,
-  themeNames,
-  type ThemeName,
-} from '#draw'
+} from '#draw/partF'
+import {tinyArray, tinyString} from 'effect-ts-laws'
+import fc from 'fast-check'
+import {hStrutArbitrary, vStrutArbitrary} from './Strut.js'
+
+/**
+ * @category arbitrary
+ */
+export const HorizontalArbitrary: fc.Arbitrary<HorizontallyAligned> = fc.record(
+  {
+    hAlign: fc.oneof(...mapHorizontalAlignments(fc.constant)),
+    hStrut: hStrutArbitrary,
+  },
+)
+
+/**
+ * @category arbitrary
+ */
+export const VerticalArbitrary: fc.Arbitrary<VerticallyAligned> = fc.record({
+  vAlign: fc.oneof(...mapVerticalAlignments(fc.constant)),
+  vStrut: vStrutArbitrary,
+})
+
+/**
+ * @category arbitrary
+ */
+export const AlignedArbitrary: fc.Arbitrary<Aligned> =
+  HorizontalArbitrary.chain(hAlign =>
+    VerticalArbitrary.map(vAlign => ({...hAlign, ...vAlign})),
+  )
 
 /**
  * An arbitrary for a filled rectangular block of text used for drawing trees.
  * @category internal
  */
-export const getArbitrary = <A>(a: fc.Arbitrary<A>): fc.Arbitrary<PartF<A>> =>
+export const getArbitrary = <A>(
+  a: fc.Arbitrary<A>,
+): fc.Arbitrary<PartF.PartF<A>> =>
   fc.oneof(
     EmptyPartFArbitrary,
     TextFPArtArbitrary,
@@ -38,40 +63,23 @@ export const getArbitrary = <A>(a: fc.Arbitrary<A>): fc.Arbitrary<PartF<A>> =>
 /**
  * @category internal
  */
-export const EmptyPartFArbitrary: fc.Arbitrary<EmptyF> = fc.constant(emptyF),
-  TextFPArtArbitrary: fc.Arbitrary<TextF> = tinyString.map(textF),
-  TextPartArbitrary: fc.Arbitrary<Text> = TextFPArtArbitrary.map(textF => ({
-    unfixed: textF,
-  }))
+export const EmptyPartFArbitrary: fc.Arbitrary<EmptyF> = fc.constant(emptyF)
 
 /**
  * @category internal
+ */
+export const TextFPArtArbitrary: fc.Arbitrary<TextF> = tinyString.map(textF)
+
+/**
+ * @category internal
+ *
  */
 export const getColumnFArbitrary = <A>(
   a: fc.Arbitrary<A>,
 ): fc.Arbitrary<ColumnF<A>> =>
-  HorizontalArbitrary.chain(({hAlign}) =>
-    TextPartArbitrary.chain(hStruct =>
-      tinyArray(a).map(columnF(hAlign, hStruct)),
-    ),
-  )
-
-/**
- * @category internal
- */
-export const ArbitraryTheme: fc.Arbitrary<Theme> = fc.oneof(
-  ...pipe(
-    themeNames,
-    Array.map((name: ThemeName) => fc.constant(themes[name])),
-  ),
-)
-
-/**
- * @category internal
- */
-export const ArbitraryThemed = <A>(
-  a: fc.Arbitrary<A>,
-): fc.Arbitrary<Themed<A>> => unary<Theme>()(a)
+  fc
+    .tuple(tinyArray(a), HorizontalArbitrary)
+    .map(([cells, horizontal]) => columnF(horizontal)(cells))
 
 /**
  * @category internal
@@ -79,11 +87,8 @@ export const ArbitraryThemed = <A>(
 export const getRowFArbitrary = <A>(
   a: fc.Arbitrary<A>,
 ): fc.Arbitrary<RowF<A>> =>
-  fc.record({
-    _tag: fc.constant('RowF'),
-    hAlign: HorizontalArbitrary.map(a => a.hAlign),
-    vAlign: VerticalArbitrary.map(a => a.vAlign),
-    hStrut: TextPartArbitrary,
-    vStrut: nonEmptyArrayArbitrary(tinyString).map(Array.map(text)),
-    cells: tinyArray(a),
-  })
+  fc
+    .tuple(getColumnFArbitrary(a), VerticalArbitrary)
+    .map(([{_tag: _, cells, ...horizontal}, vertical]) =>
+      rowF({...horizontal, ...vertical})(cells),
+    )

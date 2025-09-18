@@ -10,6 +10,8 @@
     "../src/test/**/*.ts",
     "../src/**/*.test.ts",
     "../src/**/*.test-d.*",
-    "../src/arbitrary/TreeF.ts"
+    "../src/arbitrary/TreeF.ts",
+    "../src/draw/struts/index.ts",
+    "../src/draw/struts/index.test.ts"
   ]
 }

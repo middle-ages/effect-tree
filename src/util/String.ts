@@ -1,13 +1,14 @@
 import {pipe, Predicate, String} from 'effect'
 import * as tty from 'tty-strings'
 import * as Array from './Array.js'
-import type {EndoOf} from './Function.js'
+import {type EndoOf} from './Function.js'
 import * as Number from './Number.js'
 import {floorMod} from './Number.js'
-import {pairMap, type Pair} from './Pair.js'
-import * as Tuple from './Tuple.js'
+import {type Pair} from './Pair.js'
 
 export * from 'effect/String'
+
+const segmenter = new Intl.Segmenter()
 
 /** Surround a string with the given string pair. */
 export const surround =
@@ -160,6 +161,9 @@ export const stringWidths = Array.map<string[], number>(stringWidth)
 /** A string `n` characters long made up of spaces. */
 export const nSpaces = (n: number): string => pipe(' ', String.repeat(n))
 
+/** An array `n` characters long made up of newlines. */
+export const nNewlines = (n: number): string[] => Array.replicate(n)('\n')
+
 /** Raise the case of the 1st letter in the given string. */
 export const toUpperCaseFirst = <const S extends string>(s: S) =>
   (s.charAt(0).toUpperCase() + s.slice(1)) as Capitalize<S>
@@ -168,28 +172,55 @@ export const toUpperCaseFirst = <const S extends string>(s: S) =>
 export const toLowerCaseFirst = <const S extends string>(s: S) =>
   (s.charAt(0).toLowerCase() + s.slice(1)) as Uncapitalize<S>
 
-/** Fill available space with given multiline fill string. */
-export function fillLines(available: number) {
-  return (fill: Array.NonEmptyArray<string>): string[] => {
+/**
+ * Fill available horizontal space with given single line multi-character fill
+ * string.
+ */
+export function fillColumns(available: number) {
+  return (fill: string): string => {
     const fillLength = fill.length
-    if (available === 0) return []
+    if (available === 0) return ''
+
+    const Δ = available - fillLength
+    if (Δ <= 0) return fill.slice(0, available)
+    const [n, remainder] = floorMod(available, fillLength)
+    return unwords.rest(pipe(fill, String.repeat(n)), fill.slice(0, remainder))
+  }
+}
+
+fillColumns.flipped =
+  (fill: string) =>
+  (available: number): string =>
+    fillColumns(available)(fill)
+
+/**
+ * Fill available vertical space with given multiline fill string.
+ * If the given `fill` is an empty array, uses the space character.
+ */
+export function fillRows(available: number) {
+  return (rawFill: string[]): string[] => {
+    if (available === 0) {
+      return []
+    }
+    const fill = Array.isNonEmptyArray(rawFill) ? rawFill : ['']
+    const fillLength = fill.length
 
     const Δ = available - fillLength
     if (Δ <= 0) return fill.slice(0, available)
 
-    const [quotient, remainder] = pipe(
-      floorMod(available, fillLength),
-      Tuple.mapFirst(Number.decrement),
-      pairMap(n => pipe(fill, Array.replicate(n), Array.flatten)),
-    )
-
-    return [...quotient, ...remainder]
+    const [quotient, remainder] = floorMod(available, fillLength)
+    return [
+      ...pipe(fill, Array.replicate(quotient), Array.flatten),
+      ...fill.slice(0, remainder),
+    ]
   }
 }
 
+/** Return the widest line width. */
 export const widestLine = (lines: string[]): number =>
   Array.max(Number.Order)([0, ...stringWidths(lines)])
 
+/** Takes characters from a string as long as `f` is true. */
 export const takeWhile = (f: Predicate.Predicate<string>) => (s: string) => {
   let i = 0
   while (f(s[i] as string) && i < s.length) {
@@ -197,3 +228,13 @@ export const takeWhile = (f: Predicate.Predicate<string>) => (s: string) => {
   }
   return s.slice(0, i)
 }
+
+/** Split a string to characters. */
+export const segmentString = (s: string): string[] =>
+  [...segmenter.segment(s)].map(s => s.segment)
+
+/** Like string `slice` but for segments and returns an array. */
+export const segmentSlice =
+  (head: number, last?: number) =>
+  (s: string): string[] =>
+    [...segmenter.segment(s)].map(s => s.segment).slice(head, last ?? -1)

@@ -1,9 +1,12 @@
-import {unlines} from '#util/String'
-import {Array, pipe, String} from 'effect'
+import {trimEnd, unlines} from '#util/String'
+import {Array, pipe} from 'effect'
 import {describe, expect, test} from 'vitest'
-import {column as dataColumn, row as dataRow, empty, text} from './data.js'
-import {draw} from './draw.js'
-import {showPart} from './ops.js'
+import {HStrut, VStrut} from '../struts.js'
+import {column as dataColumn} from './column.js'
+import {empty, text} from './data.js'
+import {drawPart} from './draw.js'
+import {row as dataRow} from './row.js'
+import {showPart} from './show.js'
 import type {Part} from './types.js'
 
 const [row, column] = [dataRow.bottom.center, dataColumn.center]
@@ -20,20 +23,32 @@ describe('part', () => {
     pipe('foo', text, testShowPart('string', '“foo”'))
 
     describe('row', () => {
-      pipe('foo', text, Array.of, row, testShowPart('no strut', '⮂⮇.(“foo”)'))
+      pipe(
+        'foo',
+        text,
+        Array.of,
+        row,
+        testShowPart('no strut', '⮂⮇⊦«“ ”».⊥«“”»(“foo”)'),
+      )
 
       pipe(
-        row([text('foo')], [text('A'), [text('B')]]),
-        testShowPart('with strut', '⮂⮇.[“A”](“foo”)'),
+        row([text('foo')], {hStrut: HStrut(['A']), vStrut: VStrut(['B'])}),
+        testShowPart('with strut', '⮂⮇⊦«“A”».⊥«“B”»(“foo”)'),
       )
     })
 
     describe('column', () => {
-      pipe('foo', text, Array.of, column, testShowPart('no strut', '⮂.(“foo”)'))
+      pipe(
+        'foo',
+        text,
+        Array.of,
+        column,
+        testShowPart('no strut', '⮂⊦«“ ”»(“foo”)'),
+      )
 
       pipe(
-        column([text('foo')], text('C')),
-        testShowPart('with strut', '⮂.[“C”](“foo”)'),
+        column([text('foo')], HStrut(['C'])),
+        testShowPart('with strut', '⮂⊦«“C”»(“foo”)'),
       )
     })
   })
@@ -41,11 +56,11 @@ describe('part', () => {
 
 describe('draw part', () => {
   test('empty', () => {
-    expect(draw(empty)).toEqual([])
+    expect(drawPart(empty)).toEqual([])
   })
 
   test('text', () => {
-    expect(draw(text('foo'))).toEqual(['foo'])
+    expect(drawPart(text('foo'))).toEqual(['foo'])
   })
 
   test('fractal', () => {
@@ -54,13 +69,13 @@ describe('draw part', () => {
     const init = row([space, full, space])
 
     const step = (part: Part) =>
-      row([part, column([part, empty, empty], full), part])
+      row([part, column([part, empty, empty], HStrut(['█'])), part])
 
     let i = 0
     let current = init
     while (i++ < 3) current = step(current)
 
-    expect('\n' + unlines(Array.map(draw(current), String.trimEnd))).toEqual(`
+    expect('\n' + unlines(Array.map(drawPart(current), trimEnd))).toEqual(`
                                         █
                                        ███
              █                 █     █ ███ █     █                 █
