@@ -27,16 +27,16 @@ export const filterDefined = <const Key extends PropertyKey, Value extends {}>(
  * the same key.
  */
 export const mergeWith =
-  <Self extends {}>(self: Self) =>
-  <That extends {}>(that: That): Self & That => ({
+  <That extends {}>(that: That) =>
+  <Self extends {}>(self: Self): Self & That => ({
     ...self,
     ...that,
   })
 
-mergeWith.tupled = <Self extends {}, That extends {}>([self, that]: [
+mergeWith.tupled = <That extends {}, Self extends {}>([that, self]: [
   Self,
   That,
-]): Self & That => mergeWith(self)(that)
+]): Self & That => mergeWith(that)(self)
 
 /**
  * The object with the keys `keys` and all its values set to `value`

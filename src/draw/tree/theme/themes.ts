@@ -1,27 +1,10 @@
 import {Array, pipe, Record} from '#util'
-import {type GlyphSetName, glyphSet, glyphSetNames} from './glyph.js'
-import {Theme} from './theme.js'
-
-/**
- * Type of theme names.
- * @category drawing
- */
-export type ThemeName = GlyphSetName
-
-/**
- * Tree theme names.
- * @category drawing
- */
-export const themeNames = glyphSetNames
-
-type Themes = Record<ThemeName, Theme>
-
-const build = (name: ThemeName, indents = 0) =>
-  Theme({glyphs: glyphSet(name), indents})
+import {square} from '#util/Pair'
+import {type ThemeMap, type ThemeName, Theme, themeNames} from './types.js'
 
 const indent = pipe(
   ['ascii', 'bullets', 'space'] as const,
-  Array.map(name => [name, build(name, 1)] as const),
+  Array.map(square.mapSecond(name => Theme.fromNamedGlyphSet(name, 1))),
 )
 
 const noIndent = pipe(
@@ -37,9 +20,11 @@ const noIndent = pipe(
     'hDouble',
     'vDouble',
   ] as const,
-  Array.map(name => [name, build(name, 0)] as const),
+  Array.map(square.mapSecond(name => Theme.fromNamedGlyphSet(name, 0))),
 )
-const themes = Record.fromEntries([...indent, ...noIndent]) as Themes
+
+const entries: (readonly [ThemeName, Theme])[] = [...indent, ...noIndent]
+const themes = Record.fromEntries(entries) as ThemeMap
 
 /**
  * Map of theme name to theme.
@@ -56,6 +41,6 @@ export const mapThemes = <A>(
 ): Record<ThemeName, A> =>
   pipe(
     themeNames,
-    Array.map(name => [name, f(themes[name], name)] as [ThemeName, A]),
+    Array.map(square.mapSecond(name => f(themes[name], name))),
     Record.fromEntries,
   )

@@ -1,8 +1,38 @@
-import {monoRecord} from '#util/Record'
+import {Record} from '#util'
+import {K, type EndoOf, dual} from '#util/Function'
 import {segmentString} from '#util/String'
 import {type TupleOf} from 'effect/Types'
-import {directions} from '../direction.js'
+import {type Direction, directions} from '../direction.js'
 import type {TeeSet} from './types.js'
+
+const _replaceTee = (
+  set: TeeSet,
+  direction: Direction,
+  glyph: string,
+): TeeSet => Record.modify(set, direction, K(glyph))
+
+/**
+ * Given a direction and a glyph, replaces the tee at this direction in a given
+ * tee set with the given glyph and returns the new tee set.
+ *
+ * At the key `named` you will find a version that does the same but accepts a
+ * _name_ of a tee set instead of an tee set.
+ * @param set - Tee set to change.
+ * @param direction - A {@link Direction} of the glyph to be changed.
+ * @param glyph - String of new glyph.
+ * @returns Updated tee set.
+ * @category drawing
+ */
+export const replaceTee: {
+  (set: TeeSet, direction: Direction, glyph: string): TeeSet
+  (direction: Direction, glyph: string): EndoOf<TeeSet>
+  named: (direction: Direction, glyph: string) => (name: TeeSetName) => TeeSet
+} = Object.assign(dual(3, _replaceTee), {
+  named:
+    (direction: Direction, glyph: string) =>
+    (name: TeeSetName): TeeSet =>
+      _replaceTee(teeSet(name), direction, glyph),
+})
 
 /**
  * Names of all tee sets.
@@ -24,25 +54,25 @@ export const teeSetNames = [
 ] as const
 
 /**
- * The type of a elbow set name.
+ * The type of a tee set name.
  * @category drawing
  */
 export type TeeSetName = (typeof teeSetNames)[number]
 
 /**
- * A record of all tee sets. A tee set has an elbow defined for each tee
- * direction. The elbows are grouped into sets by style.
+ * A record of all tee sets. A tee set has a tee glyph defined for each tee
+ * direction. The tees are grouped into sets by style.
  * @category drawing
  */
 export type TeeSets = Record<TeeSetName, TeeSet>
 
 const teeSets: TeeSets = {
-  ascii: monoRecord('+')(...directions),
+  ascii: Record.monoRecord('+')(...directions),
   double: fromQuad('╩╠╦╣'),
   hDouble: fromQuad('╧╞╤╡'),
   hThick: fromQuad('┷┝┯┥'),
-  solid: monoRecord('█')(...directions),
-  space: monoRecord(' ')(...directions),
+  solid: Record.monoRecord('█')(...directions),
+  space: Record.monoRecord(' ')(...directions),
   thick: fromQuad('┻┣┳┫'),
   thin: fromQuad('┴├┬┤'),
   vDouble: fromQuad('╨╟╥╢'),

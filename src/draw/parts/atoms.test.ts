@@ -1,7 +1,11 @@
 import {Array, pipe, String} from '#util'
 import {expect, test} from 'vitest'
 import {drawPart, text} from '../part.js'
-import {spacePad} from './atoms.js'
+import {hIndent, spacePad} from './atoms.js'
+
+test('hIndent', () => {
+  expect(pipe(1, hIndent('X'), drawPart.unlines)).toEqual('X')
+})
 
 test('spacePad', () => {
   expect(

@@ -5,6 +5,7 @@ import {drawPart, text, type Part} from '../part.js'
 import {hSpace, stackText} from './atoms.js'
 import {
   addBorder,
+  addBorders,
   borderBottom,
   borderLeft,
   borderRight,
@@ -13,7 +14,7 @@ import {
   vBorders,
 } from './borders.js'
 
-const expectDraw = (part: Part, expected: string) => {
+const expectDraw = (part: Part) => (expected: string) => {
   expect(
     pipe(
       part,
@@ -30,17 +31,13 @@ const tenWide: Part = text('0123456789')
 const stackedText: Part = stackText(['A', 'BB', 'CCC'])
 
 test('borderTop', () => {
-  expectDraw(
-    borderTop(set)(tenWide),
-    `
+  expectDraw(borderTop(set)(tenWide))(`
 ──────────
-0123456789`,
-  )
+0123456789`)
 })
 
 test('borderBottom', () => {
-  expectDraw(
-    borderBottom(set)(tenWide),
+  expectDraw(borderBottom(set)(tenWide))(
     `
 0123456789
 ──────────`,
@@ -48,8 +45,7 @@ test('borderBottom', () => {
 })
 
 test('borderBottom on stackText', () => {
-  expectDraw(
-    borderBottom(set)(stackedText),
+  expectDraw(borderBottom(set)(stackedText))(
     `
 .A.
 BB.
@@ -59,8 +55,7 @@ CCC
 })
 
 test('borderLeft', () => {
-  expectDraw(
-    borderLeft(set)(stackedText),
+  expectDraw(borderLeft(set)(stackedText))(
     `
 │.A.
 │BB.
@@ -69,8 +64,7 @@ test('borderLeft', () => {
 })
 
 test('borderRight', () => {
-  expectDraw(
-    borderRight(set)(stackedText),
+  expectDraw(borderRight(set)(stackedText))(
     `
 .A.│
 BB.│
@@ -79,8 +73,7 @@ CCC│`,
 })
 
 test('hBorders', () => {
-  expectDraw(
-    hBorders(set)(stackedText),
+  expectDraw(hBorders(set)(stackedText))(
     `
 │.A.│
 │BB.│
@@ -89,8 +82,7 @@ test('hBorders', () => {
 })
 
 test('vBorders', () => {
-  expectDraw(
-    vBorders(set)(stackedText),
+  expectDraw(vBorders(set)(stackedText))(
     `
 ───
 .A.
@@ -101,8 +93,7 @@ CCC
 })
 
 test('borderTop.corners', () => {
-  expectDraw(
-    pipe(tenWide, hSpace()(), borderTop.corners(set)),
+  expectDraw(pipe(tenWide, hSpace()(), borderTop.corners(set)))(
     `
 ┌──────────┐
 .0123456789.`,
@@ -110,8 +101,7 @@ test('borderTop.corners', () => {
 })
 
 test('borderBottom.corners', () => {
-  expectDraw(
-    pipe(tenWide, hSpace()(), borderBottom.corners(set)),
+  expectDraw(pipe(tenWide, hSpace()(), borderBottom.corners(set)))(
     `
 .0123456789.
 └──────────┘`,
@@ -120,8 +110,7 @@ test('borderBottom.corners', () => {
 
 describe('addBorder', () => {
   test('single line', () => {
-    expectDraw(
-      addBorder(text('foo'), borderSet('thin')),
+    expectDraw(addBorder(text('foo'), borderSet('thin')))(
       `
 ┌───┐
 │foo│
@@ -130,8 +119,7 @@ describe('addBorder', () => {
   })
 
   test('two lines', () => {
-    expectDraw(
-      addBorder(stackText.rest('foo', 'bar'), borderSet('thin')),
+    expectDraw(addBorder(stackText.rest('foo', 'bar'), borderSet('thin')))(
       `
 ┌───┐
 │foo│
@@ -139,4 +127,18 @@ describe('addBorder', () => {
 └───┘`,
     )
   })
+})
+
+test('addBorders', () => {
+  pipe(
+    'foo',
+    text,
+    pipe([borderSet('thin'), borderSet('thick')], addBorders),
+    expectDraw,
+  )(`
+┏━━━━━┓
+┃┌───┐┃
+┃│foo│┃
+┃└───┘┃
+┗━━━━━┛`)
 })

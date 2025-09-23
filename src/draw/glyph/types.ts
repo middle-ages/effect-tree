@@ -1,4 +1,4 @@
-import type {elbowDirections, Directed} from '../direction.js'
+import type {Directed, elbowDirections} from '../direction.js'
 
 /**
  * Union of the four directions where corner glyphs are placed: `topLeft`,

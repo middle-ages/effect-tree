@@ -4,8 +4,13 @@ import {flow, identity, pipe} from 'effect'
 import type {NonEmptyArray} from 'effect/Array'
 import {drawPart} from '../part.js'
 import {treeLayout} from './layout.js'
-import {type Theme} from './theme.js'
-import {getTheme, mapThemes, type ThemeName} from './themes.js'
+import {
+  type Theme,
+  getTheme,
+  mapThemes,
+  type ThemeName,
+  formatNodes,
+} from './theme.js'
 
 /**
  * Type of the base draw function: draw a tree into some output format.
@@ -26,7 +31,12 @@ export interface StringDraw extends BaseDraw<string, NonEmptyArray<string>> {}
  * @category drawing
  */
 export const themedTree = (theme: Theme) => (self: Tree<string>) =>
-  pipe(self, treeLayout.flip(theme), drawPart) as NonEmptyArray<string>
+  pipe(
+    self,
+    formatNodes(theme),
+    treeLayout.flip(theme),
+    drawPart,
+  ) as NonEmptyArray<string>
 
 /**
  * Type of the {@link drawTree} function: an {@link EnrichedDraw}  with an
@@ -123,16 +133,16 @@ export interface UnlinesDraw<A> extends BaseDraw<A, NonEmptyArray<string>> {
 
 function unlinesDraw<A>(
   themeName: ThemeName,
-  formatter: (a: A) => string,
+  converter: (a: A) => string,
 ): UnlinesDraw<A> {
-  return Object.assign(baseDraw(themeName, formatter), {
-    unlines: flow(baseDraw(themeName, formatter), String.unlines),
+  return Object.assign(baseDraw(themeName, converter), {
+    unlines: flow(baseDraw(themeName, converter), String.unlines),
   })
 }
 
 function baseDraw<A>(
   themeName: ThemeName,
-  formatter: (a: A) => string,
+  converter: (a: A) => string,
 ): BaseDraw<A, NonEmptyArray<string>> {
-  return flow(map(formatter), pipe(themeName, getTheme, themedTree))
+  return flow(map(converter), pipe(themeName, getTheme, themedTree))
 }

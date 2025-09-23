@@ -1,4 +1,4 @@
-import {identity} from 'effect'
+import {identity, pipe} from 'effect'
 import {
   addLevelLabels,
   bottomSubtrees,
@@ -52,7 +52,9 @@ export const genealogy = from(
   ),
 )
 
-console.log(Draw.boxedNodes('thin')(genealogy).join('\n'))
+const theme = pipe('thin', Draw.getTheme, Draw.setBoxNodesFormatter)
+
+console.log(Draw.themedTree(theme)(genealogy).join('\n'))
 
 /*
 ┬┬─────────┐
@@ -130,8 +132,6 @@ console.log(Draw.boxedNodes('thin')(genealogy).join('\n'))
           └─────┬─────┐
                 │Tiras│
                 └─────┘
-┬1. Metuselah
-
 */
 
 // Annotate each tree node with its level label encoding its path to root.

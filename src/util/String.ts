@@ -1,10 +1,10 @@
-import {pipe, Predicate, String} from 'effect'
+import {flow, pipe, Predicate, String} from 'effect'
 import * as tty from 'tty-strings'
 import * as Array from './Array.js'
 import {type EndoOf} from './Function.js'
 import * as Number from './Number.js'
 import {floorMod} from './Number.js'
-import {type Pair} from './Pair.js'
+import {fanout, type Pair} from './Pair.js'
 
 export * from 'effect/String'
 
@@ -178,13 +178,20 @@ export const toLowerCaseFirst = <const S extends string>(s: S) =>
  */
 export function fillColumns(available: number) {
   return (fill: string): string => {
-    const fillLength = fill.length
+    const fillLength = stringWidth(fill)
     if (available === 0) return ''
 
     const Δ = available - fillLength
-    if (Δ <= 0) return fill.slice(0, available)
+    if (Δ <= 0) {
+      return pipe(fill, segmentSlice(0, available), unwords)
+    }
     const [n, remainder] = floorMod(available, fillLength)
-    return unwords.rest(pipe(fill, String.repeat(n)), fill.slice(0, remainder))
+
+    return pipe(
+      fill,
+      fanout(String.repeat(n), flow(segmentSlice(0, remainder), unwords)),
+      unwords,
+    )
   }
 }
 

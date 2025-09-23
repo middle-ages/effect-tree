@@ -1,37 +1,21 @@
-import {map} from '#tree'
-import {flow, pipe} from '#util'
+import {flow, Function, pipe} from '#util'
 import {borderSet, elbowSet} from '../glyph.js'
 import {teeSet} from '../glyph/tees.js'
 import {drawPart, text} from '../part.js'
 import {box} from '../parts.js'
-import {
-  getTheme,
-  themedTree,
-  type StringDraw,
-  type Theme,
-  type ThemeName,
-} from '../tree.js'
+import {type Theme, setFormatter, setIndents} from '../tree.js'
 
 /**
- * Just like {@link themedTree} except all nodes are wrapped in thin boxes.
+ * Set the theme formatter to draw boxes around nodes.
  * @category drawing
  */
-export const themedBoxNodes =
-  (theme: Theme): StringDraw =>
-  self =>
-    pipe(self, map(flow(pointyBox, drawPart.unlines)), themedTree(theme))
+export const setBoxNodesFormatter: Function.EndoOf<Theme> = flow(
+  setFormatter(pointyBox),
+  setIndents(4),
+)
 
-/**
- * Just like {@link themedBoxNodes} except takes a theme _name_.
- * @category drawing
- */
-export const boxedNodes: (name: ThemeName) => StringDraw = rawTheme => {
-  const theme: Theme = {...getTheme(rawTheme), indents: 4}
-  return themedBoxNodes(theme)
-}
-
-const pointyBox = (s: string) =>
-  pipe(
+function pointyBox(s: string): string {
+  return pipe(
     s,
     text,
     box({
@@ -43,4 +27,6 @@ const pointyBox = (s: string) =>
         },
       },
     }),
+    drawPart.unlines,
   )
+}

@@ -202,5 +202,5 @@
   "typescript.preferences.preferTypeOnlyAutoImports": true,
   "typescript.updateImportsOnFileMove.enabled": "always",
   "eslint.run": "onSave",
-  "files.autoSave": "onFocusChange"
+  "files.autoSave": "afterDelay"
 }

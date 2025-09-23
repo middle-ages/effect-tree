@@ -106,12 +106,6 @@ export const VStrut = (
   suffix,
 })
 
-/**
- * @category drawing
- */
-export const isEmptyVStrut = ({body, prefix, suffix}: VStrut) =>
-  body.length === 0 && prefix.length === 0 && suffix.length === 0
-
 VStrut.empty = VStrut([''])
 HStrut.space = HStrut([' '])
 

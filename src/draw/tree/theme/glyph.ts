@@ -4,8 +4,8 @@ import {
   lineSet,
   type ElbowSetName,
   type LineSetName,
-} from '../glyph.js'
-import {teeSet, type TeeSetName} from '../glyph/tees.js'
+} from '../../glyph.js'
+import {teeSet, type TeeSetName} from '../../glyph/tees.js'
 
 /**
  * A role for a glyph in a glyph role map.

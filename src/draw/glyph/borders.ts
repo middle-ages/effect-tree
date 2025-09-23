@@ -1,7 +1,70 @@
-import {elbowSet, type ElbowSetName} from './elbows.js'
-import type {BorderSet} from './types.js'
-import {lineSet, type LineSetName} from './lines.js'
+import {dual, type EndoOf} from '#util/Function'
+import type {Direction} from '../direction.js'
+import {elbowSet, replaceElbow, type ElbowSetName} from './elbows.js'
+import {lineSet, replaceLine, type LineSetName} from './lines.js'
+import type {BorderSet, CornerDirection} from './types.js'
 
+/**
+ * Replace the border line at a direction in the given set.
+ * @param set - The border set to change.
+ * @param direction - Line direction to change.
+ * @param glyph - New glyph.
+ * @returns Updated border set.
+ * @category drawing
+ */
+export const replaceBorderLine: {
+  (set: BorderSet, direction: Direction, glyph: string): BorderSet
+  (direction: Direction, glyph: string): EndoOf<BorderSet>
+  named: (direction: Direction, from: LineSetName) => EndoOf<BorderSet>
+} = Object.assign(
+  dual(
+    3,
+    (
+      {lines, ...set}: BorderSet,
+      direction: Direction,
+      glyph: string,
+    ): BorderSet => ({...set, lines: replaceLine(lines, direction, glyph)}),
+  ),
+  {
+    named:
+      (direction: Direction, from: LineSetName): EndoOf<BorderSet> =>
+      ({lines, ...set}) => ({
+        ...set,
+        lines: replaceLine(lines, direction, borderSet(from).lines[direction]),
+      }),
+  },
+)
+
+/**
+ * Replace the border elbow at a direction in the given set.
+ * @param set - The border set to change.
+ * @param direction - Corner direction to change.
+ * @param glyph - New glyph.
+ * @returns Updated border set.
+ * @category drawing
+ */
+export const replaceBorderElbow: {
+  (set: BorderSet, direction: CornerDirection, glyph: string): BorderSet
+  (direction: CornerDirection, glyph: string): EndoOf<BorderSet>
+  named: (direction: CornerDirection, from: ElbowSetName) => EndoOf<BorderSet>
+} = Object.assign(
+  dual(
+    3,
+    (
+      {elbows, ...set}: BorderSet,
+      direction: CornerDirection,
+      glyph: string,
+    ): BorderSet => ({...set, elbows: replaceElbow(elbows, direction, glyph)}),
+  ),
+  {
+    named:
+      (direction: CornerDirection, from: ElbowSetName): EndoOf<BorderSet> =>
+      ({elbows, ...set}) => ({
+        ...set,
+        elbows: replaceElbow(elbows, direction, elbowSet(from)[direction]),
+      }),
+  },
+)
 /**
  * Names of all border sets.
  * @category drawing

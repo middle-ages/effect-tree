@@ -1,8 +1,38 @@
-import {monoRecord} from '#util/Record'
+import {Record} from '#util'
+import {K, dual, type EndoOf} from '#util/Function'
 import {segmentString} from '#util/String'
 import type {TupleOf} from 'effect/Types'
+import {directions, type Direction} from '../direction.js'
 import type {LineSet} from './types.js'
-import {directions} from '../direction.js'
+
+const _replaceLine = (
+  set: LineSet,
+  direction: Direction,
+  glyph: string,
+): LineSet => Record.modify(set, direction, K(glyph))
+
+/**
+ * Given a direction and a glyph, replaces the line at this direction in a given
+ * line set set with the given glyph and returns the new line set.
+ *
+ * At the key `named` you will find a version that does the same but accepts a
+ * _name_ of a line set instead of a line set.
+ * @param set - Line set to change.
+ * @param direction - A {@link Direction} of the glyph to be changed.
+ * @param glyph - String of new glyph.
+ * @returns Updated line set.
+ * @category drawing
+ */
+export const replaceLine: {
+  (set: LineSet, direction: Direction, glyph: string): LineSet
+  (direction: Direction, glyph: string): EndoOf<LineSet>
+  named: (direction: Direction, glyph: string) => (name: LineSetName) => LineSet
+} = Object.assign(dual(3, _replaceLine), {
+  named:
+    (direction: Direction, glyph: string) =>
+    (name: LineSetName): LineSet =>
+      _replaceLine(lineSet(name), direction, glyph),
+})
 
 /**
  * Names of all line sets.
@@ -55,8 +85,8 @@ const lineSets: LineSets = {
   hDouble: fromPair('═│'),
   hThick: fromPair('━│'),
   near: fromQuad('▁▕▔▏'),
-  solid: monoRecord('█')(...directions),
-  space: monoRecord(' ')(...directions),
+  solid: Record.monoRecord('█')(...directions),
+  space: Record.monoRecord(' ')(...directions),
   thick: fromPair('━┃'),
   thickDashed: fromPair('┅┇'),
   thickDashedWide: fromPair('╍╏'),

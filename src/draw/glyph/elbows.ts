@@ -1,8 +1,39 @@
-import {monoRecord} from '#util/Record'
+import {Record} from '#util'
+import {dual, K, type EndoOf} from '#util/Function'
 import {segmentString} from '#util/String'
 import {type TupleOf} from 'effect/Types'
 import {elbowDirections} from '../direction.js'
-import type {ElbowSet} from './types.js'
+import type {CornerDirection, ElbowSet} from './types.js'
+
+const _replaceElbow = (
+  set: ElbowSet,
+  direction: CornerDirection,
+  glyph: string,
+): ElbowSet => Record.modify(set, direction, K(glyph))
+
+/**
+ * Given a direction and a glyph, replaces the elbow at this direction in a given
+ * elbow set with the given glyph and returns the new elbow set.
+ *
+ * At the key `named` you will find a version that does the same but accepts a
+ * _name_ of an elbow set instead of an elbow set.
+ * @param set - Elbow set to change.
+ * @param direction - A {@link CornerDireection} of the glyph to be changed.
+ * @param glyph - String of new glyph.
+ * @returns Updated elbow set.
+ * @category drawing
+ */
+export const replaceElbow: {
+  (set: ElbowSet, direction: CornerDirection, glyph: string): ElbowSet
+  (direction: CornerDirection, glyph: string): EndoOf<ElbowSet>
+  named: (
+    direction: CornerDirection,
+    glyph: string,
+  ) => (name: ElbowSetName) => ElbowSet
+} = Object.assign(dual(3, _replaceElbow), {
+  named: (direction: CornerDirection, glyph: string) => (name: ElbowSetName) =>
+    _replaceElbow(elbowSet(name), direction, glyph),
+})
 
 /**
  * Names of all elbow sets.
@@ -46,8 +77,8 @@ const elbowSets: ElbowSets = {
   hDouble: fromQuad('╒╕╘╛'),
   hThick: fromQuad('┍┑┕┙'),
   round: fromQuad('╭╮╰╯'),
-  solid: monoRecord('█')(...elbowDirections),
-  space: monoRecord(' ')(...elbowDirections),
+  solid: Record.monoRecord('█')(...elbowDirections),
+  space: Record.monoRecord(' ')(...elbowDirections),
   thick: fromQuad('┏┓┗┛'),
   thin: fromQuad('┌┐└┘'),
   vDouble: fromQuad('╓╖╙╜'),

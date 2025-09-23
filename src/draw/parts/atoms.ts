@@ -76,17 +76,6 @@ export const repeatText: {
 )
 
 /**
- * A part that is `width` wide composed entirely of the horizontal line glyph.
- * @example
- * import {Draw} from 'effect-tree'
- *
- * const line = Draw.hLine('3')
- * // ‘───’
- * @category drawing
- */
-export const hLine: (width: number) => Part = repeatText('─')
-
-/**
  * Returns the empty part if the given width is zero, else a text part at the
  * given width filled with the optionally provided _indent_ string. The default
  * indent string is a single space character.
@@ -102,12 +91,12 @@ export const hLine: (width: number) => Part = repeatText('─')
  * @category drawing
  */
 export const hIndent: {
-  (width: number, indent?: string): Part
-  (indent?: string): (width: number) => Part
+  (repeat: number, indent?: string): Part
+  (indent?: string): (repeat: number) => Part
 } = dual(
   2,
-  (width: number, indent: string = ' '): Part =>
-    width === 0 ? emptyPart : repeatText(width, indent),
+  (repeat: number, indent: string = ' '): Part =>
+    repeat === 0 ? emptyPart : repeatText(repeat, indent),
 )
 
 /**
