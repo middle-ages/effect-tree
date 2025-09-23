@@ -2,7 +2,7 @@ import {Array, pipe} from '#util'
 import {type EndoOf} from '#util/Function'
 import {type BorderSet} from '../glyph.js'
 import {above, after, before, below, text, type Part} from '../part.js'
-import {HStrut, VStrut} from '../struts.js'
+import {HStrut, Struts, VStrut} from '../struts.js'
 import {emptyTextPart} from './atoms.js'
 
 /**
@@ -16,7 +16,6 @@ export interface Bordered {
 /**
  * Add a border to the top of the given shape with no corners.
  * The glyph is taken from the given {@link BorderSet}.
- *
  *
  * At the key `corners` you will find a version that has the same signature but
  * _does_ add the required top left and top right right corners.
@@ -42,7 +41,7 @@ export const borderTop: Bordered & {corners: Bordered} = Object.assign(
 export const borderRight: Bordered =
   ({lines: {right}}: BorderSet): EndoOf<Part> =>
   part =>
-    pipe(part, before.middle.center(text(right), {vStrut: VStrut([right])}))
+    pipe(part, before.middle.center(text(right), Struts(VStrut([right]))))
 
 /**
  * Add a border to the top of the given shape with no corners.
@@ -72,7 +71,7 @@ export const borderBottom: Bordered & {corners: Bordered} = Object.assign(
 export const borderLeft: Bordered =
   ({lines: {left}}) =>
   part =>
-    pipe(part, after.middle.center(text(left), {vStrut: VStrut([left])}))
+    pipe(part, after.middle.center(text(left), Struts(VStrut([left]))))
 
 /**
  * Add borders to the left and right of the given part.

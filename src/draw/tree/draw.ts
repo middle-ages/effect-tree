@@ -1,5 +1,5 @@
 import {map, type Tree} from '#tree'
-import {String} from '#util'
+import {String, Function} from '#util'
 import {flow, identity, pipe} from 'effect'
 import type {NonEmptyArray} from 'effect/Array'
 import {drawPart} from '../part.js'
@@ -26,17 +26,28 @@ export interface BaseDraw<A, Out> {
  */
 export interface StringDraw extends BaseDraw<string, NonEmptyArray<string>> {}
 
-/**
- * Draw a tree as a 2D array of glyphs in the given theme.
- * @category drawing
- */
-export const themedTree = (theme: Theme) => (self: Tree<string>) =>
+const _themedTree = (self: Tree<string>, theme: Theme) =>
   pipe(
     self,
     formatNodes(theme),
     treeLayout.flip(theme),
     drawPart,
   ) as NonEmptyArray<string>
+
+/**
+ * Draw a tree as a 2D array of glyphs in the given theme.
+ *
+ * At the key `unlines` you will find a version that joins output into a string.
+ * @category drawing
+ */
+export const themedTree: {
+  (self: Tree<string>, theme: Theme): NonEmptyArray<string>
+  (theme: Theme): (self: Tree<string>) => NonEmptyArray<string>
+  unlines: (theme: Theme) => (self: Tree<string>) => string
+} = Object.assign(Function.dual(2, _themedTree), {
+  unlines: (theme: Theme) => (self: Tree<string>) =>
+    String.unlines(_themedTree(self, theme)),
+})
 
 /**
  * Type of the {@link drawTree} function: an {@link EnrichedDraw}  with an

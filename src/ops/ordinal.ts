@@ -111,7 +111,7 @@ export const asOrdinal =
  */
 export const withOrdinal =
   (initialize = 1) =>
-  <A>(self: Tree<A>) => {
+  <A>(self: Tree<A>): Tree<[A, number]> => {
     const counterEffect: Effect<Ref.Ref<number>> = Ref.make(initialize)
 
     const annotate =

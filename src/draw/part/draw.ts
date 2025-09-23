@@ -10,7 +10,7 @@ import {
   type PartFTypeLambda,
   type RowF,
 } from '../partF.js'
-import {normalizeAreaStruts} from '../struts.js'
+import {normalizeStruts} from '../struts.js'
 import {partCata} from './fold.js'
 import {type Part} from './types.js'
 
@@ -44,10 +44,14 @@ function drawRowF({
     return []
   }
 
-  const {hStrut, vStrut} = normalizeAreaStruts(struts)
+  const {left, right, top, bottom} = normalizeStruts(struts)
   const aligned = pipe(
     [cellsHead, ...cellsTail],
-    alignVertically(vStrut, vAlign, alignHorizontally(hStrut, hAlign)),
+    alignVertically(
+      {top, bottom},
+      vAlign,
+      alignHorizontally({left, right}, hAlign),
+    ),
   ) as unknown as NonEmptyArray2<string>
 
   return pipe(
@@ -58,6 +62,6 @@ function drawRowF({
   )
 }
 
-function drawColumnF({cells, hAlign, hStrut}: ColumnF<string[]>): string[] {
-  return pipe(cells, flatten, alignHorizontally(hStrut, hAlign))
+function drawColumnF({cells, hAlign, ...hStruts}: ColumnF<string[]>): string[] {
+  return pipe(cells, flatten, alignHorizontally(hStruts, hAlign))
 }

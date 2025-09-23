@@ -57,3 +57,21 @@ export const floorMod2 = (
   isNegative: Predicate.Predicate<number> = n => n < 0,
   isEqual: (self: number) => Predicate.Predicate<number> = self => that =>
     self === that
+
+/**
+ * Cut a number into two equal sized integers, with the first getting the
+ * remainder if the given number is not even.
+ */
+export const halfToFirst = (n: number): [number, number] => {
+  const [quotient, remainder] = floorMod2(n)
+  return [quotient + remainder, quotient]
+}
+
+/**
+ * Cut a number into two equal sized integers, with the second getting the
+ * remainder if the given number is not even.
+ */
+export const halfToSecond = (n: number): [number, number] => {
+  const [quotient, remainder] = floorMod2(n)
+  return [quotient, quotient + remainder]
+}

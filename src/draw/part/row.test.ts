@@ -4,11 +4,11 @@ import {
   HStrut,
   row,
   stackText,
+  Struts,
   text,
   VStrut,
-  type AreaStruts,
 } from '#draw'
-import {flow, Array, pipe, String} from '#util'
+import {Array, flow, pipe, String} from '#util'
 import {describe, expect, test} from 'vitest'
 import {
   showAlignments,
@@ -18,10 +18,7 @@ import {
 import {drawPart} from './draw.js'
 import type {Part} from './types.js'
 
-const struts: AreaStruts = {
-  hStrut: HStrut(['⊢']),
-  vStrut: VStrut(['⊥'], ['+'], ['-']),
-}
+const struts: Struts = Struts(VStrut(['⊥'], ['+'], ['-']), HStrut(['⊢']))
 
 const makeRow = (
   cells: Part[],
@@ -32,11 +29,16 @@ const [shortText, longText] = [text('«foo»'), text('«ABCDEF»')]
 
 const shortColumn = (
   hAlign: HorizontalAlignment = 'left',
-  hStrut = struts.hStrut,
+  left = struts.left,
+  right = struts.right,
 ) =>
   column(hAlign)(
-    [text('«bar»'), column(hAlign)([text('«123456»'), text('«A»')], hStrut)],
-    hStrut,
+    [
+      text('«bar»'),
+      column(hAlign)([text('«123456»'), text('«A»')], left, right),
+    ],
+    left,
+    right,
   )
 
 test('empty row', () => {
@@ -148,10 +150,7 @@ describe('shorthand', () => {
 
   const rowCells = [text1, column4, text4]
 
-  const struts = {
-    hStrut: HStrut(['━'], '╼', '╾'),
-    vStrut: VStrut(['┆'], ['↑'], ['↓']),
-  }
+  const struts = Struts(VStrut(['┆'], ['↑'], ['↓']), HStrut(['━'], '╼', '╾'))
 
   const testRow = (
     hAlign: HorizontalAlignment,
@@ -222,11 +221,11 @@ describe('struts', () => {
   })
 
   test('empty vertical strut', () => {
-    expect(
-      iut(cells, {
-        hStrut: HStrut(['x'], '←', '→'),
-        vStrut: VStrut.empty,
-      }),
-    ).toEqual(['←xxxxx→.a.', '←xxxxx→.b.', '1234567.c.', '←xxxxx→EEE'])
+    expect(iut(cells, Struts(VStrut.empty, HStrut(['x'], '←', '→')))).toEqual([
+      '←xxxxx→.a.',
+      '←xxxxx→.b.',
+      '1234567.c.',
+      '←xxxxx→EEE',
+    ])
   })
 })

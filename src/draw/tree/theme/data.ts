@@ -16,7 +16,7 @@ export const getGlyph: {
 } = dual(2, (role: GlyphRole, {glyphs}: Theme): string => glyphs[role])
 
 /**
- * Get the indent count of a tree theme.
+ * Get a glyph by role from a tree theme.
  * @param theme - Theme to query.
  * @returns Theme indents.
  * @category drawing

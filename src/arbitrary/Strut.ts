@@ -1,4 +1,4 @@
-import {type HStrut, type VStrut} from '#draw'
+import {HStrut, HStruts, VStrut, VStruts, type Struts} from '#draw'
 import fc from 'fast-check'
 import {
   tinyLettersArbitrary,
@@ -19,3 +19,17 @@ export const vStrutArbitrary: fc.Arbitrary<VStrut> = fc.record({
   body: tinyNonEmptyLettersArbitrary,
   suffix: tinyLettersArbitrary,
 })
+
+export const hStrutsArbitrary: fc.Arbitrary<HStruts> = fc.record({
+  right: hStrutArbitrary,
+  left: hStrutArbitrary,
+})
+
+export const vStrutsArbitrary: fc.Arbitrary<VStruts> = fc.record({
+  top: vStrutArbitrary,
+  bottom: vStrutArbitrary,
+})
+
+export const strutsArbitrary: fc.Arbitrary<Struts> = fc
+  .tuple(hStrutsArbitrary, vStrutsArbitrary)
+  .map(([hStruts, vStruts]) => ({...hStruts, ...vStruts}))

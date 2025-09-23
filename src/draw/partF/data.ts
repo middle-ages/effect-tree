@@ -16,14 +16,14 @@ export const textF = (show: string): TextF => TextF({show})
  * @category drawing
  */
 export const rowF =
-  ({hAlign, vAlign, hStrut, vStrut}: Aligned) =>
+  (aligned: Aligned) =>
   <A>(cells: A[]): RowF<A> =>
-    RowF({hAlign, vAlign, hStrut, vStrut, cells})
+    RowF({...aligned, cells})
 
 /**
  * @category drawing
  */
 export const columnF =
-  ({hAlign, hStrut}: HorizontallyAligned) =>
+  (hAligned: HorizontallyAligned) =>
   <A>(cells: A[]): ColumnF<A> =>
-    ColumnF({hAlign, hStrut, cells})
+    ColumnF({...hAligned, cells})

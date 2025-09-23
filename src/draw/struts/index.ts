@@ -1,14 +1,20 @@
 import {pipe} from '#util'
 import {type NonEmptyArray} from '#util/Array'
+import type {EndoOf} from '#util/Function'
 import {filterDefined} from '#util/Record'
 import {
-  stringWidth,
-  segmentSlice,
   fillColumns,
   fillRows,
+  segmentSlice,
+  stringWidth,
   unwords,
 } from '#util/String'
-import type {Axis, AxisDirected, AxisString} from '../direction.js'
+import type {
+  Axis,
+  AxisString,
+  HorizontalDirection,
+  VerticalDirection,
+} from '../direction.js'
 
 /**
  * @category drawing
@@ -23,6 +29,16 @@ export type VStrut = BaseStrut<'vertical'>
 /**
  * @category drawing
  */
+export type HStruts = Record<HorizontalDirection, HStrut>
+
+/**
+ * @category drawing
+ */
+export type VStruts = Record<VerticalDirection, VStrut>
+
+/**
+ * @category drawing
+ */
 export interface BaseStrut<A extends Axis> {
   axis: A
   body: NonEmptyArray<string>
@@ -31,38 +47,11 @@ export interface BaseStrut<A extends Axis> {
 }
 
 /**
- * A type that has a horizontal strut defined.
+ * A record of strut per direction: horizontal struts on the horizontal
+ * directions, and vertical ones on the vertical directions.
  * @category drawing
  */
-export interface HasHStrut {
-  hStrut: HStrut
-}
-
-/**
- * A type that has a vertical strut defined.
- * @category drawing
- */
-export interface HasVStrut {
-  vStrut: VStrut
-}
-
-/**
- * A type that has a vertical strut defined.
- * @category drawing
- */
-export type Strut = HStrut | VStrut
-
-/**
- * @category drawing
- */
-export interface AreaStruts extends HasVStrut, HasHStrut {}
-
-/**
- * Type of a pair of horizontal and vertical struts placed at the four
- * directions.
- * @category drawing
- */
-export type AxisStruts = AxisDirected<HStrut, VStrut>
+export interface Struts extends HStruts, VStruts {}
 
 /**
  * Type guard for horizontal struts.
@@ -79,6 +68,8 @@ export const isVStrut = (strut: BaseStrut<Axis>): strut is VStrut =>
   strut.axis === 'vertical'
 
 /**
+ * Build a horizontal strut from a non-empty array of its glyph and an
+ * prefix/suffix strings.
  * @category drawing
  */
 export const HStrut = (
@@ -106,13 +97,34 @@ export const VStrut = (
   suffix,
 })
 
-VStrut.empty = VStrut([''])
+/**
+ * Build a pair of left/right horizontal struts form the given horizontal struts.
+ * @category drawing
+ */
+export const HStruts = (left: HStrut, right = left): HStruts => ({
+  left,
+  right,
+})
+
+/**
+ * Build a pair of top/bottom vertical struts form the given vertical struts.
+ * @category drawing
+ */
+export const VStruts = (top: VStrut, bottom = top): VStruts => ({
+  top,
+  bottom,
+})
+
 HStrut.space = HStrut([' '])
+VStrut.empty = VStrut([''])
+
+HStruts.space = HStruts(HStrut.space)
+VStruts.empty = VStruts(VStrut.empty)
 
 export const defaultHStrut: HStrut = HStrut.space
 export const defaultVStrut: VStrut = VStrut.empty
 
-const defaultPartStruts: AxisStruts = {
+const defaultPartStruts: Struts = {
   top: defaultVStrut,
   right: defaultHStrut,
   bottom: defaultVStrut,
@@ -123,22 +135,9 @@ const defaultPartStruts: AxisStruts = {
  * Upgrade a partial set of struts per direction into a total one.
  * @category drawing
  */
-export const normalizeAxisStruts = (
-  struts?: Partial<AxisStruts>,
-): AxisStruts => ({
+export const normalizeStruts = (struts?: Partial<Struts>): Struts => ({
   ...defaultPartStruts,
-  ...(filterDefined(struts ?? {}) as AxisStruts),
-})
-
-/**
- * Upgrade a partial set of struts per axis into a total one.
- * @category drawing
- */
-export const normalizeAreaStruts = (
-  struts?: Partial<AreaStruts>,
-): AreaStruts => ({
-  hStrut: struts?.hStrut ?? defaultHStrut,
-  vStrut: struts?.vStrut ?? defaultVStrut,
+  ...(filterDefined(struts ?? {}) as Struts),
 })
 
 HStrut.fill =
@@ -177,3 +176,37 @@ VStrut.fill =
     const forPrefix = available - forSuffix
     return [...prefix.slice(0, forPrefix), ...suffix.slice(0, forSuffix)]
   }
+
+HStruts.fill =
+  ({left, right}: HStruts) =>
+  (availableLeft: number, availableRight: number): EndoOf<string> =>
+  line =>
+    HStrut.fill(left)(availableLeft) + line + HStrut.fill(right)(availableRight)
+
+VStruts.fill =
+  ({top, bottom}: VStruts) =>
+  ([availableTop, availableBottom]: [number, number]) =>
+  (lines: string[]) =>
+    [
+      ...VStrut.fill(top)(availableTop),
+      ...lines,
+      ...VStrut.fill(bottom)(availableBottom),
+    ] as NonEmptyArray<string>
+
+/**
+ * Create {@link Struts} from horizontal and vertical struts. If only a pair
+ * is given it will be used for all directions. If none are given returns the
+ * default struts of empty line and space.
+ * @category drawing
+ */
+export const Struts = (
+  top: VStrut = defaultVStrut,
+  right: HStrut = defaultHStrut,
+  bottom: VStrut = top,
+  left: HStrut = right,
+): Struts => ({
+  top,
+  right,
+  bottom,
+  left,
+})

@@ -1,5 +1,6 @@
 import {identity, pipe} from 'effect'
 import {
+  themedTree,
   addLevelLabels,
   bottomSubtrees,
   Codec,
@@ -54,7 +55,7 @@ export const genealogy = from(
 
 const theme = pipe('thin', Draw.getTheme, Draw.setBoxNodesFormatter)
 
-console.log(Draw.themedTree(theme)(genealogy).join('\n'))
+console.log(themedTree.unlines(theme)(genealogy))
 
 /*
 ┬┬─────────┐

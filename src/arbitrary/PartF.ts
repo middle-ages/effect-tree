@@ -18,25 +18,31 @@ import {
 } from '#draw/partF'
 import {tinyArray, tinyString} from 'effect-ts-laws'
 import fc from 'fast-check'
-import {hStrutArbitrary, vStrutArbitrary} from './Strut.js'
+import {hStrutsArbitrary, vStrutsArbitrary} from './Strut.js'
 
 /**
  * @category arbitrary
  */
-export const HorizontalArbitrary: fc.Arbitrary<HorizontallyAligned> = fc.record(
-  {
-    hAlign: fc.oneof(...mapHorizontalAlignments(fc.constant)),
-    hStrut: hStrutArbitrary,
-  },
-)
+export const HorizontalArbitrary: fc.Arbitrary<HorizontallyAligned> =
+  hStrutsArbitrary.chain(({left, right}) =>
+    fc.record({
+      hAlign: fc.oneof(...mapHorizontalAlignments(fc.constant)),
+      left: fc.constant(left),
+      right: fc.constant(right),
+    }),
+  )
 
 /**
  * @category arbitrary
  */
-export const VerticalArbitrary: fc.Arbitrary<VerticallyAligned> = fc.record({
-  vAlign: fc.oneof(...mapVerticalAlignments(fc.constant)),
-  vStrut: vStrutArbitrary,
-})
+export const VerticalArbitrary: fc.Arbitrary<VerticallyAligned> =
+  vStrutsArbitrary.chain(({top, bottom}) =>
+    fc.record({
+      vAlign: fc.oneof(...mapVerticalAlignments(fc.constant)),
+      top: fc.constant(top),
+      bottom: fc.constant(bottom),
+    }),
+  )
 
 /**
  * @category arbitrary

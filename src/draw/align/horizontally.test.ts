@@ -6,10 +6,10 @@ import {
   showAlignment,
 } from './data.js'
 import {alignHorizontally} from './horizontally.js'
-import {HStrut} from '../struts.js'
+import {HStrut, HStruts} from '../struts.js'
 
 const testAlignWith =
-  (hStrut: HStrut) =>
+  (left: HStrut, right = left, useLeftRound = false) =>
   (rows: string[], top: string[], middle: string[], bottom: string[]) => {
     const expected = [top, middle, bottom] as const
 
@@ -22,7 +22,9 @@ const testAlignWith =
     describe(name, () => {
       forHorizontalAlignments((align: HorizontalAlignment, i) => {
         test(showAlignment(align), () => {
-          expect(alignHorizontally(hStrut, align)(rows)).toEqual(expected[i])
+          expect(
+            alignHorizontally(HStruts(left, right), align, useLeftRound)(rows),
+          ).toEqual(expected[i])
         })
       })
     })
@@ -55,8 +57,11 @@ describe('strutWidth≔1', () => {
   })
 })
 
-describe('strutWidth≔3', () => {
-  const testAlign = testAlignWith(HStrut(['₁', '₂', '₃']))
+describe('strutWidth≔3, different struts for left and right', () => {
+  const testAlign = testAlignWith(
+    HStrut(['₁', '₂', '₃']),
+    HStrut(['¹', '²', '³']),
+  )
 
   describe('lineCount≔1', () => {
     testAlign([''], [''], [''], [''])
@@ -64,15 +69,33 @@ describe('strutWidth≔3', () => {
   })
 
   describe('lineCount≔2', () => {
-    testAlign(['a', ''], ['a', '₁'], ['a', '₁'], ['a', '₁'])
+    testAlign(['a', ''], ['a', '¹'], ['a', '¹'], ['a', '₁'])
   })
 
   describe('lineCount≔4', () => {
     testAlign(
       ['abc', 'AB', 'W-X-Y-Z', 'w'],
-      ['abc₁₂₃₁', 'AB₁₂₃₁₂', 'W-X-Y-Z', 'w₁₂₃₁₂₃'],
-      ['₁₂abc₁₂', '₁₂AB₁₂₃', 'W-X-Y-Z', '₁₂₃w₁₂₃'],
+      ['abc¹²³¹', 'AB¹²³¹²', 'W-X-Y-Z', 'w¹²³¹²³'],
+      ['₁₂abc¹²', '₁₂AB¹²³', 'W-X-Y-Z', '₁₂₃w¹²³'],
       ['₁₂₃₁abc', '₁₂₃₁₂AB', 'W-X-Y-Z', '₁₂₃₁₂₃w'],
     )
   })
+})
+
+describe('useLeftRound=false', () => {
+  testAlignWith(HStrut(['«']), HStrut(['»']), false)(
+    ['abc', 'AB', 'W-X-Y-Z', 'w'],
+    ['abc»»»»', 'AB»»»»»', 'W-X-Y-Z', 'w»»»»»»'],
+    ['««abc»»', '««AB»»»', 'W-X-Y-Z', '«««w»»»'],
+    ['««««abc', '«««««AB', 'W-X-Y-Z', '««««««w'],
+  )
+})
+
+describe('useLeftRound=true', () => {
+  testAlignWith(HStrut(['«']), HStrut(['»']), true)(
+    ['abc', 'AB', 'W-X-Y-Z', 'w'],
+    ['abc»»»»', 'AB»»»»»', 'W-X-Y-Z', 'w»»»»»»'],
+    ['««abc»»', '«««AB»»', 'W-X-Y-Z', '«««w»»»'],
+    ['««««abc', '«««««AB', 'W-X-Y-Z', '««««««w'],
+  )
 })

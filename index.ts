@@ -47,7 +47,7 @@ export * as Zipper from './src/zipper.js'
 /**
  * @category drawing
  */
-export {drawTree} from './src/draw.js'
+export {themedTree, drawTree} from './src/draw.js'
 
 export {type Endo, type EndoK, type EndoOf} from './src/util/Function.js'
 export {type NonEmptyArray2} from './src/util/Array.js'

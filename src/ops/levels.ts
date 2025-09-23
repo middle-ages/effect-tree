@@ -2,6 +2,7 @@ import {
   byParentUnfold,
   fixTree,
   getValue,
+  map,
   match,
   treeAna,
   treeCata,
@@ -15,6 +16,7 @@ import * as TreeF from '#treeF'
 import {transpose, type NonEmptyArray, type NonEmptyArray2} from '#util/Array'
 import {K, type EndoOf} from '#util/Function'
 import {pair} from '#util/Pair'
+import {fromNumber} from '#util/String'
 import {Array, flow, pipe} from 'effect'
 
 /**
@@ -241,8 +243,34 @@ export const growLeaves = <A>(grow: TreeUnfold<A, A>): TreeFold<A, Tree<A>> =>
   pipe(grow, growLeavesFold, treeCata)
 
 /**
+ * Create an N-ary level tree with the given degree at the given depth. In a
+ * _level tree_, the value of each node is set to its depth. An N-ary tree is
+ * one where all nodes, except the leaves, have the same child count.
+ *
+ * At the key `string` you will find a version that returns the tree where nodes
+ * have been formatted as strings instead of number.
+ * @param degree The fixed child count for all nodes except leaves.
+ * @param depth Tree depth requested. Tree returned is perfectly balanced. When
+ * depth is zero returns a leaf.
+ * @returns An N-ary level tree of the given depth..
+ * @category ops
+ */
+export const nAryTree = ({
+  degree,
+  depth,
+}: {
+  degree: number
+  depth: number
+}): Tree<number> => unfoldLevelTree({depth, degree: K(degree)})(1)
+
+nAryTree.string = flow(nAryTree, map(fromNumber))
+
+/**
  * Create a binary level tree at the given depth. In a _level tree_, the value
  * of each node is set to its depth.
+ *
+ * At the key `string` you will find a version that returns the tree where nodes
+ * have been formatted as strings instead of number.
  *
  * ```ts
  * import {binaryTree, drawTree, type Tree} from 'effect-tree'
@@ -266,4 +294,6 @@ export const growLeaves = <A>(grow: TreeUnfold<A, A>): TreeFold<A, Tree<A>> =>
  * @category ops
  */
 export const binaryTree = (depth: number): Tree<number> =>
-  unfoldLevelTree({depth, degree: K(2)})(1)
+  nAryTree({degree: 2, depth})
+
+binaryTree.string = flow(binaryTree, map(fromNumber))

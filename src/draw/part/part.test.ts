@@ -1,7 +1,7 @@
 import {trimEnd, unlines} from '#util/String'
 import {Array, pipe} from 'effect'
 import {describe, expect, test} from 'vitest'
-import {HStrut, VStrut} from '../struts.js'
+import {HStrut, Struts, VStrut} from '../struts.js'
 import {column as dataColumn} from './column.js'
 import {empty, text} from './data.js'
 import {drawPart} from './draw.js'
@@ -28,12 +28,12 @@ describe('part', () => {
         text,
         Array.of,
         row,
-        testShowPart('no strut', '⮂⮇⊦«“ ”».⊥«“”»(“foo”)'),
+        testShowPart('no strut', '⮂⮇.←⊦«“ ”»↑⊥«“”»(“foo”)'),
       )
 
       pipe(
-        row([text('foo')], {hStrut: HStrut(['A']), vStrut: VStrut(['B'])}),
-        testShowPart('with strut', '⮂⮇⊦«“A”».⊥«“B”»(“foo”)'),
+        row([text('foo')], Struts(VStrut(['B']), HStrut(['A']))),
+        testShowPart('with strut', '⮂⮇.←⊦«“A”»↑⊥«“B”»(“foo”)'),
       )
     })
 
@@ -43,12 +43,12 @@ describe('part', () => {
         text,
         Array.of,
         column,
-        testShowPart('no strut', '⮂⊦«“ ”»(“foo”)'),
+        testShowPart('no strut', '⮂←⊦«“ ”»(“foo”)'),
       )
 
       pipe(
         column([text('foo')], HStrut(['C'])),
-        testShowPart('with strut', '⮂⊦«“C”»(“foo”)'),
+        testShowPart('with strut', '⮂←⊦«“C”»(“foo”)'),
       )
     })
   })

@@ -46,12 +46,12 @@ export type Axis = (typeof axis)[number]
 /**
  * @category drawing
  */
-export type HorizontalDirections = 'left' | 'right'
+export type HorizontalDirection = 'left' | 'right'
 
 /**
  * @category drawing
  */
-export type VerticalDirections = 'top' | 'bottom'
+export type VerticalDirection = 'top' | 'bottom'
 
 /**
  * @category drawing
@@ -66,8 +66,8 @@ export type Directed<A> = Record<Direction, A>
 /**
  * @category drawing
  */
-export type AxisDirected<H, V> = Record<HorizontalDirections, H> &
-  Record<VerticalDirections, V>
+export type AxisDirected<H, V> = Record<HorizontalDirection, H> &
+  Record<VerticalDirection, V>
 
 /**
  * @category drawing

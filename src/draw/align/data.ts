@@ -1,8 +1,7 @@
-import {orderToEqual} from '#util/Order'
-import {unwords} from '#util/String'
-import {Number, Order as OD, pipe, Record} from 'effect'
+import {Equivalence as stringEquivalence, unwords} from '#util/String'
+import {Equivalence as EQ, Record} from 'effect'
 import type {LazyArg} from 'effect/Function'
-import type {HasHStrut, HasVStrut} from '../struts.js'
+import {StrutEquivalence, type HStruts, type VStruts} from '../struts.js'
 
 /**
  * @category drawing
@@ -30,16 +29,30 @@ export type VerticalAlignment = (typeof verticalAlignments)[number]
 export type Alignment = HorizontalAlignment | VerticalAlignment
 
 /**
+ * ```ts
+ * {
+ *   vAlign: VerticalAlignment
+ *   top: VStrut
+ *   bottom: VStrut
+ * }
+ * ```
  * @category drawing
  */
-export interface VerticallyAligned extends HasVStrut {
+export interface VerticallyAligned extends VStruts {
   vAlign: VerticalAlignment
 }
 
 /**
+ * ```ts
+ * {
+ *   hAlign: HorizontalAlignment
+ *   left: HStrut
+ *   right: HStrut
+ * }
+ * ```
  * @category drawing
  */
-export interface HorizontallyAligned extends HasHStrut {
+export interface HorizontallyAligned extends HStruts {
   hAlign: HorizontalAlignment
 }
 
@@ -123,46 +136,34 @@ export const showAlignments = ({
   vAlign: VerticalAlignment
 }): string => unwords.rest(showAlignment(hAlign), showAlignment(vAlign))
 
-const [horizontalIndexes, verticalIndexes] = [
-  {left: 1, center: 2, right: 3},
-  {top: 1, middle: 2, bottom: 3},
-] as const
-
 /**
+ * Equivalence for {@link HorizontallyAligned}.
  * @category drawing
  */
-export const HorizontalOrder: OD.Order<HorizontallyAligned> = pipe(
-  Number.Order,
-  OD.mapInput((self: HorizontallyAligned) => horizontalIndexes[self.hAlign]),
+export const HorizontalEquivalence: EQ.Equivalence<HorizontallyAligned> =
+  EQ.struct({
+    left: StrutEquivalence,
+    right: StrutEquivalence,
+    hAlign: stringEquivalence,
+  })
+
+/**
+ * Equivalence for {@link VerticalAligned}.
+ * @category drawing
+ */
+export const VerticalEquivalence: EQ.Equivalence<VerticallyAligned> = EQ.struct(
+  {
+    top: StrutEquivalence,
+    bottom: StrutEquivalence,
+    vAlign: stringEquivalence,
+  },
 )
 
 /**
+ * Equivalence for {@link Aligned}.
  * @category drawing
  */
-export const VerticalOrder: OD.Order<VerticallyAligned> = pipe(
-  Number.Order,
-  OD.mapInput((self: VerticallyAligned) => verticalIndexes[self.vAlign]),
+export const AlignedEquivalence: EQ.Equivalence<Aligned> = EQ.combine(
+  HorizontalEquivalence as EQ.Equivalence<Aligned>,
+  VerticalEquivalence as EQ.Equivalence<Aligned>,
 )
-
-/**
- * @category drawing
- */
-export const AlignedOrder: OD.Order<Aligned> = OD.combine<Aligned>(
-  HorizontalOrder,
-  VerticalOrder,
-)
-
-/**
- * @category drawing
- */
-export const HorizontalEquivalence = orderToEqual(HorizontalOrder)
-
-/**
- * @category drawing
- */
-export const VerticalEquivalence = orderToEqual(VerticalOrder)
-
-/**
- * @category drawing
- */
-export const AlignedEquivalence = orderToEqual(AlignedOrder)

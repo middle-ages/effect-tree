@@ -1,6 +1,6 @@
 import {filterDefined, monoRecord} from '#util/Record'
 import {directions, type Directed} from '../direction.js'
-import {normalizeAxisStruts, type AxisStruts} from '../struts.js'
+import {normalizeStruts, type Struts} from '../struts.js'
 
 /**
  * An object with a possibly zero padding at every direction.
@@ -10,15 +10,15 @@ export type DirectedPad = Directed<number>
 
 /**
  * An object with a possibly zero padding at every direction and a strut for
- * each such padding: a _vertical_ strut for the _top_ and _bottom_, and a
- * _horizontal_ strut for the _left_ and _right_.
+ * each such padding: a pair of _vertical_ struts for the _top_ and _bottom_,
+ * and a pair of _horizontal_ struts for the _left_ and _right_.
  * @category drawing
  */
 export interface Padded {
   /** How wide/tall should padding be in every direction? */
   pad: DirectedPad
   /** With what do we fill available pad space in every direction? */
-  padStruts: AxisStruts
+  padStruts: Struts
 }
 
 /**
@@ -38,10 +38,10 @@ export const normalizePad = (padded?: Partial<DirectedPad>): DirectedPad => ({
 export const normalizePadded = (
   padded?: Partial<{
     pad?: Partial<DirectedPad>
-    padStruts?: Partial<AxisStruts>
+    padStruts?: Partial<Struts>
   }>,
 ): Padded => ({
-  padStruts: normalizeAxisStruts(padded?.padStruts),
+  padStruts: normalizeStruts(padded?.padStruts),
   pad: normalizePad(padded?.pad),
 })
 

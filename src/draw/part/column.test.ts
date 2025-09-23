@@ -7,13 +7,15 @@ import {HStrut} from '../struts.js'
 import {drawPart} from './draw.js'
 import type {Part, Text} from './types.js'
 
-type MakeColumn = (align?: HorizontalAlignment) => (hStrut?: HStrut) => Part
+type MakeColumn = (
+  align?: HorizontalAlignment,
+) => (left?: HStrut, right?: HStrut) => Part
 
 const makeColumn =
   (cells: Part[]): MakeColumn =>
-  (align = 'left') =>
-  (hStrut = HStrut(['•'])) =>
-    column(align)(cells, hStrut)
+  (hAlign: HorizontalAlignment = 'left') =>
+  (left = HStrut(['•']), right = left) =>
+    column(hAlign)(cells, left, right)
 
 const [narrowText, wideText] = [text('foo'), text('123456')]
 
@@ -41,8 +43,11 @@ describe('lineCount≔6', () => {
     Array.map(flow(Array.join(''), text)),
   )
 
-  const render = (align: HorizontalAlignment): string[] =>
-    drawPart(makeColumn(oneToSixText)(align)())
+  const render = (
+    align: HorizontalAlignment,
+    left?: HStrut,
+    right?: HStrut,
+  ): string[] => drawPart(makeColumn(oneToSixText)(align)(left, right))
 
   test(showAlignment('left'), () => {
     expect(render('left')).toEqual([
@@ -62,6 +67,17 @@ describe('lineCount≔6', () => {
       '•123••',
       '•1234•',
       '12345•',
+      '123456',
+    ])
+  })
+
+  test(`${showAlignment('center')}: different struts`, () => {
+    expect(render('center', HStrut(['«']), HStrut(['»']))).toEqual([
+      '««1»»»',
+      '««12»»',
+      '«123»»',
+      '«1234»',
+      '12345»',
       '123456',
     ])
   })

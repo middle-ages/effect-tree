@@ -5,15 +5,15 @@ import {
   type HorizontalAlignment,
   type VerticalAlignment,
 } from '../align.js'
-import {normalizeAreaStruts, type AreaStruts} from '../struts.js'
+import {normalizeStruts, type Struts} from '../struts.js'
 import {Row, type Part} from './types.js'
 
 export interface BuildRow {
-  (cells: Part[], struts?: Partial<AreaStruts>): Part
+  (cells: readonly Part[], struts?: Partial<Struts>): Part
 }
 
 export interface BuildPart {
-  (part: Part, struts?: Partial<AreaStruts>): EndoOf<Part>
+  (part: Part, struts?: Partial<Struts>): EndoOf<Part>
 }
 
 export type BuildAlignedRow = Record<
@@ -29,7 +29,7 @@ const _row =
   (vAlign: VerticalAlignment = 'middle') =>
   (hAlign: HorizontalAlignment = 'center'): BuildRow =>
   (cells, struts) =>
-    Row({hAlign, vAlign, ...normalizeAreaStruts(struts)})(cells)
+    Row({hAlign, vAlign, ...normalizeStruts(struts)})(cells as Part[])
 
 /**
  * Combine parts horizontally.

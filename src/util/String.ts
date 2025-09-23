@@ -230,7 +230,7 @@ export const widestLine = (lines: string[]): number =>
 /** Takes characters from a string as long as `f` is true. */
 export const takeWhile = (f: Predicate.Predicate<string>) => (s: string) => {
   let i = 0
-  while (f(s[i] as string) && i < s.length) {
+  while (f(s[i] as string) && i < stringWidth(s)) {
     i++
   }
   return s.slice(0, i)

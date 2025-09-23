@@ -84,7 +84,7 @@ const lineSets: LineSets = {
   halfSolidFar: fromQuad('▀▐▄▌'),
   hDouble: fromPair('═│'),
   hThick: fromPair('━│'),
-  near: fromQuad('▁▕▔▏'),
+  near: fromQuad('▁▏▔▕'),
   solid: Record.monoRecord('█')(...directions),
   space: Record.monoRecord(' ')(...directions),
   thick: fromPair('━┃'),

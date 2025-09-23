@@ -3,7 +3,7 @@ import {mapHeadTail} from '#util/Array'
 import type {EndoOf} from '#util/Function'
 import {flow, pipe} from 'effect'
 import * as Part from '../part.js'
-import {HStrut} from '../struts.js'
+import {Struts, HStrut, VStrut} from '../struts.js'
 import {
   addSpacingAfter,
   getGlyph,
@@ -76,8 +76,9 @@ export const tailBranch = parent(childElbow, 'space')
 function parent(branch: ThemedPart, glyphRole: GlyphRole) {
   return (theme: Theme): EndoOf<Part.Part> => {
     const glyph = getGlyph(theme)
-    return Part.after.top.left(branch(theme), {
-      hStrut: HStrut([glyph('space')], glyph(glyphRole)),
-    })
+    return Part.after.top.left(
+      branch(theme),
+      Struts(VStrut.empty, HStrut([glyph('space')], glyph(glyphRole))),
+    )
   }
 }

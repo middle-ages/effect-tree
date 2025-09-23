@@ -1,10 +1,6 @@
 import {flow} from '#util'
 import {fix, unfix, type Fix} from 'effect-ts-folds'
-import {
-  type Aligned,
-  type HorizontalAlignment,
-  type HorizontallyAligned,
-} from '../align.js'
+import {type Aligned, type HorizontallyAligned} from '../align.js'
 import {
   ColumnF,
   EmptyF,
@@ -15,8 +11,6 @@ import {
   type PartF,
   type PartFTypeLambda,
 } from '../partF.js'
-import type {HStrut} from '../struts.js'
-import type {EndoOf} from '#util/Function'
 
 /**
  * The empty part takes up zero horizontal and vertical space.
@@ -95,22 +89,3 @@ export const Row = (aligned: Aligned): ((cells: Part[]) => Row) =>
 export const Column = (
   hAlign: HorizontallyAligned,
 ): ((cells: Part[]) => Column) => flow(columnF(hAlign), fixPart<Column>)
-
-/**
- * @category drawing
- */
-export interface VerticalOp {
-  (that: Part, hStrut?: HStrut): EndoOf<Part>
-}
-
-/**
- * @category drawing
- */
-export type HorizontalOps = Record<HorizontalAlignment, VerticalOp>
-
-/**
- * @category internal
- */
-export interface HorizontalOp {
-  (that: Part, hStrut?: HStrut): EndoOf<Part>
-}

@@ -1,8 +1,8 @@
 import {describe, expect, test} from 'vitest'
 import {column, drawPart, text} from '../part.js'
 import {branchLabel, headBranch, leafLabel, tailBranch} from './atoms.js'
-import {glyphSet} from './theme/glyph.js'
 import {Theme} from './theme.js'
+import {glyphSet} from './theme/glyph.js'
 
 const theme = Theme({glyphs: glyphSet('thin')})
 

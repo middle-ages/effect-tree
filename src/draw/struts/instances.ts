@@ -3,10 +3,12 @@ import {unwords} from '../../util/String.js'
 import type {Axis} from '../direction.js'
 import {
   isHStrut,
+  type Struts,
   isVStrut,
   type BaseStrut,
+  VStruts,
   type HStrut,
-  type Strut,
+  type HStruts,
   type VStrut,
 } from './index.js'
 
@@ -23,18 +25,18 @@ export const StrutEquivalence: EQ.Equivalence<BaseStrut<Axis>> = (
   that: BaseStrut<Axis>,
 ) =>
   isHStrut(self) && isHStrut(that)
-    ? hStrutEquivalence(self, that)
+    ? HStrutEquivalence(self, that)
     : isVStrut(self) && isVStrut(that)
-      ? vStrutEquivalence(self, that)
+      ? VStrutEquivalence(self, that)
       : false
 
-const hStrutEquivalence: EQ.Equivalence<HStrut> = EQ.struct({
+const HStrutEquivalence: EQ.Equivalence<HStrut> = EQ.struct({
   prefix: String.Equivalence,
   body: arrayStringEquivalence,
   suffix: String.Equivalence,
 })
 
-const vStrutEquivalence: EQ.Equivalence<VStrut> = EQ.struct({
+const VStrutEquivalence: EQ.Equivalence<VStrut> = EQ.struct({
   prefix: arrayStringEquivalence,
   body: arrayStringEquivalence,
   suffix: arrayStringEquivalence,
@@ -60,5 +62,54 @@ export const showVStrut = ({prefix, body, suffix}: VStrut): string =>
 /**
  * @category drawing
  */
-export const showStrut = (strut: Strut): string =>
-  isHStrut(strut) ? showHStrut(strut) : showVStrut(strut)
+export const showStrut = (strut: BaseStrut<Axis>): string =>
+  isHStrut(strut) ? showHStrut(strut) : isVStrut(strut) ? showVStrut(strut) : ''
+
+/**
+ * @category drawing
+ */
+export const showHStruts = ({right, left}: HStruts): string =>
+  unwords.rest(
+    `←${showHStrut(left)}`,
+    ...(HStrutEquivalence(left, right) ? [] : [`→${showHStrut(right)}`]),
+  )
+
+/**
+ * @category drawing
+ */
+export const showVStruts = ({top, bottom}: VStruts): string =>
+  unwords.rest(
+    `↑${showVStrut(top)}`,
+    ...(VStrutEquivalence(top, bottom) ? [] : [`↓${showVStrut(bottom)}`]),
+  )
+/**
+ * @category drawing
+ */
+export const showStruts = ({top, right, bottom, left}: Struts): string =>
+  unwords.rest(showHStruts({left, right}), showVStruts({top, bottom}))
+
+/**
+ * @category drawing
+ */
+export const HStrutsEquivalence: EQ.Equivalence<HStruts> = EQ.struct({
+  left: HStrutEquivalence,
+  right: HStrutEquivalence,
+})
+
+/**
+ * @category drawing
+ */
+export const VStrutsEquivalence: EQ.Equivalence<VStruts> = EQ.struct({
+  top: VStrutEquivalence,
+  bottom: VStrutEquivalence,
+})
+
+/**
+ * @category drawing
+ */
+export const StrutsEquivalence: EQ.Equivalence<Struts> = EQ.struct({
+  top: VStrutEquivalence,
+  bottom: VStrutEquivalence,
+  left: HStrutEquivalence,
+  right: HStrutEquivalence,
+})
