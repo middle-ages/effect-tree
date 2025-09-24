@@ -39,16 +39,41 @@ export const flattenEffect: <A>(self: Tree<Tree<A>>) => Effect.Effect<Tree<A>> =
   cataE(TreeF.Traversable)(flow(flattenFold, Effect.succeed))
 
 /**
- * `Flatmap` with an effectful function of a tree.
+ * `Flatmap` with an effectful function of a tree in depth-first post-order.
+ *
+ * At the key `pre` you will find a function that runs the effect in
+ * depth-first pre-order.
  * @category instances
  * @function
  */
-export const flatMapEffect =
+export const flatMapEffect: {
+  <A, B, E = unknown, R = never>(
+    self: Tree<A>,
+    f: (a: A) => Effect.Effect<Tree<B>, E, R>,
+  ): Effect.Effect<Tree<B>, E, R>
   <A, B, E = unknown, R = never>(
     f: (a: A) => Effect.Effect<Tree<B>, E, R>,
-  ): ((self: Tree<A>) => Effect.Effect<Tree<B>, E, R>) =>
-  self =>
-    pipe(self, mapEffect(f), Effect.flatMap(flattenEffect))
+  ): (self: Tree<A>) => Effect.Effect<Tree<B>, E, R>
+  pre: <A, B, E = unknown, R = never>(
+    f: (a: A) => Effect.Effect<Tree<B>, E, R>,
+  ) => (self: Tree<A>) => Effect.Effect<Tree<B>, E, R>
+} = Object.assign(
+  Function.dual(
+    2,
+    <A, B, E = unknown, R = never>(
+      self: Tree<A>,
+      f: (a: A) => Effect.Effect<Tree<B>, E, R>,
+    ) => pipe(self, mapEffect(f), Effect.flatMap(flattenEffect)),
+  ),
+  {
+    pre:
+      <A, B, E = unknown, R = never>(
+        f: (a: A) => Effect.Effect<Tree<B>, E, R>,
+      ) =>
+      (self: Tree<A>): Effect.Effect<Tree<B>, E, R> =>
+        pipe(self, mapEffect.pre(f), Effect.flatMap(flattenEffect)),
+  },
+)
 
 /**
  * Tree `flatmap`.
