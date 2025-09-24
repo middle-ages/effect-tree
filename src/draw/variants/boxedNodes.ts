@@ -8,6 +8,7 @@ import {type Theme, setFormatter, setIndents} from '../tree.js'
 /**
  * Set the theme formatter to draw boxes around nodes.
  * @category drawing
+ * @function
  */
 export const setBoxNodesFormatter: Function.EndoOf<Theme> = flow(
   setFormatter(pointyBox),

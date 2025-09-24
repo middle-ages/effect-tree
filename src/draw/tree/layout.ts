@@ -13,6 +13,7 @@ import {branchLabel, headBranch, leafLabel, tailBranch} from './atoms.js'
  * You can find a flipped version under the key `flip`.
  * @param tree - The string tree to draw.
  * @category drawing
+ * @function
  */
 export const treeLayout = Object.assign(_treeLayout, {
   flip: flipCurried(_treeLayout),

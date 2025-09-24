@@ -10,6 +10,7 @@ import {Covariant, mapEffect} from './Covariant.js'
 /**
  * Flatten a single level of a nested tree.
  * @category instances
+ * @function
  */
 export const flattenFold = <A>(self: TreeF.TreeF<Tree<A>, Tree<A>>): Tree<A> =>
   pipe(
@@ -23,6 +24,7 @@ export const flattenFold = <A>(self: TreeF.TreeF<Tree<A>, Tree<A>>): Tree<A> =>
 /**
  * Flatten a nested tree.
  * @category instances
+ * @function
  */
 export const flatten: <A>(self: Tree<Tree<A>>) => Tree<A> = cata(
   TreeF.Traversable,
@@ -31,6 +33,7 @@ export const flatten: <A>(self: Tree<Tree<A>>) => Tree<A> = cata(
 /**
  * Flatten a nested tree into an effect.
  * @category instances
+ * @function
  */
 export const flattenEffect: <A>(self: Tree<Tree<A>>) => Effect.Effect<Tree<A>> =
   cataE(TreeF.Traversable)(flow(flattenFold, Effect.succeed))
@@ -38,6 +41,7 @@ export const flattenEffect: <A>(self: Tree<Tree<A>>) => Effect.Effect<Tree<A>> =
 /**
  * `Flatmap` with an effectful function of a tree.
  * @category instances
+ * @function
  */
 export const flatMapEffect =
   <A, B, E = unknown, R = never>(
@@ -49,6 +53,7 @@ export const flatMapEffect =
 /**
  * Tree `flatmap`.
  * @category instances
+ * @function
  */
 export const flatMap: FlatMap.FlatMap<TreeTypeLambda>['flatMap'] =
   Function.dual(2, <A, B>(self: Tree<A>, f: (a: A) => Tree<B>) =>
@@ -58,6 +63,7 @@ export const flatMap: FlatMap.FlatMap<TreeTypeLambda>['flatMap'] =
 /**
  * An alias for {@link leaf}.
  * @category instances
+ * @function
  */
 export const of = leaf
 

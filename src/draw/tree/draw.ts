@@ -39,6 +39,7 @@ const _themedTree = (self: Tree<string>, theme: Theme) =>
  *
  * At the key `unlines` you will find a version that joins output into a string.
  * @category drawing
+ * @function
  */
 export const themedTree: {
   (self: Tree<string>, theme: Theme): NonEmptyArray<string>
@@ -54,6 +55,7 @@ export const themedTree: {
  * {@link UnlinesDraw} at each key named after a
  * {@link themeNames | theme name}.
  * @category drawing
+ * @function
  */
 export interface DrawTree
   extends EnrichedDraw,
@@ -106,6 +108,7 @@ export interface DrawTree
  *
  * @param tree The string or numeric tree to be drawn.
  * @category drawing
+ * @function
  */
 export const drawTree: DrawTree = Object.assign(
   enrichedDraw('thin'),
@@ -124,6 +127,7 @@ export interface EnrichedDraw extends UnlinesDraw<string> {
 
 /**
  * @category internal
+ * @function
  */
 export function enrichedDraw(themeName: ThemeName): EnrichedDraw {
   return Object.assign(unlinesDraw<string>(themeName, identity), {

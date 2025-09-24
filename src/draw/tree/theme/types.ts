@@ -105,6 +105,7 @@ export const defaultTheme: Theme = {
 /**
  * Theme constructor.
  * @category drawing
+ * @function
  */
 export const Theme = ({
   spacing = 0,
@@ -116,6 +117,7 @@ export const Theme = ({
 /**
  * Build theme from {@link GlyphSet}.
  * @category drawing
+ * @function
  */
 Theme.fromGlyphSet = (
   glyphs = glyphSet('thin'),
@@ -131,6 +133,7 @@ Theme.fromGlyphSet = (
 /**
  * Build theme from {@link GlyphSetName}.
  * @category drawing
+ * @function
  */
 Theme.fromNamedGlyphSet = (
   name: GlyphSetName = 'thin',

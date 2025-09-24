@@ -16,6 +16,7 @@ import {Array, Effect, Function, pipe} from 'effect'
  * // right = branch( 1 , [leaf( 2 )])
  * ```
  * @category ops
+ * @function
  */
 export const unzip: <A, B>(t: Tree<[A, B]>) => [Tree<A>, Tree<B>] = tree =>
   pipe(tree, treeCata(unzipFold))
@@ -24,6 +25,7 @@ export const unzip: <A, B>(t: Tree<[A, B]>) => [Tree<A>, Tree<B>] = tree =>
  * Unzip a single level in a tree of `[A, B]` into a pair of trees of types `A`
  * and `B`.
  * @category fold
+ * @function
  */
 export const unzipFold = <A, B>(
   t: TreeF.TreeF<[A, B], [Tree<A>, Tree<B>]>,
@@ -49,6 +51,7 @@ export const unzipFold = <A, B>(
  * Just like {@link zipWith} except the given function returns its result in an
  * `Effect`.
  * @category ops
+ * @function
  */
 export const zipWithEffect =
   <A, B, C>(f: (self: A, that: B) => C) =>
@@ -89,6 +92,7 @@ export const zipWithEffect =
  * same position, and run the given function on this pair, returning a tree of
  * its results.
  * @category ops
+ * @function
  */
 export const zipWith = <A, B, C>(
   self: Tree<A>,
@@ -124,6 +128,7 @@ export const zipWith = <A, B, C>(
  * // zippedTree = leaf(['a', 1])
  * ```
  * @category ops
+ * @function
  */
 export const zip: {
   <A, B>(self: Tree<A>, that: Tree<B>): Tree<[A, B]>

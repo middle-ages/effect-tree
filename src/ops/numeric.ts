@@ -13,6 +13,7 @@ import {
  * A running average encoded as the _sum_ of all values encountered and the
  * _count_ of all values encountered.
  * @category ops
+ * @function
  */
 export interface RunningAverage {
   numerator: number
@@ -22,6 +23,7 @@ export interface RunningAverage {
 /**
  * A monoid for running a running average.
  * @category ops
+ * @function
  */
 export const MonoidAverage: Monoid.Monoid<RunningAverage> = Monoid.struct({
   numerator: NumberData.MonoidSum,
@@ -31,12 +33,14 @@ export const MonoidAverage: Monoid.Monoid<RunningAverage> = Monoid.struct({
 /**
  * A starting value for a {@link RunningAverage}.
  * @category ops
+ * @function
  */
 export const RunningAverage: RunningAverage = {numerator: 0, denominator: 0}
 
 /**
  * Compute a running average for a single level in a numeric tree.
  * @category fold
+ * @function
  */
 export const averageFold: TreeFolder<RunningAverage, RunningAverage> = self =>
   pipe(self, monoidFold(MonoidAverage))
@@ -45,6 +49,7 @@ export const averageFold: TreeFolder<RunningAverage, RunningAverage> = self =>
  * Compute a running average for a single level in a numeric tree.
  * Sum the nodes of a single level in a numeric tree.
  * @category fold
+ * @function
  */
 export const numericSumFold: TreeFolder<number, number> = self =>
   pipe(self, monoidFold(MonoidSum))
@@ -52,6 +57,7 @@ export const numericSumFold: TreeFolder<number, number> = self =>
 /**
  * Multiply the node values of a single level in a numeric tree.
  * @category fold
+ * @function
  */
 export const numericProductFold: TreeFolder<number, number> = self =>
   pipe(self, monoidFold(MonoidMultiply))
@@ -59,6 +65,7 @@ export const numericProductFold: TreeFolder<number, number> = self =>
 /**
  * Find maximum node value in a level of a numeric tree.
  * @category fold
+ * @function
  */
 export const numericMaxFold: TreeFolder<number, number> = self =>
   pipe(self, monoidFold(MonoidMax))
@@ -66,6 +73,7 @@ export const numericMaxFold: TreeFolder<number, number> = self =>
 /**
  * Find minimum node value in a level of a numeric tree.
  * @category fold
+ * @function
  */
 export const numericMinFold: TreeFolder<number, number> = self =>
   pipe(self, monoidFold(MonoidMin))
@@ -73,6 +81,7 @@ export const numericMinFold: TreeFolder<number, number> = self =>
 /**
  * Sum all node values in a numeric tree.
  * @category ops
+ * @function
  */
 export const sum: (self: Tree<number>) => number = self =>
   pipe(self, treeCata(numericSumFold))
@@ -80,6 +89,7 @@ export const sum: (self: Tree<number>) => number = self =>
 /**
  * Multiply all node values in a numeric tree and return the product.
  * @category ops
+ * @function
  */
 export const multiply = (tree: Tree<number>): number =>
   pipe(tree, treeCata(numericProductFold))
@@ -87,6 +97,7 @@ export const multiply = (tree: Tree<number>): number =>
 /**
  * Find max node value in a numeric tree.
  * @category ops
+ * @function
  */
 export const max = (tree: Tree<number>): number =>
   pipe(tree, treeCata(numericMaxFold))
@@ -94,6 +105,7 @@ export const max = (tree: Tree<number>): number =>
 /**
  * Find min node value in a numeric tree.
  * @category ops
+ * @function
  */
 export const min = (tree: Tree<number>): number =>
   pipe(tree, treeCata(numericMinFold))
@@ -101,6 +113,7 @@ export const min = (tree: Tree<number>): number =>
 /**
  * Collapse the sum and count of a running average into the average value.
  * @category ops
+ * @function
  */
 export const computeRunningAverage = ({
   numerator,
@@ -110,6 +123,7 @@ export const computeRunningAverage = ({
 /**
  * Update the running average with a new value.
  * @category ops
+ * @function
  */
 export const updateRunningAverage =
   (newValue: number): Function.EndoOf<RunningAverage> =>
@@ -119,6 +133,7 @@ export const updateRunningAverage =
 /**
  * Create a new running average from a single sample.
  * @category ops
+ * @function
  */
 export const toRunningAverage = (numerator: number): RunningAverage => ({
   numerator,
@@ -128,6 +143,7 @@ export const toRunningAverage = (numerator: number): RunningAverage => ({
 /**
  * Compute the arithmetic mean of all node values in a numeric tree.
  * @category ops
+ * @function
  */
 export const average: (self: Tree<number>) => number = flow(
   map(toRunningAverage),

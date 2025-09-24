@@ -63,6 +63,7 @@ export interface Aligned extends HorizontallyAligned, VerticallyAligned {}
 
 /**
  * @category drawing
+ * @function
  */
 export const matchHorizontal =
   <R>(onLeft: LazyArg<R>, onCenter: LazyArg<R>, onRight: LazyArg<R>) =>
@@ -71,6 +72,7 @@ export const matchHorizontal =
 
 /**
  * @category drawing
+ * @function
  */
 export const matchVertical =
   <R>(onTop: LazyArg<R>, onMiddle: LazyArg<R>, onBottom: LazyArg<R>) =>
@@ -79,6 +81,7 @@ export const matchVertical =
 
 /**
  * @category drawing
+ * @function
  */
 export const mapHorizontalAlignments = <A>(
   f: (align: HorizontalAlignment, n: number) => A,
@@ -86,6 +89,7 @@ export const mapHorizontalAlignments = <A>(
 
 /**
  * @category drawing
+ * @function
  */
 export const mapVerticalAlignments = <A>(
   f: (align: VerticalAlignment, n: number) => A,
@@ -93,6 +97,7 @@ export const mapVerticalAlignments = <A>(
 
 /**
  * @category drawing
+ * @function
  */
 export const forHorizontalAlignments = <R>(
   f: (align: HorizontalAlignment, n: number) => R,
@@ -103,6 +108,7 @@ export const forHorizontalAlignments = <R>(
 
 /**
  * @category drawing
+ * @function
  */
 export const forVerticalAlignments = <R>(
   f: (align: VerticalAlignment, n: number) => R,
@@ -122,11 +128,13 @@ const alignMarkers = {
 
 /**
  * @category drawing
+ * @function
  */
 export const showAlignment = (align: Alignment): string => alignMarkers[align]
 
 /**
  * @category drawing
+ * @function
  */
 export const showAlignments = ({
   hAlign,
@@ -139,6 +147,7 @@ export const showAlignments = ({
 /**
  * Equivalence for {@link HorizontallyAligned}.
  * @category drawing
+ * @function
  */
 export const HorizontalEquivalence: EQ.Equivalence<HorizontallyAligned> =
   EQ.struct({
@@ -150,6 +159,7 @@ export const HorizontalEquivalence: EQ.Equivalence<HorizontallyAligned> =
 /**
  * Equivalence for {@link VerticallyAligned}.
  * @category drawing
+ * @function
  */
 export const VerticalEquivalence: EQ.Equivalence<VerticallyAligned> = EQ.struct(
   {
@@ -162,6 +172,7 @@ export const VerticalEquivalence: EQ.Equivalence<VerticallyAligned> = EQ.struct(
 /**
  * Equivalence for {@link Aligned}.
  * @category drawing
+ * @function
  */
 export const AlignedEquivalence: EQ.Equivalence<Aligned> = EQ.combine(
   HorizontalEquivalence as EQ.Equivalence<Aligned>,

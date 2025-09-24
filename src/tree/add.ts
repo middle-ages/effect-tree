@@ -23,6 +23,7 @@ import type {Branch, ForestOf, Tree} from './types.js'
  * @param children - Non-empty list of child trees to insert.
  * @returns A new updated tree with the new child trees inserted.
  * @category basic
+ * @function
  */
 export const insertAllAt: {
   <A>(self: Tree<A>, n: number, children: ForestOf<A>): Branch<A>
@@ -63,6 +64,7 @@ export const insertAllAt: {
  * @param child- Child to insert.
  * @returns A new updated tree with the new node inserted.
  * @category basic
+ * @function
  */
 export const insertAt: {
   <A>(self: Tree<A>, child: Tree<A>, n: number): Branch<A>
@@ -81,6 +83,7 @@ export const insertAt: {
  * @param child - Child to append.
  * @returns A new updated tree with the new node appended.
  * @category basic
+ * @function
  */
 export const append: {
   <A>(self: Tree<A>, child: Tree<A>): Branch<A>
@@ -101,6 +104,7 @@ export const append: {
  * @param child - Child to prepend.
  * @returns A new updated tree with the new node prepended.
  * @category basic
+ * @function
  */
 export const prepend: {
   <A>(self: Tree<A>, child: Tree<A>): Branch<A>
@@ -121,6 +125,7 @@ export const prepend: {
  * @param children - A non-empty list of trees to append to the tree.
  * @returns A new updated tree with the new nodes appended.
  * @category basic
+ * @function
  */
 export const appendAll: {
   <A>(self: Tree<A>, children: Tree<A>[]): Tree<A>
@@ -143,6 +148,7 @@ export const appendAll: {
  * @param children - A non-empty list of trees to prepend to the tree.
  * @returns A new updated tree with the new nodes prepended.
  * @category basic
+ * @function
  */
 export const prependAll: {
   <A>(self: Tree<A>, children: Tree<A>[]): Tree<A>

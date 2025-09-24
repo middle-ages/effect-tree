@@ -17,6 +17,7 @@ import {type Tree, type TreeTypeLambda} from '../tree/types.js'
  * first iteration of the reducer.
  * @returns - Reduced value of the same type as the given `initial` value.
  * @category instances
+ * @function
  */
 export const reduce: FO.Foldable<TreeTypeLambda>['reduce'] = Function.dual(
   3,
@@ -52,6 +53,7 @@ export const Foldable: FO.Foldable<TreeTypeLambda> = {reduce}
 /**
  * Fold a `Tree<A>` into an `A` using a `Monoid<A>`.
  * @category instances
+ * @function
  */
 export const foldMap: <A>(M: Monoid.Monoid<A>) => TreeFold<A, A> = monoid =>
   treeCata(monoidFold(monoid))
@@ -59,6 +61,7 @@ export const foldMap: <A>(M: Monoid.Monoid<A>) => TreeFold<A, A> = monoid =>
 /**
  * Fold a single level of a tree using a monoid of the node type.
  * @category instances
+ * @function
  */
 export const monoidFold =
   <A>(M: Monoid.Monoid<A>): TreeFolder<A, A> =>
@@ -76,6 +79,7 @@ export const monoidFold =
  * Fold single level in a tree of type `A` using a predicate of `A` and
  * a boolean monoid.
  * @category fold
+ * @function
  */
 export const predicateFold =
   (M: Monoid.Monoid<boolean>) =>
@@ -107,39 +111,46 @@ export type BooleanFold = <A>(predicate: Predicate<A>) => TreeFold<A, boolean>
 
 /**
  * @category instances
+ * @function
  */
 export const everyFold: BooleanFolder = predicateFold(Boolean.MonoidEvery)
 
 /**
  * @category instances
+ * @function
  */
 export const someFold: BooleanFolder = predicateFold(Boolean.MonoidSome)
 
 /**
  * @category instances
+ * @function
  */
 export const xorFold: BooleanFolder = predicateFold(Boolean.MonoidXor)
 
 /**
  * @category instances
+ * @function
  */
 export const eqvFold: BooleanFolder = predicateFold(Boolean.MonoidEqv)
 
 /**
  * True if every node in the given boolean tree is true.
  * @category instances
+ * @function
  */
 export const every: Predicate<Tree<boolean>> = foldMap(Boolean.MonoidEvery)
 
 /**
  * True if some nodes in the given boolean tree are true.
  * @category instances
+ * @function
  */
 export const some: Predicate<Tree<boolean>> = foldMap(Boolean.MonoidSome)
 
 /**
  * Fold with `xor` over a boolean tree.
  * @category instances
+ * @function
  */
 export const xor: Predicate<Tree<boolean>> = foldMap(Boolean.MonoidXor)
 
@@ -148,12 +159,14 @@ export const xor: Predicate<Tree<boolean>> = foldMap(Boolean.MonoidXor)
  * _bidirectional implication_, through all the nodes of a boolean tree and
  * returns the boolean result.
  * @category instances
+ * @function
  */
 export const eqv: Predicate<Tree<boolean>> = foldMap(Boolean.MonoidEqv)
 
 /**
  * True if the given predicate is true for every node in the given tree.
  * @category instances
+ * @function
  */
 export const everyOf: BooleanFold = flow(everyFold, treeCata)
 
@@ -161,5 +174,6 @@ export const everyOf: BooleanFold = flow(everyFold, treeCata)
  * True if the given predicate is true for _some_ node or nodes in the given
  * tree.
  * @category instances
+ * @function
  */
 export const someOf: BooleanFold = flow(someFold, treeCata)

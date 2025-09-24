@@ -19,6 +19,7 @@ import type {
 /**
  * Build a `EdgeMap` index from a non-empty list of tree edges.
  * @category internal
+ * @function
  */
 export const indexParents = <A>(edges: EdgeList<A>): EdgeMap<A> =>
   pipe(edges, Array.reduce(emptyEdgeMap(), addEdgeMap<A>))

@@ -10,6 +10,7 @@ export type PartFolder<A> = Algebra<PartFTypeLambda, A>
 
 /**
  * @category drawing
+ * @function
  */
 export const partCata = <A>(folder: PartFolder<A>): ((part: Part) => A) =>
   cata(Traversable)(folder)

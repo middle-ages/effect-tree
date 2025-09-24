@@ -56,6 +56,7 @@ export interface Struts extends HStruts, VStruts {}
 /**
  * Type guard for horizontal struts.
  * @category drawing
+ * @function
  */
 export const isHStrut = (strut: BaseStrut<Axis>): strut is HStrut =>
   strut.axis === 'horizontal'
@@ -63,6 +64,7 @@ export const isHStrut = (strut: BaseStrut<Axis>): strut is HStrut =>
 /**
  * Type guard for vertical struts.
  * @category drawing
+ * @function
  */
 export const isVStrut = (strut: BaseStrut<Axis>): strut is VStrut =>
   strut.axis === 'vertical'
@@ -71,6 +73,7 @@ export const isVStrut = (strut: BaseStrut<Axis>): strut is VStrut =>
  * Build a horizontal strut from a non-empty array of its glyph and an
  * prefix/suffix strings.
  * @category drawing
+ * @function
  */
 export const HStrut = (
   body: NonEmptyArray<string> = [' '],
@@ -85,6 +88,7 @@ export const HStrut = (
 
 /**
  * @category drawing
+ * @function
  */
 export const VStrut = (
   body: NonEmptyArray<string> = [''],
@@ -100,6 +104,7 @@ export const VStrut = (
 /**
  * Build a pair of left/right horizontal struts form the given horizontal struts.
  * @category drawing
+ * @function
  */
 export const HStruts = (left: HStrut, right = left): HStruts => ({
   left,
@@ -109,6 +114,7 @@ export const HStruts = (left: HStrut, right = left): HStruts => ({
 /**
  * Build a pair of top/bottom vertical struts form the given vertical struts.
  * @category drawing
+ * @function
  */
 export const VStruts = (top: VStrut, bottom = top): VStruts => ({
   top,
@@ -134,6 +140,7 @@ const defaultPartStruts: Struts = {
 /**
  * Upgrade a partial set of struts per direction into a total one.
  * @category drawing
+ * @function
  */
 export const normalizeStruts = (struts?: Partial<Struts>): Struts => ({
   ...defaultPartStruts,
@@ -198,6 +205,7 @@ VStruts.fill =
  * is given it will be used for all directions. If none are given returns the
  * default struts of empty line and space.
  * @category drawing
+ * @function
  */
 export const Struts = (
   top: VStrut = defaultVStrut,

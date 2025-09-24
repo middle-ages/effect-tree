@@ -19,6 +19,7 @@ import type {TreeEffectFolder, TreeFolder} from './types.js'
  * )
  * ```
  * @category fold
+ * @function
  */
 export const annotateFolder = <A, B>(
   φ: TreeFolder<A, B>,
@@ -27,6 +28,7 @@ export const annotateFolder = <A, B>(
 /**
  * Like {@link annotateFolder} but for _effect folders_.
  * @category fold
+ * @function
  */
 export const annotateEffectFolder =
   <A, B, E = never, R = never>(φ: TreeEffectFolder<A, B, E, R>) =>

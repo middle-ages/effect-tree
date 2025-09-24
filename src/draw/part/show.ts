@@ -8,6 +8,7 @@ import {type Part} from './types.js'
 
 /**
  * @category internal
+ * @function
  */
 export const showPartAlgebra: PartFolder<string> = matchPartF(
   '∅',
@@ -18,11 +19,13 @@ export const showPartAlgebra: PartFolder<string> = matchPartF(
 
 /**
  * @category internal
+ * @function
  */
 export const showPart: (part: Part) => string = partCata(showPartAlgebra)
 
 /**
  * @category internal
+ * @function
  */
 function showRow({cells, hAlign, vAlign, ...struts}: RowF<string>): string {
   return unwords.rest(
@@ -38,6 +41,7 @@ function showRow({cells, hAlign, vAlign, ...struts}: RowF<string>): string {
 
 /**
  * @category internal
+ * @function
  */
 function showColumn({hAlign, cells, ...hStruts}: ColumnF<string>): string {
   return unwords.rest(

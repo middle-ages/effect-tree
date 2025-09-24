@@ -36,6 +36,7 @@ const normalizeSettings = (
 /**
  * Wrap a part in a configurable bordered box.
  * @category drawing
+ * @function
  */
 export const box: {
   (part: Part, settings?: Partial<BoxSettings>): Part

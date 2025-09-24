@@ -14,6 +14,7 @@ import {
  * Convert the prüfer code of a tree into a list of directed edges
  * in `O(n×log₂n)` compute time where `n` is node count.
  * @category codec
+ * @function
  */
 export const toEdges = (code: NonEmptyArray<number>): EdgeList<number> => {
   const [degrees, allLeaves] = makeDegreeMap(code),
@@ -45,6 +46,7 @@ export const toEdges = (code: NonEmptyArray<number>): EdgeList<number> => {
 /**
  * Convert the prüfer code of a tree into the tree.
  * @category codec
+ * @function
  */
 export const decode: (code: number[]) => Branch<number> = code =>
   Array.isNonEmptyArray(code)

@@ -111,6 +111,13 @@ const glyphSets: Record<GlyphSetName, GlyphSet> = {
   vDouble: fromSet('vDouble'),
 }
 
+/**
+ * Get a glyph set by name.
+ * @param name - Name of glyph set to get.
+ * @returns Requested glyph set.
+ * @category drawing
+ * @function
+ */
 export const glyphSet = (name: GlyphSetName): GlyphSet => glyphSets[name]
 
 function fromSet(set: LineSetName & TeeSetName & ElbowSetName) {

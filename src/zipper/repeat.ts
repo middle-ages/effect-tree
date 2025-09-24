@@ -19,6 +19,7 @@ import {
  * @param n - How many times to apply the given navigation. No matter the navigation repeated, if `n=0` the given zipper will be returned unchanged.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if the navigation failed because the path is invalid.
  * @category zipper
+ * @function
  */
 export const tryRepeat: {
   <A>(self: Zipper<A>, n: number, nav: OptionalZipper): Option.Option<Zipper<A>>
@@ -67,6 +68,7 @@ export const tryRepeat: {
  * @param predicate - Will be matched against every tree node reached by the navigation.
  * @returns An updated zipper if the search criteria matched an element along the navigation given, else `Option.none`.
  * @category zipper
+ * @function
  */
 export const repeatUntil =
   <A>(
@@ -121,6 +123,7 @@ export const repeatUntil =
  * @returns An updated zipper if the search criteria matched an element along the navigation given, else `Option.none`.
  *
  * @category zipper
+ * @function
  */
 export const repeatUntilValue = <A>(
   navigation: OptionalZipper,
@@ -136,6 +139,7 @@ export const repeatUntilValue = <A>(
  * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
+ * @function
  */
 export const repeat: {
   <A>(self: Zipper<A>, n: number, nav: OptionalZipper): Zipper<A>

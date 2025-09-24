@@ -8,6 +8,7 @@ import {pathListUnfold} from './unfold.js'
  * Encode a tree of type `A` into a non-empty list of paths to every leaf in the
  * encoded tree.
  * @category codec
+ * @function
  */
 export const encode: <A>(tree: Tree<A>) => NonEmptyArray2<A> =
   treeCata(pathListFold)
@@ -16,6 +17,7 @@ export const encode: <A>(tree: Tree<A>) => NonEmptyArray2<A> =
  * Decode a list of leaf paths into a tree where. Every leaf given will appear
  * in the tree at the given path.
  * @category codec
+ * @function
  */
 export const decode =
   <A>(order: Order.Order<A>) =>

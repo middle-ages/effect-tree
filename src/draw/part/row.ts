@@ -37,6 +37,7 @@ const _row =
  * The 1st cell will be drawn at the left of the row, the final at the bottom.
  * @returns A new part that is composed of the given parts.
  * @category drawing
+ * @function
  */
 export const row: {
   (vAlign?: VerticalAlignment): (hAlign?: HorizontalAlignment) => BuildRow
@@ -63,6 +64,7 @@ const _after =
  * Add the prefix part to the left of the suffix part. See {@link after} for a
  * flipped version.
  * @category drawing
+ * @function
  */
 export const before: {
   (vAlign?: VerticalAlignment): (hAlign?: HorizontalAlignment) => BuildPart
@@ -77,6 +79,7 @@ export const before: {
  * Add the prefix part to the left of the suffix part. A flipped version of
  * {@link before}.
  * @category drawing
+ * @function
  */
 export const after: {
   (vAlign?: VerticalAlignment): (hAlign?: HorizontalAlignment) => BuildPart

@@ -22,6 +22,7 @@ const _replaceLine = (
  * @param glyph - String of new glyph.
  * @returns Updated line set.
  * @category drawing
+ * @function
  */
 export const replaceLine: {
   (set: LineSet, direction: Direction, glyph: string): LineSet
@@ -99,6 +100,7 @@ const lineSets: LineSets = {
 /**
  * Get a line set by name.
  * @category drawing
+ * @function
  */
 export const lineSet = (name: LineSetName): LineSet => lineSets[name]
 

@@ -6,6 +6,7 @@ import type {Tree} from '../tree/types.js'
 /**
  * Build an order for {@link Tree} from and order of its underlying type.
  * @category instances
+ * @function
  */
 export const getOrder =
   <A>(orderA: Order.Order<A>): Order.Order<Tree<A>> =>

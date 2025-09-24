@@ -8,6 +8,7 @@ import type {TreeEffectUnfolder} from './types.js'
 
 /**
  * @category unfold
+ * @function
  */
 export const annotateEffectUnfolder =
   <A, B, E = never, R = never>(

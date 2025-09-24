@@ -22,6 +22,7 @@ import {Effect, Option} from 'effect'
  *
  * When a node has no parent, we stop the recursion.
  * @category codec
+ * @function
  */
 export const encode =
   <A>(order: Order.Order<A>): ((self: Branch<A>) => A[]) =>

@@ -6,6 +6,7 @@ import {pair} from '#util/Pair'
 /**
  * Return the smallest value in the tree according to the given order.
  * @category ops
+ * @function
  */
 export const minimumNode =
   <A>(Order: Order.Order<A>) =>
@@ -15,6 +16,7 @@ export const minimumNode =
 /**
  * Return the largest value in the tree according to the given order.
  * @category ops
+ * @function
  */
 export const maximumNode =
   <A>(Order: Order.Order<A>) =>
@@ -24,6 +26,7 @@ export const maximumNode =
 /**
  * Return the smallest leaf in the tree according to the given order.
  * @category ops
+ * @function
  */
 export const minimumLeaf =
   <A>(Order: Order.Order<A>) =>
@@ -33,6 +36,7 @@ export const minimumLeaf =
 /**
  * Return the largest leaf in the tree according to the given order.
  * @category ops
+ * @function
  */
 export const maximumLeaf =
   <A>(Order: Order.Order<A>) =>
@@ -43,6 +47,7 @@ export const maximumLeaf =
  * Just like `minimumLeaf` but returns the leaf tupled with its parent or `None`
  * if the tree if a leaf.
  * @category ops
+ * @function
  */
 export const minimumLeafAndParent = <A>(
   Order: Order.Order<A>,
@@ -53,6 +58,7 @@ export const minimumLeafAndParent = <A>(
  * Just like `maximumLeaf` but returns the leaf tupled with its parent or `None`
  * if the tree if a leaf.
  * @category ops
+ * @function
  */
 export const maximumLeafAndParent = <A>(
   Order: Order.Order<A>,
@@ -62,6 +68,7 @@ export const maximumLeafAndParent = <A>(
 /**
  * Find minimum node at tree level.
  * @category fold
+ * @function
  */
 export const minimumNodeFold: <A>(Order: Order.Order<A>) => TreeFolder<A, A> =
   Order => self =>
@@ -73,6 +80,7 @@ export const minimumNodeFold: <A>(Order: Order.Order<A>) => TreeFolder<A, A> =
 /**
  * Find maximum node at tree level.
  * @category fold
+ * @function
  */
 export const maximumNodeFold: <A>(Order: Order.Order<A>) => TreeFolder<A, A> =
   Order => self =>
@@ -81,6 +89,7 @@ export const maximumNodeFold: <A>(Order: Order.Order<A>) => TreeFolder<A, A> =
 /**
  * Find minimum leaf at tree level.
  * @category fold
+ * @function
  */
 export const minimumLeafFold: <A>(Order: Order.Order<A>) => TreeFolder<A, A> =
   Order => treeF =>
@@ -95,6 +104,7 @@ export const minimumLeafFold: <A>(Order: Order.Order<A>) => TreeFolder<A, A> =
 /**
  * Find minimum leaf at tree level.
  * @category fold
+ * @function
  */
 export const maximumLeafFold: <A>(Order: Order.Order<A>) => TreeFolder<A, A> =
   Order => treeF =>
@@ -110,6 +120,7 @@ export const maximumLeafFold: <A>(Order: Order.Order<A>) => TreeFolder<A, A> =
  * Just like `minimumLeafFold` but result include the parent node of the
  * minimal leaf, or `None` if given tree is a leaf.
  * @category fold
+ * @function
  */
 export const minimumLeafParentFold = <A>(
   o: Order.Order<A>,
@@ -128,6 +139,7 @@ export const minimumLeafParentFold = <A>(
  * Just like `maximumLeafFold` but result include the parent node of the
  * maximal leaf, or `None` if given tree is a leaf.
  * @category fold
+ * @function
  */
 export const maximumLeafAndParentFold: typeof minimumLeafParentFold = flow(
   Order.reverse,

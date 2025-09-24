@@ -22,6 +22,7 @@ const _replaceTee = (
  * @param glyph - String of new glyph.
  * @returns Updated tee set.
  * @category drawing
+ * @function
  */
 export const replaceTee: {
   (set: TeeSet, direction: Direction, glyph: string): TeeSet
@@ -84,6 +85,7 @@ const teeSets: TeeSets = {
 /**
  * Get a tee set by name.
  * @category drawing
+ * @function
  */
 export const teeSet = (name: TeeSetName): TeeSet => teeSets[name]
 

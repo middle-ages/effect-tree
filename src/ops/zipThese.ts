@@ -26,6 +26,7 @@ import {succeedBy} from 'effect-ts-folds'
 /**
  * Just like {@link zipThese} except the result is in an effect.
  * @category ops
+ * @function
  */
 export const zipTheseWithEffect = <A, B, C>(f: (these: These<A, B>) => C) => {
   const [fromLeft, fromRight]: [
@@ -94,6 +95,7 @@ export const zipTheseWithEffect = <A, B, C>(f: (these: These<A, B>) => C) => {
  * Unzip a single level in a tree of `These<A, B>` into a pair of potentially
  * non-congruent optional trees of type `A` and `B`.
  * @category fold
+ * @function
  */
 export const unzipTheseFold: <A, B>(
   self: TreeF.TreeF<These<A, B>, These<Tree<A>, Tree<B>>>,
@@ -113,6 +115,7 @@ export const unzipTheseFold: <A, B>(
  *
  * See also {@link zipThese} for the opposite operation.
  * @category ops
+ * @function
  */
 export const unzipThese = <A, B>(
   self: Tree<These<A, B>>,
@@ -125,6 +128,7 @@ export const unzipThese = <A, B>(
  * receive a {@link Both}. Otherwise it will receive either a
  * {@link Left} or a {@link Right}.
  * @category ops
+ * @function
  */
 export const zipTheseWith = <A, B, C>(
   f: (these: These<A, B>) => C,
@@ -145,6 +149,7 @@ export const zipTheseWith = <A, B, C>(
  * 1. {@link unzipThese} for the opposite operation.
  * 2. {@link zipTheseWith} to run a function on the partial pair.
  * @category ops
+ * @function
  */
 export const zipThese: {
   <A, B>(self: Tree<A>, that: Tree<B>): Tree<These<A, B>>

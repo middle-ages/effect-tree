@@ -19,6 +19,7 @@ const arrayStringEquivalence = Array.getEquivalence(String.Equivalence)
  * for values of the {@link BaseStrut} type.
  * @category drawing
  * @category instances
+ * @function
  */
 export const StrutEquivalence: EQ.Equivalence<BaseStrut<Axis>> = (
   self: BaseStrut<Axis>,
@@ -44,12 +45,14 @@ const VStrutEquivalence: EQ.Equivalence<VStrut> = EQ.struct({
 
 /**
  * @category drawing
+ * @function
  */
 export const showHStrut = ({prefix, body, suffix}: HStrut): string =>
   `⊦${prefix}«${unwords.quote.fancy(body)}»${suffix}`
 
 /**
  * @category drawing
+ * @function
  */
 export const showVStrut = ({prefix, body, suffix}: VStrut): string =>
   unwords.rest(
@@ -61,12 +64,14 @@ export const showVStrut = ({prefix, body, suffix}: VStrut): string =>
 
 /**
  * @category drawing
+ * @function
  */
 export const showStrut = (strut: BaseStrut<Axis>): string =>
   isHStrut(strut) ? showHStrut(strut) : isVStrut(strut) ? showVStrut(strut) : ''
 
 /**
  * @category drawing
+ * @function
  */
 export const showHStruts = ({right, left}: HStruts): string =>
   unwords.rest(
@@ -76,6 +81,7 @@ export const showHStruts = ({right, left}: HStruts): string =>
 
 /**
  * @category drawing
+ * @function
  */
 export const showVStruts = ({top, bottom}: VStruts): string =>
   unwords.rest(
@@ -84,12 +90,14 @@ export const showVStruts = ({top, bottom}: VStruts): string =>
   )
 /**
  * @category drawing
+ * @function
  */
 export const showStruts = ({top, right, bottom, left}: Struts): string =>
   unwords.rest(showHStruts({left, right}), showVStruts({top, bottom}))
 
 /**
  * @category drawing
+ * @function
  */
 export const HStrutsEquivalence: EQ.Equivalence<HStruts> = EQ.struct({
   left: HStrutEquivalence,
@@ -98,6 +106,7 @@ export const HStrutsEquivalence: EQ.Equivalence<HStruts> = EQ.struct({
 
 /**
  * @category drawing
+ * @function
  */
 export const VStrutsEquivalence: EQ.Equivalence<VStruts> = EQ.struct({
   top: VStrutEquivalence,
@@ -106,6 +115,7 @@ export const VStrutsEquivalence: EQ.Equivalence<VStruts> = EQ.struct({
 
 /**
  * @category drawing
+ * @function
  */
 export const StrutsEquivalence: EQ.Equivalence<Struts> = EQ.struct({
   top: VStrutEquivalence,

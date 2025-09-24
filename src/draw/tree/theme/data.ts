@@ -9,6 +9,7 @@ import type {Theme} from './types.js'
  * @param role - Glyph role to get.
  * @param theme - Theme to query.
  * @category drawing
+ * @function
  */
 export const getGlyph: {
   (role: GlyphRole, theme: Theme): string
@@ -20,6 +21,7 @@ export const getGlyph: {
  * @param theme - Theme to query.
  * @returns Theme indents.
  * @category drawing
+ * @function
  */
 export const getGlyphPart: {
   (role: GlyphRole, theme: Theme): Part
@@ -34,6 +36,7 @@ export const getGlyphPart: {
  * @param theme - Theme to query.
  * @returns Theme indents.
  * @category drawing
+ * @function
  */
 export const getIndents = ({indents}: Theme): number => indents
 
@@ -42,6 +45,7 @@ export const getIndents = ({indents}: Theme): number => indents
  * @param theme - Theme to query.
  * @returns Theme vertical spacing.
  * @category drawing
+ * @function
  */
 export const getSpacing = ({spacing}: Theme): number => spacing
 
@@ -50,6 +54,7 @@ export const getSpacing = ({spacing}: Theme): number => spacing
  * @param theme - Theme to query.
  * @returns Theme formatter.
  * @category drawing
+ * @function
  */
 export const getFormatter = ({formatter}: Theme): EndoOf<string> => formatter
 
@@ -58,6 +63,7 @@ export const getFormatter = ({formatter}: Theme): EndoOf<string> => formatter
  * @param formatter - New formatter.
  * @returns Theme with updated formatter.
  * @category drawing
+ * @function
  */
 export const setFormatter: (formatter: EndoOf<string>) => EndoOf<Theme> =
   set('formatter')
@@ -67,6 +73,7 @@ export const setFormatter: (formatter: EndoOf<string>) => EndoOf<Theme> =
  * @param indents - Number of indents from parent to child.
  * @returns Theme with updated indent count.
  * @category drawing
+ * @function
  */
 export const setIndents: (indents: number) => EndoOf<Theme> = set('indents')
 
@@ -75,6 +82,7 @@ export const setIndents: (indents: number) => EndoOf<Theme> = set('indents')
  * @param spacing - Number of lines of vertical space between tree nodes.
  * @returns Theme with updated vertical spacing.
  * @category drawing
+ * @function
  */
 export const setSpacing: (spacing: number) => EndoOf<Theme> = set('spacing')
 
@@ -83,6 +91,7 @@ export const setSpacing: (spacing: number) => EndoOf<Theme> = set('spacing')
  * @param increment - Number of characters to add to the theme indent count.
  * @returns Theme with updated vertical spacing.
  * @category drawing
+ * @function
  */
 export const incrementIndents = (increment = 1): EndoOf<Theme> =>
   pipe(increment, Number.sum, modIndents)
@@ -93,6 +102,7 @@ export const incrementIndents = (increment = 1): EndoOf<Theme> =>
  * @param decrement - Number of characters to remove from the theme indent count.
  * @returns Theme with updated vertical spacing.
  * @category drawing
+ * @function
  */
 export const decrementIndents =
   (decrement = 1): EndoOf<Theme> =>
@@ -107,6 +117,7 @@ export const decrementIndents =
  * @param increment - Number of vertical lines to add to the theme spacing.
  * @returns Theme with updated vertical spacing.
  * @category drawing
+ * @function
  */
 export const incrementSpacing = (increment = 1): EndoOf<Theme> =>
   pipe(increment, Number.sum, modSpacing)
@@ -117,6 +128,7 @@ export const incrementSpacing = (increment = 1): EndoOf<Theme> =>
  * @param decrement - Number of vertical lines to remove from the theme spacing.
  * @returns Theme with updated vertical spacing.
  * @category drawing
+ * @function
  */
 export const decrementSpacing =
   (decrement = 1): EndoOf<Theme> =>
@@ -132,6 +144,7 @@ export const decrementSpacing =
  * @param theme - Tree theme to query for spacing.
  * @returns An array of single newlines. Newline count will be equal to theme spacing.
  * @category drawing
+ * @function
  */
 export const fillSpacing = ({spacing}: Theme): string[] =>
   Array.replicate(spacing - 1)('\n')
@@ -140,6 +153,7 @@ export const fillSpacing = ({spacing}: Theme): string[] =>
  * Modify the indent count of a tree theme using the given function.
  * @param f - Will be given the indent count and expected to return an updated value.
  * @category drawing
+ * @function
  */
 export function modIndents(f: EndoOf<number>): EndoOf<Theme> {
   return modTheme('indents')(f)
@@ -149,6 +163,7 @@ export function modIndents(f: EndoOf<number>): EndoOf<Theme> {
  * Modify the vertical spacing of a tree theme using the given function.
  * @param f - Will be given the vertical spacing and expected to return an updated value.
  * @category drawing
+ * @function
  */
 export function modSpacing(f: EndoOf<number>): EndoOf<Theme> {
   return modTheme('spacing')(f)
@@ -158,6 +173,7 @@ export function modSpacing(f: EndoOf<number>): EndoOf<Theme> {
  * Modify the formatter function of a tree theme using the given function.
  * @param f - Will be given the formatter function and expected to return an updated value.
  * @category drawing
+ * @function
  */
 export function modFormatter(f: EndoOf<EndoOf<string>>): EndoOf<Theme> {
   return modTheme('formatter')(f)

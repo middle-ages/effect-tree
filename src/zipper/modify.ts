@@ -11,6 +11,7 @@ import {next, tryHead, tryLast} from './navigate.js'
  * @typeParam A - The underlying type of the tree.
  * @returns A function that takes a zipper and returns an updated zipper where the focus node has been replaced.
  * @category zipper
+ * @function
  */
 export const replace =
   <A>(that: Tree.Tree<A>): EndoOf<Zipper<A>> =>
@@ -28,6 +29,7 @@ export const replace =
  * @typeParam A - The underlying type of the tree.
  * @returns A function that takes a zipper and returns an updated zipper where the focus node has been replaced.
  * @category zipper
+ * @function
  */
 export const prepend =
   <A>(that: Tree.Tree<A>): EndoOf<Zipper<A>> =>
@@ -55,6 +57,7 @@ prepend.move =
  * @typeParam A - The underlying type of the tree.
  * @returns A function that takes a zipper and returns an updated zipper where the focus node has been replaced.
  * @category zipper
+ * @function
  */
 export const append =
   <A>(that: Tree.Tree<A>): EndoOf<Zipper<A>> =>
@@ -83,6 +86,7 @@ append.move =
  * @param self - The zipper whose focus is being removed.
  * @returns A zipper without the previously focused node focused on next node, or failing that, on the parent node. If the zipper is focused on the tree root returns `Option.none()`.
  * @category zipper
+ * @function
  */
 export const remove: OptionalZipper = <A>(self: Zipper<A>) => {
   // Try to remove, then move _next_ in forest.

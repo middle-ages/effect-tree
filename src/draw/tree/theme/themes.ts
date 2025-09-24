@@ -27,14 +27,18 @@ const entries: (readonly [ThemeName, Theme])[] = [...indent, ...noIndent]
 const themes = Record.fromEntries(entries) as ThemeMap
 
 /**
- * Map of theme name to theme.
+ * Get tree theme by name.
+ * @param name - the theme name requested.
+ * @returns The requested theme.
  * @category drawing
+ * @function
  */
 export const getTheme = (name: ThemeName): Theme => themes[name]
 
 /**
  * Map over all themes to build a record theme `name` ⇒ `f(theme)`.
  * @category drawing
+ * @function
  */
 export const mapThemes = <A>(
   f: (theme: Theme, name: ThemeName) => A,

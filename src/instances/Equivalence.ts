@@ -10,6 +10,7 @@ import type {Tree} from '../tree/types.js'
  * The equivalence will scan every node of both trees to make sure that are the
  * same, but will short-circuit on a mismatch.
  * @category instances
+ * @function
  */
 export const getEquivalence = <A>(
   equalsA: Equivalence.Equivalence<A>,
@@ -26,6 +27,7 @@ export const getEquivalence = <A>(
 /**
  * List {@link getEquivalence} but the result is left inside an effect.
  * @category instances
+ * @function
  */
 export const getEquivalenceEffect =
   <A>(equalsA: Equivalence.Equivalence<A>) =>

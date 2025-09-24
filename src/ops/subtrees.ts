@@ -44,6 +44,7 @@ import type {NonEmptyArray} from 'effect/Array'
  *      └─c         └─f        └─f
  * ```
  * @category ops
+ * @function
  */
 export const bottomSubtrees = <A>(self: Tree<A>): NonEmptyArray<Tree<A>> =>
   pipe(self, treePara(bottomSubtreesFold))
@@ -51,6 +52,7 @@ export const bottomSubtrees = <A>(self: Tree<A>): NonEmptyArray<Tree<A>> =>
 /**
  * Collect all bottom-grounded subtrees of a single tree level.
  * @category fold
+ * @function
  */
 export const bottomSubtreesFold: TreeProductFolderK<ForestTypeLambda> =
   TreeF.match({

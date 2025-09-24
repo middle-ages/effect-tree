@@ -22,6 +22,7 @@ import {Array, flow, pipe} from 'effect'
 /**
  * Settings for the `unfolds.levelTree` unfold.
  * @category ops
+ * @function
  */
 export interface LevelTreeSettings {
   /** Requested depth of unfolded tree. */
@@ -37,6 +38,7 @@ export interface LevelTreeSettings {
 /**
  * Unfold a single layer of a numeric level tree.
  * @category unfold
+ * @function
  */
 export const levelTreeUnfold = ({
   depth,
@@ -49,6 +51,7 @@ export const levelTreeUnfold = ({
 /**
  * Annotate nodes at a tree level with their depth.
  * @category unfold
+ * @function
  */
 export const annotateDepthUnfold = <A>([tree, previousDepth]: [
   Tree<A>,
@@ -72,6 +75,7 @@ export const annotateDepthUnfold = <A>([tree, previousDepth]: [
  * Group a level of the tree by _depth_: number of levels between the node and
  * the tree root.
  * @category fold
+ * @function
  */
 export const levelsFold = <A>(
   self: TreeF.TreeF<A, NonEmptyArray2<A>>,
@@ -101,6 +105,7 @@ export const levelsFold = <A>(
  *
  * {@link drill} will _get_ a child from a tree at a path.
  * @category unfold
+ * @function
  */
 export const annotateLevelLabelsUnfold: TreeUnfolder<
   string,
@@ -133,6 +138,7 @@ export const annotateLevelLabelsUnfold: TreeUnfolder<
  * Crop all nodes from a tree that are below the given depth, for a single level
  * of the tree.
  * @category unfold
+ * @function
  */
 export const cropDepthUnfold = <A>([depth, self]: readonly [
   number,
@@ -155,6 +161,7 @@ export const cropDepthUnfold = <A>([depth, self]: readonly [
 /**
  * Returns tree nodes grouped by level.
  * @category ops
+ * @function
  */
 export const levels: <A>(self: Tree<A>) => NonEmptyArray2<A> = self =>
   pipe(self, treeCata(levelsFold))
@@ -175,6 +182,7 @@ export const levels: <A>(self: Tree<A>) => NonEmptyArray2<A> = self =>
  * └─2
  * ```
  * @category ops
+ * @function
  */
 export const unfoldLevelTree: (
   settings: LevelTreeSettings,
@@ -184,6 +192,7 @@ export const unfoldLevelTree: (
 /**
  * Returns tree nodes paired with their hop count from root.
  * @category ops
+ * @function
  */
 export const annotateDepth = <A>(self: Tree<A>): Tree<readonly [A, number]> =>
   treeAna(annotateDepthUnfold<A>)([self, 0])
@@ -192,6 +201,7 @@ export const annotateDepth = <A>(self: Tree<A>): Tree<readonly [A, number]> =>
  * Annotate a string tree with label that indicate the node depth and index
  * in their parent node.
  * @category ops
+ * @function
  */
 export const addLevelLabels: (self: Tree<string>) => Tree<string> = tree =>
   treeAna(annotateLevelLabelsUnfold)(['1.', tree])
@@ -215,6 +225,7 @@ export const addLevelLabels: (self: Tree<string>) => Tree<string> = tree =>
  * //  └─2       depth2 = branch(1, [leaf(2)])
  * ```
  * @category ops
+ * @function
  */
 export const cropDepth =
   (depth: number) =>
@@ -225,6 +236,7 @@ export const cropDepth =
  * Grow all leaves according to the given `grow` function for a single level of
  * the tree.
  * @category fold
+ * @function
  */
 export const growLeavesFold =
   <A>(grow: TreeUnfold<A, A>): TreeFolder<A, Tree<A>> =>
@@ -238,6 +250,7 @@ export const growLeavesFold =
  * with a `Tree<A>`, grow the tree by running all leaves through this function,
  * replacing the leaves with the function results.
  * @category ops
+ * @function
  */
 export const growLeaves = <A>(grow: TreeUnfold<A, A>): TreeFold<A, Tree<A>> =>
   pipe(grow, growLeavesFold, treeCata)
@@ -264,6 +277,7 @@ export const growLeaves = <A>(grow: TreeUnfold<A, A>): TreeFold<A, Tree<A>> =>
  * @param settings The child count for all nodes except leaves, and the tree depth requested.
  * @returns An N-ary level tree of the given depth..
  * @category ops
+ * @function
  */
 export const nAryTree = ({
   degree,
@@ -302,6 +316,7 @@ nAryTree.string = flow(nAryTree, map(fromNumber))
  * depth is zero returns a leaf.
  * @returns A binary level tree of the given depth..
  * @category ops
+ * @function
  */
 export const binaryTree = (depth: number): Tree<number> =>
   nAryTree({degree: 2, depth})

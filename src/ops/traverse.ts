@@ -6,12 +6,14 @@ import {levels} from './levels.js'
 
 /**
  * @category ops
+ * @function
  */
 export type GetNodes = <A>(self: Tree<A>) => Array.NonEmptyArray<A>
 
 /**
  * Return tree nodes in breadth-first order.
  * @category ops
+ * @function
  */
 export const breadthOrderValues: GetNodes = self =>
   pipe(self, levels, Array.flatten)
@@ -19,6 +21,7 @@ export const breadthOrderValues: GetNodes = self =>
 /**
  * Get all tree leaves.
  * @category ops
+ * @function
  */
 export const allLeaves: GetNodes = tree => pipe(tree, treeCata(allLeavesFold))
 
@@ -45,6 +48,7 @@ export const allLeaves: GetNodes = tree => pipe(tree, treeCata(allLeavesFold))
  * const myValues = preOrderValues(myTree) // [1, 2, 3, 4, 5]
  * ```
  * @category ops
+ * @function
  */
 export const preOrderValues: GetNodes = tree =>
   pipe(tree, treeCata(preOrderFold))
@@ -73,6 +77,7 @@ export const preOrderValues: GetNodes = tree =>
  * const myValues = postOrderValues(myTree) // [4, 3, 2, 5, 1]
  * ```
  * @category ops
+ * @function
  */
 export const postOrderValues: GetNodes = tree =>
   pipe(tree, treeCata(postOrderFold))
@@ -80,6 +85,7 @@ export const postOrderValues: GetNodes = tree =>
 /**
  * Collect nodes in depth-first pre-order for a single tree level.
  * @category fold
+ * @function
  */
 export const preOrderFold: TreeFolderK<NonEmptyArrayTypeLambda> = TreeF.match({
   onLeaf: value => [value],
@@ -90,6 +96,7 @@ export const preOrderFold: TreeFolderK<NonEmptyArrayTypeLambda> = TreeF.match({
 /**
  * Collect nodes in depth-first post-order for a single tree level.
  * @category fold
+ * @function
  */
 export const postOrderFold: TreeFolderK<NonEmptyArrayTypeLambda> = TreeF.match({
   onLeaf: value => [value],
@@ -99,6 +106,7 @@ export const postOrderFold: TreeFolderK<NonEmptyArrayTypeLambda> = TreeF.match({
 /**
  * Collect all _leaves_ from a single tree level.
  * @category fold
+ * @function
  */
 export const allLeavesFold: TreeFolderK<NonEmptyArrayTypeLambda> = TreeF.match({
   onLeaf: value => [value],

@@ -35,6 +35,7 @@ const _column =
  * If two struts are given, the first is used for the left side and the second
  * for the right side.
  * @category drawing
+ * @function
  */
 export const column: ((
   hAlign?: HorizontalAlignment,
@@ -57,6 +58,7 @@ const _above: typeof _below = hAlign => (below, left, right) => above =>
  * Add the `below` part below the `above` part. See {@link above} for a flipped
  * version.
  * @category drawing
+ * @function
  */
 export const below: {
   (hAlign?: HorizontalAlignment): ColumnOp
@@ -72,6 +74,7 @@ export const below: {
  * Add the `below` part below the `above` part. See {@link below} for a flipped
  * version.
  * @category drawing
+ * @function
  */
 export const above: {
   (hAlign?: HorizontalAlignment): ColumnOp

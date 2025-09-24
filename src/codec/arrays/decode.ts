@@ -8,6 +8,7 @@ import type {TreeArray} from './types.js'
  * Decode a single level of the encoding.
  * @category unfold
  * @category codec
+ * @function
  */
 export const decodeUnfold = <A>(a: TreeArray<A>): TreeF.TreeF<A> =>
   Array.isArray(a) ? TreeF.treeF(...a) : TreeF.leafF(a)
@@ -45,5 +46,6 @@ export const decodeUnfold = <A>(a: TreeArray<A>): TreeF.TreeF<A> =>
  * // └─10
  * ```ts
  * @category codec
+ * @function
  */
 export const decode: <A>(ta: TreeArray<A>) => Tree<A> = treeAna(decodeUnfold)

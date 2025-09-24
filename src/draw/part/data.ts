@@ -19,12 +19,14 @@ export const empty: Empty = fixPart(emptyF)
 /**
  * Build a part from a single line of text.
  * @category drawing
+ * @function
  */
 export const text = (show: string): Text => ({unfixed: textF(show)})
 
 /**
  * Type guard for the {@link Empty} {@link Part}.
  * @category drawing
+ * @function
  */
 export const isEmptyPart = (self: Part): self is Empty =>
   pipe(self, unfixPart, isPartFOf('EmptyF'))
@@ -32,6 +34,7 @@ export const isEmptyPart = (self: Part): self is Empty =>
 /**
  * Type guard for the {@link Text} {@link Part}.
  * @category drawing
+ * @function
  */
 export const isText = (self: Part): self is Text =>
   pipe(self, unfixPart, isPartFOf('TextF'))
@@ -39,6 +42,7 @@ export const isText = (self: Part): self is Text =>
 /**
  * Type guard for the {@link Row} {@link Part}.
  * @category drawing
+ * @function
  */
 export const isRow = (self: Part): self is Row =>
   pipe(self, unfixPart, isPartFOf('RowF'))
@@ -46,6 +50,7 @@ export const isRow = (self: Part): self is Row =>
 /**
  * Type guard for the {@link Column} {@link Part}.
  * @category drawing
+ * @function
  */
 export const isColumn = (self: Part): self is Column =>
   pipe(self, unfixPart, isPartFOf('ColumnF'))
@@ -53,6 +58,7 @@ export const isColumn = (self: Part): self is Column =>
 /**
  * Get the text content of a {@link Text} part.
  * @category drawing
+ * @function
  */
 export const getText: (text: Text) => string = ({unfixed: {show}}) => show
 
@@ -60,6 +66,7 @@ export const getText: (text: Text) => string = ({unfixed: {show}}) => show
  * Combine two text parts horizontally placing the first to the right of the
  * second.
  * @category drawing
+ * @function
  */
 export const prefixText: (prefix: Text) => EndoOf<Text> =
   ({unfixed: {show: prefix}}) =>
@@ -70,6 +77,7 @@ export const prefixText: (prefix: Text) => EndoOf<Text> =
  * Combine two text parts horizontally placing the first to the left of the
  * second.
  * @category drawing
+ * @function
  */
 export const suffixText: (suffix: Text) => EndoOf<Text> =
   ({unfixed: {show: suffix}}) =>
@@ -79,6 +87,7 @@ export const suffixText: (suffix: Text) => EndoOf<Text> =
 /**
  * Match part by type.
  * @category drawing
+ * @function
  */
 export const matchPart =
   <R>(

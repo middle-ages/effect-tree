@@ -9,6 +9,7 @@ import type {Branch, Leaf, Tree, TreeTypeLambda} from './types.js'
  * @param self - The tree from which all nodes will be removed.
  * @returns A leaf tree node.
  * @category basic
+ * @function
  */
 export const removeForest: <A>(self: Branch<A>) => Leaf<A> = flow(
   getValue,
@@ -29,6 +30,7 @@ export const removeForest: <A>(self: Branch<A>) => Leaf<A> = flow(
  * @param deleteCount - Count of nodes to be deleted.
  * @returns The tree with on less node.
  * @category basic
+ * @function
  */
 export const removeSlice =
   (n: number, deleteCount: number): EndoK<TreeTypeLambda> =>
@@ -54,6 +56,7 @@ export const removeSlice =
  * @param self - The tree from which a node will be removed.
  * @returns The tree with on less node.
  * @category basic
+ * @function
  */
 export const removeNthChild: {
   <A>(n: number, self: Tree<A>): Tree<A>
@@ -72,6 +75,7 @@ export const removeNthChild: {
  * @param self - The tree from which a node will be removed.
  * @returns The tree with on less node.
  * @category basic
+ * @function
  */
 export const removeFirstChild = removeNthChild.flip(0)
 
@@ -81,5 +85,6 @@ export const removeFirstChild = removeNthChild.flip(0)
  * @param self - The tree from which a node will be removed.
  * @returns The tree with on less node.
  * @category basic
+ * @function
  */
 export const removeLastChild = removeNthChild.flip(-1)

@@ -9,6 +9,7 @@ import {Array, Equivalence, Predicate, pipe} from 'effect'
  * 2. All paths share the same root
  * 3. For any pair of appearances of any node the parent node is equal.
  * @category codec
+ * @function
  */
 export const isValidPathList =
   <A>(

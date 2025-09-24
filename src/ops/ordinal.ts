@@ -25,6 +25,7 @@ import {constant} from 'effect/Function'
 /**
  * Fold nodes of a tree level to their ordinal in depth-first pre-order.
  * @category fold
+ * @function
  */
 export const nodeOrdinalFold =
   (counter: Ref.Ref<number>) =>
@@ -36,6 +37,7 @@ export const nodeOrdinalFold =
 /**
  * Unfold nodes of a tree level to their ordinal in depth-first pre-order.
  * @category fold
+ * @function
  */
 export const nodeOrdinalUnfold =
   (counter: Ref.Ref<number>) =>
@@ -51,6 +53,7 @@ export const nodeOrdinalUnfold =
 /**
  * Unfold a tree level and annotate the nodes with their ordinal.
  * @category fold
+ * @function
  */
 export const annotateOrdinalUnfold =
   (counter: Ref.Ref<number>) =>
@@ -86,6 +89,7 @@ export const annotateOrdinalUnfold =
  *   └─3
  * ```
  * @category ops
+ * @function
  */
 export const asOrdinal =
   (initialize: number) =>
@@ -108,6 +112,7 @@ export const asOrdinal =
 /**
  * Annotate tree nodes with their post-order depth-first ordinal.
  * @category ops
+ * @function
  */
 export const withOrdinal =
   (initialize = 1) =>
@@ -158,6 +163,7 @@ withOrdinal.pre =
 /**
  * A version of {@link asOrdinal} specialized for _branches_.
  * @category ops
+ * @function
  */
 export const asOrdinalBranch =
   (initialize: number) =>

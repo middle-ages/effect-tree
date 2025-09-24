@@ -19,6 +19,7 @@ import type {TreeEffectFolder, TreeFolder} from './types.js'
  * )
  * ```
  * @category fold
+ * @function
  */
 export const replaceFolder =
   <A, B>(φ: TreeFolder<A, B>): TreeFolder<A, Tree<B>> =>
@@ -28,6 +29,7 @@ export const replaceFolder =
 /**
  * Like {@link replaceFolder} but for _effect folders_.
  * @category fold
+ * @function
  */
 export const replaceEffectFolder =
   <A, B, E = never, R = never>(

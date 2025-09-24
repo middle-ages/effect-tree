@@ -11,6 +11,7 @@ import type {BorderSet, CornerDirection} from './types.js'
  * @param glyph - New glyph.
  * @returns Updated border set.
  * @category drawing
+ * @function
  */
 export const replaceBorderLine: {
   (set: BorderSet, direction: Direction, glyph: string): BorderSet
@@ -42,6 +43,7 @@ export const replaceBorderLine: {
  * @param glyph - New glyph.
  * @returns Updated border set.
  * @category drawing
+ * @function
  */
 export const replaceBorderElbow: {
   (set: BorderSet, direction: CornerDirection, glyph: string): BorderSet
@@ -132,6 +134,7 @@ const borderSets: BorderSets = {
 /**
  * Get a line set by name.
  * @category drawing
+ * @function
  */
 export const borderSet = (name: BorderSetName): BorderSet => borderSets[name]
 

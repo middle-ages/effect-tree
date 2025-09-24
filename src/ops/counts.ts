@@ -15,6 +15,7 @@ import {constFalse, constTrue} from 'effect/Function'
 /**
  * Compute how many nodes in a tree satisfy the given `predicate`.
  * @category ops
+ * @function
  */
 export const countOf = <A>(
   predicate: Predicate.Predicate<A>,
@@ -23,6 +24,7 @@ export const countOf = <A>(
 /**
  * Count total node count at level.
  * @category fold
+ * @function
  */
 export const descendantCountFold: TreeFolderOf<number> = TreeF.match({
   onLeaf: () => 1,
@@ -32,6 +34,7 @@ export const descendantCountFold: TreeFolderOf<number> = TreeF.match({
 /**
  * Measure max node height from its deepest descendant at tree level.
  * @category fold
+ * @function
  */
 export const maximumHeightFold: TreeFolderOf<number> = TreeF.match({
   onLeaf: () => 1,
@@ -41,6 +44,7 @@ export const maximumHeightFold: TreeFolderOf<number> = TreeF.match({
 /**
  * Measure max node degree at a tree level.
  * @category fold
+ * @function
  */
 export const maximumDegreeFold: TreeFolderOf<number> = TreeF.match({
   onLeaf: () => 0,
@@ -50,12 +54,14 @@ export const maximumDegreeFold: TreeFolderOf<number> = TreeF.match({
 /**
  * Measure node degree at a tree level.
  * @category fold
+ * @function
  */
 export const degreeFold: TreeFolderOf<number> = TreeF.length
 
 /**
  * Count tree nodes of a tree level that satisfy the given predicate.
  * @category fold
+ * @function
  */
 export const countOfFold = <A>(
   predicate: Predicate.Predicate<A>,
@@ -70,6 +76,7 @@ export const countOfFold = <A>(
  * Count all nodes that are descendants of the root node and the root node
  * itself.
  * @category ops
+ * @function
  */
 export const nodeCount: TreeFoldOf<number> = self =>
   pipe(self, treeCata(descendantCountFold))
@@ -77,6 +84,7 @@ export const nodeCount: TreeFoldOf<number> = self =>
 /**
  * Compute the maximum node depth of all nodes in a tree.
  * @category ops
+ * @function
  */
 export const maximumNodeHeight: TreeFoldOf<number> = self =>
   pipe(self, treeCata(maximumHeightFold))
@@ -84,6 +92,7 @@ export const maximumNodeHeight: TreeFoldOf<number> = self =>
 /**
  * Compute the maximum child count of any node in the tree.
  * @category ops
+ * @function
  */
 export const maximumNodeDegree: TreeFoldOf<number> = self =>
   pipe(self, treeCata(maximumDegreeFold))
@@ -91,6 +100,7 @@ export const maximumNodeDegree: TreeFoldOf<number> = self =>
 /**
  * Fails if node count is at least the given number.
  * @category ops
+ * @function
  */
 export const nodeCountAtLeastFold: (
   atLeast: number,
@@ -103,6 +113,7 @@ export const nodeCountAtLeastFold: (
  * True if node count is at least the given number.  Will short-circuit when
  * condition is reached rather than traverse entire tree.
  * @category ops
+ * @function
  */
 export const nodeCountAtLeast =
   (atLeast: number) =>

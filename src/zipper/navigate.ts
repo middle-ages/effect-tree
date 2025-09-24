@@ -31,6 +31,7 @@ import {tryRepeat} from './repeat.js'
  * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if there is no first child.
  * @category zipper
+ * @function
  */
 export const tryHead: OptionalZipper = self => {
   const {focus} = self
@@ -62,6 +63,7 @@ export const tryHead: OptionalZipper = self => {
  * @param n - Number of tree levels to descend.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if the path to the Nth level is not valid.
  * @category zipper
+ * @function
  */
 export const tryHeadN: {
   <A>(self: Zipper<A>, n: number): Option.Option<Zipper<A>>
@@ -83,6 +85,7 @@ export const tryHeadN: {
  * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if there is no last child.
  * @category zipper
+ * @function
  */
 export const tryLast: OptionalZipper = self => {
   const {focus} = self
@@ -114,6 +117,7 @@ export const tryLast: OptionalZipper = self => {
  * @param n - Number of tree levels to descend.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if the path to the Nth level is not valid.
  * @category zipper
+ * @function
  */
 export const tryLastN: {
   <A>(self: Zipper<A>, n: number): Option.Option<Zipper<A>>
@@ -137,6 +141,7 @@ export const tryLastN: {
  * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
+ * @function
  */
 export const rewind: EndoK<ZipperTypeLambda> = self => {
   const {lefts, rights: previousRights, focus: previousFocus, ...rest} = self
@@ -165,6 +170,7 @@ export const rewind: EndoK<ZipperTypeLambda> = self => {
  * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
+ * @function
  */
 export const end: EndoK<ZipperTypeLambda> = <A>(self: Zipper<A>) => {
   const {lefts: previousLefts, rights, focus: previousFocus, ...rest} = self
@@ -190,6 +196,7 @@ export const end: EndoK<ZipperTypeLambda> = <A>(self: Zipper<A>) => {
  * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if there is no previous sibling.
  * @category zipper
+ * @function
  */
 export const tryPrevious: OptionalZipper = ({
   focus,
@@ -224,6 +231,7 @@ export const tryPrevious: OptionalZipper = ({
  * @param n - Number of siblings to skip to the left.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if `previous` cannot be repeated N times.
  * @category zipper
+ * @function
  */
 export const tryPreviousN: {
   <A>(self: Zipper<A>, n: number): Option.Option<Zipper<A>>
@@ -243,6 +251,7 @@ export const tryPreviousN: {
  * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if there is no next sibling.
  * @category zipper
+ * @function
  */
 export const tryNext: OptionalZipper = ({focus, lefts, rights, ...rest}) => {
   if (!isNonEmptyArray(rights)) {
@@ -272,6 +281,7 @@ export const tryNext: OptionalZipper = ({focus, lefts, rights, ...rest}) => {
  * @param n - Number of siblings to skip to the left.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if `next` cannot be repeated N times.
  * @category zipper
+ * @function
  */
 export const tryNextN: {
   <A>(self: Zipper<A>, n: number): Option.Option<Zipper<A>>
@@ -291,6 +301,7 @@ export const tryNextN: {
  * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if zipper focus is on root node.
  * @category zipper
+ * @function
  */
 export const tryUp: OptionalZipper = <A>({
   parent,
@@ -324,6 +335,7 @@ export const tryUp: OptionalZipper = <A>({
  * @param n - Index of child that will be the new zipper focus.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if the node is a leaf or the given index is out-of-bounds.
  * @category zipper
+ * @function
  */
 export const tryAt: {
   <A>(self: Zipper<A>, n: number): Option.Option<Zipper<A>>
@@ -360,6 +372,7 @@ export const tryAt: {
  * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at the root node of the tree.
  * @category zipper
+ * @function
  */
 export const root: EndoK<ZipperTypeLambda> = flow(toTree, fromTree)
 
@@ -370,6 +383,7 @@ export const root: EndoK<ZipperTypeLambda> = flow(toTree, fromTree)
  * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
+ * @function
  */
 export const head: EndoK<ZipperTypeLambda> = flow(tryHead, Option.getOrThrow)
 
@@ -388,6 +402,7 @@ export const head: EndoK<ZipperTypeLambda> = flow(tryHead, Option.getOrThrow)
  * @param n - Number of tree levels to descend.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
+ * @function
  */
 export const headN: {
   <A>(self: Zipper<A>, n: number): Zipper<A>
@@ -405,6 +420,7 @@ export const headN: {
  * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
+ * @function
  */
 export const last: EndoK<ZipperTypeLambda> = flow(tryLast, Option.getOrThrow)
 
@@ -423,6 +439,7 @@ export const last: EndoK<ZipperTypeLambda> = flow(tryLast, Option.getOrThrow)
  * @param n - Number of tree levels to descend.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
+ * @function
  */
 export const lastN: {
   <A>(self: Zipper<A>, n: number): Zipper<A>
@@ -440,6 +457,7 @@ export const lastN: {
  * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
+ * @function
  */
 export const previous: EndoK<ZipperTypeLambda> = flow(
   tryPrevious,
@@ -460,6 +478,7 @@ export const previous: EndoK<ZipperTypeLambda> = flow(
  * @param n - Number of siblings to skip to the left.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
+ * @function
  */
 export const previousN: {
   <A>(self: Zipper<A>, n: number): Zipper<A>
@@ -478,6 +497,7 @@ export const previousN: {
  * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
+ * @function
  */
 export const next: EndoK<ZipperTypeLambda> = flow(tryNext, Option.getOrThrow)
 
@@ -496,6 +516,7 @@ export const next: EndoK<ZipperTypeLambda> = flow(tryNext, Option.getOrThrow)
  * @param n - Number of siblings to skip to the right.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
+ * @function
  */
 export const nextN: {
   <A>(self: Zipper<A>, n: number): Zipper<A>
@@ -513,6 +534,7 @@ export const nextN: {
  * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
+ * @function
  */
 export const up: EndoK<ZipperTypeLambda> = flow(tryUp, Option.getOrThrow)
 
@@ -529,6 +551,7 @@ export const up: EndoK<ZipperTypeLambda> = flow(tryUp, Option.getOrThrow)
  * @param n - Index of child that will be the new zipper focus.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
+ * @function
  */
 export const at: {
   <A>(self: Zipper<A>, n: number): Zipper<A>

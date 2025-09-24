@@ -1,6 +1,6 @@
 # 🌳 effect-tree
 
-A Typescript library for working with trees.
+A Typescript library for working with immutable trees.
 
 1. [Synopsis](#synopsis)
 2. [About](#about)

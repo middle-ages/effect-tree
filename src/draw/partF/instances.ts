@@ -16,6 +16,7 @@ import {
 
 /**
  * @category drawing
+ * @function
  */
 export const map: CO.Covariant<PartFTypeLambda>['map'] = Function.dual(
   2,
@@ -42,12 +43,14 @@ export const map: CO.Covariant<PartFTypeLambda>['map'] = Function.dual(
 /**
  * `Covariant` instance for {@link PartF}.
  * @category drawing
+ * @function
  */
 export const imap = CO.imap<PartFTypeLambda>(map)
 
 /**
  * `Covariant` instance for {@link PartF}.
  * @category drawing
+ * @function
  */
 export const traverse: TA.Traversable<PartFTypeLambda>['traverse'] = <
   F extends HKT.TypeLambda,

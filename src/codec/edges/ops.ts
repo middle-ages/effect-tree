@@ -14,6 +14,7 @@ import type {EdgeList, EdgeMap, TreeEdge} from './types.js'
 /**
  * A tree edge for the root node: parent is `None`.
  * @category internal
+ * @function
  */
 export const rootTreeEdge = <A>(child: A): [A, Option.Option<A>] => [
   child,
@@ -23,6 +24,7 @@ export const rootTreeEdge = <A>(child: A): [A, Option.Option<A>] => [
 /**
  * Set a parent on a non-root tree edge.
  * @category internal
+ * @function
  */
 export const setParent: <A>(a: A) => (edge: TreeEdge<A>) => TreeEdge<A> =
   a =>
@@ -32,6 +34,7 @@ export const setParent: <A>(a: A) => (edge: TreeEdge<A>) => TreeEdge<A> =
  * Assert the edge map has a single root and return a pair of the root and its
  * possibly empty list of children.
  * @category internal
+ * @function
  */
 export const getMapChildren = <A>({
   roots,
@@ -55,6 +58,7 @@ export const getMapChildren = <A>({
 /**
  * Sets the roots of the edge map to a single root.
  * @category internal
+ * @function
  */
 export const setMapRoot =
   <A>(map: EdgeMap<A>) =>
@@ -63,6 +67,7 @@ export const setMapRoot =
 /**
  * Given an equivalence of `A`, return an equivalence of `TreeEdge<A>`.
  * @category internal
+ * @function
  */
 export const getEdgeEquivalence: <A>(
   equalsA: Equivalence.Equivalence<A>,
@@ -72,6 +77,7 @@ export const getEdgeEquivalence: <A>(
 /**
  * Given an equivalence of `A`, return an equivalence of `EdgeList<A>`.
  * @category internal
+ * @function
  */
 export const getEdgeListEquivalence: <A>(
   equalsA: Equivalence.Equivalence<A>,
@@ -81,6 +87,7 @@ export const getEdgeListEquivalence: <A>(
 /**
  * Sort the edge list by the given order.
  * @category internal
+ * @function
  */
 export const sortEdgeList =
   <A>(o: Order.Order<A>) =>
@@ -91,6 +98,7 @@ export const sortEdgeList =
  * Convert a numeric edge list into a list of numeric pairs.
  * Root node edge will appear as `[1, 0]`.
  * @category internal
+ * @function
  */
 export const numeric: (
   edges: EdgeList<number>,

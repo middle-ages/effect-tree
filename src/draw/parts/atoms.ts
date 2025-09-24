@@ -23,6 +23,7 @@ export const emptyTextPart = textPart('')
  * const abcText = Draw.joinText(['A', 'B', 'C'], '.')
  * // ‘A.B.C’
  * @category drawing
+ * @function
  */
 export const joinText: {
   (xs: string[], separator?: string): Part
@@ -49,6 +50,7 @@ const _stackText = (xs: string[]): Part =>
  * //  B
  * //  C’
  * @category drawing
+ * @function
  */
 export const stackText = Object.assign(_stackText, {
   rest: (...xs: string[]): Part => _stackText(xs),
@@ -65,6 +67,7 @@ stackText.rest = (...xs: string[]): Part => stackText(xs)
  * const repeated = Draw.repeatText.rest(3, 'A')
  * // ‘AAA’
  * @category drawing
+ * @function
  */
 export const repeatText: {
   (repeat: string): (width: number) => Part
@@ -89,6 +92,7 @@ export const repeatText: {
  * const nothing = hIndent(0, 'no space')
  * // ‘’
  * @category drawing
+ * @function
  */
 export const hIndent: {
   (repeat: number, indent?: string): Part
@@ -111,6 +115,7 @@ export const hIndent: {
  * const nothing = vIndent(0)
  * // ‘’
  * @category drawing
+ * @function
  */
 export const vIndent = (height: number): Part =>
   height === 0
@@ -124,6 +129,7 @@ export const vIndent = (height: number): Part =>
  * At the keys `left` and  `right` you will find versions that pad only a single
  * side of the given part.
  * @category drawing
+ * @function
  */
 export const hSpace = Object.assign(
   (fillLeft = ' ', fillRight = ' ') =>
@@ -152,6 +158,7 @@ export const hSpace = Object.assign(
  * At the keys `top` and  `bottom` you will find versions that pad only a single
  * side of the given part.
  * @category drawing
+ * @function
  */
 export const vSpace = Object.assign(
   (padTop = 1, padBottom = padTop): EndoOf<Part> =>
@@ -167,6 +174,7 @@ export const vSpace = Object.assign(
 /**
  * Pad a part with spaces in all directions.
  * @category drawing
+ * @function
  */
 export const spacePad: {
   (self: Part, pad: Partial<DirectedPad>): Part

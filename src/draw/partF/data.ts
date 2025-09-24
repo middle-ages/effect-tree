@@ -9,11 +9,13 @@ export const emptyF: EmptyF = EmptyF()
 
 /**
  * @category drawing
+ * @function
  */
 export const textF = (show: string): TextF => TextF({show})
 
 /**
  * @category drawing
+ * @function
  */
 export const rowF =
   (aligned: Aligned) =>
@@ -22,6 +24,7 @@ export const rowF =
 
 /**
  * @category drawing
+ * @function
  */
 export const columnF =
   (hAligned: HorizontallyAligned) =>

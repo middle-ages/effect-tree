@@ -20,6 +20,7 @@ export interface Bordered {
  * At the key `corners` you will find a version that has the same signature but
  * _does_ add the required top left and top right right corners.
  * @category drawing
+ * @function
  */
 export const borderTop: Bordered & {corners: Bordered} = Object.assign(
   ({lines: {top}}: BorderSet): EndoOf<Part> =>
@@ -37,6 +38,7 @@ export const borderTop: Bordered & {corners: Bordered} = Object.assign(
  * Add a border to the right of the given shape with no corners.
  * The glyph is taken from the given {@link BorderSet}.
  * @category drawing
+ * @function
  */
 export const borderRight: Bordered =
   ({lines: {right}}: BorderSet): EndoOf<Part> =>
@@ -50,6 +52,7 @@ export const borderRight: Bordered =
  * At the key `corners` you will find a version that has the same signature but
  * _does_ add the required bottom left and bottom right corners.
  * @category drawing
+ * @function
  */
 export const borderBottom: Bordered & {corners: Bordered} = Object.assign(
   ({lines: {bottom}}: BorderSet): EndoOf<Part> =>
@@ -67,6 +70,7 @@ export const borderBottom: Bordered & {corners: Bordered} = Object.assign(
  * Add a border to the left of the given shape with no corners.
  * The glyph is taken from the given {@link BorderSet}.
  * @category drawing
+ * @function
  */
 export const borderLeft: Bordered =
   ({lines: {left}}) =>
@@ -76,6 +80,7 @@ export const borderLeft: Bordered =
 /**
  * Add borders to the left and right of the given part.
  * @category drawing
+ * @function
  */
 export const hBorders: Bordered = set => part =>
   pipe(part, borderLeft(set), borderRight(set))
@@ -86,6 +91,7 @@ export const hBorders: Bordered = set => part =>
  * At the key `corners` you will find a version that has the same signature but
  * adds corner glyphs at the left and right edges of th top and bottom borders.
  * @category drawing
+ * @function
  */
 export const vBorders = Object.assign(
   (set: BorderSet): EndoOf<Part> =>
@@ -109,6 +115,7 @@ const _addBorder = (self: Part, set: BorderSet): Part =>
  * At the key `curried` you will find a curried version that takes the border
  * set as its first argument.
  * @category drawing
+ * @function
  */
 export const addBorder: {
   (self: Part, set: BorderSet): Part
@@ -134,6 +141,7 @@ const _addBorders =
  * arguments.
  * @param sets - A non-empty list of border sets that will be nested around the given part.
  * @category drawing
+ * @function
  */
 export const addBorders = Object.assign(_addBorders, {
   rest:

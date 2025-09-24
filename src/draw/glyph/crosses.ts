@@ -58,6 +58,7 @@ const crosses: Crosses = {
 
 /**
  * Get a tee set by name.
+ * @function
  * @category drawing
  */
 export const cross = (name: CrossName): string => crosses[name]

@@ -41,6 +41,7 @@ import {tryHead, tryNext, tryUp} from './navigate.js'
  * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if there is no next node in the depth-first traversal.
  * @category zipper
+ * @function
  */
 export const tryDepthFirst: OptionalZipper = self => {
   const head = tryHead(self)
@@ -100,6 +101,7 @@ export const tryDepthFirst: OptionalZipper = self => {
  * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
+ * @function
  */
 export const depthFirst: EndoK<ZipperTypeLambda> = flow(
   tryDepthFirst,

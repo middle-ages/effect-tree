@@ -63,6 +63,7 @@ import {matchVertical, type VerticalAlignment} from './data.js'
  * @param alignOrthogonal - A function that accepts a list of strings at different widths and returns them at the width of the widest, respecting alignments and struts.
  * @param useTopRound - Optional flag determining if remainder is added above or below the shape. By default it is `false` and the remainder is added below the shape.
  * @category drawing
+ * @function
  */
 export const alignVertically =
   (

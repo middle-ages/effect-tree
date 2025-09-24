@@ -54,23 +54,27 @@ export type Part = Empty | Text | Row | Column
 
 /**
  * @category drawing
+ * @function
  */
 export const fixPart = <Type extends Part>(unfixed: PartF<Part>): Type =>
   fix<PartFTypeLambda>(unfixed) as Type
 
 /**
  * @category drawing
+ * @function
  */
 export const unfixPart = <Type extends PartF<Part>>(fixed: Part): Type =>
   unfix<PartFTypeLambda>(fixed) as Type
 
 /**
  * @category drawing
+ * @function
  */
 export const unfixRow = (fixed: Row): RowF<Part> => unfixPart(fixed)
 
 /**
  * @category drawing
+ * @function
  */
 export const unfixColumn = (fixed: Column): ColumnF<Part> => unfixPart(fixed)
 
@@ -78,6 +82,7 @@ export const unfixColumn = (fixed: Column): ColumnF<Part> => unfixPart(fixed)
  * Combine parts horizontally.
  * @returns A new part that is composed of the given parts.
  * @category drawing
+ * @function
  */
 export const Row = (aligned: Aligned): ((cells: Part[]) => Row) =>
   flow(rowF(aligned), fixPart<Row>)
@@ -85,6 +90,7 @@ export const Row = (aligned: Aligned): ((cells: Part[]) => Row) =>
 /**
  * Combine parts vertically.
  * @category drawing
+ * @function
  */
 export const Column = (
   hAlign: HorizontallyAligned,

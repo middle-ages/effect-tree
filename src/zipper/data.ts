@@ -8,6 +8,7 @@ import {type Zipper} from './index.js'
  * @param zipper - Zipper to be queried.
  * @returns The focus of the zipper.
  * @category zipper
+ * @function
  */
 export const getFocus = <A>({focus}: Zipper<A>): Tree.Tree<A> => focus
 
@@ -17,6 +18,7 @@ export const getFocus = <A>({focus}: Zipper<A>): Tree.Tree<A> => focus
  * @param zipper - Zipper to be queried.
  * @returns Value of the focus node.
  * @category zipper
+ * @function
  */
 export const getValue = <A>({focus}: Zipper<A>): A => Tree.getValue(focus)
 
@@ -27,6 +29,7 @@ export const getValue = <A>({focus}: Zipper<A>): A => Tree.getValue(focus)
  * @param self - The tree being queried.
  * @returns A possibly empty list of trees.
  * @category zipper
+ * @function
  */
 export const getForest = <A>({focus}: Zipper<A>): readonly Tree.Tree<A>[] =>
   Tree.getForest(focus)
@@ -38,6 +41,7 @@ export const getForest = <A>({focus}: Zipper<A>): readonly Tree.Tree<A>[] =>
  * @param zipper - Zipper to be queried.
  * @returns True if there are trees to the _left_ of the focus.
  * @category zipper
+ * @function
  */
 export const hasLefts = <A>({lefts}: Zipper<A>): boolean => lefts.length > 0
 
@@ -48,6 +52,7 @@ export const hasLefts = <A>({lefts}: Zipper<A>): boolean => lefts.length > 0
  * @param zipper - Zipper to be queried.
  * @returns True if there are trees to the _right_ of the focus.
  * @category zipper
+ * @function
  */
 export const hasRights = <A>({rights}: Zipper<A>): boolean => rights.length > 0
 
@@ -57,6 +62,7 @@ export const hasRights = <A>({rights}: Zipper<A>): boolean => rights.length > 0
  * @param zipper - Zipper to be queried.
  * @returns Possibly empty list of trees.
  * @category zipper
+ * @function
  */
 export const getLefts = <A>({lefts}: Zipper<A>): Tree.Tree<A>[] => lefts
 
@@ -66,6 +72,7 @@ export const getLefts = <A>({lefts}: Zipper<A>): Tree.Tree<A>[] => lefts
  * @param zipper - Zipper to be queried.
  * @returns Possibly empty list of trees.
  * @category zipper
+ * @function
  */
 export const getRights = <A>({rights}: Zipper<A>): Tree.Tree<A>[] => rights
 
@@ -76,6 +83,7 @@ export const getRights = <A>({rights}: Zipper<A>): Tree.Tree<A>[] => rights
  * @param zipper - Zipper to be queried.
  * @returns Integer depth of the zipper.
  * @category zipper
+ * @function
  */
 export const getDepth = <A>({levels}: Zipper<A>): number => levels.length
 
@@ -85,6 +93,7 @@ export const getDepth = <A>({levels}: Zipper<A>): number => levels.length
  * @param zipper - Zipper to be queried.
  * @returns True if zipper is at root else false.
  * @category zipper
+ * @function
  */
 export const isRoot = <A>({parent}: Zipper<A>): boolean => Option.isNone(parent)
 
@@ -94,5 +103,6 @@ export const isRoot = <A>({parent}: Zipper<A>): boolean => Option.isNone(parent)
  * @param zipper - Zipper to be queried.
  * @returns True if zipper is at leaf else false.
  * @category zipper
+ * @function
  */
 export const isLeaf = <A>({focus}: Zipper<A>): boolean => Tree.isLeaf(focus)

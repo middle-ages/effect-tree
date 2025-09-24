@@ -25,6 +25,7 @@ export interface Padded {
  * Upgrade a partial {@link DirectedPad} into a total one, filling in empty
  * slots with zeros.
  * @category drawing
+ * @function
  */
 export const normalizePad = (padded?: Partial<DirectedPad>): DirectedPad => ({
   ...monoRecord(0)(...directions),
@@ -34,6 +35,7 @@ export const normalizePad = (padded?: Partial<DirectedPad>): DirectedPad => ({
 /**
  * Upgrade a partial {@link Padded} into a total one, filling in with defaults.
  * @category drawing
+ * @function
  */
 export const normalizePadded = (
   padded?: Partial<{

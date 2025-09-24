@@ -19,6 +19,7 @@ import {
  * for a {@link PartF} from an equivalence of its underlying type.
  * @category drawing
  * @category instances
+ * @function
  */
 export const getEquivalence =
   <A>(equalsA: EQ.Equivalence<A>): EQ.Equivalence<PartF<A>> =>
@@ -47,6 +48,7 @@ const getColumnFEquals =
 
 /**
  * @category internal
+ * @function
  */
 export const getRowFEqualsE =
   <A>(
@@ -59,6 +61,7 @@ export const getRowFEqualsE =
 
 /**
  * @category internal
+ * @function
  */
 export const getColumnFEqualsE =
   <A>(

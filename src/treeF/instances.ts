@@ -13,6 +13,7 @@ import type {TreeF, TreeFTypeLambda} from './types.js'
 
 /**
  * @category fold
+ * @function
  */
 export const map: CO.Covariant<TreeFTypeLambda>['map'] = Function.dual(
   2,
@@ -28,11 +29,13 @@ export const map: CO.Covariant<TreeFTypeLambda>['map'] = Function.dual(
 
 /**
  * @category fold
+ * @function
  */
 export const imap = CO.imap<TreeFTypeLambda>(map)
 
 /**
  * @category fold
+ * @function
  */
 export const flatMap: FL.FlatMap<TreeFTypeLambda>['flatMap'] = Function.dual(
   2,
@@ -45,6 +48,7 @@ export const flatMap: FL.FlatMap<TreeFTypeLambda>['flatMap'] = Function.dual(
 
 /**
  * @category fold
+ * @function
  */
 export const traverse: TA.Traversable<TreeFTypeLambda>['traverse'] = <
   F extends HKT.TypeLambda,
@@ -69,18 +73,21 @@ export const traverse: TA.Traversable<TreeFTypeLambda>['traverse'] = <
 /**
  * Covariant instance for {@link TreeF}.
  * @category fold
+ * @function
  */
 export const Covariant: CO.Covariant<TreeFTypeLambda> = {map, imap}
 
 /**
  * FlatMap instance for {@link TreeF}.
  * @category fold
+ * @function
  */
 export const FlatMap: FL.FlatMap<TreeFTypeLambda> = {flatMap}
 
 /**
  * Traversable instance for {@link TreeF}.
  * @category fold
+ * @function
  */
 export const Traversable: TA.Traversable<TreeFTypeLambda> = {traverse}
 
@@ -88,6 +95,7 @@ export const Traversable: TA.Traversable<TreeFTypeLambda> = {traverse}
  * Build an equivalence for {@link TreeF} from an equivalence of the tree type
  * and an equivalence of the carrier type.
  * @category fold
+ * @function
  */
 export const getEquivalence =
   <A>(equalsA: Equivalence.Equivalence<A>) =>
@@ -121,6 +129,7 @@ export const getEquivalence =
 
 /**
  * @category fold
+ * @function
  */
 const treeFK =
   <F extends HKT.TypeLambda>(F: AP.Applicative<F>) =>

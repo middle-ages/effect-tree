@@ -18,6 +18,7 @@ import type {Branch, ForestOf, Tree} from './types.js'
  * @param self - The tree being queried.
  * @returns Numeric child count.
  * @category basic
+ * @function
  */
 export const length: <A>(self: Tree<A>) => number = match({
   onLeaf: () => 0,
@@ -34,6 +35,7 @@ export const length: <A>(self: Tree<A>) => number = match({
  * @param self - The tree being queried.
  * @returns A possibly empty list of trees.
  * @category basic
+ * @function
  */
 export const getForest = <A>(self: Tree<A>): readonly Tree<A>[] =>
   pipe(
@@ -51,6 +53,7 @@ export const getForest = <A>(self: Tree<A>): readonly Tree<A>[] =>
  * @param self - The tree being deconstructed.
  * @returns A pair of the tree node value and a possibly empty list of child trees.
  * @category basic
+ * @function
  */
 export const destruct = <A>(self: Tree<A>): readonly [A, readonly Tree<A>[]] =>
   pipe(
@@ -68,6 +71,7 @@ export const destruct = <A>(self: Tree<A>): readonly [A, readonly Tree<A>[]] =>
  * @param self - The branch being deconstructed.
  * @returns A pair of the tree node value and a non-empty list of child trees.
  * @category basic
+ * @function
  */
 export const destructBranch = <A>({
   unfixed: {node, forest},
@@ -80,6 +84,7 @@ export const destructBranch = <A>({
  * @param value - New value for the root node.
  * @returns A new tree where the root value has been replaced by the given value.
  * @category basic
+ * @function
  */
 export const setValue: {
   <A>(self: Tree<A>, value: A): Tree<A>
@@ -107,6 +112,7 @@ const _setForest = <A>(self: Tree<A>, forest: ForestOf<A>): Branch<A> =>
  * @param forest - New forest.
  * @returns A new tree where the forest has been replaced by the given forest.
  * @category basic
+ * @function
  */
 export const setForest: {
   <A>(self: Tree<A>, forest: ForestOf<A>): Branch<A>
@@ -129,6 +135,7 @@ export const setForest: {
  * @returns The tree unchanged if it is a leaf, else the result of applying the
  * given function on the branch.
  * @category basic
+ * @function
  */
 export const modBranch: {
   <A>(self: Tree<A>, f: (branch: Branch<A>) => Tree<A>): Tree<A>
@@ -147,6 +154,7 @@ export const modBranch: {
  * @param f - Function to apply on the root node value.
  * @returns The given tree with its root node value set to the result of the given function.
  * @category basic
+ * @function
  */
 export const modValue: {
   <A>(self: Tree<A>, f: (a: A) => A): Tree<A>
@@ -167,6 +175,7 @@ export const modValue: {
  * @param f - Function to apply on the root forest.
  * @returns The given tree with its root forest set to the result of the given function.
  * @category basic
+ * @function
  */
 export const modForest: {
   <A>(self: Tree<A>, f: EndoOf<readonly Tree<A>[]>): Tree<A>
@@ -184,6 +193,7 @@ export const modForest: {
  * @param f - Function to apply on the root forest.
  * @returns The given branch with its root forest set to the result of the given function.
  * @category basic
+ * @function
  */
 export const modBranchForest =
   <A>(f: (a: ForestOf<A>) => ForestOf<A>): ((self: Branch<A>) => Branch<A>) =>
@@ -197,6 +207,7 @@ export const modBranchForest =
  * @param self - tree to navigate.
  * @returns The tree that is first in the forest of the given branch.
  * @category basic
+ * @function
  */
 export const firstChild = <A>(self: Branch<A>): Tree<A> =>
   pipe(self, getBranchForest, Array.headNonEmpty)
@@ -207,6 +218,7 @@ export const firstChild = <A>(self: Branch<A>): Tree<A> =>
  * @param self - tree to navigate.
  * @returns The tree that is last in the forest of the given branch.
  * @category basic
+ * @function
  */
 export const lastChild = <A>(self: Branch<A>): Tree<A> =>
   pipe(self, getBranchForest, Array.lastNonEmpty)
@@ -233,6 +245,7 @@ const _nthChild = <A>(n: number, self: Tree<A>): Option<Tree<A>> =>
  * @param self - Node will be taken from this tree's forest.
  * @returns An optional tree.
  * @category basic
+ * @function
  */
 export const nthChild: {
   <A>(n: number, self: Tree<A>): Option<Tree<A>>
@@ -277,6 +290,7 @@ const _drill = <A>(path: number[], self: Tree<A>): Option<Tree<A>> => {
  * @param self - node will be taken from the forest of this node.
  * @returns An optional tree.
  * @category basic
+ * @function
  */
 export const drill: {
   <A>(path: number[], self: Tree<A>): Option<Tree<A>>
@@ -308,6 +322,7 @@ const _sliceForest = <A>(self: Tree<A>, low: number, high?: number) =>
  * @param high - Optional length of slice. Default is a single tree node.
  * @returns Possibly empty list of trees.
  * @category basic
+ * @function
  */
 export const sliceForest: {
   <A>(self: Tree<A>, low: number, high?: number): Tree<A>[]

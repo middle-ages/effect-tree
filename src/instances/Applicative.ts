@@ -15,6 +15,7 @@ import {flatMap} from './Monad.js'
 /**
  * Cartesian product of two trees.
  * @category instances
+ * @function
  */
 export const product: SA.SemiApplicative<TreeTypeLambda>['product'] =
   Function.dual(
@@ -28,6 +29,7 @@ export const product: SA.SemiApplicative<TreeTypeLambda>['product'] =
 
 /**
  * @category instances
+ * @function
  */
 export const productMany = SP.productMany<TreeTypeLambda>(map, product)
 
@@ -38,6 +40,7 @@ export const productMany = SP.productMany<TreeTypeLambda>(map, product)
  * trees.
  * @returns The tree that is the cartesian product of all given trees.
  * @category instances
+ * @function
  */
 export const productAll: AP.Applicative<TreeTypeLambda>['productAll'] = <A>(
   collection: Iterable<Tree<A>>,

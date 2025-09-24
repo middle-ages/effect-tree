@@ -61,6 +61,7 @@ export const fromTree = <A>(focus: Tree.Tree<A>): Zipper<A> => ({
  * @param zipper - The zipper that will be converted into a tree.
  * @returns The tree encoded by the zipper.
  * @category zipper
+ * @function
  */
 export const toTree = <A>(zipper: Zipper<A>): Tree.Tree<A> => {
   const {focus, levels} = zipper
@@ -123,7 +124,7 @@ export type ZipperType<Z extends Zipper<any>> =
 /**
  * Push the zipper itself into its own level stack.
  * Helpful when navigating _down_.
- * @category zipper
+ * @category internal
  */
 export function pushSelf<A>(zipper: Zipper<A>): {
   levels: NonEmptyArray<ZipperLevel<A>>
@@ -140,7 +141,7 @@ export function pushSelf<A>(zipper: Zipper<A>): {
 
 /**
  * Rebuild a level of the tree.
- * @category zipper
+ * @category internal
  */
 export function fromLevel<A>(
   focus: Tree.Tree<A>,

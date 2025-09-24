@@ -14,6 +14,7 @@ import {
 /**
  * What is the 1st prüfer code for the given node count?
  * @category codec
+ * @function
  */
 export const getFirstCodeFor: (nodeCount: number) => number[] = nodeCount =>
   nodeCount < 3
@@ -23,6 +24,7 @@ export const getFirstCodeFor: (nodeCount: number) => number[] = nodeCount =>
 /**
  * What is the last prüfer code for the given node count?
  * @category codec
+ * @function
  */
 export const getLastCodeFor: (n: number) => number[] = nodeCount =>
   nodeCount < 3
@@ -32,6 +34,7 @@ export const getLastCodeFor: (n: number) => number[] = nodeCount =>
 /**
  * Is this the first prüfer code for its node count?
  * @category codec
+ * @function
  */
 export const isFirstCode: Predicate.Predicate<number[]> = code =>
   Array.isNonEmptyArray(code) ? Array.every(code, n => n === 1) : true
@@ -39,6 +42,7 @@ export const isFirstCode: Predicate.Predicate<number[]> = code =>
 /**
  * Is this the final prüfer code for its node count?
  * @category codec
+ * @function
  */
 export const isLastCode: Predicate.Predicate<number[]> = code => {
   if (Array.isNonEmptyArray(code)) {
@@ -56,6 +60,7 @@ export const isLastCode: Predicate.Predicate<number[]> = code => {
  * returned. When node count reaches 2, I.e.: code count is 0, we stop and
  * return the input unchanged.
  * @category codec
+ * @function
  */
 export const previousCode: EndoOf<number[]> = code =>
   Array.isNonEmptyArray(code)
@@ -70,6 +75,7 @@ export const previousCode: EndoOf<number[]> = code =>
  * Get the _next_ prüfer code for the given code. If the given code is the final
  * code for its node count, the first code of the _next_ node count is returned.
  * @category codec
+ * @function
  */
 export const nextCode: EndoOf<number[]> = code =>
   isLastCode(code)
@@ -82,6 +88,7 @@ export const nextCode: EndoOf<number[]> = code =>
  * For example, the previous code of `1,1,1` (first code for 5 nodes) will be
  * `4,4` (last code for 4 nodes), and the previous code of `4,4` will be `4,3`.
  * @category codec
+ * @function
  */
 export const previousCodeWrap: EndoOf<number[]> = code =>
   Array.isNonEmptyArray(code)
@@ -96,6 +103,7 @@ export const previousCodeWrap: EndoOf<number[]> = code =>
  * For example, the next code of `1,4` will be `2,1` and the next code of `4,4`
  * will be `1,1`.
  * @category codec
+ * @function
  */
 export const nextCodeWrap: EndoOf<number[]> = code =>
   isLastCode(code)
@@ -109,6 +117,7 @@ export const nextCodeWrap: EndoOf<number[]> = code =>
  * ordered set. The process stops when node count reaches 3, after which
  * the given tree is returned unchanged.
  * @category codec
+ * @function
  */
 export const previousTree: EndoOf<Branch<number>> = self =>
   pipe(self, encode(Number.Order), previousCode, decode)
@@ -119,6 +128,7 @@ export const previousTree: EndoOf<Branch<number>> = self =>
  * ordered set, we increment node count and return the first tree in this
  * ordered set.
  * @category codec
+ * @function
  */
 export const nextTree: EndoOf<Branch<number>> = self =>
   pipe(self, encode(Number.Order), nextCode, decode)
@@ -127,6 +137,7 @@ export const nextTree: EndoOf<Branch<number>> = self =>
  * Just like `previousTree` but when first tree is reached we wrap
  * around to the last tree with the same node count.
  * @category codec
+ * @function
  */
 export const previousTreeWrap: EndoOf<Branch<number>> = self =>
   pipe(self, encode(Number.Order), previousCodeWrap, decode)
@@ -135,6 +146,7 @@ export const previousTreeWrap: EndoOf<Branch<number>> = self =>
  * Just like `nextTree` but when last tree is reached we wrap
  * around to the first tree with the same node count.
  * @category codec
+ * @function
  */
 export const nextTreeWrap: EndoOf<Branch<number>> = self =>
   pipe(self, encode(Number.Order), nextCodeWrap, decode)
@@ -143,6 +155,7 @@ export const nextTreeWrap: EndoOf<Branch<number>> = self =>
  * Run a function over the `[ordinal, nodeCount]` pair of a code then convert it
  * back to the same encoding of ordinal/count pair.
  * @category codec
+ * @function
  */
 const withOrdinal =
   (f: EndoOf<Pair.Pair<number>>) =>

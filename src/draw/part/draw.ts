@@ -26,6 +26,7 @@ const drawFold: Algebra<PartFTypeLambda, string[]> = matchPartF(
  * @param part - Part to be drawn.
  * @returns Possibly empty array of lines.
  * @category drawing
+ * @function
  */
 export const drawPart: {
   (part: Part): string[]

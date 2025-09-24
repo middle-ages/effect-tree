@@ -18,6 +18,7 @@ const childElbow: ThemedPart = indentGlyphPart('elbow', 'indent')
 
 /**
  * @category drawing
+ * @function
  */
 export const leafLabel: (label: string) => ThemedPart = label(
   'hLine',
@@ -27,6 +28,7 @@ export const leafLabel: (label: string) => ThemedPart = label(
 
 /**
  * @category drawing
+ * @function
  */
 export const branchLabel: (label: string) => ThemedPart = label(
   'tee',
@@ -65,11 +67,13 @@ function label(
 
 /**
  * @category drawing
+ * @function
  */
 export const headBranch = parent(childTee, 'vLine')
 
 /**
  * @category drawing
+ * @function
  */
 export const tailBranch = parent(childElbow, 'space')
 

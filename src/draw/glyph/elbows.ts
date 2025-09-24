@@ -22,6 +22,7 @@ const _replaceElbow = (
  * @param glyph - String of new glyph.
  * @returns Updated elbow set.
  * @category drawing
+ * @function
  */
 export const replaceElbow: {
   (set: ElbowSet, direction: CornerDirection, glyph: string): ElbowSet
@@ -112,6 +113,7 @@ const elbowSets: ElbowSets = {
  * bottomLeft ┕ ┙ bottomRight
  * ```
  * @category drawing
+ * @function
  */
 export const elbowSet = (name: ElbowSetName): ElbowSet => elbowSets[name]
 

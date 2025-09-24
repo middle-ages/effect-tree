@@ -9,6 +9,7 @@ import type {EdgeList, EdgeListTypeLambda, EdgeMap} from './types.js'
  * Encode a level of the tree as an edge list.
  * @category codec
  * @category fold
+ * @function
  */
 export const encodeFold: TreeFolderK<EdgeListTypeLambda> = TreeF.match({
   onLeaf: node => [rootTreeEdge(node)],

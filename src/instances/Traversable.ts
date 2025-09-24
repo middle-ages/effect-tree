@@ -56,6 +56,7 @@ const orderedTraverseEffect =
 /**
  * Like {@link traverse} but leaves the result in an effect.
  * @category instances
+ * @function
  */
 export const traverseEffect = Object.assign(orderedTraverseEffect('pre'), {
   post: orderedTraverseEffect('post'),
@@ -64,6 +65,7 @@ export const traverseEffect = Object.assign(orderedTraverseEffect('pre'), {
 /**
  * `traverse` for {@link Tree}.
  * @category instances
+ * @function
  */
 export const traverse: traversable.Traversable<TreeTypeLambda>['traverse'] = <
   F extends HKT.TypeLambda,
@@ -81,6 +83,7 @@ export const traverse: traversable.Traversable<TreeTypeLambda>['traverse'] = <
 /**
  * Convert a `Tree<F<A>>` into a `F<Tree<A>>`.
  * @category instances
+ * @function
  */
 export const sequence: <F extends HKT.TypeLambda>(
   F: Applicative.Applicative<F>,
@@ -98,6 +101,7 @@ export const Traversable: traversable.Traversable<TreeTypeLambda> = {traverse}
 /**
  * Convert a `Tree<Effect<A>>` into an `Effect<Tree<A>>`.
  * @category instances
+ * @function
  */
 export const sequenceEffect: <A, E = unknown, O = unknown>(
   self: Tree<Effect.Effect<A, E, O>>,
@@ -110,6 +114,7 @@ export const sequenceEffect: <A, E = unknown, O = unknown>(
  * forest, except both are inside some data type whose applicative is
  * given in the first argument.
  * @category instances
+ * @function
  */
 export const treeK = <F extends HKT.TypeLambda>(
   F: Applicative.Applicative<F>,

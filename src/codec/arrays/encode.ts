@@ -15,6 +15,7 @@ import type {TreeArray, TreeArrayLambda, ValidArrayTree} from './types.js'
  * The function is perfectly safe if the type `A` is _not_ an array.
  * @category fold
  * @category codec
+ * @function
  */
 export const unsafeEncodeFold: TreeFolderK<TreeArrayLambda> = <A>(
   treeF: TreeF.TreeF<A, TreeArray<A>>,
@@ -42,6 +43,7 @@ export const unsafeEncodeFold: TreeFolderK<TreeArrayLambda> = <A>(
 /**
  * Encode a tree as nested arrays.
  * @category codec
+ * @function
  */
 export const encode: <A>(tree: ValidArrayTree<A>) => TreeArray<A> = tree =>
   pipe(tree, treeCata(unsafeEncodeFold))

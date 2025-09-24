@@ -9,6 +9,7 @@ import {type Theme, type ThemedPart} from './types.js'
 /**
  * Format tree nodes using the tree theme formatter.
  * @category drawing
+ * @function
  */
 export const formatNodes = ({formatter}: Theme): EndoOf<Tree<string>> =>
   map(formatter)
@@ -19,6 +20,7 @@ export const formatNodes = ({formatter}: Theme): EndoOf<Tree<string>> =>
  * @param theme - The {@link Theme} to use.
  * @returns The prefixed string.
  * @category drawing
+ * @function
  */
 export const prefixGlyph =
   (theme: Theme) =>
@@ -34,6 +36,7 @@ export const prefixGlyph =
  * @param theme - The {@link Theme} to use.
  * @returns The suffixed string.
  * @category drawing
+ * @function
  */
 export const suffixGlyph =
   (theme: Theme) =>
@@ -49,6 +52,7 @@ export const suffixGlyph =
  * and fills the size of the {@link Theme} `indents` field with the
  * given glyph role.
  * @category drawing
+ * @function
  */
 export const indentGlyph =
   (theme: Theme) =>
@@ -66,6 +70,7 @@ export const indentGlyph =
  * A version of {@link indentGlyph} that returns its result in a {@link Text}
  * part instead of a string.
  * @category drawing
+ * @function
  */
 export const indentGlyphPart =
   (prefixRole: GlyphRole, indentRole: GlyphRole): ThemedPart =>
@@ -74,6 +79,7 @@ export const indentGlyphPart =
 
 /**
  * @category drawing
+ * @function
  */
 export function addSpacingAfter(label: string) {
   return (theme: Theme): Array.NonEmptyArray<string> =>
