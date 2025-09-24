@@ -20,5 +20,4 @@ console.log(encoded)
 //   [ 1, 2, 3 ],
 // ]
 
-
 ```

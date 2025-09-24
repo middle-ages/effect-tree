@@ -1,10 +1,10 @@
 # Features
 
 1. [Tree Operations](#tree-operations)
-1. [Tree Codecs](#tree-codecs)
-1. [Tree Instances](#tree-instances)
-1. [Drawing Trees](#drawing-trees)
-1. [Tree Generation](#tree-generation)
+2. [Tree Codecs](#tree-codecs)
+3. [Tree Instances](#tree-instances)
+4. [Drawing Trees](#drawing-trees)
+5. [Tree Generation](#tree-generation)
 
 ## Tree Operations
 
@@ -19,32 +19,39 @@
 
 Encode/decode losslessly to/from different tree encodings.
 
-| Name           |          Codec Source          |
-|----------------|--------------------------------|
-| Nested arrays  | [source](../src/codec/arrays)  |
-| Edge lists     | [source](../src/codec/edges)   |
-| Path List      | [source](../src/codec/paths)   |
-| Prüfer codes   | [source](../src/codec/prufer)  |
-| Indented string| [source](../src/codec/indented)|
+| Name            | Codec Source                                                                      |
+| --------------- | --------------------------------------------------------------------------------- |
+| Nested arrays   | [source](https://github.com/middle-ages/effect-tree/tree/main/src/codec/arrays)   |
+| Edge lists      | [source](https://github.com/middle-ages/effect-tree/tree/main/src/codec/edges)    |
+| Indented string | [source](https://github.com/middle-ages/effect-tree/tree/main/src/codec/indented) |
+| Path List       | [source](https://github.com/middle-ages/effect-tree/tree/main/src/codec/paths)    |
+| Prüfer codes    | [source](https://github.com/middle-ages/effect-tree/tree/main/src/codec/prufer)   |
 
-[Law tests](../src/codec/Isomorphism.test.ts) test encode/decode round-trip.
+[Law tests](https://github.com/middle-ages/effect-tree/blob/main/src/codec/Isomorphism.test.ts) test encode/decode round-trip.
 
 ## Tree Instances
 
-| Name        |            Instance                        |                           Typeclass                                                           |                                                             Law                                                   |
-|-------------|--------------------------------------------|-----------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
-| Applicative | [source](../src/instances/Applicative.ts)  | [source](https://github.com/Effect-TS/effect/blob/main/packages/typeclass/src/Applicative.ts) | [source](https://github.com/middle-ages/effect-ts-laws/tree/main/src/laws/typeclass/parameterized/Applicative.ts) |
-| Covariant   | [source](../src/instances/Covariant.ts)    | [source](https://github.com/Effect-TS/effect/blob/main/packages/typeclass/src/Covariant.ts)   | [source](https://github.com/middle-ages/effect-ts-laws/tree/main/src/laws/typeclass/parameterized/Covariant.ts)   |
-| Equivalence | [source](../src/instances/Equivalence.ts)  | [source](https://github.com/Effect-TS/effect/blob/main/packages/effect/src/Equivalence.ts)    | [source](https://github.com/middle-ages/effect-ts-laws/tree/main/src/laws/typeclass/concrete/Equivalence.ts)      |
-| Foldable    | [source](../src/instances/Foldable.ts)     | [source](https://github.com/Effect-TS/effect/blob/main/packages/typeclass/src/Foldable.ts)    | [source](https://github.com/middle-ages/effect-ts-laws/tree/main/src/laws/typeclass/parameterized/Foldable.ts)    |
-| Monad       | [source](../src/instances/Monad.ts)        | [source](https://github.com/Effect-TS/effect/blob/main/packages/typeclass/src/Monad.ts)       | [source](https://github.com/middle-ages/effect-ts-laws/tree/main/src/laws/typeclass/parameterized/Monad.ts)       |
-| Order       | [source](../src/instances/Order.ts)        | [source](https://github.com/Effect-TS/effect/blob/main/packages/effect/src/Order.ts)          | [source](https://github.com/middle-ages/effect-ts-laws/tree/main/src/laws/typeclass/concrete/Order.ts)            |
-| Traversable | [source](../src/instances/Traversable.ts)  | [source](https://github.com/Effect-TS/effect/blob/main/packages/typeclass/src/Traversable.ts) | [source](https://github.com/middle-ages/effect-ts-laws/tree/main/src/laws/typeclass/parameterized/Traversable.ts) |
+| Name        | Instance                                                                                    | Typeclass                                                                                     | Laws                                                                                                              |
+| ----------- | ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Applicative | [source](https://github.com/middle-ages/effect-tree/blob/main/src/instances/Applicative.ts) | [source](https://github.com/Effect-TS/effect/blob/main/packages/typeclass/src/Applicative.ts) | [source](https://github.com/middle-ages/effect-ts-laws/tree/main/src/laws/typeclass/parameterized/Applicative.ts) |
+| Covariant   | [source](../src/instances/Covariant.ts)                                                     | [source](https://github.com/Effect-TS/effect/blob/main/packages/typeclass/src/Covariant.ts)   | [source](https://github.com/middle-ages/effect-ts-laws/tree/main/src/laws/typeclass/parameterized/Covariant.ts)   |
+| Equivalence | [source](https://github.com/middle-ages/effect-tree/blob/main/src/instances/Equivalence.ts) | [source](https://github.com/Effect-TS/effect/blob/main/packages/effect/src/Equivalence.ts)    | [source](https://github.com/middle-ages/effect-ts-laws/tree/main/src/laws/typeclass/concrete/Equivalence.ts)      |
+| Foldable    | [source](https://github.com/middle-ages/effect-tree/blob/main/src/instances/Foldable.ts)    | [source](https://github.com/Effect-TS/effect/blob/main/packages/typeclass/src/Foldable.ts)    | [source](https://github.com/middle-ages/effect-ts-laws/tree/main/src/laws/typeclass/parameterized/Foldable.ts)    |
+| Monad       | [source](https://github.com/middle-ages/effect-tree/blob/main/src/instances/Monad.ts)       | [source](https://github.com/Effect-TS/effect/blob/main/packages/typeclass/src/Monad.ts)       | [source](https://github.com/middle-ages/effect-ts-laws/tree/main/src/laws/typeclass/parameterized/Monad.ts)       |
+| Order       | [source](https://github.com/middle-ages/effect-tree/blob/main/src/instances/Order.ts)       | [source](https://github.com/Effect-TS/effect/blob/main/packages/effect/src/Order.ts)          | [source](https://github.com/middle-ages/effect-ts-laws/tree/main/src/laws/typeclass/concrete/Order.ts)            |
+| Traversable | [source](https://github.com/middle-ages/effect-tree/blob/main/src/instances/Traversable.ts) | [source](https://github.com/Effect-TS/effect/blob/main/packages/typeclass/src/Traversable.ts) | [source](https://github.com/middle-ages/effect-ts-laws/tree/main/src/laws/typeclass/parameterized/Traversable.ts) |
 
 Laws are listed
-_[in the book of laws](https://middle-ages.github.io/effect-ts-laws-docs/catalog-of-laws.html)_.
+_[in the book of laws](https://middle-ages.github.io/effect-ts-laws-docs/catalog-of-laws.html)_
+and law tests
+[can be found here](https://github.com/middle-ages/effect-tree/blob/main/src/instances/laws.test.ts).
 
-`map`/`flatMap`/`traverse` and similar functions that take _effectful_ functions. You can choose the traversal order when running these functions as pre-order (parents _before_ their children) or post-order (parents _after_ their children).
+Functions like [mapEffect](https://github.com/middle-ages/effect-tree/blob/main/src/instances/Covariant.ts#L11) and
+[traverseEffect](https://github.com/middle-ages/effect-tree/blob/main/src/instances/Traversable.ts#L60) that run
+a _effectful_ functions on the tree have pre-order variants at the `pre` key of
+the function. For example, the
+[mapEffect.pre](https://github.com/middle-ages/effect-tree/blob/main/src/instances/Covariant.ts#L31)
+function will traverse the tree in depth-first pre-order.
 
 ## Drawing Trees
 

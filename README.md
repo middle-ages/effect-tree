@@ -1,16 +1,14 @@
 # 🌳 effect-tree
 
-<b><font color=red>NOT RELEASED YET</font></b>
-
 A Typescript library for working with trees.
 
-1. [Synopsis](#about)
-1. [About](#about)
-1. [Quick Start](#about)
-1. [Dependencies](#dependencies)
-1. [Not Ready Yet](#not-ready-yet)
-1. [See Also](#see-also)
-1. [Related](#related)
+1. [Synopsis](#synopsis)
+2. [About](#about)
+3. [Quick Start](#quick-start)
+4. [Dependencies](#dependencies)
+5. [Not Ready Yet](#not-ready-yet)
+6. [See Also](#see-also)
+7. [Related](#related)
 
 ## Synopsis
 
