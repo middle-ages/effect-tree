@@ -2,11 +2,17 @@ import {HKT} from 'effect'
 import {taggedEnum, type TaggedEnum} from 'effect/Data'
 import {type HorizontallyAligned, type VerticallyAligned} from '../align.js'
 
-interface ColumnFData<A> extends HorizontallyAligned {
+/**
+ * @category internal
+ */
+export interface ColumnFData<A> extends HorizontallyAligned {
   cells: A[]
 }
 
-interface RowFData<A> extends ColumnFData<A>, VerticallyAligned {}
+/**
+ * @category internal
+ */
+export interface RowFData<A> extends ColumnFData<A>, VerticallyAligned {}
 
 /**
  * A filled rectangular block of characters used by the tree drawing routines as

@@ -106,20 +106,19 @@ function show_array() {
 }
 
 function show_union() {
-  local head array color
-  head="${1}"
-  shift
+  local array
+  local i=1
   array=("${@}")
-  echo -en "“$(color_magenta "${head}")”"
   for s in "${array[@]}"; do
-    echo -en" | “$(color_magenta "${s}")”"
+    echo -e " $(printf '%5d' $i). “$(color_magenta "${s}")”"
+    ((++i))
   done
 }
 
 function show_valid_values() {
   local array
   array=("${@}")
-  echo -e "Valid values are $(show_union "${array[@]}")."
+  echo -e "\n   Valid values are:\n$(show_union "${array[@]}")."
 }
 
 function missing_value_error() {
@@ -133,7 +132,7 @@ function invalid_value_error() {
   name="${1}" value="${2}"
   shift 2
   array=("${@}")
-  die "Invalid ${name}: “${value}”." \
+  die "Invalid $(color_error "${name}"): “${value}”." \
     "$(show_valid_values "${array[@]}")"
 }
 

@@ -18,7 +18,7 @@ const _replaceElbow = (
  * At the key `named` you will find a version that does the same but accepts a
  * _name_ of an elbow set instead of an elbow set.
  * @param set - Elbow set to change.
- * @param direction - A {@link CornerDireection} of the glyph to be changed.
+ * @param direction - A {@link CornerDirection} of the glyph to be changed.
  * @param glyph - String of new glyph.
  * @returns Updated elbow set.
  * @category drawing

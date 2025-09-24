@@ -63,7 +63,7 @@ export const indentGlyph =
   }
 
 /**
- * A version of {@link indentedGlyph} that returns its result in a {@link Text}
+ * A version of {@link indentGlyph} that returns its result in a {@link Text}
  * part instead of a string.
  * @category drawing
  */

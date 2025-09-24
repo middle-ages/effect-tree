@@ -19,7 +19,7 @@ import {matchHorizontal, type HorizontalAlignment} from './data.js'
 export const alignHorizontally =
   (
     hStruts: HStruts,
-    align: HorizontalAlignment,
+    hAlign: HorizontalAlignment,
     useLeftRound = false,
   ): EndoOf<string[]> =>
   lines => {
@@ -32,7 +32,7 @@ export const alignHorizontally =
       lines,
       Array.map(line => {
         const Δ = computeΔ(line)
-        return Δ <= 0 ? line : expand(hStruts, align, Δ, useLeftRound)(line)
+        return Δ <= 0 ? line : expand(hStruts, hAlign, Δ, useLeftRound)(line)
       }),
     )
   }

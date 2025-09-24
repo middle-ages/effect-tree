@@ -12,7 +12,11 @@ import {getEquivalence} from './Equivalence.js'
 import {Covariant, Traversable} from './instances.js'
 import {type PartF, type PartFTypeLambda} from './types.js'
 
-const makeColumn = columnF({hAlign: 'left', left: HStrut(['•'])})
+const makeColumn = columnF({
+  hAlign: 'left',
+  left: HStrut(['•']),
+  right: HStrut(['•']),
+})
 
 describe('sequence', () => {
   test('array', () => {

@@ -8,13 +8,19 @@ Has [containers ready to run](https://stackblitz.com/~/github.com/middle-ages/ef
 
 ### Locally
 
-You can run the examples locally using [tsx](https://www.npmjs.com/package/tsx). For example to run the `basic` example clone this repository, install tsx, and use it to launch the example:
+You can run the examples locally. For example to run the `basic` example clone this repository, and launch the example:
 
 ```sh
 git clone git@github.com:middle-ages/effect-tree.git
 cd effect-tree
 pnpm i
-pnpm tsx examples/basic.ts
+pnpm run:example draw
+
+# Run with no parameters to get a list of examples
+pnpm run:example
+
+# This should work the same 
+pnpm tsx examples/draw.ts
 ```
 
 ### Browsing

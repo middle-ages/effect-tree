@@ -1,7 +1,7 @@
 {
   "name": "effect-tree",
   "description": "A strict tree datatype that wants to do everything.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "author": "Ran Eilam <ran@haag59.com> (https://middle-ages.github.io/)",
   "homepage": "https://github.com/middle-ages/effect-tree",
@@ -18,13 +18,15 @@
     "test": "dev/test-run",
     "test:watch": "dev/test-watch",
     "test:examples": "dev/test-examples",
+    "run:example": "dev/run-example",
     "coverage": "dev/coverage",
     "typecheck": "dev/typecheck",
     "circular": "dev/circular",
     "build": "dev/build",
     "build:docs": "dev/build-docs",
     "build:all": "dev/build-all",
-    "publish:docs": "dev/publish-docs"
+    "publish:docs": "dev/publish-docs",
+    "npm": "dev/publish"
   },
   "devDependencies": {
     "@effect/vitest": "^0.25.1",

@@ -54,7 +54,7 @@ const orderedTraverseEffect =
   }
 
 /**
- * Like {@link traverse} but leaves thee result in an effect.
+ * Like {@link traverse} but leaves the result in an effect.
  * @category instances
  */
 export const traverseEffect = Object.assign(orderedTraverseEffect('pre'), {

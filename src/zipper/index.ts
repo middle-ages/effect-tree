@@ -23,7 +23,7 @@ export interface Zipper<A> extends ZipperLevel<A> {
 
 /**
  * Everything required to rebuild a level of the tree and all below it.
- * To recreate the level we add thee focus node between the `lefts` and the
+ * To recreate the level we add the focus node between the `lefts` and the
  * `rights` then add this forest to the parent value to get a tree.
  * @typeParam A - The underlying type of the tree.
  * @category zipper

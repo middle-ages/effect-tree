@@ -35,15 +35,15 @@ Prints:
 ## About
 
 1. The basic immutable generic data structure for encoding _generic eager trees_ with 0-n child nodes per branch, also called [Rose Trees](https://en.wikipedia.org/wiki/Rose_tree) and everything you need to efficiently query and operate on them.
-1. Stack-safe [folds](src/folds.ts)/[unfolds](src/unfolds.ts), a [zipper](https://en.wikipedia.org/wiki/Zipper_(data_structure)) and a [library of operations](src/ops.ts) on trees, from [counting](src/ops/counts.ts) to [zipping](src/ops/zip.ts).
-1. [Encode/decode trees](src/codec.ts) into indented strings à la YAML, nested arrays, edge lists, path lists, and [Prüfer codes](https://en.wikipedia.org/wiki/Pr%C3%BCfer_sequence).
-1. Instances for [@effect/typeclass](https://github.com/Effect-TS/effect/blob/main/packages/typeclass/README.md) with [law tests](src/instances/laws.test.ts).
-1. [Draw themeable trees](src/draw/tree.test.ts) on the terminal with support for multiline labels.
-1. Testing helpers: Customizable [arbitraries](src/arbitrary/Tree/options.ts) and functions to [enumerate labeled trees](src/codec/prufer/enumerate.ts).
+1. Stack-safe [folds](https://github.com/middle-ages/effect-tree/blob/main/src/folds.ts)/[unfolds](https://github.com/middle-ages/effect-tree/blob/main/src/unfolds.ts), a [zipper](https://en.wikipedia.org/wiki/Zipper_(data_structure)) for efficient traversal and update, and a [library of operations](https://github.com/middle-ages/effect-tree/blob/main/src/ops.ts) on trees, from [counting](https://github.com/middle-ages/effect-tree/blob/main/src/ops/counts.ts) to [zipping](https://github.com/middle-ages/effect-tree/blob/main/src/ops) and [zipping associatively](https://github.com/middle-ages/effect-tree/blob/main/src/ops/zipThese.ts).
+1. [Encode/decode trees](https://github.com/middle-ages/effect-tree/blob/main/src/codec) into indented strings à la YAML, nested arrays, edge lists, path list of leaves, and [Prüfer codes](https://en.wikipedia.org/wiki/Pr%C3%BCfer_sequence).
+1. Instances for [@effect/typeclass](https://github.com/Effect-TS/effect/blob/main/packages/typeclass/README.md) with [law tests](https://github.com/middle-ages/effect-tree/blob/main/src/instances/laws.test.ts).
+1. [Draw themeable trees](https://github.com/middle-ages/effect-tree/blob/main/src/draw/tree.test.ts) on the terminal with support for multiline labels and [build your own layouts](https://github.com/middle-ages/effect-tree/blob/main/examples/layout.ts).
+1. Testing helpers: Customizable [arbitraries](https://github.com/middle-ages/effect-tree/blob/main/src/arbitrary/Tree/options.ts) and functions to [enumerate labeled trees](https://github.com/middle-ages/effect-tree/blob/main/src/codec/prufer/enumerate.ts).
 
 You can find [API documentation here](https://middle-ages.github.io/effect-tree-docs).
 
-Read [here for more info](https://github.com/middle-ages/effect-tree/blob/main/docs/features.md) on features.
+Read [here for more info](docs/features.md) on features, or just jump to the [pretty pictures](docs/features.md#drawing-trees) and proceed to [running the examples](examples/README.md).
 
 ## Quick Start
 
@@ -55,12 +55,23 @@ pnpm install effect-tree
 
 * Import
 
-Everything can be imported from the top level entry-point.
+Everything can be imported from the top level entry-point, or from one of the modules `arbitrary`, `draw`, `codec`, and `treeF`.
 
 ```ts
-import {leaf, type Tree} from 'effect-tree
+import {leaf, branch, type Tree} from 'effect-tree'
+// Could be also imported from 'effect-tree- as “Codec”, then
+// accessed as “Codec.Indented”.
+import {Indented} from 'effect-tree/codec'
 
-const myLeaf: Tree<string> = leaf('hello')
+const hello: Tree<string> = branch('hello', [leaf('there'), leaf('world')])
+
+const encoded: Array.NonEmptyArray<string> = Indented.encode.string(hello)
+
+console.log(encoded.join('\n'))
+//
+// hello
+//   world
+
 ```
 
 * Create
@@ -130,16 +141,16 @@ console.log(
 
 ## Not Ready Yet
 
-1. Add zipper API sugar, repeatWhile/until, find.
 1. Effect.Schema codec.
 1. Folds for collecting tree metrics.
 1. A lazy version where the Branch.forest field is not an array but a stream.
+1. Playground.
 
 ## See Also
 
 1. [API Documentation](https://middle-ages.github.io/effect-tree-docs)
-1. [Examples folder](https://middle-ages.github.io/effect-tree/blob/main/examples)
-1. [Codecs readme](https://middle-ages.github.io/effect-tree/blob/main/src/codec/README.md)
+1. [Examples README](https://middle-ages.github.io/effect-tree/blob/main/examples)
+1. [Codecs README](https://middle-ages.github.io/effect-tree/blob/main/src/codec/README.md)
 1. [List of features](https://middle-ages.github.io/effect-tree/blob/main/docs/features.md)
 
 ## Related

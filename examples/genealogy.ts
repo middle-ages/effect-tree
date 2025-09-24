@@ -15,7 +15,7 @@ import {
 //
 // const genealogy = from( // ← create a branch
 //   'Metuselah',          //   first argument is branch value
-//   ...                   //   thee rest are members of the node forest
+//   ...                   //   the rest are members of the node forest
 //
 export const genealogy = from(
   'Metuselah',

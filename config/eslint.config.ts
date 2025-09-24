@@ -79,6 +79,9 @@ const config = defineConfig(
       // Does not understand intersections
       'sonarjs/no-useless-intersection': 'off',
 
+      // Does not understand intersections
+      'unicorn/no-array-sort': 'off',
+
       'unicorn/filename-case': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-explicit-any': 'off',

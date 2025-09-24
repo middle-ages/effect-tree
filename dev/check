@@ -10,7 +10,7 @@ echo "# ⚖ Checking…"
 
 pnpm test &
 pnpm lint &
-pnpm typecheck &
+pnpm build &
 pnpm test:examples &
 pnpm build:docs &
 pnpm circular &

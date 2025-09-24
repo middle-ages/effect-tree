@@ -8,8 +8,6 @@ dir="$(dirname "${0}")"
 
 . "$dir/lib/_"
 
-"$dir/coverage"
-
 mkdir -p "$COVERAGE_REPORT_DIR"
 cp -r "$COVERAGE_DIR" "$COVERAGE_REPORT_DIR"
 

@@ -33,7 +33,7 @@ The area created when aligning is, together with any explicit padding, the avail
 
 The struts are set by default to empty space, as that is what you usually expect as padding, however we set specific glyphs to draw borders, separators, connectors and other elements where size depends on content.
 
-When your parts are ready, the {@link draw} function will recursively fold the part into a list of string rows for display.
+When your parts are ready, the `drawPart` function will recursively fold the part into a list of string rows for display.
 
 ### Atoms
 
@@ -49,7 +49,7 @@ When your parts are ready, the {@link draw} function will recursively fold the p
 
 ## Struts
 
-The glyphs used to fill available space between and around shapes are determined by the {@link Strut}.
+The glyphs used to fill available space between and around shapes are determined by the `Strut`.
 
 By default it is set to the space character, which is usually what  you want surrounding your text when it is being aligned.
 

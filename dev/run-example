@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+COLOR="${COLOR:-true}"
+
+dir="$(dirname "${0}")"
+
+. "${dir}/lib/_"
+
+name="${1:-}"
+
+all=()
+for f in "${EXAMPLES_DIR}"/*.ts; do
+  label="${f##*/}"
+  all+=("${label%.ts}")
+done
+
+if [[ -z "${name}" ]]; then
+  echo "❌ Missing “$(color_error 'example name')” argument."
+  show_valid_values "${all[@]}" 
+else 
+  file="${EXAMPLES_DIR}/${name}.ts"
+  if [[ -e "$file" ]]; then
+    echo "${file}"
+  else
+    invalid_value_error 'example name' "${name}" "${all[@]}"
+  fi
+  pnpm tsx "$file"
+fi

@@ -1,7 +1,7 @@
 import {annotateDepthUnfold, preOrderFold} from '#ops'
 import {fixTree, treeAna, treeHylo, type Tree} from '#tree'
 import * as TreeF from '#treeF'
-import {Array, pipe, String} from '#util'
+import {Array, identity, pipe, String} from '#util'
 
 /**
  * Given an encoder that can format a value of type `A` into a single line
@@ -23,6 +23,9 @@ export const encode =
       ),
     )
   }
+
+encode.string = (self: Tree<string>): Array.NonEmptyArray<string> =>
+  encode(2)<string>(identity)(self)
 
 /**
  * Decode a list of indented lines into a string tree.

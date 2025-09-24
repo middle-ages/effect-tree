@@ -249,9 +249,19 @@ export const growLeaves = <A>(grow: TreeUnfold<A, A>): TreeFold<A, Tree<A>> =>
  *
  * At the key `string` you will find a version that returns the tree where nodes
  * have been formatted as strings instead of number.
- * @param degree The fixed child count for all nodes except leaves.
- * @param depth Tree depth requested. Tree returned is perfectly balanced. When
- * depth is zero returns a leaf.
+ * @example
+ * import {nAryTree, drawTree} from 'effect-tree'
+ *
+ * const tree = nAryTree({depth: 2, degree: 4})
+ *
+ * console.log(drawTree.unlines(tree))
+ *
+ * // ┬1
+ * // ├─2
+ * // ├─2
+ * // ├─2
+ * // └─2
+ * @param settings The child count for all nodes except leaves, and the tree depth requested.
  * @returns An N-ary level tree of the given depth..
  * @category ops
  */

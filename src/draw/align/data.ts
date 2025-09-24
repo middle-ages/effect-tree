@@ -148,7 +148,7 @@ export const HorizontalEquivalence: EQ.Equivalence<HorizontallyAligned> =
   })
 
 /**
- * Equivalence for {@link VerticalAligned}.
+ * Equivalence for {@link VerticallyAligned}.
  * @category drawing
  */
 export const VerticalEquivalence: EQ.Equivalence<VerticallyAligned> = EQ.struct(
