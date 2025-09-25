@@ -67,7 +67,7 @@ export type Row = {unfixed: RowF<Part>} & Fix<PartFTypeLambda>
  * A rectangular column of parts that is horizontally aligned and possibly has a
  * horizontal strut to fill in empty space on alignment. The non-recursive type
  * is {@link ColumnF}.
- * 
+ *
  * The expanded type:
  *
  * ```ts

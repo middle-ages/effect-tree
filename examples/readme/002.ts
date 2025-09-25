@@ -8,4 +8,5 @@ const helloThere: Tree<string> = from('hello', of('there'))
 const world: Tree<string> = append(helloThere, of('world'))
 
 const encoded = Indented.encode(world)
+
 console.log(encoded.join('\n'))

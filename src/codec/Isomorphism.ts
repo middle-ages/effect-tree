@@ -69,6 +69,6 @@ export const PruferIsomorphism: BranchIsomorphism<number, number[]> = {
 export const IndentedIsomorphism = (
   indent: number,
 ): TreeIsomorphism<string, NonEmptyArray<string>> => ({
-  to: encodeIndented(indent),
+  to: encodeIndented.curried(indent),
   from: decodeIndented,
 })

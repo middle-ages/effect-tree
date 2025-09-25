@@ -1,11 +1,25 @@
 import {annotateDepthUnfold, preOrderFold} from '#ops'
 import {fixTree, treeAna, treeHylo, type Tree} from '#tree'
 import * as TreeF from '#treeF'
-import {Array, Function, pipe, String} from '#util'
+import {Array, pipe, String} from '#util'
+
+const _encode = (self: Tree<string>, indent = 2): Array.NonEmptyArray<string> =>
+  pipe(
+    [self, 0],
+    treeHylo(
+      annotateDepthUnfold<string>,
+      preOrderFold<readonly [string, number]>,
+    ),
+    Array.map(([a, depth]) =>
+      pipe((depth - 1) * indent, String.nSpaces, String.suffix(a)),
+    ),
+  )
 
 /**
  * Encode a string tree into a `YAML`-like indented format where indentation, be
  * default set at `2` spaces, indicates node depth.
+ *
+ * You will find a curried version under the key `curried`.
  * @param self - The tree to be encoded.
  * @param indent - Optional number of space characters that separate adjacent tree levels. Default is `2`.
  * @category codec
@@ -13,22 +27,15 @@ import {Array, Function, pipe, String} from '#util'
  */
 export const encode: {
   (self: Tree<string>, indent?: number): Array.NonEmptyArray<string>
-  (indent?: number): (self: Tree<string>) => Array.NonEmptyArray<string>
-} = Function.dual(
-  2,
-  (self: Tree<string>, indent = 2): Array.NonEmptyArray<string> => {
-    return pipe(
-      [self, 0],
-      treeHylo(
-        annotateDepthUnfold<string>,
-        preOrderFold<readonly [string, number]>,
-      ),
-      Array.map(([a, depth]) =>
-        pipe((depth - 1) * indent, String.nSpaces, String.suffix(a)),
-      ),
-    )
-  },
-)
+  curried: (
+    indent?: number,
+  ) => (self: Tree<string>) => Array.NonEmptyArray<string>
+} = Object.assign(_encode, {
+  curried:
+    (indent?: number) =>
+    (self: Tree<string>): Array.NonEmptyArray<string> =>
+      _encode(self, indent),
+})
 
 /**
  * Decode a list of indented lines into a string tree.

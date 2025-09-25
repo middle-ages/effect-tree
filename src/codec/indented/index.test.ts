@@ -7,7 +7,7 @@ import {describe, expect, test} from 'vitest'
 
 describe('encode', () => {
   const iut: (self: Tree<string>) => Array.NonEmptyArray<string> =
-    Indented.encode(2)
+    Indented.encode.curried(2)
 
   test('leaf', () => {
     expect(iut(of('A'))).toEqual(['A'])
