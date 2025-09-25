@@ -8,8 +8,6 @@ dir="$(dirname "${0}")"
 
 . "${dir}/lib/_"
 
-pnpm api:extractor
-
 typedoc --out "$API_DOCS_DIR" --options "$CONFIG_DIR"/typedoc.json
 
 show_done 'build:docs'

@@ -265,10 +265,8 @@ export const growLeaves = <A>(grow: TreeUnfold<A, A>): TreeFold<A, Tree<A>> =>
  * @example
  * import {nAryTree, drawTree} from 'effect-tree'
  *
- * const tree = nAryTree({depth: 2, degree: 4})
- *
+ * const tree = nAryTree.string({depth: 2, degree: 4})
  * console.log(drawTree.unlines(tree))
- *
  * // ┬1
  * // ├─2
  * // ├─2

@@ -8,10 +8,13 @@ COLOR="${COLOR:-true}"
 
 echo "# ⚖ Checking…"
 
+pnpm extract:examples &
 pnpm test &
-pnpm lint &
+
+wait
+
 pnpm build &
-pnpm test:examples &
+pnpm lint:fix &
 pnpm build:docs &
 pnpm circular &
 

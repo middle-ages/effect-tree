@@ -83,6 +83,7 @@ export const defaultNumberedOptions: NumberedArbitraryOptions = {
 
 /**
  * @category internal
+ * @function
  */
 export const normalizeOptions = ({
   onlyBranches,
@@ -117,6 +118,7 @@ export const normalizeOptions = ({
 /**
  * If true, this level will be all leaves.
  * @category internal
+ * @function
  */
 export const isAtMaxDepth: Predicate.Predicate<RuntimeOptions> = ({
   maxDepth,
@@ -140,6 +142,7 @@ export const biasedOneOf =
 
 /**
  * @category internal
+ * @function
  */
 export const nextDepth: Function.EndoOf<RuntimeOptions> = ({
   currentDepth,

@@ -7,5 +7,4 @@ tmp
 .eslintcache
 api-docs
 examples/.snapshot
-temp
-tsdoc-metadata.json
+examples/inline

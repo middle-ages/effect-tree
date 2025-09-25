@@ -6,6 +6,7 @@ import {nonEmptyArrayArbitrary} from './util.js'
  * An arbitrary {@link TreeF} built from the node and children arbitraries
  * given.
  * @category arbitrary
+ * @function
  */
 export const getArbitrary =
   <A>(a: fc.Arbitrary<A>) =>

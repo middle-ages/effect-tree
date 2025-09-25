@@ -9,6 +9,7 @@ export const voidArbitrary: fc.Arbitrary<void> = fc.constant(void {})
 
 /**
  * @category internal
+ * @function
  */
 export const nonEmptyArrayArbitrary = <T>(
   arb: fc.Arbitrary<T>,
@@ -20,6 +21,7 @@ export const nonEmptyArrayArbitrary = <T>(
 
 /**
  * @category internal
+ * @function
  */
 export const codePointArbitrary = (min: number, max: number) =>
   fc.integer({min, max}).map(n => String.fromCodePoint(n))
@@ -42,6 +44,7 @@ export const lowerCaseArbitrary: fc.Arbitrary<string> = codePointArbitrary(
 
 /**
  * @category internal
+ * @function
  */
 export const letterArbitrary: fc.Arbitrary<string> = fc
   .boolean()

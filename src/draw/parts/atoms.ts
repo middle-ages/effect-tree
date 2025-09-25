@@ -10,17 +10,21 @@ import {
 import type {DirectedPad} from './pad.js'
 
 /**
+ * A zero-width single line height part.
  * @category drawing
  */
-export const emptyTextPart = textPart('')
+export const emptyTextPart: Part = textPart('')
 
 /**
  * A text part that joins the given string list horizontally, separating items
  * using the given separator.
  * @example
  * import {Draw} from 'effect-tree'
+ * const {drawPart, joinText} = Draw
  *
- * const abcText = Draw.joinText(['A', 'B', 'C'], '.')
+ * const part = joinText(['A', 'B', 'C'], '.')
+ *
+ * console.log(drawPart(part))
  * // ‘A.B.C’
  * @category drawing
  * @function
@@ -44,8 +48,9 @@ const _stackText = (xs: string[]): Part =>
  * of arguments.
  * @example
  * import {Draw} from 'effect-tree'
+ * const {drawPart, stackText} = Draw
  *
- * const abcTower = Draw.stackText.rest('A', 'B', 'C')
+ * console.log(drawPart(stackText.rest('A', 'B', 'C')).join('\n'))
  * // ‘A
  * //  B
  * //  C’
@@ -63,15 +68,16 @@ stackText.rest = (...xs: string[]): Part => stackText(xs)
  * repeated or sliced.
  * @example
  * import {Draw} from 'effect-tree'
+ * const {drawPart, repeatText} = Draw
  *
- * const repeated = Draw.repeatText.rest(3, 'A')
+ * console.log(drawPart(repeatText(3, 'A')))
  * // ‘AAA’
  * @category drawing
  * @function
  */
 export const repeatText: {
-  (repeat: string): (width: number) => Part
   (width: number, repeat: string): Part
+  (repeat: string): (width: number) => Part
 } = dual(
   2,
   (width: number, repeat: string): Part =>
@@ -79,40 +85,16 @@ export const repeatText: {
 )
 
 /**
- * Returns the empty part if the given width is zero, else a text part at the
- * given width filled with the optionally provided _indent_ string. The default
- * indent string is a single space character.
- * @example
- * import {pipe} from 'effect'
- * import {hIndent} from 'effect-tree'
- * const twoSpaces = hIndent(2)
- * // ‘  ’
- * const singleX = pipe(1, hIndent('X'))
- * // ‘X’
- * const nothing = hIndent(0, 'no space')
- * // ‘’
- * @category drawing
- * @function
- */
-export const hIndent: {
-  (repeat: number, indent?: string): Part
-  (indent?: string): (repeat: number) => Part
-} = dual(
-  2,
-  (repeat: number, indent: string = ' '): Part =>
-    repeat === 0 ? emptyPart : repeatText(repeat, indent),
-)
-
-/**
  * Returns the empty part if the given height is zero, else a zero-width column
  * at the given height.
  * @example
- * import {vIndent} from 'effect-tree'
+ * import {Draw} from 'effect-tree'
+ * const {vIndent, drawPart} = Draw
  *
- * const twoLines = vIndent(2)
+ * console.log(drawPart(vIndent(2)).join('\n'))
  * // ‘
  * // ’
- * const nothing = vIndent(0)
+ * console.log(drawPart(vIndent(0)).join('\n'))
  * // ‘’
  * @category drawing
  * @function

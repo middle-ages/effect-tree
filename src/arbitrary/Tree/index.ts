@@ -20,6 +20,7 @@ import {pipe} from 'effect'
  * @param rawOptions - partial arbitrary options.
  * @returns A tree arbitrary.
  * @category arbitrary
+ * @function
  */
 export const getArbitrary = <A>(
   a: fc.Arbitrary<A>,

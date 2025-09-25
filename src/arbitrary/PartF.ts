@@ -47,6 +47,7 @@ export const AlignedArbitrary: fc.Arbitrary<Aligned> =
 /**
  * An arbitrary for a filled rectangular block of text used for drawing trees.
  * @category internal
+ * @function
  */
 export const getArbitrary = <A>(
   a: fc.Arbitrary<A>,
@@ -72,7 +73,7 @@ export const TextFPArtArbitrary: fc.Arbitrary<PartF.TextF> =
 
 /**
  * @category internal
- *
+ * @function
  */
 export const getColumnFArbitrary = <A>(
   a: fc.Arbitrary<A>,
@@ -83,6 +84,7 @@ export const getColumnFArbitrary = <A>(
 
 /**
  * @category internal
+ * @function
  */
 export const getRowFArbitrary = <A>(
   a: fc.Arbitrary<A>,

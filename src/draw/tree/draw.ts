@@ -149,36 +149,35 @@ export const themedTree: {
  * version of the function with its `numeric` and `unlines` variants, that draws
  * the tree at the given theme.
  * @example
- * import {Array} from 'effect'
- * import {drawTree} from 'effect-tree'
+ * import {of, drawTree} from 'effect-tree'
  *
  * const stringTree = of('foo')
  * const numericTree = of(42)
  *
  * // Draw a string tree into arrays of rows using default theme.
- * const stringRows : Array.NonEmptyArray<string> = drawTree(stringTree)
+ * console.log(drawTree(stringTree))
  *
  * // Draw a numeric tree into arrays of rows using default theme.
- * const numericRows: Array.NonEmptyArray<string> = drawTree.number(numericTree)
+ * console.log(drawTree.number(numericTree))
  *
  * // Draw string trees to a string using default theme for `console.log`, for
  * // example.
  * console.log(drawTree.unlines(stringTree))
  *
  * // Draw numeric trees to a string using default theme.
- * console.log(drawTree.numeric.unlines(numericTree))
+ * console.log(drawTree.number.unlines(numericTree))
  *
  * // Draw string trees using a specific theme into rows.
- * const stringAsciiRows = drawTree.ascii(stringTree))
+ * console.log(drawTree.ascii(stringTree))
  *
  * // Draw string trees using a specific theme into a string.
  * console.log(drawTree.ascii.unlines(stringTree))
  *
  * // Draw numeric trees using a specific theme into rows.
- * const numericAsciiRows = drawTree.ascii.numeric(numericTree))
+ * console.log(drawTree.ascii.number(numericTree))
  *
  * // Draw numeric trees using a specific theme into a string.
- * console.log(drawTree.ascii.numeric.unlines(numericTree))
+ * console.log(drawTree.ascii.number.unlines(numericTree))
  * @category drawing
  * @function
  */

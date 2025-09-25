@@ -12,6 +12,7 @@ function prepare() {
   local dir
   dir="${1}"
   export PACKAGE_JSON="${dir}/package.json"
+  export SRC_DIR="${dir}/src"
   export CONFIG_DIR="${dir}/config"
   export DIST_DIR="${dir}/dist"
   export API_DOCS_DIR="${dir}/api-docs"
@@ -21,6 +22,7 @@ function prepare() {
   export COVERAGE_DIR="${dir}/node_modules/.coverage"
   export COVERAGE_REPORT_DIR="$API_DOCS_DIR/coverage_report"
   export EXAMPLES_DIR="${dir}/examples"
+  export INLINE_EXAMPLES_DIR="${EXAMPLES_DIR}/inline"
 }
 
 prepare "${DIR}"

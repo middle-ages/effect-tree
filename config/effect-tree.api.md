@@ -1060,7 +1060,7 @@ const EmptyF: <A>(args: void) => {
 const emptyF: EmptyF;
 
 // @public
-const EmptyPartFArbitrary: fc_2.Arbitrary<EmptyF>;
+const EmptyPartFArbitrary: fc_2.Arbitrary<PartF_2.EmptyF>;
 
 // @public
 const emptyTextPart: Text;
@@ -1300,7 +1300,7 @@ export const getBranchForest: <A>(self: Branch<A>) => ForestOf<A>;
 const getBranchForest_2: <A, C>({ forest, }: BranchF<A, C>) => Array_2.NonEmptyReadonlyArray<C>;
 
 // @public
-const getColumnFArbitrary: <A>(a: fc_2.Arbitrary<A>) => fc_2.Arbitrary<ColumnF<A>>;
+const getColumnFArbitrary: <A>(a: fc_2.Arbitrary<A>) => fc_2.Arbitrary<PartF_2.ColumnF<A>>;
 
 // @public
 const getColumnFEqualsE: <A>(equalsA: (self: A, that: A) => Effect.Effect<void, undefined>) => ((self: ColumnF<A>, that: ColumnF<A>) => Effect.Effect<void, undefined>);
@@ -1396,7 +1396,7 @@ const getOrder_2: <E>(orderE: Order.Order<E>) => <R>(orderR: Order.Order<R>) => 
 const getRights: <A>({ rights }: Zipper_2<A>) => Tree_3.Tree<A>[];
 
 // @public
-const getRowFArbitrary: <A>(a: fc_2.Arbitrary<A>) => fc_2.Arbitrary<RowF<A>>;
+const getRowFArbitrary: <A>(a: fc_2.Arbitrary<A>) => fc_2.Arbitrary<PartF_2.RowF<A>>;
 
 // @public
 const getRowFEqualsE: <A>(equalsA: (self: A, that: A) => Effect.Effect<void, undefined>) => ((self: RowF<A>, that: RowF<A>) => Effect.Effect<void, undefined>);
@@ -3052,7 +3052,7 @@ const TextF: <A>(args: {
 const textF: (show: string) => TextF;
 
 // @public
-const TextFPArtArbitrary: fc_2.Arbitrary<TextF>;
+const TextFPArtArbitrary: fc_2.Arbitrary<PartF_2.TextF>;
 
 // @public
 interface Theme {

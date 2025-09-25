@@ -19,6 +19,7 @@ import type {ArbitraryOptions, NumberedArbitraryOptions} from './options.js'
 /**
  * A tree with nothing but structure.
  * @category arbitrary
+ * @function
  */
 export const voidTreeArbitrary = (
   options?: Partial<ArbitraryOptions>,
@@ -27,6 +28,7 @@ export const voidTreeArbitrary = (
 /**
  * A branch with nothing but structure.
  * @category arbitrary
+ * @function
  */
 export const voidBranchArbitrary = (
   options: Partial<Omit<ArbitraryOptions, 'onlyBranches'>> = {},
@@ -37,9 +39,11 @@ export const voidBranchArbitrary = (
   }) as fc.Arbitrary<Branch<void>>
 
 /**
- * Just like {@link getArbitrary} except the tree is numeric and the the node
- * values will be the unique ordinal of the node in depth-first order.
+ * Just like {@link getArbitrary} except the tree is
+ * numeric and the the node values will be the unique ordinal of the node in
+ * depth-first order.
  * @category arbitrary
+ * @function
  */
 export const getNumberedArbitrary = (
   options?: Partial<NumberedArbitraryOptions>,
@@ -48,6 +52,7 @@ export const getNumberedArbitrary = (
 
 /**
  * @category arbitrary
+ * @function
  */
 export const getNumberedBranchArbitrary = (
   options: Partial<NumberedArbitraryOptions> = {},
@@ -55,9 +60,10 @@ export const getNumberedBranchArbitrary = (
   voidBranchArbitrary(options).map(asOrdinalBranch.pre(options.initialize ?? 1))
 
 /**
- * Just like {@link getNumberedArbitrary} except the numeric nodes have been
- * stringified.
+ * Just like {@link getNumberedArbitrary} except the numeric nodes
+ * have been stringified.
  * @category arbitrary
+ * @function
  */
 export const getStringArbitrary = (
   options?: Partial<NumberedArbitraryOptions>,
