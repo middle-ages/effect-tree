@@ -13,10 +13,10 @@ import {
   type TreeUnfolder,
 } from '#tree'
 import * as TreeF from '#treeF'
-import {transpose, type NonEmptyArray, type NonEmptyArray2} from '#util/Array'
-import {K, type EndoOf} from '#util/Function'
-import {pair} from '#util/Pair'
-import {fromNumber} from '#util/String'
+import {transpose, type NonEmptyArray, type NonEmptyArray2} from '#Array'
+import {K, type EndoOf} from '#Function'
+import {pair} from '#Pair'
+import {fromNumber} from '#String'
 import {Array, flow, pipe} from 'effect'
 
 /**

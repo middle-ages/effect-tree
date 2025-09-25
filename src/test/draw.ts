@@ -1,7 +1,7 @@
 import {getTheme, themedTree, type Theme} from '#draw'
 import {pipe, Array, String} from '#util'
 import {type Tree, map} from '#tree'
-import {unlines} from '#util/String'
+import {unlines} from '#String'
 import {expect} from 'vitest'
 
 export const drawTree = (tree: Tree<string>, theme?: Theme) =>

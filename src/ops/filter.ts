@@ -1,6 +1,6 @@
 import {type Tree, type TreeFolder, leaf, tree, treeCata} from '#tree'
 import * as TreeF from '#treeF'
-import {orderToEqual} from '#util/Order'
+import {orderToEqual} from '#Order'
 import {
   Array,
   Boolean,

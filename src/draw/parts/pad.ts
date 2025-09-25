@@ -1,4 +1,4 @@
-import {filterDefined, monoRecord} from '#util/Record'
+import {filterDefined, monoRecord} from '#Record'
 import {directions, type Directed} from '../direction.js'
 import {normalizeStruts, type Struts} from '../struts.js'
 

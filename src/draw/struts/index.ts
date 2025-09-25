@@ -1,14 +1,14 @@
 import {pipe} from '#util'
-import {type NonEmptyArray} from '#util/Array'
-import type {EndoOf} from '#util/Function'
-import {filterDefined} from '#util/Record'
+import {type NonEmptyArray} from '#Array'
+import type {EndoOf} from '#Function'
+import {filterDefined} from '#Record'
 import {
   fillColumns,
   fillRows,
   segmentSlice,
   stringWidth,
   unwords,
-} from '#util/String'
+} from '#String'
 import type {
   Axis,
   AxisString,

@@ -1,5 +1,5 @@
 import {Tuple, identity, pipe, Array, Function, Number} from '#util'
-import type {EndoOf} from '#util/Function'
+import type {EndoOf} from '#Function'
 import {VStruts} from '../struts.js'
 import {matchVertical, type VerticalAlignment} from './data.js'
 

@@ -1,4 +1,4 @@
-import {surround, unwords} from '#util/String'
+import {surround, unwords} from '#String'
 import {showAlignment} from '../align.js'
 import {type ColumnF, matchPartF, type RowF} from '../partF.js'
 import {showHStruts, showStruts} from '../struts.js'

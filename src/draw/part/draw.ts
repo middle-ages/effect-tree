@@ -1,6 +1,6 @@
 import {K} from '#util'
-import {flatten, map, transpose, type NonEmptyArray2} from '#util/Array'
-import {unlines, unwords} from '#util/String'
+import {flatten, map, transpose, type NonEmptyArray2} from '#Array'
+import {unlines, unwords} from '#String'
 import {Array, Option, pipe} from 'effect'
 import {type Algebra} from 'effect-ts-folds'
 import {alignHorizontally, alignVertically} from '../align.js'

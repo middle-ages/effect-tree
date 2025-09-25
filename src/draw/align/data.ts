@@ -1,4 +1,4 @@
-import {Equivalence as stringEquivalence, unwords} from '#util/String'
+import {Equivalence as stringEquivalence, unwords} from '#String'
 import {Equivalence as EQ, Record} from 'effect'
 import type {LazyArg} from 'effect/Function'
 import {StrutEquivalence, type HStruts, type VStruts} from '../struts.js'

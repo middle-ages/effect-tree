@@ -1,4 +1,4 @@
-import {type EndoK, dual, flow, pipe} from '#util/Function'
+import {type EndoK, dual, flow, pipe} from '#Function'
 import {length, modForest} from './data.js'
 import {getValue, leaf} from './index.js'
 import type {Branch, Leaf, Tree, TreeTypeLambda} from './types.js'

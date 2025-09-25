@@ -8,7 +8,7 @@ import {
 import {Array, Function, pipe} from 'effect'
 import {leaf} from '../tree/index.js'
 import {type Tree, type TreeTypeLambda} from '../tree/types.js'
-import {Pair} from '../util.js'
+import {pair} from '#Pair'
 import {imap, map} from './Covariant.js'
 import {flatMap} from './Monad.js'
 
@@ -23,7 +23,7 @@ export const product: SA.SemiApplicative<TreeTypeLambda>['product'] =
     <A, B>(self: Tree<A>, that: Tree<B>): Tree<readonly [A, B]> =>
       pipe(
         self,
-        flatMap(self => pipe(that, map(Pair.pair.withFirst(self)))),
+        flatMap(self => pipe(that, map(pair.withFirst(self)))),
       ),
   )
 

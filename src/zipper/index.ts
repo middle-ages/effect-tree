@@ -1,6 +1,6 @@
 import * as Tree from '#tree'
-import {append, isNonEmptyArray, type NonEmptyArray} from '#util/Array'
-import {K} from '#util/Function'
+import {append, isNonEmptyArray, type NonEmptyArray} from '#Array'
+import {K} from '#Function'
 import {HKT, Option, pipe, Struct} from 'effect'
 
 /**

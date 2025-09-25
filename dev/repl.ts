@@ -1,5 +1,5 @@
-import * as Function from '#util/Function'
-import * as String from '#util/String'
+import * as Function from '#Function'
+import * as String from '#String'
 import * as Effect from 'effect'
 import * as Tree from '../index.js'
 

@@ -1,6 +1,6 @@
 import {treeAna, treeCata, type Tree} from '#tree'
 import {Order, pipe} from 'effect'
-import {type NonEmptyArray2} from '#util/Array'
+import {type NonEmptyArray2} from '#Array'
 import {pathListFold} from './fold.js'
 import {pathListUnfold} from './unfold.js'
 

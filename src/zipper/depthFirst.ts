@@ -1,5 +1,5 @@
-import {isNonEmptyArray} from '#util/Array'
-import {type EndoK} from '#util/Function'
+import {isNonEmptyArray} from '#Array'
+import {type EndoK} from '#Function'
 import {flow, Option} from 'effect'
 import {isRoot} from './data.js'
 import {type OptionalZipper, type ZipperTypeLambda} from './index.js'

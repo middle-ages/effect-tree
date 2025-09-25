@@ -1,4 +1,4 @@
-import {getArbitrary, type ArbitraryOptions} from '#arbitrary/Tree'
+import {Tree as Arbitrary} from '#arbitrary'
 import {assertDrawTree, numericTree, testNumericTreeStackSafety} from '#test'
 import {getEquivalence, map, type Tree} from '#tree'
 import {flow, Number, Pair, pipe, String, Tuple} from '#util'
@@ -35,17 +35,18 @@ describe('zip', () => {
 })
 
 describe('laws', () => {
-  const options: Partial<ArbitraryOptions> = {
+  const options: Partial<Arbitrary.ArbitraryOptions> = {
     branchBias: 1 / 4,
     maxChildren: 4,
     maxDepth: 3,
   }
 
-  const congruentPair = getArbitrary(tinyString, options).chain(stringTree =>
-    fc.tuple(
-      fc.constant(stringTree),
-      pipe(stringTree, asOrdinal(1), fc.constant),
-    ),
+  const congruentPair = Arbitrary.getArbitrary(tinyString, options).chain(
+    stringTree =>
+      fc.tuple(
+        fc.constant(stringTree),
+        pipe(stringTree, asOrdinal(1), fc.constant),
+      ),
   )
 
   const congruentPairEquals: Equivalence.Equivalence<
@@ -55,10 +56,8 @@ describe('laws', () => {
     getEquivalence(Number.Equivalence),
   )
 
-  const treeOfPair: fc.Arbitrary<Tree<[string, number]>> = getArbitrary(
-    fc.tuple(tinyString, tinyPositive),
-    options,
-  )
+  const treeOfPair: fc.Arbitrary<Tree<[string, number]>> =
+    Arbitrary.getArbitrary(fc.tuple(tinyString, tinyPositive), options)
 
   const treeOfPairEquals: Equivalence.Equivalence<Tree<[string, number]>> =
     getEquivalence(

@@ -1,4 +1,4 @@
-import {getArbitrary} from '#arbitrary/PartF'
+import {PartF as Arbitrary} from '#arbitrary'
 import {Traversable as TA} from '@effect/typeclass'
 import {Applicative as ArrayApplicative} from '@effect/typeclass/data/Array'
 import {Applicative as OptionApplicative} from '@effect/typeclass/data/Option'
@@ -53,7 +53,10 @@ describe('sequence', () => {
 })
 
 describe('PartF typeclass laws', () => {
-  testTypeclassLaws<PartFTypeLambda>({getEquivalence, getArbitrary})(
+  testTypeclassLaws<PartFTypeLambda>({
+    getEquivalence,
+    getArbitrary: Arbitrary.getArbitrary,
+  })(
     {
       Covariant,
       Traversable,

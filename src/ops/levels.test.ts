@@ -4,7 +4,7 @@ import {assertDrawNumericTree, assertDrawTree, numericTree} from '#test'
 import {branch, from, leaf, map, of, type Tree, type TreeUnfold} from '#tree'
 import {Number, pipe} from 'effect'
 import fc from 'fast-check'
-import {pair} from '#util/Pair'
+import {pair} from '#Pair'
 import {maximumNodeHeight} from './counts.js'
 import {
   addLevelLabels,
@@ -15,7 +15,7 @@ import {
   levels,
   unfoldLevelTree,
 } from './levels.js'
-import {getArbitrary} from '#arbitrary/Tree'
+import {Tree as Arbitrary} from '#arbitrary'
 
 describe('cropDepth', () => {
   test('doc example', () => {
@@ -37,7 +37,7 @@ describe('cropDepth', () => {
   test('∀a ∈ Tree, ∀n ∈ ℕ: maxDepth(a) = n ⇔ a ▹ cropDepth(n) ▹ maxDepth = n', () => {
     const treeAndDepth: fc.Arbitrary<
       readonly [tree: Tree<number>, cropDepth: number]
-    > = getArbitrary(fc.integer({min: 0, max: 5})).chain(tree => {
+    > = Arbitrary.getArbitrary(fc.integer({min: 0, max: 5})).chain(tree => {
       return fc.constant(maximumNodeHeight(tree)).map(pair.withFirst(tree))
     })
 

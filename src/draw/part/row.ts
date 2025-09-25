@@ -1,4 +1,4 @@
-import {flow, type EndoOf} from '#util/Function'
+import {flow, type EndoOf} from '#Function'
 import {
   forHorizontalAlignments,
   forVerticalAlignments,

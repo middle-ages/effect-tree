@@ -1,5 +1,5 @@
 import {Array, pipe} from '#util'
-import {type EndoOf, dual} from '#util/Function'
+import {type EndoOf, dual} from '#Function'
 import {
   type Part,
   column as columnPart,

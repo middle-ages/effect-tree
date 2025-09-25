@@ -1,5 +1,5 @@
 import {Array, pipe} from '#util'
-import {type EndoOf} from '#util/Function'
+import {type EndoOf} from '#Function'
 import {type BorderSet} from '../glyph.js'
 import {above, after, before, below, text, type Part} from '../part.js'
 import {HStrut, Struts, VStrut} from '../struts.js'

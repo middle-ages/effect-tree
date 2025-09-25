@@ -1,6 +1,6 @@
 import {Record} from '#util'
-import {K, type EndoOf, dual} from '#util/Function'
-import {segmentString} from '#util/String'
+import {K, type EndoOf, dual} from '#Function'
+import {segmentString} from '#String'
 import {type TupleOf} from 'effect/Types'
 import {type Direction, directions} from '../direction.js'
 import type {TeeSet} from './types.js'

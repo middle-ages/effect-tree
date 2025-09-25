@@ -1,6 +1,6 @@
 import {type Branch} from '#tree'
 import {Array, Pair} from '#util'
-import {type EndoOf} from '#util/Function'
+import {type EndoOf} from '#Function'
 import {Number, Predicate, Tuple, pipe} from 'effect'
 import {decode} from './decoder.js'
 import {encode} from './encoder.js'

@@ -1,4 +1,4 @@
-import type {NonEmptyArray2} from '#util/Array'
+import type {NonEmptyArray2} from '#Array'
 import {Array, Equivalence, Predicate, pipe} from 'effect'
 
 /**

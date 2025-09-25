@@ -1,5 +1,5 @@
 import {Array, pipe, Record} from '#util'
-import {square} from '#util/Pair'
+import {square} from '#Pair'
 import {type ThemeMap, type ThemeName, Theme, themeNames} from './types.js'
 
 const indent = pipe(

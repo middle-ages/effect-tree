@@ -1,4 +1,4 @@
-import {identity} from '#util/Function'
+import {identity} from '#Function'
 import {type Part} from '../../part.js'
 import {glyphSet, type GlyphSet, type GlyphSetName} from './glyph.js'
 

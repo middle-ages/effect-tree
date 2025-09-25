@@ -1,6 +1,6 @@
 import {map, type Tree} from '#tree'
 import {Array, String, flow, pipe} from '#util'
-import {type EndoOf} from '#util/Function'
+import {type EndoOf} from '#Function'
 import {text} from '../../part.js'
 import {getGlyph} from './data.js'
 import {type GlyphRole} from './glyph.js'

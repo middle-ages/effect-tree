@@ -1,6 +1,6 @@
 import {Edges} from '#codec'
 import {branch, of, type Tree} from '#tree'
-import type {Pair} from '#util/Pair'
+import type {Pair} from '#Pair'
 import {HashMap, HashSet} from 'effect'
 import {describe, expect, test} from 'vitest'
 

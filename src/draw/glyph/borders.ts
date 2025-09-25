@@ -1,4 +1,4 @@
-import {dual, type EndoOf} from '#util/Function'
+import {dual, type EndoOf} from '#Function'
 import type {Direction} from '../direction.js'
 import {elbowSet, replaceElbow, type ElbowSetName} from './elbows.js'
 import {lineSet, replaceLine, type LineSetName} from './lines.js'

@@ -1,4 +1,4 @@
-import type {EndoOf} from '#util/Function'
+import type {EndoOf} from '#Function'
 import {forHorizontalAlignments, type HorizontalAlignment} from '../align.js'
 import {defaultHStrut, type HStrut} from '../struts.js'
 import {Column, type Part} from './types.js'

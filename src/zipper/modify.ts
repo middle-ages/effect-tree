@@ -1,6 +1,6 @@
 import * as Tree from '#tree'
-import {isNonEmptyArray, lastInit} from '#util/Array'
-import {type EndoOf} from '#util/Function'
+import {isNonEmptyArray, lastInit} from '#Array'
+import {type EndoOf} from '#Function'
 import {Option, pipe} from 'effect'
 import {hasRights} from './data.js'
 import {type OptionalZipper, type Zipper} from './index.js'

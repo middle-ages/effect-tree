@@ -1,7 +1,7 @@
 {
   "name": "effect-tree",
   "description": "A strict tree datatype that wants to do everything.",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "type": "module",
   "author": "Ran Eilam <ran@haag59.com> (https://middle-ages.github.io/)",
   "homepage": "https://github.com/middle-ages/effect-tree",
@@ -73,9 +73,37 @@
       "types": "./src/util.d.ts",
       "import": "./src/util.js"
     },
-    "#util/*": {
-      "types": "./src/util/*.d.ts",
-      "import": "./src/util/*.js"
+    "#Array": {
+      "types": "./src/util/Array.d.ts",
+      "import": "./src/util/Array.js"
+    },
+    "#Function": {
+      "types": "./src/util/Function.d.ts",
+      "import": "./src/util/Function.js"
+    },
+    "#Number": {
+      "types": "./src/util/Number.d.ts",
+      "import": "./src/util/Number.js"
+    },
+    "#Order": {
+      "types": "./src/util/Order.d.ts",
+      "import": "./src/util/Order.js"
+    },
+    "#Pair": {
+      "types": "./src/util/Pair.d.ts",
+      "import": "./src/util/Pair.js"
+    },
+    "#Record": {
+      "types": "./src/util/Record.d.ts",
+      "import": "./src/util/Record.js"
+    },
+    "#String": {
+      "types": "./src/util/String.d.ts",
+      "import": "./src/util/String.js"
+    },
+    "#These": {
+      "types": "./src/util/These.d.ts",
+      "import": "./src/util/These.js"
     },
     "#tree": {
       "types": "./src/tree.d.ts",
@@ -93,10 +121,6 @@
       "types": "./src/zipper.d.ts",
       "import": "./src/zipper.js"
     },
-    "#ops/*": {
-      "types": "./src/ops/*.d.ts",
-      "import": "./src/ops/*.js"
-    },
     "#codec": {
       "types": "./src/codec.d.ts",
       "import": "./src/codec.js"
@@ -113,17 +137,9 @@
       "types": "./src/draw.d.ts",
       "import": "./src/draw.js"
     },
-    "#draw/*": {
-      "types": "./src/draw/*.d.ts",
-      "import": "./src/draw/*.js"
-    },
     "#arbitrary": {
       "types": "./src/arbitrary.d.ts",
       "import": "./src/arbitrary.js"
-    },
-    "#arbitrary/*": {
-      "types": "./src/arbitrary/*.d.ts",
-      "import": "./src/arbitrary/*.js"
     },
     "#test": {
       "types": "./src/test.d.ts",

@@ -1,7 +1,7 @@
 import {type TreeUnfolder} from '#tree'
 import * as TreeF from '#treeF'
-import {type NonEmptyArray2} from '#util/Array'
-import {orderToEqual} from '#util/Order'
+import {type NonEmptyArray2} from '#Array'
+import {orderToEqual} from '#Order'
 import {Array, Equivalence, Order, pipe} from 'effect'
 import type {NonEmptyArray} from 'effect/Array'
 

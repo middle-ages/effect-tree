@@ -1,4 +1,4 @@
-import {trimEnd, unlines} from '#util/String'
+import {trimEnd, unlines} from '#String'
 import {Array, pipe} from 'effect'
 import {describe, expect, test} from 'vitest'
 import {HStrut, Struts, VStrut} from '../struts.js'

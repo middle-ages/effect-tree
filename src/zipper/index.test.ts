@@ -1,5 +1,5 @@
 import {branch, from, of, type Branch} from '#tree'
-import {pairMap, type Pair} from '#util/Pair'
+import {pairMap, type Pair} from '#Pair'
 import {fromTree, toTree, head, last, type Zipper} from '#zipper'
 import {pipe} from 'effect'
 import {describe, expect, test} from 'vitest'

@@ -1,6 +1,11 @@
-import {fixPart} from '#draw/part'
-import type {Column, Empty, Part, Row} from '#draw/part/types'
-import {type Text} from '#draw/part'
+import {
+  fixPart,
+  type Part,
+  type Column,
+  type Empty,
+  type Row,
+  type Text,
+} from '#draw'
 import * as fc from 'fast-check'
 import {
   EmptyPartFArbitrary,

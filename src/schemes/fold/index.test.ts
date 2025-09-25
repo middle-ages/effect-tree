@@ -13,7 +13,7 @@ import {Number, pipe, Tuple} from 'effect'
 import {Law, lawTests, tinyPositive} from 'effect-ts-laws'
 import {verboseLawSets} from 'effect-ts-laws/vitest'
 import {describe, expect, test} from 'vitest'
-import {getArbitrary} from '#arbitrary/Tree'
+import * as Arbitrary from '#arbitrary'
 
 describe('fold', () => {
   // tree = ┬A ⇒ A(B,C(D,E),F)
@@ -31,7 +31,7 @@ describe('fold', () => {
 
   describe('laws', () => {
     {
-      const a = getArbitrary(tinyPositive),
+      const a = Arbitrary.Tree.getArbitrary(tinyPositive),
         equals = getEquivalence<[number, number]>(
           Tuple.getEquivalence(Number.Equivalence, Number.Equivalence),
         ),

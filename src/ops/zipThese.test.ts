@@ -1,5 +1,5 @@
 import {from, of} from '#tree'
-import {both, left, right} from '#util/These'
+import {both, left, right} from '#These'
 import {Option} from 'effect'
 import {describe, expect, test} from 'vitest'
 import {unzipThese, zipThese} from './zipThese.js'

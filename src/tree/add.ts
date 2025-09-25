@@ -1,5 +1,5 @@
 import {Array} from '#util'
-import {dual, pipe} from '#util/Function'
+import {dual, pipe} from '#Function'
 import {branch, getValue, isLeaf, match} from './index.js'
 import {length, modBranchForest, modForest, setForest} from './data.js'
 import type {Branch, ForestOf, Tree} from './types.js'

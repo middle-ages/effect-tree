@@ -1,6 +1,6 @@
 import {branch, of, type Branch, type Tree} from '#tree'
 import {Number} from '#util'
-import {square} from '#util/Pair'
+import {square} from '#Pair'
 import {Array, pipe} from 'effect'
 import type {NonEmptyArray} from 'effect/Array'
 import {decode} from './decoder.js'

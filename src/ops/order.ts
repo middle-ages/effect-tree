@@ -1,7 +1,7 @@
 import {type Tree, treeCata, type TreeFolder} from '#tree'
 import * as TreeF from '#treeF'
 import {Array, flow, identity, Option, Order, pipe, Tuple} from 'effect'
-import {pair} from '#util/Pair'
+import {pair} from '#Pair'
 
 /**
  * Return the smallest value in the tree according to the given order.

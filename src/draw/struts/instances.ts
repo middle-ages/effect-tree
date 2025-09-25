@@ -1,5 +1,5 @@
 import {Array, Equivalence as EQ, String} from 'effect'
-import {unwords} from '../../util/String.js'
+import {unwords} from '#String'
 import type {Axis} from '../direction.js'
 import {
   isHStrut,

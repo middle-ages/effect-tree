@@ -1,6 +1,6 @@
 import {type NonEmptyArray2TypeLambda, type TreeFolderK} from '#tree'
 import * as TreeF from '#treeF'
-import {type NonEmptyArray2} from '#util/Array'
+import {type NonEmptyArray2} from '#Array'
 import {Array, pipe} from 'effect'
 
 /**

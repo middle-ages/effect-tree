@@ -1,5 +1,5 @@
-import {filterDefined} from '#util/Record'
-import {pipe, dual, type EndoOf} from '#util/Function'
+import {filterDefined} from '#Record'
+import {pipe, dual, type EndoOf} from '#Function'
 import type {BorderSet} from '../glyph.js'
 import {borderSet} from '../glyph.js'
 import type {Part} from '../part.js'

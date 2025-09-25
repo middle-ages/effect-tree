@@ -1,8 +1,4 @@
-import {
-  AlignedArbitrary,
-  HorizontalArbitrary,
-  VerticalArbitrary,
-} from '#arbitrary/PartF'
+import {PartF} from '#arbitrary'
 import {testConcreteTypeclassLaws} from 'effect-ts-laws/vitest'
 import {describe} from 'vitest'
 import {
@@ -10,6 +6,8 @@ import {
   HorizontalEquivalence,
   VerticalEquivalence,
 } from './data.js'
+
+const {AlignedArbitrary, HorizontalArbitrary, VerticalArbitrary} = PartF
 
 describe('horizontally aligned', () => {
   testConcreteTypeclassLaws(

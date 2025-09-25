@@ -1,4 +1,4 @@
-import {monoRecord} from '#util/Record'
+import {monoRecord} from '#Record'
 import {expect, test} from 'vitest'
 import {HStrut, VStrut} from '../struts.js'
 import {addPadSize, computePadSize, normalizePadded} from './pad.js'

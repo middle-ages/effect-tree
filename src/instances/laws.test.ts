@@ -1,5 +1,4 @@
 import {Tree} from '#arbitrary'
-import type {ArbitraryOptions} from '#arbitrary/Tree'
 import type {TreeTypeLambda} from '#tree'
 import {monoEquivalence, monoOrder} from 'effect-ts-laws'
 import {testTypeclassLaws} from 'effect-ts-laws/vitest'
@@ -14,7 +13,7 @@ import {getOrder} from './Order.js'
 import {Traversable} from './Traversable.js'
 
 describe('Tree typeclass laws', () => {
-  const props = (options: Partial<ArbitraryOptions>) => ({
+  const props = (options: Partial<Tree.ArbitraryOptions>) => ({
     getEquivalence,
     getArbitrary: <A>(a: fc.Arbitrary<A>) => Tree.getArbitrary(a, options),
   })

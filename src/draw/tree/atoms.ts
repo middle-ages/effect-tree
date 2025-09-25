@@ -1,6 +1,6 @@
 import {String} from '#util'
-import {mapHeadTail} from '#util/Array'
-import type {EndoOf} from '#util/Function'
+import {mapHeadTail} from '#Array'
+import type {EndoOf} from '#Function'
 import {flow, pipe} from 'effect'
 import * as Part from '../part.js'
 import {Struts, HStrut, VStrut} from '../struts.js'

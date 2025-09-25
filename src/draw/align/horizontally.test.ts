@@ -1,4 +1,4 @@
-import {widestLine} from '#util/String'
+import {widestLine} from '#String'
 import {describe, expect, test} from 'vitest'
 import {
   type HorizontalAlignment,

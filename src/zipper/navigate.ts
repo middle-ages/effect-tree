@@ -5,8 +5,8 @@ import {
   lastInit,
   lastNonEmpty,
   type NonEmptyArray,
-} from '#util/Array'
-import {dual, type EndoK} from '#util/Function'
+} from '#Array'
+import {dual, type EndoK} from '#Function'
 import {flow, Option, pipe} from 'effect'
 import {
   fromLevel,

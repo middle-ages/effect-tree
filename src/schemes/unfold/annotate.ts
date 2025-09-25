@@ -1,5 +1,5 @@
 import * as TreeF from '#treeF'
-import {pair, square} from '#util/Pair'
+import {pair, square} from '#Pair'
 import {Array, Effect, flow, pipe} from 'effect'
 import {getValue, match} from '../../tree/index.js'
 import {getForest} from '../../tree/data.js'

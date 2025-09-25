@@ -1,7 +1,7 @@
 import {branchF, leafF} from '#treeF'
 import {K, Array, flow, Function, Pair, pipe} from '#util'
 import {isNone, none, type Option} from 'effect/Option'
-import type {EndoOf} from '../util/Function.js'
+import {dual, type EndoOf} from '#Function'
 import {
   fixBranch,
   getBranchForest,
@@ -89,7 +89,7 @@ export const destructBranch = <A>({
 export const setValue: {
   <A>(self: Tree<A>, value: A): Tree<A>
   <A>(value: A): (self: Tree<A>) => Tree<A>
-} = Function.dual(
+} = dual(
   2,
   <A>(self: Tree<A>, value: A): Tree<A> => ({
     unfixed: pipe(
@@ -118,7 +118,7 @@ export const setForest: {
   <A>(self: Tree<A>, forest: ForestOf<A>): Branch<A>
   <A>(forest: ForestOf<A>): (self: Tree<A>) => Branch<A>
   flip: <A>(self: Tree<A>) => (forest: ForestOf<A>) => Branch<A>
-} = Object.assign(Function.dual(2, _setForest), {
+} = Object.assign(dual(2, _setForest), {
   flip:
     <A>(self: Tree<A>) =>
     (forest: ForestOf<A>) =>
@@ -140,7 +140,7 @@ export const setForest: {
 export const modBranch: {
   <A>(self: Tree<A>, f: (branch: Branch<A>) => Tree<A>): Tree<A>
   <A>(f: (branch: Branch<A>) => Tree<A>): (self: Tree<A>) => Tree<A>
-} = Function.dual(
+} = dual(
   2,
   <A>(self: Tree<A>, f: (branch: Branch<A>) => Tree<A>): Tree<A> =>
     isLeaf(self) ? self : f(self),
@@ -159,7 +159,7 @@ export const modBranch: {
 export const modValue: {
   <A>(self: Tree<A>, f: (a: A) => A): Tree<A>
   <A>(f: (a: A) => A): (self: Tree<A>) => Tree<A>
-} = Function.dual(
+} = dual(
   2,
   <A>(self: Tree<A>, f: (a: A) => A): Tree<A> =>
     setValue(self, pipe(self, getValue, f)),
@@ -180,7 +180,7 @@ export const modValue: {
 export const modForest: {
   <A>(self: Tree<A>, f: EndoOf<readonly Tree<A>[]>): Tree<A>
   <A>(f: EndoOf<readonly Tree<A>[]>): (self: Tree<A>) => Tree<A>
-} = Function.dual(
+} = dual(
   2,
   <A>(self: Tree<A>, f: EndoOf<readonly Tree<A>[]>): Tree<A> =>
     pipe(self, Pair.fanout(getValue, flow(getForest, f)), tree.tupled),
@@ -252,7 +252,7 @@ export const nthChild: {
   <A>(self: Tree<A>): (n: number) => Option<Tree<A>>
   flip: (n: number) => <A>(self: Tree<A>) => Option<Tree<A>>
 } = Object.assign(
-  Function.dual(2, <A>(n: number, self: Tree<A>) => _nthChild(n, self)),
+  dual(2, <A>(n: number, self: Tree<A>) => _nthChild(n, self)),
   {
     flip:
       (n: number) =>

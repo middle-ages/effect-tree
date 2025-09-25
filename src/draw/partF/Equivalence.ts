@@ -1,4 +1,4 @@
-import {tupled} from '#util/Function'
+import {tupled} from '#Function'
 import {Effect, Equivalence as EQ, pipe} from 'effect'
 import {getEquivalence as getArrayEquivalence, zip} from 'effect/Array'
 import {AlignedEquivalence, HorizontalEquivalence} from '../align.js'

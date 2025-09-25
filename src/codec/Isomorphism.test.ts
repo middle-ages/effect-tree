@@ -1,8 +1,4 @@
-import {
-  getNumberedArbitrary,
-  getStringArbitrary,
-  pruferEncodableArbitrary,
-} from '#arbitrary/Tree'
+import {Tree as Arbitrary} from '#arbitrary'
 import {getEquivalence} from '#tree'
 import {Array, Number, pipe, String} from '#util'
 import {buildIsomorphismLaws, type LawSet} from 'effect-ts-laws'
@@ -17,6 +13,9 @@ import {
   PruferIsomorphism,
 } from './Isomorphism.js'
 import {getEdgeListEquivalence} from './edges.js'
+
+const {getNumberedArbitrary, getStringArbitrary, pruferEncodableArbitrary} =
+  Arbitrary
 
 const stringTreeArbitrary = getStringArbitrary()
 const stringTreeEquivalence = getEquivalence(String.Equivalence)

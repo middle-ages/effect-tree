@@ -1,4 +1,4 @@
-import {unwords} from '#util/String'
+import {unwords} from '#String'
 import type {NonEmptyArray} from 'effect/Array'
 import fc from 'fast-check'
 

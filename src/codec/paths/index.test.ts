@@ -1,8 +1,8 @@
-import {getNumberedArbitrary} from '#arbitrary/Tree'
+import {Tree as Arbitrary} from '#arbitrary'
 import {Paths, Prufer} from '#codec'
 import {assertDrawTree, numericTree} from '#test'
 import {of} from '#tree'
-import {type NonEmptyArray2} from '#util/Array'
+import {type NonEmptyArray2} from '#Array'
 import {Number, pipe, String} from 'effect'
 import type {NonEmptyArray} from 'effect/Array'
 import fc from 'fast-check'
@@ -106,7 +106,7 @@ describe('isValidPathList', () => {
 })
 
 test('All encoded trees are valid paths', () => {
-  const arbitrary = getNumberedArbitrary({
+  const arbitrary = Arbitrary.getNumberedArbitrary({
     branchBias: 1 / 3,
     maxChildren: 4,
     maxDepth: 3,

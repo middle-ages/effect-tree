@@ -1,24 +1,16 @@
 import {
   mapHorizontalAlignments,
   mapVerticalAlignments,
+  PartF,
   type Aligned,
   type HorizontallyAligned,
-  type PartF,
   type VerticallyAligned,
 } from '#draw'
-import {
-  columnF,
-  ColumnF,
-  EmptyF,
-  emptyF,
-  rowF,
-  RowF,
-  TextF,
-  textF,
-} from '#draw/partF'
 import {tinyArray, tinyString} from 'effect-ts-laws'
 import fc from 'fast-check'
 import {hStrutsArbitrary, vStrutsArbitrary} from './Strut.js'
+
+const {columnF, emptyF, rowF, textF} = PartF
 
 /**
  * @category arbitrary
@@ -69,12 +61,14 @@ export const getArbitrary = <A>(
 /**
  * @category internal
  */
-export const EmptyPartFArbitrary: fc.Arbitrary<EmptyF> = fc.constant(emptyF)
+export const EmptyPartFArbitrary: fc.Arbitrary<PartF.EmptyF> =
+  fc.constant(emptyF)
 
 /**
  * @category internal
  */
-export const TextFPArtArbitrary: fc.Arbitrary<TextF> = tinyString.map(textF)
+export const TextFPArtArbitrary: fc.Arbitrary<PartF.TextF> =
+  tinyString.map(textF)
 
 /**
  * @category internal
@@ -82,7 +76,7 @@ export const TextFPArtArbitrary: fc.Arbitrary<TextF> = tinyString.map(textF)
  */
 export const getColumnFArbitrary = <A>(
   a: fc.Arbitrary<A>,
-): fc.Arbitrary<ColumnF<A>> =>
+): fc.Arbitrary<PartF.ColumnF<A>> =>
   fc
     .tuple(tinyArray(a), HorizontalArbitrary)
     .map(([cells, horizontal]) => columnF(horizontal)(cells))
@@ -92,7 +86,7 @@ export const getColumnFArbitrary = <A>(
  */
 export const getRowFArbitrary = <A>(
   a: fc.Arbitrary<A>,
-): fc.Arbitrary<RowF<A>> =>
+): fc.Arbitrary<PartF.RowF<A>> =>
   fc
     .tuple(getColumnFArbitrary(a), VerticalArbitrary)
     .map(([{_tag: _, cells, ...horizontal}, vertical]) =>

@@ -1,5 +1,5 @@
 import * as Tree from '#tree'
-import {dual, type EndoK} from '#util/Function'
+import {dual, type EndoK} from '#Function'
 import {flow, Option, pipe, type Predicate} from 'effect'
 import {getFocus} from './data.js'
 import {

@@ -1,4 +1,4 @@
-import type {EndoOf} from '#util/Function'
+import type {EndoOf} from '#Function'
 import {flow, pipe} from 'effect'
 import {emptyF, isPartFOf, matchPartF, textF} from '../partF.js'
 import {

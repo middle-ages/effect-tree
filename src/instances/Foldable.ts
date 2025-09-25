@@ -1,5 +1,5 @@
 import * as TreeF from '#treeF'
-import {fanout} from '#util/Pair'
+import {fanout} from '#Pair'
 import {Foldable as FO, Monoid} from '@effect/typeclass'
 import * as Boolean from '@effect/typeclass/data/Boolean'
 import {Array, Effect, flow, Function, pipe} from 'effect'

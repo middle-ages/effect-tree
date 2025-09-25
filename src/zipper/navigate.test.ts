@@ -1,5 +1,5 @@
 import {branch, from, getValue as getTreeValue, of, type Branch} from '#tree'
-import {isEqual, isNegative} from '#util/Number'
+import {isEqual, isNegative} from '#Number'
 import {
   at,
   end,
