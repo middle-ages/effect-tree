@@ -16,6 +16,9 @@ export const encode: <A>(tree: Tree<A>) => NonEmptyArray2<A> =
 /**
  * Decode a list of leaf paths into a tree where. Every leaf given will appear
  * in the tree at the given path.
+ *
+ * An [Order](https://effect.website/docs/behaviour/order/) for your type is
+ * required as the first argument.
  * @category codec
  * @function
  */

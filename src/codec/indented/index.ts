@@ -7,12 +7,23 @@ import {Array, identity, pipe, String} from '#util'
  * Given an encoder that can format a value of type `A` into a single line
  * string, encode a tree of `A` into a `YAML`-like indented format where
  * indentation indicates node depth.
+ *
+ * At the key `string` you will find a version specialized for string trees.
+ * @param indent - number of space characters that separate adjacent tree levels.
  * @category codec
  * @function
  */
 export const encode =
   (indent: number) =>
+  /**
+   * Only string trees can be indent encoded. Provide a function to format your
+   * nodes as strings or use `Effect.identity` if your string is already a string
+   * tree, or use the function you will find in the key `string`.
+   */
   <A>(formatter: (a: A, depth: number) => string) =>
+  /**
+   * The tree to be encoded.
+   */
   (self: Tree<A>): Array.NonEmptyArray<string> => {
     type Pair = readonly [A, number]
     return pipe(
@@ -51,6 +62,7 @@ export const decode = (lines: Array.NonEmptyArray<string>): Tree<string> => {
  * Decode a level of a tree from a list of indented lines where indentation
  * represents node depth.
  * @category codec
+ * @category unfold
  * @function
  */
 export const decodeIndentedUnfold = ([

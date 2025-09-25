@@ -4,7 +4,20 @@ import {type Fix} from 'effect-ts-folds'
 import {type NonEmptyReadonlyArray} from 'effect/Array'
 
 /**
- * A strict Rose tree with nodes carrying a value of type `A`.
+ * A strict Rose tree with nodes carrying a value of type `A`. See the
+ * {@link TreeF} type for the _unfixed_ version, where
+ * `Tree<A>.unfixed ≡ TreeF<A, Tree<A>>`.
+ *
+ * The fully expanded version of the type of a _branch_ would look like:
+ *
+ * ```ts
+ * Tree<A> = {
+ *   unfixed: {
+ *     node: A
+ *     forest: NonEmptyArray<Tree<A>>
+ *   }
+ * }
+ * ```
  * @typeParam A - Underlying tree type.
  * @category basic
  */

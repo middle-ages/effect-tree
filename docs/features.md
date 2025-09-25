@@ -70,9 +70,7 @@ function will traverse the tree in depth-first pre-order.
 
 ## Drawing Trees
 
-Draw trees for terminal output. Customize layout and symbols, and compose
-layouts from _parts_. All functions are ANSI text aware and should work with
-styled text and wide characters.
+Draw trees for terminal output. Customize layout and symbols, and compose layouts from _parts_. All functions are ANSI text aware and should work with styled text and wide characters.
 
 Click on the example screenshots to go to the source code.
 
