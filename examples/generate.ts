@@ -1,7 +1,8 @@
-import {drawTree, type Tree} from 'effect-tree'
+import {Arbitrary, Codec, drawTree, type Tree} from 'effect-tree'
 import fc from 'fast-check'
-import {Prufer} from 'effect-tree/codec'
-import {getArbitrary} from 'effect-tree/arbitrary/Tree'
+
+const {Prufer} = Codec
+const {getArbitrary} = Arbitrary.Tree
 
 const treeCount5 = Prufer.labeledTreeCount(5)
 console.log(

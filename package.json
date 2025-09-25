@@ -1,7 +1,7 @@
 {
   "name": "effect-tree",
   "description": "A strict tree datatype that wants to do everything.",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "type": "module",
   "author": "Ran Eilam <ran@haag59.com> (https://middle-ages.github.io/)",
   "homepage": "https://github.com/middle-ages/effect-tree",
@@ -23,6 +23,7 @@
     "typecheck": "dev/typecheck",
     "circular": "dev/circular",
     "build": "dev/build",
+    "api:extractor": "api-extractor run",
     "build:docs": "dev/build-docs",
     "build:all": "dev/build-all",
     "publish:docs": "dev/publish-docs",
@@ -32,6 +33,7 @@
     "@effect/vitest": "^0.25.1",
     "@eslint/js": "^9.36.0",
     "@fast-check/vitest": "^0.2.2",
+    "@microsoft/api-extractor": "^7.52.13",
     "@tsconfig/node24": "^24.0.1",
     "@tsconfig/strictest": "^2.0.6",
     "@vitest/coverage-v8": "^3.2.4",
@@ -63,12 +65,6 @@
       "import": {
         "types": "./index.d.ts",
         "import": "./index.js"
-      }
-    },
-    "./*": {
-      "import": {
-        "types": "./src/*.d.ts",
-        "import": "./src/*.js"
       }
     }
   },

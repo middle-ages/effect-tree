@@ -1,6 +1,7 @@
 import {Array, Number, Option} from 'effect'
 import {
   branch,
+  Codec,
   drawTree,
   from,
   map,
@@ -8,7 +9,8 @@ import {
   type Branch,
   type Tree,
 } from 'effect-tree'
-import {Arrays, Edges, Indented, Paths, Prufer} from 'effect-tree/codec'
+
+const {Arrays, Edges, Indented, Paths, Prufer} = Codec
 
 // The numeric tree we will be encoding/decoding.
 //
@@ -38,7 +40,7 @@ console.log(drawTree.unlines(stringy))
 // 1. NESTED ARRAYS
 // ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
 
-const arraysEncoded: Arrays.TreeArray<number> = Arrays.encode(numeric)
+const arraysEncoded: Codec.Arrays.TreeArray<number> = Arrays.encode(numeric)
 console.dir(arraysEncoded, {depth: 10})
 /*
 [
@@ -71,7 +73,7 @@ console.log(drawTree.number.unlines(arraysDecoded))
 // 2. EDGE LIST
 // ┈┈┈┈┈┈┈┈┈┈┈┈
 
-const edgeListEncoded: Array.NonEmptyArray<Edges.TreeEdge<number>> =
+const edgeListEncoded: Array.NonEmptyArray<Codec.Edges.TreeEdge<number>> =
   Edges.encode(numeric)
 console.dir(edgeListEncoded)
 /*

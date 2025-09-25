@@ -1,15 +1,16 @@
 import {Option, pipe} from 'effect'
-import {addLevelLabels, binaryTree, drawTree, drill, map, of} from 'effect-tree'
 import {
-  append,
-  fromTree,
-  getValue,
-  head,
-  headN,
-  toTree,
-  tryHeadN,
-} from 'effect-tree/zipper'
+  Zipper,
+  addLevelLabels,
+  binaryTree,
+  drawTree,
+  drill,
+  map,
+  of,
+} from 'effect-tree'
 import {constant} from 'effect/Function'
+
+const {append, fromTree, getValue, head, headN, toTree, tryHeadN} = Zipper
 
 const tree = pipe(4, binaryTree, map(constant('')), addLevelLabels)
 console.log(drawTree.unlines(tree))

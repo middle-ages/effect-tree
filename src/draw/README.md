@@ -36,7 +36,9 @@ There are four types of the parts, two are atomic and two composite. All other p
 The functions [text](https://middle-ages.github.io/effect-tree-docs/functions/effect-tree.Draw.text.html), [row](https://middle-ages.github.io/effect-tree-docs/functions/effect-tree.Draw.row.html), and [column](https://middle-ages.github.io/effect-tree-docs/functions/effect-tree.Draw.column.html) are the basic ways to create the four part types, with the empty part exported as the constant [empty](https://middle-ages.github.io/effect-tree-docs/variables/effect-tree.Draw.empty.html).
 
 ```ts
-import {box, column, drawPart, empty, row, text} from 'effect-tree/draw'
+import {Draw} from 'effect-tree'
+
+const {box, column, drawPart, empty, row, text} = Draw
 
 // Two lists of text.
 const leftCells = [text('↑'), text('left|'), text('↓')]

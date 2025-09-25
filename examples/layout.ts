@@ -6,18 +6,10 @@ import {
   treeCata,
   withOrdinal,
   type TreeFolder,
+  Draw,
 } from 'effect-tree'
-import {
-  HStrut,
-  borderSet,
-  box,
-  column,
-  drawPart,
-  glyphGroups,
-  row,
-  text,
-  type Part,
-} from 'effect-tree/draw'
+
+const {HStrut, borderSet, box, column, drawPart, glyphGroups, row, text} = Draw
 
 // A vertical tree layout for ternary trees.
 
@@ -32,46 +24,45 @@ const self = pipe(
 
 const {cross, lines, elbows} = glyphGroups('thin')
 
-const topLeft = (indent: number): HStrut =>
+const topLeft = (indent: number): Draw.HStrut =>
   HStrut([lines.top], String.repeat(indent)(' ') + elbows.topLeft)
 
-const topRight = (indent: number): HStrut =>
+const topRight = (indent: number): Draw.HStrut =>
   HStrut([lines.top], '', elbows.topRight + String.repeat(indent)(' '))
 
 // Fold bottom-up a single level of a tree of numeric records with keys “depth”
 // and “ordinal” into a Part.
-const fold: TreeFolder<Record<'depth' | 'ordinal', number>, Part> = TreeF.match(
-  {
-    onLeaf: ({ordinal}) =>
-      text(
-        ordinal < 9
-          ? ` ${ordinal.toString()} `
-          : ordinal.toString().padStart(3),
-      ),
+const fold: TreeFolder<
+  Record<'depth' | 'ordinal', number>,
+  Draw.Part
+> = TreeF.match({
+  onLeaf: ({ordinal}) =>
+    text(
+      ordinal < 9 ? ` ${ordinal.toString()} ` : ordinal.toString().padStart(3),
+    ),
 
-    onBranch: ({ordinal, depth: branchDepth}, forest) => {
-      const indent = Math.floor(3 ** (depth - branchDepth) / 2)
+  onBranch: ({ordinal, depth: branchDepth}, forest) => {
+    const indent = Math.floor(3 ** (depth - branchDepth) / 2)
 
-      //         bar         ← valuePart
-      //
-      // indent ┌─┼─┐ indent ← forkPart   ⎫
-      //                                  ⎬ ← bottomPart
-      //       foo bar       ← forestPart ⎭
+    //         bar         ← valuePart
+    //
+    // indent ┌─┼─┐ indent ← forkPart   ⎫
+    //                                  ⎬ ← bottomPart
+    //       foo bar       ← forestPart ⎭
 
-      const valuePart = text(ordinal.toString())
-      const forkPart = text(cross)
-      const forestPart = row.bottom.center(forest)
+    const valuePart = text(ordinal.toString())
+    const forkPart = text(cross)
+    const forestPart = row.bottom.center(forest)
 
-      const bottomPart = column.center(
-        [forkPart, forestPart],
-        topLeft(indent),
-        topRight(indent),
-      )
+    const bottomPart = column.center(
+      [forkPart, forestPart],
+      topLeft(indent),
+      topRight(indent),
+    )
 
-      return column.center([valuePart, bottomPart])
-    },
+    return column.center([valuePart, bottomPart])
   },
-)
+})
 
 const folded = pipe(
   self,

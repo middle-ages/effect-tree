@@ -1,15 +1,15 @@
-import {binaryTree, drawTree} from 'effect-tree'
+import {leaf, binaryTree, drawTree, Zipper} from 'effect-tree'
 import {pipe} from 'effect'
 
-//                           A variant of “drawTree” that renders
-//                           numeric trees into a string
-//                                         ┊
-//                             ╭┄┄┄┄┄┄┄┄┄┄┄┴┄┄┄┄┄┄┄┄┄┄┄╮
-console.log(pipe(3, binaryTree, drawTree.number.unlines))
-//┬1
-//├┬2
-//│├─3
-//│└─3
-//└┬2
-// ├─3
-// └─3
+console.log(
+  pipe(
+    3,
+    binaryTree,
+    Zipper.fromTree,
+    Zipper.head,
+    Zipper.head,
+    Zipper.replace(leaf(42)),
+    Zipper.toTree,
+    drawTree.unixRound.number.unlines,
+  ),
+)

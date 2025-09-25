@@ -1,28 +1,20 @@
 import {Array, pipe} from 'effect'
-import {nAryTree} from 'effect-tree'
-import {
-  borderBottom,
-  borderSet,
-  box,
-  column,
-  drawPart,
-  drawTree,
-  row,
-  text,
-  type Part,
-} from 'effect-tree/draw'
+import {Draw, nAryTree} from 'effect-tree'
+
+const {borderBottom, borderSet, box, column, drawPart, drawTree, row, text} =
+  Draw
 
 // Draw unary, binary, and ternary N-ary trees.
 console.log(
   pipe(
     Array.range(1, 3),
     Array.map(degreeTree),
-    row.bottom.center,
+    row.top.center,
     drawPart.unlines,
   ),
 )
 
-function label(degree: number): Part {
+function label(degree: number): Draw.Part {
   return pipe(
     `degree…${degree.toString()}`,
     text,
@@ -30,7 +22,7 @@ function label(degree: number): Part {
   )
 }
 
-function degreeTree(degree: number): Part {
+function degreeTree(degree: number): Draw.Part {
   return pipe(
     {degree, depth: 4},
     nAryTree.string,
@@ -43,12 +35,25 @@ function degreeTree(degree: number): Part {
 }
 
 /**
-                    ┌────────┐
-                    │degree…3│
-                    │────────│
-                    │ ┬1     │
-                    │ ├┬2    │
-                    │ │├┬3   │
+┌────────┐┌────────┐┌────────┐
+│degree…1││degree…2││degree…3│
+│────────││────────││────────│
+│ ┬1     ││ ┬1     ││ ┬1     │
+│ └┬2    ││ ├┬2    ││ ├┬2    │
+│  └┬3   ││ │├┬3   ││ │├┬3   │
+│   └─4  ││ ││├─4  ││ ││├─4  │
+└────────┘│ ││└─4  ││ ││├─4  │
+          │ │└┬3   ││ ││└─4  │
+          │ │ ├─4  ││ │├┬3   │
+          │ │ └─4  ││ ││├─4  │
+          │ └┬2    ││ ││├─4  │
+          │  ├┬3   ││ ││└─4  │
+          │  │├─4  ││ │└┬3   │
+          │  │└─4  ││ │ ├─4  │
+          │  └┬3   ││ │ ├─4  │
+          │   ├─4  ││ │ └─4  │
+          │   └─4  ││ ├┬2    │
+          └────────┘│ │├┬3   │
                     │ ││├─4  │
                     │ ││├─4  │
                     │ ││└─4  │
@@ -60,31 +65,19 @@ function degreeTree(degree: number): Part {
                     │ │ ├─4  │
                     │ │ ├─4  │
                     │ │ └─4  │
-                    │ ├┬2    │
-                    │ │├┬3   │
-                    │ ││├─4  │
-                    │ ││├─4  │
-                    │ ││└─4  │
-                    │ │├┬3   │
-                    │ ││├─4  │
-                    │ ││├─4  │
-          ┌────────┐│ ││└─4  │
-          │degree…2││ │└┬3   │
-          │────────││ │ ├─4  │
-          │ ┬1     ││ │ ├─4  │
-          │ ├┬2    ││ │ └─4  │
-          │ │├┬3   ││ └┬2    │
-          │ ││├─4  ││  ├┬3   │
-          │ ││└─4  ││  │├─4  │
-          │ │└┬3   ││  │├─4  │
-          │ │ ├─4  ││  │└─4  │
-          │ │ └─4  ││  ├┬3   │
-┌────────┐│ └┬2    ││  │├─4  │
-│degree…1││  ├┬3   ││  │├─4  │
-│────────││  │├─4  ││  │└─4  │
-│ ┬1     ││  │└─4  ││  └┬3   │
-│ └┬2    ││  └┬3   ││   ├─4  │
-│  └┬3   ││   ├─4  ││   ├─4  │
-│   └─4  ││   └─4  ││   └─4  │
-└────────┘└────────┘└────────┘
+                    │ └┬2    │
+                    │  ├┬3   │
+                    │  │├─4  │
+                    │  │├─4  │
+                    │  │└─4  │
+                    │  ├┬3   │
+                    │  │├─4  │
+                    │  │├─4  │
+                    │  │└─4  │
+                    │  └┬3   │
+                    │   ├─4  │
+                    │   ├─4  │
+                    │   └─4  │
+                    └────────┘
+
 */

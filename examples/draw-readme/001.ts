@@ -1,4 +1,6 @@
-import {box, column, drawPart, empty, row, text} from 'effect-tree/draw'
+import {Draw} from 'effect-tree'
+
+const {box, column, drawPart, empty, row, text} = Draw
 
 // Two lists of text.
 const leftCells = [text('↑'), text('left|'), text('↓')]
