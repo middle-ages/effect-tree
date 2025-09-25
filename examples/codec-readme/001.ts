@@ -1,20 +1,3 @@
-# Codecs
-
-There are five codecs that can encode/decode trees:
-
-1. [Nested Arrays](https://middle-ages.github.io/effect-tree-docs/modules/Codec.Arrays.html)
-1. [Edge List](https://middle-ages.github.io/effect-tree-docs/modules/Codec.Edges.html)
-1. [Indented Strings](https://middle-ages.github.io/effect-tree-docs/modules/Codec.Indented.html)
-1. [List of Leaf Paths](https://middle-ages.github.io/effect-tree-docs/modules/Codec.Paths.html)
-1. [Prüfer Code](https://middle-ages.github.io/effect-tree-docs/modules/Codec.Prufer.html)
-
-## Using
-
-Every codec can _encode_ and _decode_ losslessly to/from trees.
-
-See also the [codec example](https://github.com/middle-ages/effect-tree/blob/main/examples/codecs.ts) showing the same tree encoded and decoded through every codec.
-
-```ts
 import {type Tree, drawTree, binaryTree, Codec, asOrdinal} from 'effect-tree'
 import {Number, pipe} from 'effect'
 
@@ -50,4 +33,3 @@ console.log(drawTree.number.unlines(decoded))
 // └┬6
 //  ├─4
 //  └─5
-```
