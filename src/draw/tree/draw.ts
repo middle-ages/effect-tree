@@ -14,6 +14,14 @@ import {
 
 /**
  * Type of the base draw function: draw a tree into some output format.
+ *
+ * A function of the type:
+ *
+ * ```ts
+ *{ (self: Tree<A>): Out }
+ * ```
+ * @typeParam A - Underlying type of the tree being printed.
+ * @typeParam Out - Output type of drawing function. Usually multiline string or * array of string lines for terminal output.
  * @category drawing
  */
 export interface BaseDraw<A, Out> {
@@ -22,9 +30,84 @@ export interface BaseDraw<A, Out> {
 
 /**
  * A function that draws string trees into a non-empty array of string rows.
+ * Defined as {@link BaseDraw} fixed on `string` input and on output of
+ * `NonEmptyArray<string>`.
+ *
+ * A function of the type:
+ *
+ * ```ts
+ * { (self: Tree<string>): NonEmptyArray<string> }
+ * ```
  * @category drawing
  */
 export interface StringDraw extends BaseDraw<string, NonEmptyArray<string>> {}
+
+/**
+ * Type of the unlines draw function: a {@link BaseDraw} that outputs to a
+ * non-empty array of strings, and has a variant under the `unlines` key.
+ *
+ * At the key `unlines` you will find a version that draws to a `string` instead
+ * of a `NonEmptyArray<string>` by joining the rows with newlines.
+ *
+ * A function of the type:
+ *
+ * ```ts
+ * {
+ *   (self: Tree<A>): NonEmptyArray<string>
+ *   unlines: (self: Tree<A>) ⇒ NonEmptyArray<string>
+ * }
+ * ```
+ * @typeParam A - Underlying type of the tree being printed.
+ * @category drawing
+ */
+export interface UnlinesDraw<A> extends BaseDraw<A, NonEmptyArray<string>> {
+  unlines: BaseDraw<A, string>
+}
+
+/**
+ * Type of the enriched draw function: an {@link UnlinesDraw} for strings, with
+ * another version of the very same {@link UnlinesDraw} at the key `number`
+ * specialized for numeric trees.
+ *
+ * A function of the type:
+ *
+ * ```ts
+ * {
+ *   (self: Tree<string>): NonEmptyArray<string>
+ *   unlines: (self: Tree<string>) ⇒ string
+ *   number: {
+ *     (self: Tree<number>) ⇒ NonEmptyArray<string>
+ *     unlines: (self: Tree<number>) ⇒ string
+ *   }
+ * }
+ * ```
+ * @category drawing
+ */
+export interface EnrichedDraw extends UnlinesDraw<string> {
+  number: UnlinesDraw<number>
+}
+
+/**
+ * Type of the {@link drawTree} function: exactly like {@link EnrichedDraw} but
+ * adds a key per theme name with another {@link EnrichedDraw} as the value.
+ *
+ * A function of the type:
+ *
+ * ```ts
+ * {
+ *     (self: Tree<string>): NonEmptyArray<string>
+ *     unlines: (self: Tree<string>) ⇒ string
+ *     number: {
+ *       (self: Tree<number>) ⇒ NonEmptyArray<string>
+ *       unlines: (self: Tree<number>) ⇒ string
+ *     }
+ * } & Record<ThemeName, EnrichedDraw>
+ * ```
+ * @category drawing
+ */
+export interface DrawTree
+  extends EnrichedDraw,
+    Record<ThemeName, EnrichedDraw> {}
 
 const _themedTree = (self: Tree<string>, theme: Theme) =>
   pipe(
@@ -38,6 +121,8 @@ const _themedTree = (self: Tree<string>, theme: Theme) =>
  * Draw a tree as a 2D array of glyphs in the given theme.
  *
  * At the key `unlines` you will find a version that joins output into a string.
+ *
+ * You can get themes by name using the {@link getTheme | getTheme function}.
  * @category drawing
  * @function
  */
@@ -49,17 +134,6 @@ export const themedTree: {
   unlines: (theme: Theme) => (self: Tree<string>) =>
     String.unlines(_themedTree(self, theme)),
 })
-
-/**
- * Type of the {@link drawTree} function: an {@link EnrichedDraw}  with an
- * {@link UnlinesDraw} at each key named after a
- * {@link themeNames | theme name}.
- * @category drawing
- * @function
- */
-export interface DrawTree
-  extends EnrichedDraw,
-    Record<ThemeName, EnrichedDraw> {}
 
 /**
  * Draw a string or numeric tree into a non-empty array of string rows.
@@ -116,16 +190,6 @@ export const drawTree: DrawTree = Object.assign(
 )
 
 /**
- * Type of the enriched draw function: an {@link UnlinesDraw} for strings, with
- * another version of {@link UnlinesDraw} at the key `number` specialized
- * for numeric trees.
- * @category drawing
- */
-export interface EnrichedDraw extends UnlinesDraw<string> {
-  number: UnlinesDraw<number>
-}
-
-/**
  * @category internal
  * @function
  */
@@ -133,17 +197,6 @@ export function enrichedDraw(themeName: ThemeName): EnrichedDraw {
   return Object.assign(unlinesDraw<string>(themeName, identity), {
     number: unlinesDraw<number>(themeName, String.fromNumber),
   })
-}
-
-/**
- * Type of the unlines draw function: a {@link BaseDraw} with `unlines`.
- *
- * At the key `unlines` you will find a version that draws to a `string` instead
- * of a `NonEmptyArray<string>` by joining the rows with newlines.
- * @category drawing
- */
-export interface UnlinesDraw<A> extends BaseDraw<A, NonEmptyArray<string>> {
-  unlines: BaseDraw<A, string>
 }
 
 function unlinesDraw<A>(

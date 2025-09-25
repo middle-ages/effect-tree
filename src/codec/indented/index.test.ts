@@ -7,25 +7,25 @@ import {describe, expect, test} from 'vitest'
 
 describe('encode', () => {
   const iut: (self: Tree<string>) => Array.NonEmptyArray<string> =
-    Indented.encode(2)((value: string, depth) => `${value}@${depth.toString()}`)
+    Indented.encode(2)
 
   test('leaf', () => {
-    expect(iut(of('A'))).toEqual(['A@0'])
+    expect(iut(of('A'))).toEqual(['A'])
   })
 
   test('string tree', () => {
     expect(`\n` + String.unlines(iut(stringTree))).toBe(`
-1@0
-  1.1@1
-  1.2@1
-    1.2.1@2
-    1.2.2@2
-    1.2.3@2
-  1.3@1
-    1.3.1@2
-      1.3.1.1@3
-        1.3.1.1.1@4
-  1.4@1`)
+1
+  1.1
+  1.2
+    1.2.1
+    1.2.2
+    1.2.3
+  1.3
+    1.3.1
+      1.3.1.1
+        1.3.1.1.1
+  1.4`)
   })
 })
 

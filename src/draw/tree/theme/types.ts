@@ -43,11 +43,13 @@ export type ThemeName = GlyphSetName
  */
 export type ThemeMap = Record<ThemeName, Theme>
 
-/*
- * A _tree theme_ maps drawing roles to actual glyphs and styles. For example, a
- * theme could map the glyph role `top-left-elbow`, used when you need an elbow
- * shape pointing top-left, to the glyph `┌`, while another could map it to the
- * glyph `╭`.
+/**
+ * A _tree theme_:
+ *
+ * - Maps drawing roles to actual glyphs and styles. For example, a theme could map the glyph role `top-left-elbow`, used when you need an elbow shape pointing top-left, to the glyph `┌`, while another could map it to the glyph `╭`.
+ * - Configures indent count. Indents used when moving from parent to child and set the horizontal spacing between adjacent tree levels.
+ * - Configures vertical spacing. Vertical spacing is added between nodes.
+ * - Can format nodes before drawing, for example to convert to string.
  * @category drawing
  */
 export interface Theme {

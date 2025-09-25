@@ -1,6 +1,6 @@
 import {type Branch, type Tree} from '#tree'
 import {Array} from '#util'
-import {identity, Number, type Order} from 'effect'
+import {Number, type Order} from 'effect'
 import type {Isomorphism} from 'effect-ts-laws/typeclass'
 import type {NonEmptyArray} from 'effect/Array'
 import {
@@ -69,6 +69,6 @@ export const PruferIsomorphism: BranchIsomorphism<number, number[]> = {
 export const IndentedIsomorphism = (
   indent: number,
 ): TreeIsomorphism<string, NonEmptyArray<string>> => ({
-  to: encodeIndented(indent)(identity),
+  to: encodeIndented(indent),
   from: decodeIndented,
 })

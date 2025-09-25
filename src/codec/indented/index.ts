@@ -1,46 +1,40 @@
 import {annotateDepthUnfold, preOrderFold} from '#ops'
 import {fixTree, treeAna, treeHylo, type Tree} from '#tree'
 import * as TreeF from '#treeF'
-import {Array, identity, pipe, String} from '#util'
+import {Array, Function, pipe, String} from '#util'
 
 /**
- * Given an encoder that can format a value of type `A` into a single line
- * string, encode a tree of `A` into a `YAML`-like indented format where
- * indentation indicates node depth.
- *
- * At the key `string` you will find a version specialized for string trees.
- * @param indent - number of space characters that separate adjacent tree levels.
+ * Encode a string tree into a `YAML`-like indented format where indentation, be
+ * default set at `2` spaces, indicates node depth.
+ * @param self - The tree to be encoded.
+ * @param indent - Optional number of space characters that separate adjacent tree levels. Default is `2`.
  * @category codec
  * @function
  */
-export const encode =
-  (indent: number) =>
-  /**
-   * Only string trees can be indent encoded. Provide a function to format your
-   * nodes as strings or use `Effect.identity` if your string is already a string
-   * tree, or use the function you will find in the key `string`.
-   */
-  <A>(formatter: (a: A, depth: number) => string) =>
-  /**
-   * The tree to be encoded.
-   */
-  (self: Tree<A>): Array.NonEmptyArray<string> => {
-    type Pair = readonly [A, number]
+export const encode: {
+  (self: Tree<string>, indent?: number): Array.NonEmptyArray<string>
+  (indent?: number): (self: Tree<string>) => Array.NonEmptyArray<string>
+} = Function.dual(
+  2,
+  (self: Tree<string>, indent = 2): Array.NonEmptyArray<string> => {
     return pipe(
       [self, 0],
-      treeHylo(annotateDepthUnfold<A>, preOrderFold<Pair>),
-      Array.map(
-        ([a, depth]) =>
-          String.nSpaces((depth - 1) * indent) + formatter(a, depth - 1),
+      treeHylo(
+        annotateDepthUnfold<string>,
+        preOrderFold<readonly [string, number]>,
+      ),
+      Array.map(([a, depth]) =>
+        pipe((depth - 1) * indent, String.nSpaces, String.suffix(a)),
       ),
     )
-  }
-
-encode.string = (self: Tree<string>): Array.NonEmptyArray<string> =>
-  encode(2)<string>(identity)(self)
+  },
+)
 
 /**
  * Decode a list of indented lines into a string tree.
+ * @param lines - non-empty array of non-empty strings, each encoding a tree
+ * node with indent set as a multiple of node depth.
+ * @returns A decoded string tree.
  * @category codec
  * @function
  */
@@ -59,7 +53,7 @@ export const decode = (lines: Array.NonEmptyArray<string>): Tree<string> => {
 }
 
 /**
- * Decode a level of a tree from a list of indented lines where indentation
+ * Decode a single level of a tree from a list of indented lines where indentation
  * represents node depth.
  * @category codec
  * @category unfold
