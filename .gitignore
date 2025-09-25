@@ -8,3 +8,4 @@ tmp
 api-docs
 examples/.snapshot
 temp
+tsdoc-metadata.json
