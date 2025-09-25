@@ -37,7 +37,7 @@ import {tryHead, tryNext, tryUp} from './navigate.js'
  * Returns `Option.none` when the final node in the traversal has been reached.
  *
  * See {@link depthFirst} for an unsafe version.
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if there is no next node in the depth-first traversal.
  * @category zipper
  * @function
@@ -96,7 +96,7 @@ export const tryDepthFirst: OptionalZipper = self => {
  * Returns `Option.none` when the final node in the traversal has been reached.
  *
  * This is the unsafe version of {@link tryDepthFirst}.
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function

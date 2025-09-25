@@ -18,9 +18,9 @@ import type {Branch, ForestOf, Tree} from './types.js'
  *
  * If the index is out-of-bounds, I.E.: negative or greater than `forest length
  * - 1`, the list is appended to the _end_ of the forest.
- * @typeParam A - Tree underlying type.
- * @param self - The tree to modify.
- * @param children - Non-empty list of child trees to insert.
+ * @typeParam A Tree underlying type.
+ * @param self The tree to modify.
+ * @param children Non-empty list of child trees to insert.
  * @returns A new updated tree with the new child trees inserted.
  * @category basic
  * @function
@@ -59,8 +59,8 @@ export const insertAllAt: {
  *
  * If the index is out-of-bounds, I.E.: negative or greater than `forest length
  * - 1`, the tree is appended to the _end_ of the forest.
- * @typeParam A - Tree underlying type.
- * @param self - The tree to modify.
+ * @typeParam A Tree underlying type.
+ * @param self The tree to modify.
  * @param child- Child to insert.
  * @returns A new updated tree with the new node inserted.
  * @category basic
@@ -78,9 +78,9 @@ export const insertAt: {
 /**
  * Append a tree to the children of the root node. If `self` is a _leaf_, it is
  * converted into a branch.
- * @typeParam A - Tree underlying type.
- * @param self - The tree to modify.
- * @param child - Child to append.
+ * @typeParam A Tree underlying type.
+ * @param self The tree to modify.
+ * @param child Child to append.
  * @returns A new updated tree with the new node appended.
  * @category basic
  * @function
@@ -99,9 +99,9 @@ export const append: {
 /**
  * Prepend a tree to the children of the root node. If `self` is a _leaf_, it is
  * converted into a branch.
- * @typeParam A - Tree underlying type.
- * @param self - The tree to modify.
- * @param child - Child to prepend.
+ * @typeParam A Tree underlying type.
+ * @param self The tree to modify.
+ * @param child Child to prepend.
  * @returns A new updated tree with the new node prepended.
  * @category basic
  * @function
@@ -120,9 +120,9 @@ export const prepend: {
 /**
  * Append a list of trees to the children of the root node. If `self` is a
  * _leaf_, it is converted into a branch.
- * @typeParam A - Tree underlying type.
- * @param self - The tree to modify.
- * @param children - A non-empty list of trees to append to the tree.
+ * @typeParam A Tree underlying type.
+ * @param self The tree to modify.
+ * @param children A non-empty list of trees to append to the tree.
  * @returns A new updated tree with the new nodes appended.
  * @category basic
  * @function
@@ -143,9 +143,9 @@ export const appendAll: {
 /**
  * Prepend a list of trees to the children of the root node. If `self` is a
  * _leaf_, it is converted into a branch.
- * @typeParam A - Tree underlying type.
- * @param self - The tree to modify.
- * @param children - A non-empty list of trees to prepend to the tree.
+ * @typeParam A Tree underlying type.
+ * @param self The tree to modify.
+ * @param children A non-empty list of trees to prepend to the tree.
  * @returns A new updated tree with the new nodes prepended.
  * @category basic
  * @function

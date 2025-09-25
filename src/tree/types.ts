@@ -18,7 +18,7 @@ import {type NonEmptyReadonlyArray} from 'effect/Array'
  *   }
  * }
  * ```
- * @typeParam A - Underlying tree type.
+ * @typeParam A Underlying tree type.
  * @category basic
  */
 export type Tree<A> = Fix<TreeFTypeLambda, A>
@@ -26,7 +26,7 @@ export type Tree<A> = Fix<TreeFTypeLambda, A>
 /**
  * The leaf type of {@link Tree}. Leaves are simple wrappers over
  * {@link LeafF} values.
- * @typeParam A - Underlying tree type.
+ * @typeParam A Underlying tree type.
  * @category basic
  */
 export type Leaf<A> = Record<'unfixed', LeafF<A>>
@@ -34,7 +34,7 @@ export type Leaf<A> = Record<'unfixed', LeafF<A>>
 /**
  * The branch type of {@link Tree}. Branches are simple wrappers over
  * {@link BranchF} values.
- * @typeParam A - Underlying tree type.
+ * @typeParam A Underlying tree type.
  * @category basic
  */
 export type Branch<A> = Record<'unfixed', BranchF<A, Tree<A>>>
@@ -61,7 +61,7 @@ export interface TreeTypeLambda extends HKT.TypeLambda {
 
 /**
  * A non-empty list of trees.
- * @typeParam A - Underlying tree type.
+ * @typeParam A Underlying tree type.
  * @category basic
  */
 export type ForestOf<A> = NonEmptyReadonlyArray<Tree<A>>

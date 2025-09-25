@@ -27,7 +27,7 @@ import {tryRepeat} from './repeat.js'
  * See {@link head} for an unsafe version.
  *
  * This is like {@link rewind} except it will descend one tree level.
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if there is no first child.
  * @category zipper
  * @function
@@ -57,9 +57,9 @@ export const tryHead: OptionalZipper = self => {
  * Will return `Option.none` if given negative indexes.
  *
  * See {@link headN} for an unsafe version.
- * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
- * @param n - Number of tree levels to descend.
+ * @typeParam A The underlying type of the tree.
+ * @param self The zipper that will be navigated.
+ * @param n Number of tree levels to descend.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if the path to the Nth level is not valid.
  * @category zipper
  * @function
@@ -80,7 +80,7 @@ export const tryHeadN: {
  * See {@link last} for an unsafe version.
  *
  * This is like {@link end} except it will descend one tree level.
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if there is no last child.
  * @category zipper
  * @function
@@ -110,9 +110,9 @@ export const tryLast: OptionalZipper = self => {
  * Will return `Option.none` if given negative indexes.
  *
  * See {@link lastN} for an unsafe version.
- * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
- * @param n - Number of tree levels to descend.
+ * @typeParam A The underlying type of the tree.
+ * @param self The zipper that will be navigated.
+ * @param n Number of tree levels to descend.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if the path to the Nth level is not valid.
  * @category zipper
  * @function
@@ -135,7 +135,7 @@ export const tryLastN: {
  * focus forest.
  *
  * This is like {@link head} except it will remain on the same tree level.
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function
@@ -163,7 +163,7 @@ export const rewind: EndoK<ZipperTypeLambda> = self => {
  * the focus forest.
  *
  * This is like {@link last} except it will remain on the same tree level.
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function
@@ -188,7 +188,7 @@ export const end: EndoK<ZipperTypeLambda> = <A>(self: Zipper<A>) => {
  * focused node is the head node in its forest.
  *
  * See {@link previous} for an unsafe version.
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if there is no previous sibling.
  * @category zipper
  * @function
@@ -221,8 +221,8 @@ export const tryPrevious: OptionalZipper = ({
  * Will return `Option.none` if given negative indexes.
  *
  * See {@link previousN} for an unsafe version.
- * @typeParam A - The underlying type of the tree.
- * @param n - Number of siblings to skip to the left.
+ * @typeParam A The underlying type of the tree.
+ * @param n Number of siblings to skip to the left.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if `previous` cannot be repeated N times.
  * @category zipper
  * @function
@@ -241,7 +241,7 @@ export const tryPreviousN: {
  * focused node is the last node in its forest.
  *
  * See {@link next} for an unsafe version.
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if there is no next sibling.
  * @category zipper
  * @function
@@ -269,9 +269,9 @@ export const tryNext: OptionalZipper = ({focus, lefts, rights, ...rest}) => {
  * Will return `Option.none` if given negative indexes.
  *
  * See {@link nextN} for an unsafe version.
- * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
- * @param n - Number of siblings to skip to the left.
+ * @typeParam A The underlying type of the tree.
+ * @param self The zipper that will be navigated.
+ * @param n Number of siblings to skip to the left.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if `next` cannot be repeated N times.
  * @category zipper
  * @function
@@ -290,7 +290,7 @@ export const tryNextN: {
  * focused on a root node.
  *
  * See {@link up} for an unsafe version.
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if zipper focus is on root node.
  * @category zipper
  * @function
@@ -322,9 +322,9 @@ export const tryUp: OptionalZipper = <A>({
  * the tree before that and so on.
  *
  * See {@link at} for an unsafe version.
- * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
- * @param n - Index of child that will be the new zipper focus.
+ * @typeParam A The underlying type of the tree.
+ * @param self The zipper that will be navigated.
+ * @param n Index of child that will be the new zipper focus.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if the node is a leaf or the given index is out-of-bounds.
  * @category zipper
  * @function
@@ -360,7 +360,7 @@ export const tryAt: {
 
 /**
  * Navigate from any node to the root node.
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at the root node of the tree.
  * @category zipper
  * @function
@@ -370,7 +370,7 @@ export const root: EndoK<ZipperTypeLambda> = flow(toTree, fromTree)
 /**
  * Navigate from a node to its first child or throw an exception if the focused
  * node is a {@link Leaf}. Unsafe version of {@link tryHead}.
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function
@@ -387,9 +387,9 @@ export const head: EndoK<ZipperTypeLambda> = flow(tryHead, Option.getOrThrow)
  * Will throw an exception on negative indexes.
  *
  * Unsafe version of {@link tryHeadN}.
- * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
- * @param n - Number of tree levels to descend.
+ * @typeParam A The underlying type of the tree.
+ * @param self The zipper that will be navigated.
+ * @param n Number of tree levels to descend.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function
@@ -406,7 +406,7 @@ export const headN: {
 /**
  * Navigate from a node to its last child or throw an exception if the focused
  * node is a {@link Leaf}. Unsafe version of {@link tryLast}.
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function
@@ -423,9 +423,9 @@ export const last: EndoK<ZipperTypeLambda> = flow(tryLast, Option.getOrThrow)
  * Will throw an exception on negative indexes.
  *
  * Unsafe version of {@link tryLastN}.
- * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
- * @param n - Number of tree levels to descend.
+ * @typeParam A The underlying type of the tree.
+ * @param self The zipper that will be navigated.
+ * @param n Number of tree levels to descend.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function
@@ -442,7 +442,7 @@ export const lastN: {
 /**
  * Navigate from a node to its previous sibling or throw an exception if the
  * focused node is the forest head. Unsafe version of {@link tryPrevious}.
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function
@@ -461,9 +461,9 @@ export const previous: EndoK<ZipperTypeLambda> = flow(
  * Will throw an exception on negative indexes.
  *
  * Unsafe version of {@link tryPreviousN}.
- * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
- * @param n - Number of siblings to skip to the left.
+ * @typeParam A The underlying type of the tree.
+ * @param self The zipper that will be navigated.
+ * @param n Number of siblings to skip to the left.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function
@@ -481,7 +481,7 @@ export const previousN: {
  * Navigate from a node to its next sibling or throw an exception if the
  * focused node is the last node in its forest. Unsafe version of
  * {@link tryNext}.
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function
@@ -498,9 +498,9 @@ export const next: EndoK<ZipperTypeLambda> = flow(tryNext, Option.getOrThrow)
  * Will throw an exception on negative indexes.
  *
  * Unsafe version of {@link tryPreviousN}.
- * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
- * @param n - Number of siblings to skip to the right.
+ * @typeParam A The underlying type of the tree.
+ * @param self The zipper that will be navigated.
+ * @param n Number of siblings to skip to the right.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function
@@ -517,7 +517,7 @@ export const nextN: {
 /**
  * Navigate from a node to its parent or throw an exception if the
  * focused node is a tree root. Unsafe version of {@link tryUp}.
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function
@@ -532,9 +532,9 @@ export const up: EndoK<ZipperTypeLambda> = flow(tryUp, Option.getOrThrow)
  * Negative indexes are handled as offsets from the final tree in the forest so
  * that focusing on index `-1` focuses on the last tree in the forest, `-2` on
  * the tree before that and so on.
- * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
- * @param n - Index of child that will be the new zipper focus.
+ * @typeParam A The underlying type of the tree.
+ * @param self The zipper that will be navigated.
+ * @param n Index of child that will be the new zipper focus.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function

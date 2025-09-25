@@ -20,8 +20,8 @@ const _encode = (self: Tree<string>, indent = 2): Array.NonEmptyArray<string> =>
  * default set at `2` spaces, indicates node depth.
  *
  * You will find a curried version under the key `curried`.
- * @param self - The tree to be encoded.
- * @param indent - Optional number of space characters that separate adjacent tree levels. Default is `2`.
+ * @param self The tree to be encoded.
+ * @param indent Optional number of space characters that separate adjacent tree levels. Default is `2`.
  * @category codec
  * @function
  */
@@ -39,7 +39,7 @@ export const encode: {
 
 /**
  * Decode a list of indented lines into a string tree.
- * @param lines - non-empty array of non-empty strings, each encoding a tree
+ * @param lines Non-empty array of non-empty strings, each encoding a tree
  * node with indent set as a multiple of node depth.
  * @returns A decoded string tree.
  * @category codec

@@ -20,8 +20,8 @@ import {
  * ```ts
  *{ (self: Tree<A>): Out }
  * ```
- * @typeParam A - Underlying type of the tree being printed.
- * @typeParam Out - Output type of drawing function. Usually multiline string or * array of string lines for terminal output.
+ * @typeParam A Underlying type of the tree being printed.
+ * @typeParam Out Output type of drawing function. Usually multiline string or * array of string lines for terminal output.
  * @category drawing
  */
 export interface BaseDraw<A, Out> {
@@ -57,7 +57,7 @@ export interface StringDraw extends BaseDraw<string, NonEmptyArray<string>> {}
  *   unlines: (self: Tree<A>) ⇒ NonEmptyArray<string>
  * }
  * ```
- * @typeParam A - Underlying type of the tree being printed.
+ * @typeParam A Underlying type of the tree being printed.
  * @category drawing
  */
 export interface UnlinesDraw<A> extends BaseDraw<A, NonEmptyArray<string>> {

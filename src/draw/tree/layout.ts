@@ -11,7 +11,7 @@ import {branchLabel, headBranch, leafLabel, tailBranch} from './atoms.js'
  * Convert a tree into a themed part.
  *
  * You can find a flipped version under the key `flip`.
- * @param tree - The string tree to draw.
+ * @param tree The string tree to draw.
  * @category drawing
  * @function
  */

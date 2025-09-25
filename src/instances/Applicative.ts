@@ -36,7 +36,7 @@ export const productMany = SP.productMany<TreeTypeLambda>(map, product)
 /**
  * Compute the cartesian product of multiple trees into a single tree.
  * Returns a leaf node containing an empty array if the input is empty.
- * @param collection - Cartesian product will be computed on this iterable of
+ * @param collection Cartesian product will be computed on this iterable of
  * trees.
  * @returns The tree that is the cartesian product of all given trees.
  * @category instances

@@ -6,9 +6,9 @@ import type {BorderSet, CornerDirection} from './types.js'
 
 /**
  * Replace the border line at a direction in the given set.
- * @param set - The border set to change.
- * @param direction - Line direction to change.
- * @param glyph - New glyph.
+ * @param set The border set to change.
+ * @param direction Line direction to change.
+ * @param glyph New glyph.
  * @returns Updated border set.
  * @category drawing
  * @function
@@ -38,9 +38,9 @@ export const replaceBorderLine: {
 
 /**
  * Replace the border elbow at a direction in the given set.
- * @param set - The border set to change.
- * @param direction - Corner direction to change.
- * @param glyph - New glyph.
+ * @param set The border set to change.
+ * @param direction Corner direction to change.
+ * @param glyph New glyph.
  * @returns Updated border set.
  * @category drawing
  * @function

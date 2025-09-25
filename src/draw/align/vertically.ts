@@ -58,10 +58,10 @@ import {matchVertical, type VerticalAlignment} from './data.js'
  *                             6 └─────────┘
  * ```
  *
- * @param vStruts - Top and bottom vertical struts will be used to fill available space.
- * @param vAlign - A vertical alignment will be used when not all shapes are of the same height.
- * @param alignOrthogonal - A function that accepts a list of strings at different widths and returns them at the width of the widest, respecting alignments and struts.
- * @param useTopRound - Optional flag determining if remainder is added above or below the shape. By default it is `false` and the remainder is added below the shape.
+ * @param vStruts Top and bottom vertical struts will be used to fill available space.
+ * @param vAlign A vertical alignment will be used when not all shapes are of the same height.
+ * @param alignOrthogonal A function that accepts a list of strings at different widths and returns them at the width of the widest, respecting alignments and struts.
+ * @param useTopRound Optional flag determining if remainder is added above or below the shape. By default it is `false` and the remainder is added below the shape.
  * @category drawing
  * @function
  */

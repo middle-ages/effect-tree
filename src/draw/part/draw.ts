@@ -23,7 +23,7 @@ const drawFold: Algebra<PartFTypeLambda, string[]> = matchPartF(
 
 /**
  * Render a part into a list of strings rows.
- * @param part - Part to be drawn.
+ * @param part Part to be drawn.
  * @returns Possibly empty array of lines.
  * @category drawing
  * @function

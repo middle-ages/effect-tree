@@ -14,9 +14,9 @@ import {
  * `Option.none` if the operator fails along the way.
  *
  * See {@link repeat} for an unsafe version.
- * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
- * @param n - How many times to apply the given navigation. No matter the navigation repeated, if `n=0` the given zipper will be returned unchanged.
+ * @typeParam A The underlying type of the tree.
+ * @param self The zipper that will be navigated.
+ * @param n How many times to apply the given navigation. No matter the navigation repeated, if `n=0` the given zipper will be returned unchanged.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if the navigation failed because the path is invalid.
  * @category zipper
  * @function
@@ -63,9 +63,9 @@ export const tryRepeat: {
  *
  * See {@link repeatUntilValue} for a version that matches on the focused tree
  * node _value_ instead of the focused tree node.
- * @typeParam A - The underlying type of the tree.
- * @param navigation - A function that takes a zipper and returns either an updated zipper focused on a different tree node, or `Option.none`.
- * @param predicate - Will be matched against every tree node reached by the navigation.
+ * @typeParam A The underlying type of the tree.
+ * @param navigation A function that takes a zipper and returns either an updated zipper focused on a different tree node, or `Option.none`.
+ * @param predicate Will be matched against every tree node reached by the navigation.
  * @returns An updated zipper if the search criteria matched an element along the navigation given, else `Option.none`.
  * @category zipper
  * @function
@@ -117,9 +117,9 @@ export const repeatUntil =
  * See {@link repeatUntil} for a version that matches on the focused tree
  * node and not just its value which allows you, for example, to test the node
  * children.
- * @typeParam A - The underlying type of the tree.
- * @param navigation - A function that takes a zipper and returns either an updated zipper focused on a different tree node, or `Option.none`.
- * @param predicate - Will be matched against every tree node reached by the navigation.
+ * @typeParam A The underlying type of the tree.
+ * @param navigation A function that takes a zipper and returns either an updated zipper focused on a different tree node, or `Option.none`.
+ * @param predicate Will be matched against every tree node reached by the navigation.
  * @returns An updated zipper if the search criteria matched an element along the navigation given, else `Option.none`.
  *
  * @category zipper
@@ -135,8 +135,8 @@ export const repeatUntilValue = <A>(
  * Repeat the given navigation operator N times and return the final result or
  * throw and exception if the operator fails along the way.
  * Unsafe version of {@link tryRepeat}.
- * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
+ * @typeParam A The underlying type of the tree.
+ * @param self The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function

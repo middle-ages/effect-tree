@@ -113,7 +113,7 @@ const glyphSets: Record<GlyphSetName, GlyphSet> = {
 
 /**
  * Get a glyph set by name.
- * @param name - Name of glyph set to get.
+ * @param name Name of glyph set to get.
  * @returns Requested glyph set.
  * @category drawing
  * @function

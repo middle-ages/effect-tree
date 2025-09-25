@@ -8,7 +8,7 @@ import {next, tryHead, tryLast} from './navigate.js'
 
 /**
  * Replace the focus tree node of the zipper with the given tree node.
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @returns A function that takes a zipper and returns an updated zipper where the focus node has been replaced.
  * @category zipper
  * @function
@@ -26,7 +26,7 @@ export const replace =
  * At the keys `move` and `tryMove` you will find versions where the focus
  * has been _moved_ to the newly inserted node.
  *
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @returns A function that takes a zipper and returns an updated zipper where the focus node has been replaced.
  * @category zipper
  * @function
@@ -54,7 +54,7 @@ prepend.move =
  * At the keys `move` and `unsafeMove` you will find versions where the focus
  * has been _moved_ to the newly appended node.
  *
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @returns A function that takes a zipper and returns an updated zipper where the focus node has been replaced.
  * @category zipper
  * @function
@@ -82,7 +82,7 @@ append.move =
  * parent of the removed node.
  *
  * If the zipper is focused on tree root returns `Option.none()`.
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @returns A zipper without the previously focused node focused on next node, or failing that, on the parent node. If the zipper is focused on the tree root returns `Option.none()`.
  * @category zipper
  * @function

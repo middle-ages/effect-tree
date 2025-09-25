@@ -11,9 +11,9 @@ import {type Tree, type TreeTypeLambda} from '../tree/types.js'
 /**
  * Reduce a tree to a value of type `B` by applying the given reducer repeatedly
  * over each element and the previous result of the reducer.
- * @typeParam A - The tree type.
- * @param self - The tree being reduced.
- * @param initial - The initial value will appear as the _previous_ value in the
+ * @typeParam A The tree type.
+ * @param self The tree being reduced.
+ * @param initial The initial value will appear as the _previous_ value in the
  * first iteration of the reducer.
  * @returns - Reduced value of the same type as the given `initial` value.
  * @category instances

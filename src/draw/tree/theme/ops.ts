@@ -17,7 +17,7 @@ export const formatNodes = ({formatter}: Theme): EndoOf<Tree<string>> =>
 /**
  * Given a {@link Theme} and a {@link GlyphRole}, returns a function that will
  * prefix a string with the correct glyph.
- * @param theme - The {@link Theme} to use.
+ * @param theme The {@link Theme} to use.
  * @returns The prefixed string.
  * @category drawing
  * @function
@@ -33,7 +33,7 @@ export const prefixGlyph =
 /**
  * Given a {@link Theme} and a {@link GlyphRole}, returns a function that will
  * suffix a string with the correct glyph.
- * @param theme - The {@link Theme} to use.
+ * @param theme The {@link Theme} to use.
  * @returns The suffixed string.
  * @category drawing
  * @function

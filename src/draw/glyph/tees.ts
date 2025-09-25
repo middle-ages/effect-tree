@@ -17,9 +17,9 @@ const _replaceTee = (
  *
  * At the key `named` you will find a version that does the same but accepts a
  * _name_ of a tee set instead of an tee set.
- * @param set - Tee set to change.
- * @param direction - A {@link Direction} of the glyph to be changed.
- * @param glyph - String of new glyph.
+ * @param set Tee set to change.
+ * @param direction A {@link Direction} of the glyph to be changed.
+ * @param glyph String of new glyph.
  * @returns Updated tee set.
  * @category drawing
  * @function

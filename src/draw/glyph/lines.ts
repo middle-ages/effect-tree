@@ -17,9 +17,9 @@ const _replaceLine = (
  *
  * At the key `named` you will find a version that does the same but accepts a
  * _name_ of a line set instead of a line set.
- * @param set - Line set to change.
- * @param direction - A {@link Direction} of the glyph to be changed.
- * @param glyph - String of new glyph.
+ * @param set Line set to change.
+ * @param direction A {@link Direction} of the glyph to be changed.
+ * @param glyph String of new glyph.
  * @returns Updated line set.
  * @category drawing
  * @function

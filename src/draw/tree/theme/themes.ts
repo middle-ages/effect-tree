@@ -28,7 +28,7 @@ const themes = Record.fromEntries(entries) as ThemeMap
 
 /**
  * Get tree theme by name.
- * @param name - the theme name requested.
+ * @param name the theme name requested.
  * @returns The requested theme.
  * @category drawing
  * @function

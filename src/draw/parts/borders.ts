@@ -139,7 +139,7 @@ const _addBorders =
  *
  * At the `rest` key you will find version that accepts the borders as
  * arguments.
- * @param sets - A non-empty list of border sets that will be nested around the given part.
+ * @param sets A non-empty list of border sets that will be nested around the given part.
  * @category drawing
  * @function
  */

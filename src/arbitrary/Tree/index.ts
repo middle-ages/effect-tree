@@ -16,8 +16,8 @@ import {pipe} from 'effect'
  * Get an arbitrary for a tree from an arbitrary of its underlying type and
  * partial {@link ArbitraryOptions}.
  *
- * @param a - Arbitrary for the underlying type.
- * @param rawOptions - partial arbitrary options.
+ * @param a Arbitrary for the underlying type.
+ * @param rawOptions partial arbitrary options.
  * @returns A tree arbitrary.
  * @category arbitrary
  * @function

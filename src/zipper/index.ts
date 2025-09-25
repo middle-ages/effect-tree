@@ -5,7 +5,7 @@ import {HKT, Option, pipe, Struct} from 'effect'
 
 /**
  * A zipper encodes a location with a tree, allowing for efficient navigation
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * and update of immutable trees.
  * @category zipper
  */
@@ -25,7 +25,7 @@ export interface Zipper<A> extends ZipperLevel<A> {
  * Everything required to rebuild a level of the tree and all below it.
  * To recreate the level we add the focus node between the `lefts` and the
  * `rights` then add this forest to the parent value to get a tree.
- * @typeParam A - The underlying type of the tree.
+ * @typeParam A The underlying type of the tree.
  * @category zipper
  */
 export interface ZipperLevel<A> {
@@ -42,8 +42,8 @@ export interface ZipperLevel<A> {
 
 /**
  * Create a new zipper focused on the root node of the given tree.
- * @typeParam A - The underlying type of the tree.
- * @param focus - The tree at the focus of the new zipper.
+ * @typeParam A The underlying type of the tree.
+ * @param focus The tree at the focus of the new zipper.
  * @returns A new zipper focused on the given tree root node.
  * @category zipper
  */
@@ -57,8 +57,8 @@ export const fromTree = <A>(focus: Tree.Tree<A>): Zipper<A> => ({
 
 /**
  * Convert a zipper back into a tree.
- * @typeParam A - The underlying type of the tree.
- * @param zipper - The zipper that will be converted into a tree.
+ * @typeParam A The underlying type of the tree.
+ * @param zipper The zipper that will be converted into a tree.
  * @returns The tree encoded by the zipper.
  * @category zipper
  * @function

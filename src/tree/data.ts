@@ -14,8 +14,8 @@ import type {Branch, ForestOf, Tree} from './types.js'
 
 /**
  * Compute child count for root node.
- * @typeParam A - Underlying tree type.
- * @param self - The tree being queried.
+ * @typeParam A Underlying tree type.
+ * @param self The tree being queried.
  * @returns Numeric child count.
  * @category basic
  * @function
@@ -31,8 +31,8 @@ export const length: <A>(self: Tree<A>) => number = match({
  *
  * See {@link getBranchForest} for a version that returns the non-empty forest
  * of a branch.
- * @typeParam A - Underlying tree type.
- * @param self - The tree being queried.
+ * @typeParam A Underlying tree type.
+ * @param self The tree being queried.
  * @returns A possibly empty list of trees.
  * @category basic
  * @function
@@ -49,8 +49,8 @@ export const getForest = <A>(self: Tree<A>): readonly Tree<A>[] =>
 /**
  * Deconstruct the node and possibly empty forest of a tree. Useful in
  * pipelines.
- * @typeParam A - Underlying tree type.
- * @param self - The tree being deconstructed.
+ * @typeParam A Underlying tree type.
+ * @param self The tree being deconstructed.
  * @returns A pair of the tree node value and a possibly empty list of child trees.
  * @category basic
  * @function
@@ -67,8 +67,8 @@ export const destruct = <A>(self: Tree<A>): readonly [A, readonly Tree<A>[]] =>
 /**
  * Same as {@link destruct} but only for _branches_, so you are guaranteed a
  * non-empty forest.
- * @typeParam A - Underlying tree type.
- * @param self - The branch being deconstructed.
+ * @typeParam A Underlying tree type.
+ * @param self The branch being deconstructed.
  * @returns A pair of the tree node value and a non-empty list of child trees.
  * @category basic
  * @function
@@ -79,9 +79,9 @@ export const destructBranch = <A>({
 
 /**
  * Set the value of a tree root to a given value of the same type.
- * @typeParam A - Underlying tree type.
- * @param self - The tree being changed.
- * @param value - New value for the root node.
+ * @typeParam A Underlying tree type.
+ * @param self The tree being changed.
+ * @param value New value for the root node.
  * @returns A new tree where the root value has been replaced by the given value.
  * @category basic
  * @function
@@ -107,9 +107,9 @@ const _setForest = <A>(self: Tree<A>, forest: ForestOf<A>): Branch<A> =>
 
 /**
  * Set the root node forest to a given forest of the same type.
- * @typeParam A - Underlying tree type.
- * @param self - The tree being changed.
- * @param forest - New forest.
+ * @typeParam A Underlying tree type.
+ * @param self The tree being changed.
+ * @param forest New forest.
  * @returns A new tree where the forest has been replaced by the given forest.
  * @category basic
  * @function
@@ -129,9 +129,9 @@ export const setForest: {
  * Run the given function over the given tree if it is a branch, else return the
  * tree unchanged. This is like {@link match} where the `onLeaf` branch is set
  * to `identity`.
- * @typeParam A - Underlying tree type.
- * @param self - Tree on which to run the given function.
- * @param f - A function from {@link Branch} to {@link Tree}.
+ * @typeParam A Underlying tree type.
+ * @param self Tree on which to run the given function.
+ * @param f A function from {@link Branch} to {@link Tree}.
  * @returns The tree unchanged if it is a leaf, else the result of applying the
  * given function on the branch.
  * @category basic
@@ -149,9 +149,9 @@ export const modBranch: {
 /**
  * Run a function to change the value, but not the type, of the top level
  * node of the given tree.
- * @typeParam A - Underlying tree type.
- * @param self - Tree on which to run the given function.
- * @param f - Function to apply on the root node value.
+ * @typeParam A Underlying tree type.
+ * @param self Tree on which to run the given function.
+ * @param f Function to apply on the root node value.
  * @returns The given tree with its root node value set to the result of the given function.
  * @category basic
  * @function
@@ -170,9 +170,9 @@ export const modValue: {
  * the given function will receive the empty array as a parameter, if it returns
  * any trees then leaves will be turned into a {@link Branch}es, and if it
  * returns the empty array branches will be turned into leaves.
- * @typeParam A - Underlying tree type.
- * @param self - Tree on which to run the given function.
- * @param f - Function to apply on the root forest.
+ * @typeParam A Underlying tree type.
+ * @param self Tree on which to run the given function.
+ * @param f Function to apply on the root forest.
  * @returns The given tree with its root forest set to the result of the given function.
  * @category basic
  * @function
@@ -189,8 +189,8 @@ export const modForest: {
 /**
  * Same as {@link modForest} but only accepts branches, so the given function is
  * guaranteed to get a non empty forest as its argument.
- * @typeParam A - Underlying tree type.
- * @param f - Function to apply on the root forest.
+ * @typeParam A Underlying tree type.
+ * @param f Function to apply on the root forest.
  * @returns The given branch with its root forest set to the result of the given function.
  * @category basic
  * @function
@@ -203,8 +203,8 @@ export const modBranchForest =
 
 /**
  * Return the first child tree of a branch.
- * @typeParam A - Underlying tree type.
- * @param self - tree to navigate.
+ * @typeParam A Underlying tree type.
+ * @param self tree to navigate.
  * @returns The tree that is first in the forest of the given branch.
  * @category basic
  * @function
@@ -214,8 +214,8 @@ export const firstChild = <A>(self: Branch<A>): Tree<A> =>
 
 /**
  * Return the last child tree of a branch.
- * @typeParam A - Underlying tree type.
- * @param self - tree to navigate.
+ * @typeParam A Underlying tree type.
+ * @param self tree to navigate.
  * @returns The tree that is last in the forest of the given branch.
  * @category basic
  * @function
@@ -239,10 +239,10 @@ const _nthChild = <A>(n: number, self: Tree<A>): Option<Tree<A>> =>
  *
  * Negative indexes are handled as offsets from the end of the forest with `-1`
  * being the last child, `-2` the child before it, and so on.
- * @typeParam A - Underlying tree type.
- * @param n - index of requested node in parent forest. Negative indexes are
+ * @typeParam A Underlying tree type.
+ * @param n index of requested node in parent forest. Negative indexes are
  * accepted.
- * @param self - Node will be taken from this tree's forest.
+ * @param self Node will be taken from this tree's forest.
  * @returns An optional tree.
  * @category basic
  * @function
@@ -283,11 +283,11 @@ const _drill = <A>(path: number[], self: Tree<A>): Option<Tree<A>> => {
  * so on.
  *
  * An empty path will return the given tree.
- * @typeParam A - Underlying tree type.
- * @param path - a possibly empty array of numeric indexes that form a path from
+ * @typeParam A Underlying tree type.
+ * @param path a possibly empty array of numeric indexes that form a path from
  * root node to some child node.
  * accepted.
- * @param self - node will be taken from the forest of this node.
+ * @param self node will be taken from the forest of this node.
  * @returns An optional tree.
  * @category basic
  * @function
@@ -315,11 +315,11 @@ const _sliceForest = <A>(self: Tree<A>, low: number, high?: number) =>
 /**
  * Get a slice from the forest of the given tree. An empty path will return the
  * given tree.
- * @typeParam A - Underlying tree type.
- * @param self - The tree to query.
+ * @typeParam A Underlying tree type.
+ * @param self The tree to query.
  * accepted.
- * @param low - Index of slice start.
- * @param high - Optional length of slice. Default is a single tree node.
+ * @param low Index of slice start.
+ * @param high Optional length of slice. Default is a single tree node.
  * @returns Possibly empty list of trees.
  * @category basic
  * @function
