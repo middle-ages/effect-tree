@@ -13,13 +13,28 @@ import {
 } from '../partF.js'
 
 /**
- * The empty part takes up zero horizontal and vertical space.
+ * The empty part takes up zero horizontal and vertical space. The non-recursive
+ * version is {@link EmptyF}.
+ *
+ * The expanded type:
+ *
+ * ```ts
+ * {unfixed: {}}
+ * ```
  * @category drawing
  */
 export type Empty = {unfixed: EmptyF} & Fix<PartFTypeLambda>
 
 /**
- * A {@link Part} that displays a single line of text.
+ * A {@link Part} that displays a single line of text. The non-recursive version
+ * is {@link TextF}.
+ *
+ * The expanded type:
+ *
+ * ```ts
+ * {unfixed: {show: string}}
+ * ```
+ *
  * @category drawing
  */
 export type Text = {unfixed: TextF} & Fix<PartFTypeLambda>
@@ -27,14 +42,44 @@ export type Text = {unfixed: TextF} & Fix<PartFTypeLambda>
 /**
  * A rectangular row of parts that is horizontally and vertically aligned
  * and possibly has horizontal and vertical struts to fill in empty space on
- * alignment.
+ * alignment. The non-recursive version is {@link RowF}.
+ *
+ * The expanded type:
+ *
+ * ```ts
+ * {
+ *   unfixed: {
+ *     cells:  A[]
+ *     hAlign: HorizontalAlignment
+ *     vAlign: HorizontalAlignment
+ *     top:    VStrut
+ *     right:  HStrut
+ *     bottom: VStrut
+ *     left:   HStrut
+ *   }
+ * }
+ * ```
  * @category drawing
  */
 export type Row = {unfixed: RowF<Part>} & Fix<PartFTypeLambda>
 
 /**
  * A rectangular column of parts that is horizontally aligned and possibly has a
- * horizontal strut to fill in empty space on alignment.
+ * horizontal strut to fill in empty space on alignment. The non-recursive type
+ * is {@link ColumnF}.
+ * 
+ * The expanded type:
+ *
+ * ```ts
+ * {
+ *   unfixed: {
+ *     cells:  A[]
+ *     hAlign: HorizontalAlignment
+ *     right:  HStrut
+ *     left:   HStrut
+ *   }
+ * }
+ * ```
  * @category drawing
  */
 export type Column = {unfixed: ColumnF<Part>} & Fix<PartFTypeLambda>

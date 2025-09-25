@@ -1,4 +1,4 @@
-import {Array, Number, Option, identity} from 'effect'
+import {Array, Number, Option} from 'effect'
 import {
   branch,
   drawTree,
@@ -109,28 +109,28 @@ console.log(drawTree.number.unlines(edgeListDecoded))
 // 3. INDENTED STRINGS
 // ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
 
-const indentEncoded = Indented.encode(2)<string>(identity)(stringy)
+const indentEncoded = Indented.encode(stringy, 3)
 console.dir(indentEncoded)
 /*
 [
   '1',
-  '  2',
-  '  3',
-  '    4',
-  '    5',
-  '    6',
-  '      7'
+  '   2',
+  '   3',
+  '      4',
+  '      5',
+  '      6',
+  '         7'
 ]
  */
 
 const indentDecoded: Tree<string> = Indented.decode([
   '1',
-  '  2',
-  '  3',
-  '    4',
-  '    5',
-  '    6',
-  '      7',
+  '   2',
+  '   3',
+  '      4',
+  '      5',
+  '      6',
+  '         7',
 ])
 console.log(drawTree.unlines(indentDecoded))
 /*

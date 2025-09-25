@@ -4,12 +4,8 @@ A simple compositional terminal drawing library that is just good enough to show
 
 1. [Overview](#overview)
 2. [Parts](#parts)
-   1. [Atoms](#atoms)
-      1. [Empty](#empty)
-      2. [Text](#text)
-   2. [Composites](#composites)
-      1. [Row](#row)
-      2. [Column](#column)
+   1. [Creating](#creating)
+   2. [Sizing Parts](#sizing-parts)
 3. [Struts](#struts)
    1. [Drawing Struts](#drawing-struts)
    2. [Overflow](#overflow)
@@ -23,9 +19,44 @@ This is also the main limitation of the library- there is no way to measure part
 
 ## Parts
 
-You will find here functions to build _parts_, which are rectangular blocks of glyphs. They are rectangular because they will render to a rectangle of text on a terminal. A part never has any holes or jagged edges: every area of the rectangle is filled.  If it has no content it is filled with the space character.
+You will find here functions to build _parts_, which are rectangular blocks of glyphs. They are rectangular because they will render to a rectangle of text on a terminal. A part never has any holes or jagged edges: every area of the rectangle is filled.
 
-There are four types of the parts, two are atomic and two composite. Atomic parts are the empty part, and a text part for a single row of text. The two types of composites are the _row_ and the _column_. They layout their children horizontally or vertically according to given alignments.  All other parts are built by composing the four parts described above.
+There are four types of the parts, two are atomic and two composite. All other parts are composed from these four:
+
+1. Atomic
+   1. [Empty](https://middle-ages.github.io/effect-tree-docs/types/effect-tree.Draw.Empty.html). The empty type.
+   1. [Text](https://middle-ages.github.io/effect-tree-docs/types/effect-tree.Draw.Text.html). A part that shows some text.
+1. Composite
+   1. [Row](https://middle-ages.github.io/effect-tree-docs/types/effect-tree.Draw.Row.html). Children are distributed horizontally according to alignment.
+   1. [Column](https://middle-ages.github.io/effect-tree-docs/types/effect-tree.Draw.Column.html). Children are distributed vertically according to alignment.
+
+### Creating
+
+The functions [text](https://middle-ages.github.io/effect-tree-docs/functions/effect-tree.Draw.text.html), [row](https://middle-ages.github.io/effect-tree-docs/functions/effect-tree.Draw.row.html), and [column](https://middle-ages.github.io/effect-tree-docs/functions/effect-tree.Draw.column.html) are the basic ways to create the four part types, with the empty part exported as the constant [empty](https://middle-ages.github.io/effect-tree-docs/variables/effect-tree.Draw.empty.html).
+
+```ts
+import {box, column, drawPart, empty, row, text} from 'effect-tree/draw'
+
+// Two lists of text.
+const leftCells = [text('↑'), text('left|'), text('↓')]
+const rightCells = [text('↑'), text('|right'), text('↓')]
+
+// A pair of columns.
+const leftColumn = column.left(leftCells)
+const rightColumn = column.right(rightCells)
+
+// A row with the column pair and the empty part.
+const bottomRow = row('middle')('center')([leftColumn, empty, rightColumn])
+
+console.log(drawPart.unlines(box()(bottomRow)))
+// ┌───────────┐
+// │↑         ↑│
+// │left||right│
+// │↓         ↓│
+// └───────────┘
+```
+
+### Sizing Parts
 
 Part sizes are defined entirely by their content and padding. When they are aligned, they grow to match the widest or tallest in their row or column, depending on the axis.
 
@@ -34,18 +65,6 @@ The area created when aligning is, together with any explicit padding, the avail
 The struts are set by default to empty space, as that is what you usually expect as padding, however we set specific glyphs to draw borders, separators, connectors and other elements where size depends on content.
 
 When your parts are ready, the `drawPart` function will recursively fold the part into a list of string rows for display.
-
-### Atoms
-
-#### Empty
-
-#### Text
-
-### Composites
-
-#### Row
-
-#### Column
 
 ## Struts
 

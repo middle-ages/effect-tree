@@ -1,13 +1,13 @@
-import {identity, pipe} from 'effect'
+import {pipe} from 'effect'
 import {
-  themedTree,
   addLevelLabels,
   bottomSubtrees,
   Codec,
-  drawTree,
   Draw,
+  drawTree,
   from,
   of,
+  themedTree,
 } from 'effect-tree'
 
 // “from” lets you create trees with less brackets than would be required with
@@ -337,7 +337,7 @@ Subtree #25
 */
 
 // Encode a string tree as an indented list of strings à la YAML.
-const encoded = Codec.Indented.encode(2)(identity<string>)(genealogy)
+const encoded = Codec.Indented.encode(genealogy)
 
 console.log(encoded.join('\n'))
 /*

@@ -23,7 +23,7 @@ const _column =
 /**
  * Combine parts vertically.
  *
- * The 1st cell will be drawn at the top of the column, the final at the bottom.
+ * The first cell will be drawn at the top of the column, the final at the bottom.
  *
  * The alignment is given in the first argument list. If none is given, nodes are
  * aligned to the _center_.
