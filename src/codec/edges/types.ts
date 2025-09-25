@@ -16,7 +16,7 @@ export type EdgeList<A> = NonEmptyArray<TreeEdge<A>>
 /**
  * An indexed edge list. We index:
  *
- * 1. Child  node ⇒ parent node
+ * 1. Child node ⇒ parent node
  * 2. Parent node ⇒ list of child nodes
  * 3. Set of nodes with no parent node
  * @category codec

@@ -7,7 +7,7 @@ import {tryHead, tryNext, tryUp} from './navigate.js'
 
 /**
  * Navigate from a node to the next node in a depth-first pre-order traversal:
- * parents are visited before their children, and both are visited  before the
+ * parents are visited before their children, and both are visited before the
  * next sibling of the parent. For example:
  *
  * ```txt
@@ -38,7 +38,6 @@ import {tryHead, tryNext, tryUp} from './navigate.js'
  *
  * See {@link depthFirst} for an unsafe version.
  * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if there is no next node in the depth-first traversal.
  * @category zipper
  * @function
@@ -68,7 +67,7 @@ export const tryDepthFirst: OptionalZipper = self => {
 
 /**
  * Navigate from a node to the next node in a depth-first pre-order traversal,
- * where parents are visited before their children, and both are visited  before
+ * where parents are visited before their children, and both are visited before
  * the next sibling of the parent. For example:
  *
  * ```txt
@@ -96,9 +95,8 @@ export const tryDepthFirst: OptionalZipper = self => {
  *
  * Returns `Option.none` when the final node in the traversal has been reached.
  *
- * This is the unsafe version of  {@link tryDepthFirst}.
+ * This is the unsafe version of {@link tryDepthFirst}.
  * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function

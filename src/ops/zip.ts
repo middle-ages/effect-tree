@@ -104,7 +104,7 @@ export const zipWith = <A, B, C>(
  * Zip a pair of trees of types `A` and `B` into a single tree of `[A, B]`.
  * 
  * If their shapes do not match, the result will include only the intersection.
- * Any nodes not on the shape of the intersection of the two trees will  be
+ * Any nodes not on the shape of the intersection of the two trees will be
  * discarded.
  * 
  * See {@link zipThese} for a zip that does not crop and is therefore pleasantly

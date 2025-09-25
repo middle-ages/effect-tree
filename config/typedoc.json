@@ -25,7 +25,7 @@
     "../src/draw/README.md"
   ],
   "excludeInternal": true,
-  "alwaysCreateEntryPointModule": true,
+  "alwaysCreateEntryPointModule": false,
   "externalSymbolLinkMappings": {
     "@types/node": {"__global.module": "#"}
   },

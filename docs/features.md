@@ -75,7 +75,7 @@ Draw trees for terminal output. Customize layout and symbols, and compose layout
 Click on the example screenshots to go to the source code.
 
 - You can place anything in multiline node labels, even boxes.
-<a title="boxes example" href="https://github.com/middle-ages/effect-tree/blob/main/examples/genealogy.ts"><img src='../examples/docs/genealogy.png' alt='Output from examples/draw.ts' width=150  align="right"></a>
+<a title="boxes example" href="https://github.com/middle-ages/effect-tree/blob/main/examples/genealogy.ts"><img src='../examples/docs/genealogy.png' alt='Output from examples/draw.ts' width=150 align="right"></a>
 
 - Show emojis.
 

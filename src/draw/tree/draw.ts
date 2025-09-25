@@ -179,8 +179,6 @@ export const themedTree: {
  *
  * // Draw numeric trees using a specific theme into a string.
  * console.log(drawTree.ascii.numeric.unlines(numericTree))
- *
- * @param tree The string or numeric tree to be drawn.
  * @category drawing
  * @function
  */

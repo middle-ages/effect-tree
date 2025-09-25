@@ -29,7 +29,7 @@ export const length: <A>(self: Tree<A>) => number = match({
  * Get the forest of any tree node. Result could be an empty list if the given
  * node is a {@link Leaf}.
  *
- * See {@link  getBranchForest} for a version that returns the non-empty forest
+ * See {@link getBranchForest} for a version that returns the non-empty forest
  * of a branch.
  * @typeParam A - Underlying tree type.
  * @param self - The tree being queried.

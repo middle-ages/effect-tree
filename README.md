@@ -192,8 +192,10 @@ console.log(
 ## See Also
 
 1. [API Documentation](https://middle-ages.github.io/effect-tree-docs)
-1. [Examples README](https://github.com/middle-ages/effect-tree/blob/main/examples/README.md)
-1. [List of features](https://middle-ages.github.io/effect-tree/blob/main/docs/features.md)
+1. [Examples README](examples/README.md)
+1. [Codecs module README](src/codec/README.md)
+1. [Draw module README](src/draw/README.md)
+1. [List of features](docs/features.md)
 
 ## Related
 

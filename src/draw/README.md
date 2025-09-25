@@ -10,6 +10,7 @@ A simple compositional terminal drawing library that is just good enough to show
    1. [Drawing Struts](#drawing-struts)
    2. [Overflow](#overflow)
 4. [Trees](#trees)
+5. [Modules](#modules)
 
 ## Overview
 
@@ -70,7 +71,7 @@ When your parts are ready, the `drawPart` function will recursively fold the par
 
 The glyphs used to fill available space between and around shapes are determined by the `Strut`.
 
-By default it is set to the space character, which is usually what  you want surrounding your text when it is being aligned.
+By default it is set to the space character, which is usually what you want surrounding your text when it is being aligned.
 
 The strut can be a character, like the space configured by default, and it will be repeated to fill available space.
 
@@ -178,3 +179,27 @@ And when there is only a single space to fill:
 ## Trees
 
 Trees can be _themed_, which just means that they get a theme as an argument and they can use it to theme how they draw. For example a part could depend not on individual _glyphs_, E.g.: `┌` but instead on glyph _roles_, for example the role `elbow`, and then a theme could set the glyph for the role to `╭` to get rounded corners.
+
+## Modules
+
+Useful functions are mostly found in the packages
+<a alt="part" href="https://github.com/middle-ages/effect-tree/tree/main/src/draw/part">part</a> and above. These are all the internal modules of `Draw`:
+
+<table>
+<tr>
+<td style="border-width: 0 !important">
+<ol>
+<li><a alt="tree" href="https://github.com/middle-ages/effect-tree/tree/main/src/draw/tree">tree</a>: Parts for drawing trees and the <a alt="drawKey" href="https://middle-ages.github.io/effect-tree-docs/functions/effect-tree.Draw.drawTree.html">drawTree function</a>.  
+<li><a alt="parts" href="https://github.com/middle-ages/effect-tree/tree/main/src/draw/parts">parts</a>: Various useful parts, for example the <a alt="box" href="https://middle-ages.github.io/effect-tree-docs/functions/effect-tree.Draw.box.html">box</a> part.
+<li><a alt="glyph" href="https://github.com/middle-ages/effect-tree/tree/main/src/draw/glyph">glyph</a>: Sugar for accessing glyphs that are helpful when line drawing on the terminal.
+<li><a alt="part" href="https://github.com/middle-ages/effect-tree/tree/main/src/draw/part">part</a>: A basic abstraction for working with rectangular blocks of text.
+<li><a alt="partF" href="https://github.com/middle-ages/effect-tree/tree/main/src/draw/partF">partF</a>: The non-recursive version of <code>Part</code>.
+<li><a alt="align" href="https://github.com/middle-ages/effect-tree/tree/main/src/draw/align">align</a>: Aligning text and filling available space created with struts.
+<li><a alt="struts" href="https://github.com/middle-ages/effect-tree/tree/main/src/draw/struts">struts</a>: Functions to fill empty parts of rectangular blocks of text.
+</ol>
+</td>
+<td style="border-width: 0 !important">
+<img alt="Draw modules and their interdependencies" src="docs/draw-modules.png" width=400>
+</td>
+</td>
+</table>

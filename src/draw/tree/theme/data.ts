@@ -87,7 +87,7 @@ export const setIndents: (indents: number) => EndoOf<Theme> = set('indents')
 export const setSpacing: (spacing: number) => EndoOf<Theme> = set('spacing')
 
 /**
- * Increment tree theme indents  by the given count, by default `1`.
+ * Increment tree theme indents by the given count, by default `1`.
  * @param increment - Number of characters to add to the theme indent count.
  * @returns Theme with updated vertical spacing.
  * @category drawing

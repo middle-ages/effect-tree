@@ -77,13 +77,12 @@ append.move =
     pipe(zipper, append.tryMove(that), Option.getOrThrow)
 
 /**
- * Remove the current focused  tree node from the tree, and return the zipper
+ * Remove the current focused tree node from the tree, and return the zipper
  * focused on the _next_ sibling. In case none exists focuses _up_ on the
  * parent of the removed node.
  *
  * If the zipper is focused on tree root returns `Option.none()`.
  * @typeParam A - The underlying type of the tree.
- * @param self - The zipper whose focus is being removed.
  * @returns A zipper without the previously focused node focused on next node, or failing that, on the parent node. If the zipper is focused on the tree root returns `Option.none()`.
  * @category zipper
  * @function

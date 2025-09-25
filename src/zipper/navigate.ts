@@ -28,7 +28,6 @@ import {tryRepeat} from './repeat.js'
  *
  * This is like {@link rewind} except it will descend one tree level.
  * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if there is no first child.
  * @category zipper
  * @function
@@ -82,7 +81,6 @@ export const tryHeadN: {
  *
  * This is like {@link end} except it will descend one tree level.
  * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if there is no last child.
  * @category zipper
  * @function
@@ -131,14 +129,13 @@ export const tryLastN: {
 /**
  * Navigate from a node to its 1st sibling, rewinding the zipper to the head of
  * the focus forest. If the node is the only one in the forest or the focus is
- * already at the head, the zipper is returned  unchanged.
+ * already at the head, the zipper is returned unchanged.
  *
  * See {@link end} for the opposite navigation: jumping to the _end_ of the
  * focus forest.
  *
  * This is like {@link head} except it will remain on the same tree level.
  * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function
@@ -160,14 +157,13 @@ export const rewind: EndoK<ZipperTypeLambda> = self => {
 /**
  * Navigate from a node to its last sibling, sending the zipper to the end of
  * the focus forest. If the node is the only one in the forest or the focus is
- * already at the end, the zipper is returned  unchanged.
+ * already at the end, the zipper is returned unchanged.
  *
  * See {@link rewind} for the opposite navigation: jumping to the _beginning_ of
  * the focus forest.
  *
  * This is like {@link last} except it will remain on the same tree level.
  * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function
@@ -193,7 +189,6 @@ export const end: EndoK<ZipperTypeLambda> = <A>(self: Zipper<A>) => {
  *
  * See {@link previous} for an unsafe version.
  * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if there is no previous sibling.
  * @category zipper
  * @function
@@ -227,7 +222,6 @@ export const tryPrevious: OptionalZipper = ({
  *
  * See {@link previousN} for an unsafe version.
  * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
  * @param n - Number of siblings to skip to the left.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if `previous` cannot be repeated N times.
  * @category zipper
@@ -248,7 +242,6 @@ export const tryPreviousN: {
  *
  * See {@link next} for an unsafe version.
  * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if there is no next sibling.
  * @category zipper
  * @function
@@ -298,7 +291,6 @@ export const tryNextN: {
  *
  * See {@link up} for an unsafe version.
  * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if zipper focus is on root node.
  * @category zipper
  * @function
@@ -369,7 +361,6 @@ export const tryAt: {
 /**
  * Navigate from any node to the root node.
  * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at the root node of the tree.
  * @category zipper
  * @function
@@ -380,7 +371,6 @@ export const root: EndoK<ZipperTypeLambda> = flow(toTree, fromTree)
  * Navigate from a node to its first child or throw an exception if the focused
  * node is a {@link Leaf}. Unsafe version of {@link tryHead}.
  * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function
@@ -417,7 +407,6 @@ export const headN: {
  * Navigate from a node to its last child or throw an exception if the focused
  * node is a {@link Leaf}. Unsafe version of {@link tryLast}.
  * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function
@@ -454,7 +443,6 @@ export const lastN: {
  * Navigate from a node to its previous sibling or throw an exception if the
  * focused node is the forest head. Unsafe version of {@link tryPrevious}.
  * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function
@@ -494,7 +482,6 @@ export const previousN: {
  * focused node is the last node in its forest. Unsafe version of
  * {@link tryNext}.
  * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function
@@ -531,7 +518,6 @@ export const nextN: {
  * Navigate from a node to its parent or throw an exception if the
  * focused node is a tree root. Unsafe version of {@link tryUp}.
  * @typeParam A - The underlying type of the tree.
- * @param self - The zipper that will be navigated.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
  * @function
