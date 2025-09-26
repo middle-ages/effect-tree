@@ -12,10 +12,10 @@ tmp=$(mktemp) || { echo "No temp file."; exit 1; }
 trap 'rm -f "${tmp}"' EXIT
 
 function sources() {
-  find "${EXAMPLES_DIR}" -maxdepth 1 -name "*.ts"
+  find "${MARKDOWN_EXAMPLES_DIR}" -name "*.ts"
 }
 
-snapshot="${PROJECT_EXAMPLES_SNAPSHOTS}"
+snapshot="${MARKDOWN_EXAMPLES_SNAPSHOTS}"
 examples=($(sources))
 count="$(sources | wc -l)"
 
@@ -24,7 +24,7 @@ for f in "${examples[@]}"; do
   label="${f##*/${NAME}/}"
   ordinal="$(color_blue "$(printf '%3d' $i)")/$(color_blue $count)."
   msg="${ordinal} Running “$(color_path "${label}")”"
-  echo -en "$(pad_left "${msg}" 42)…"
+  echo -en "$(pad_left "${msg}" 58)…"
   pnpm tsx "$f" >> "${tmp}" || { echo "Example “$f” crashed."; exit 1; }
   echo -e "...$(color_green ok) ✅."
   ((++i))
@@ -35,9 +35,10 @@ mkdir -p "$(dirname "${snapshot}")"
 if [[ -e "${snapshot}" ]]; then
   diff "${snapshot}" "${tmp}"
 else
-  echo "📷 Creating project snapshot file at “${snapshot}”."
+  echo "📷 Creating markdown snapshot file at “${snapshot}”."
 fi
 
 cp "${tmp}" "${snapshot}"
 
-show_done 'test:project:examples'
+show_done 'test:markdown:examples'
+

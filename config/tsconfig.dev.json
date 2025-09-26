@@ -8,6 +8,14 @@
     "./eslint.config.ts",
     "./vitest.config.ts",
     "../examples/**/*.ts",
-    "../dev/repl.ts"
+    "../dev/**/*.ts"
+  ],
+  "exclude": [
+    "../src/test.ts",
+    "../src/test.setup.ts",
+    "../src/test",
+    "../src/**/*.test.ts",
+    "../src/**/*.test-d.ts",
+    "../examples/inline/**/*.test.ts"
   ]
 }

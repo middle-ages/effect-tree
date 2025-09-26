@@ -266,12 +266,13 @@ export const growLeaves = <A>(grow: TreeUnfold<A, A>): TreeFold<A, Tree<A>> =>
  * import {nAryTree, drawTree} from 'effect-tree'
  *
  * const tree = nAryTree.string({depth: 2, degree: 4})
- * console.log(drawTree.unlines(tree))
- * // ┬1
- * // ├─2
- * // ├─2
- * // ├─2
- * // └─2
+ * expect(drawTree(tree)).toEqual([
+ *   '┬1 ',
+ *   '├─2',
+ *   '├─2',
+ *   '├─2',
+ *   '└─2',
+ * ])
  * @param settings The child count for all nodes except leaves, and the tree depth requested.
  * @returns An N-ary level tree of the given depth..
  * @category ops

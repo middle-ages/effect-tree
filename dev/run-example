@@ -28,3 +28,5 @@ else
   fi
   pnpm tsx "$file"
 fi
+
+show_done "run:example ${name}"

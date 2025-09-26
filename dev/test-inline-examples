@@ -8,40 +8,15 @@ dir="$(dirname "${0}")"
 
 . "${dir}/lib/_"
 
-echo -e "🏗️ Checking $(color_magenta 'inline API examples')..."
+echo -e "🏗️ Testing $(color_magenta 'inline API examples')..."
 
 rm -rf "${INLINE_EXAMPLES_DIR}"/*
 
-function extract() {
-  local path
-  path="${1}"
-  sed -n '/^ \* @example/,/^ \* @/p' "${file}" |
-    perl -pE 's/^ \* ?//; s/^\@example.*/---/; s/^@.*\n//' 
-}
-
-i=1
-for absolute_path in $(find "${SRC_DIR}" -name '*.ts'); do
-  file="${absolute_path##*/effect-tree/}"
-  if [[ "${file}" =~ test\.ts$ ||
-        "${file}" =~ /test/    ||
-        "${file}" =~ ^src/util ]]; then continue; fi
-  src_path="${file##src/}"
-  label="$(color_path "${src_path}")"
-  example="$(extract "${file}")";
-
-  if [[ "$example" != "" ]]; then
-    log "$(printf '%3d' $i). Extracting examples from ${label}"
-    path="${src_path%/*}"
-    mkdir -p "${INLINE_EXAMPLES_DIR}/${path}"
-    examples_file="${INLINE_EXAMPLES_DIR}/${src_path}"
-    echo "${example}" > "${examples_file}"
-#    "${DEV_DIR}"/split-examples.pl "${examples_file}"
-#    rm "${examples_file}"
-    ((++i))
-  fi
-done
+"$(dirname "${0}")/extract-inline-examples" "${INLINE_EXAMPLES_RELATIVE}"
 
 echo -e "✅ $(color_green Done) extracting $(color_magenta 'inline API examples')."
 
-show_done 'test-inline'
+"$(dirname "${0}")/test-watch" run "${@}" examples/inline
+
+show_done 'test:inline:examples'
 

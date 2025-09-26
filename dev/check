@@ -8,17 +8,21 @@ COLOR="${COLOR:-true}"
 
 echo "# ⚖ Checking…"
 
-pnpm circular &
-pnpm test:inline:examples &
+pnpm clean
+
+pnpm extract:inline:examples &
 pnpm test:project:examples &
+pnpm test:markdown:examples &
+
+wait
+
 pnpm coverage &
-
-wait
-
-pnpm build &
+pnpm circular &
 pnpm lint:fix &
-pnpm build:docs &
 
 wait
+
+pnpm build
+pnpm build:docs
 
 show_done 'check'

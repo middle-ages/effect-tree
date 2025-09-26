@@ -8,6 +8,12 @@ import type {Theme} from './types.js'
  * Get a glyph by role from a tree theme.
  * @param role Glyph role to get.
  * @param theme Theme to query.
+ * @example
+ * import {Draw} from 'effect-tree'
+ *
+ * const glyph = Draw.getGlyph('elbow', Draw.getTheme('thin'))
+ *
+ * expect(glyph).toBe('└')
  * @category drawing
  * @function
  */
@@ -18,6 +24,11 @@ export const getGlyph: {
 
 /**
  * Get a glyph by role from a tree theme.
+ * import {Draw} from 'effect-tree'
+ *
+ * const part = Draw.getGlyphPart('elbow', Draw.getTheme('thin'))
+ *
+ * expect(Draw.drawPart(part)).toBe('└')
  * @param theme Theme to query.
  * @returns Theme indents.
  * @category drawing

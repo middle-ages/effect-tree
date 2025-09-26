@@ -6,7 +6,11 @@ COLOR="${COLOR:-true}"
 
 . "$(dirname "${0}")/lib/_"
 
-clean_dirs=("$DIST_DIR" "$API_DOCS_DIR")
+clean_dirs=(
+  "${DIST_DIR}"
+  "${API_DOCS_DIR}"
+  "${INLINE_EXAMPLES_DIR}"
+)
 
 for dir in "${clean_dirs[@]}"; do
   if [[ -d "${dir}" ]]; then

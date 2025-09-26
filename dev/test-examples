@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+COLOR="${COLOR:-true}"
+
+dir="$(dirname "${0}")"
+
+. "${dir}/lib/_"
+
+"$(dirname "${0}")"/test-project-examples &
+"$(dirname "${0}")"/test-markdown-examples &
+"$(dirname "${0}")"/test-inline-examples &
+
+wait
+
+show_done 'test:examples'

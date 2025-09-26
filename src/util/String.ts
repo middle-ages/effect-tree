@@ -245,3 +245,18 @@ export const segmentSlice =
   (head: number, last?: number) =>
   (s: string): string[] =>
     [...segmenter.segment(s)].map(s => s.segment).slice(head, last ?? -1)
+
+/**
+ * Add an `s` suffix to the word unless the given number equals one,
+ * and prefix with the string of the given numeric value.
+ */
+
+export const plural = (word: string, n: number): string =>
+  n === 1 ? word : `${word}s`
+
+/**
+ * Add an `s` suffix to the word unless the given number equals one,
+ * and prefix with the locale string of the given numeric value.
+ */
+export const pluralNumber = (word: string, n: number): string =>
+  unwords.spaced.rest(n.toLocaleString(), plural(word, n))

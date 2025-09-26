@@ -155,29 +155,29 @@ export const themedTree: {
  * const numericTree = of(42)
  *
  * // Draw a string tree into arrays of rows using default theme.
- * console.log(drawTree(stringTree))
+ * expect(drawTree(stringTree)).toMatchInlineSnapshot()
  *
  * // Draw a numeric tree into arrays of rows using default theme.
- * console.log(drawTree.number(numericTree))
+ * expect(drawTree.number(numericTree)).toMatchInlineSnapshot()
  *
- * // Draw string trees to a string using default theme for `console.log`, for
- * // example.
- * console.log(drawTree.unlines(stringTree))
+ * // Draw string trees to a string using default theme, when you must use
+ * // `console.log`, for example.
+ * expect(drawTree.unlines(stringTree)).toMatchInlineSnapshot()
  *
  * // Draw numeric trees to a string using default theme.
- * console.log(drawTree.number.unlines(numericTree))
+ * expect(drawTree.number.unlines(numericTree)).toMatchInlineSnapshot()
  *
  * // Draw string trees using a specific theme into rows.
- * console.log(drawTree.ascii(stringTree))
+ * expect(drawTree.ascii(stringTree)).toMatchInlineSnapshot()
  *
  * // Draw string trees using a specific theme into a string.
- * console.log(drawTree.ascii.unlines(stringTree))
+ * expect(drawTree.ascii.unlines(stringTree)).toMatchInlineSnapshot()
  *
  * // Draw numeric trees using a specific theme into rows.
- * console.log(drawTree.ascii.number(numericTree))
+ * expect(drawTree.ascii.number(numericTree)).toMatchInlineSnapshot()
  *
  * // Draw numeric trees using a specific theme into a string.
- * console.log(drawTree.ascii.number.unlines(numericTree))
+ * expect(drawTree.ascii.number.unlines(numericTree)).toMatchInlineSnapshot()
  * @category drawing
  * @function
  */

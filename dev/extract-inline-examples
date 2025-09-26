@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+COLOR="${COLOR:-true}"
+
+dir="$(dirname "${0}")"
+
+. "${dir}/lib/_"
+
+write_to="${INLINE_EXAMPLES_RELATIVE}"
+
+pnpm tsx "${DEV_DIR}"/extract-inline-examples.ts "${write_to}"
+
+pnpm prettier --write "${INLINE_EXAMPLES_DIR}"
+
+show_done 'extract:inline:examples'

@@ -7,6 +7,10 @@ fi
 
 export DIR="${PNPM_SCRIPT_SRC_DIR}"
 export NAME="$(basename "${PNPM_SCRIPT_SRC_DIR}")"
+export EXAMPLES_NAME=examples
+export INLINE_EXAMPLES_NAME=inline
+export MARKDOWN_EXAMPLES_NAME=markdown
+export INLINE_EXAMPLES_RELATIVE="${EXAMPLES_NAME}/${INLINE_EXAMPLES_NAME}"
 
 function prepare() {
   local dir
@@ -21,8 +25,12 @@ function prepare() {
   export DEV_DIR="${dir}/dev"
   export COVERAGE_DIR="${dir}/node_modules/.coverage"
   export COVERAGE_REPORT_DIR="$API_DOCS_DIR/coverage_report"
-  export EXAMPLES_DIR="${dir}/examples"
-  export INLINE_EXAMPLES_DIR="${EXAMPLES_DIR}/inline"
+  export EXAMPLES_DIR="${dir}/$EXAMPLES_NAME"
+  export MARKDOWN_EXAMPLES_DIR="${EXAMPLES_DIR}/${MARKDOWN_EXAMPLES_NAME}"
+  export INLINE_EXAMPLES_DIR="${EXAMPLES_DIR}/${INLINE_EXAMPLES_NAME}"
+  export EXAMPLES_SNAPSHOT_DIR="${EXAMPLES_DIR}/.snapshots"
+  export PROJECT_EXAMPLES_SNAPSHOTS="${EXAMPLES_SNAPSHOT_DIR}/project"
+  export MARKDOWN_EXAMPLES_SNAPSHOTS="${EXAMPLES_SNAPSHOT_DIR}/markdown"
 }
 
 prepare "${DIR}"

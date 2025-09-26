@@ -15,28 +15,34 @@ import type {DirectedPad} from './pad.js'
  */
 export const emptyTextPart: Part = textPart('')
 
+const _joinText = (xs: string[], separator?: string): Part =>
+  pipe(xs, Array.join(separator ?? ''), textPart)
+
 /**
  * A text part that joins the given string list horizontally, separating items
  * using the given separator.
+ *
+ * At the key `curried` you will find a curried version that takes the optional
+ * separator as first argument.
  * @example
  * import {Draw} from 'effect-tree'
  * const {drawPart, joinText} = Draw
  *
  * const part = joinText(['A', 'B', 'C'], '.')
  *
- * console.log(drawPart(part))
- * // ‘A.B.C’
+ * expect(drawPart(part)).toEqual(['A.B.C'])
  * @category drawing
  * @function
  */
 export const joinText: {
   (xs: string[], separator?: string): Part
-  (separator?: string): (xs: string[]) => Part
-} = dual(
-  2,
-  (xs: string[], separator?: string): Part =>
-    pipe(xs, Array.join(separator ?? ''), textPart),
-)
+  curried: (separator?: string) => (xs: string[]) => Part
+} = Object.assign(_joinText, {
+  curried:
+    (separator?: string) =>
+    (xs: string[]): Part =>
+      _joinText(xs, separator),
+})
 
 const _stackText = (xs: string[]): Part =>
   pipe(xs, Array.map(textPart), columnPart.center)
@@ -50,10 +56,13 @@ const _stackText = (xs: string[]): Part =>
  * import {Draw} from 'effect-tree'
  * const {drawPart, stackText} = Draw
  *
- * console.log(drawPart(stackText.rest('A', 'B', 'C')).join('\n'))
- * // ‘A
- * //  B
- * //  C’
+ * const part = stackText.rest('A', 'B', 'C')
+ *
+ * expect(drawPart(part)).toEqual([
+ *   'A',
+ *   'B',
+ *   'C',
+ * ])
  * @category drawing
  * @function
  */
@@ -70,8 +79,9 @@ stackText.rest = (...xs: string[]): Part => stackText(xs)
  * import {Draw} from 'effect-tree'
  * const {drawPart, repeatText} = Draw
  *
- * console.log(drawPart(repeatText(3, 'A')))
- * // ‘AAA’
+ * const part = repeatText(3, 'A')
+ *
+ * expect(drawPart(part)).toEqual(['AAA'])
  * @category drawing
  * @function
  */
@@ -81,21 +91,18 @@ export const repeatText: {
 } = dual(
   2,
   (width: number, repeat: string): Part =>
-    width === 0 ? emptyPart : pipe(repeat, Array.replicate(width), joinText()),
+    width === 0 ? emptyPart : pipe(repeat, Array.replicate(width), joinText),
 )
 
 /**
- * Returns the empty part if the given height is zero, else a zero-width column
- * at the given height.
+ * Returns the {@link empty | empty part} if the given height is zero, else a
+ * zero-width column at the given height.
  * @example
  * import {Draw} from 'effect-tree'
  * const {vIndent, drawPart} = Draw
  *
- * console.log(drawPart(vIndent(2)).join('\n'))
- * // ‘
- * // ’
- * console.log(drawPart(vIndent(0)).join('\n'))
- * // ‘’
+ * expect(drawPart(vIndent(2))).toEqual(['', ''])
+ * expect(drawPart(vIndent(0))).toEqual([])
  * @category drawing
  * @function
  */
@@ -116,10 +123,9 @@ export const vIndent = (height: number): Part =>
  *
  * const part = text('foo')
  *
- * const padded = hSpace('←', '→')(1,2)(part)
+ * const padded = hSpace('←', '→')(1, 2)(part)
  *
- * console.log(drawPart(padded))
- * // ‘←foo→→’
+ * expect(drawPart(padded)).toEqual(['←foo→→'])
  * @category drawing
  * @function
  */
@@ -157,11 +163,11 @@ export const hSpace = Object.assign(
  *
  * const padded = vSpace(1)(part)
  *
- * console.log(drawPart(padded))
- * // ‘
- * //  foo
- * //
- * // ’
+ * expect(drawPart(padded)).toEqual([
+ *   '   ',
+ *   'foo',
+ *   '   ',
+ * ])
  * @category drawing
  * @function
  */
@@ -189,11 +195,11 @@ export const vSpace = Object.assign(
  *   {top: 1, right: 1, bottom: 1, left: 1},
  * )
  *
- * console.log(drawPart(padded))
- * // ‘
- * //  foo
- * //
- * // ’
+ * expect(drawPart(padded)).toEqual([
+ *   '     ',
+ *   ' foo ',
+ *   '     ',
+ * ])
  * @category drawing
  * @function
  */
