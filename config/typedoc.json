@@ -8,6 +8,7 @@
   "tsconfig": "./tsconfig.main.json",
   "githubPages": true,
   "cleanOutputDir": false,
+  "excludeReferences": true,
   "navigation": {
     "includeCategories": true,
     "includeGroups": false,
@@ -16,7 +17,9 @@
   "visibilityFilters": {
     "@internal": false
   },
+  "json": "../api-docs/api.json",
   "sourceLinkExternal": true,
+  "includeVersion": true,
   "projectDocuments": [
     "../src/README.md",
     "../docs/features.md",

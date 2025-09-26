@@ -7,7 +7,7 @@
     "declarationMap": true,
     "sourceMap": true
   },
-  "include": ["../src/**/*.ts", "../index.ts", "../src/draw/struts/index.ts"],
+  "include": ["../src/**/*.ts", "../index.ts"],
   "exclude": [
     "../src/test.ts",
     "../src/test.setup.ts",

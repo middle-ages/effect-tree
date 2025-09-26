@@ -19,29 +19,6 @@ function extract() {
     perl -pE 's/^ \* ?//; s/^\@example.*/---/; s/^@.*//' 
 }
 
-function perl_write() {
-  local file
-  file="${1}"
-  echo '
-my $file='"'${file}'"';
-my $i=0;
-my @parts = split(/^---/mg);
-my $count = @parts - 1;
-for my $part (@parts) {
-  if ($i > 0) {
-    (my $part_file = $file) =~ s/\.ts$//;
-    $part_file = "$part_file.$i.ts";
-    print "#      Example #$i/$count...\n";
-    $part =~ s/^\n//m;
-    $part =~ s/(?:\n|\s)*$//sg;
-    open(my $fh, ">", $part_file) or die "Could not open file $part_file $!";
-    print $fh "$part\n";
-    close $fh;
-  }
-  $i++;
-}'
-}
-
 i=1
 for absolute_path in $(find "${SRC_DIR}" -name '*.ts'); do
   file="${absolute_path##*/effect-tree/}"
@@ -58,19 +35,14 @@ for absolute_path in $(find "${SRC_DIR}" -name '*.ts'); do
     mkdir -p "${INLINE_EXAMPLES_DIR}/${path}"
     examples_file="${INLINE_EXAMPLES_DIR}/${src_path}"
     echo "${example}" > "${examples_file}"
-    perl -0777 -ne "$(perl_write "${examples_file}")" "${examples_file}"
-    ((++i))
+    echo "$examples_file"
+    "${DEV_DIR}"/split-examples.pl "${examples_file}"
     rm "${examples_file}"
+    ((++i))
   fi
 done
 
 echo -e "✅ $(color_green Done) extracting $(color_magenta 'inline API examples')."
-
-echo -e "🏗️ Linting $(color_magenta 'inline API examples')..."
-
-pnpm lint --fix examples/inline
-
-echo -e "✅ $(color_green Done) linting $(color_magenta 'inline API examples')."
 
 show_done 'test-inline'
 
