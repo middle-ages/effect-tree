@@ -110,6 +110,16 @@ export const vIndent = (height: number): Part =>
  *
  * At the keys `left` and  `right` you will find versions that pad only a single
  * side of the given part.
+ * @example
+ * import {Draw} from 'effect-tree'
+ * const {drawPart, hSpace, text} = Draw
+ *
+ * const part = text('foo')
+ *
+ * const padded = hSpace('←', '→')(1,2)(part)
+ *
+ * console.log(drawPart(padded))
+ * // ‘←foo→→’
  * @category drawing
  * @function
  */
@@ -139,6 +149,19 @@ export const hSpace = Object.assign(
  *
  * At the keys `top` and  `bottom` you will find versions that pad only a single
  * side of the given part.
+ * @example
+ * import {Draw} from 'effect-tree'
+ * const {drawPart, vSpace, text} = Draw
+ *
+ * const part = text('foo')
+ *
+ * const padded = vSpace(1)(part)
+ *
+ * console.log(drawPart(padded))
+ * // ‘
+ * //  foo
+ * //
+ * // ’
  * @category drawing
  * @function
  */
@@ -155,6 +178,22 @@ export const vSpace = Object.assign(
 
 /**
  * Pad a part with spaces in all directions.
+ * @example
+ * import {Draw} from 'effect-tree'
+ * const {drawPart, spacePad, text} = Draw
+ *
+ * const part = text('foo')
+ *
+ * const padded = spacePad(
+ *   part,
+ *   {top: 1, right: 1, bottom: 1, left: 1},
+ * )
+ *
+ * console.log(drawPart(padded))
+ * // ‘
+ * //  foo
+ * //
+ * // ’
  * @category drawing
  * @function
  */

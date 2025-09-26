@@ -67,7 +67,7 @@ const fold: TreeFolder<
 const folded = pipe(
   self,
   treeCata(fold),
-  box({border: borderSet('near')}),
+  box.curried({border: borderSet('near')}),
   drawPart.unlines,
 )
 

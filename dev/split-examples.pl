@@ -27,7 +27,9 @@ for my $part (@parts) {
     open(my $fh, ">", $out) or die "Could not open file $out $!";
     print $fh "$part\n";
     close $fh;
-    system("pnpm prettier --write '$out'")
+    system("pnpm prettier --write '$out'");
+    print "#      Running...\n";
+    system("pnpm tsx '$out'");
   }
   $i++;
 }

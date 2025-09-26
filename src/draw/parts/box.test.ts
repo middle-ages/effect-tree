@@ -9,7 +9,7 @@ test('default settings', () => {
     pipe(
       ['foo', 'bar', 'baz'],
       stackText,
-      box(),
+      box.curried(),
       drawPart,
       Array.map(String.replaceAll(' ', '.')),
     ),

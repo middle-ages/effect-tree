@@ -35,7 +35,6 @@ for absolute_path in $(find "${SRC_DIR}" -name '*.ts'); do
     mkdir -p "${INLINE_EXAMPLES_DIR}/${path}"
     examples_file="${INLINE_EXAMPLES_DIR}/${src_path}"
     echo "${example}" > "${examples_file}"
-    echo "$examples_file"
     "${DEV_DIR}"/split-examples.pl "${examples_file}"
     rm "${examples_file}"
     ((++i))

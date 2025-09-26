@@ -19,7 +19,7 @@ function pointyBox(s: string): string {
   return pipe(
     s,
     text,
-    box({
+    box.curried({
       border: {
         ...borderSet('thin'),
         elbows: {

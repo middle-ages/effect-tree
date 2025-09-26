@@ -30,7 +30,7 @@ function degreeTree(degree: number): Draw.Part {
     Array.map(text),
     Array.prepend(label(degree)),
     column.center,
-    box(),
+    box.curried(),
   )
 }
 

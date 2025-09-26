@@ -13,7 +13,7 @@ const rightColumn = column.right(rightCells)
 // A row with the column pair and the empty part.
 const bottomRow = row('middle')('center')([leftColumn, empty, rightColumn])
 
-console.log(drawPart.unlines(box()(bottomRow)))
+console.log(drawPart.unlines(box(bottomRow)))
 // ┌───────────┐
 // │↑         ↑│
 // │left||right│
