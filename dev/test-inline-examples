@@ -16,7 +16,7 @@ function extract() {
   local path
   path="${1}"
   sed -n '/^ \* @example/,/^ \* @/p' "${file}" |
-    perl -pE 's/^ \* ?//; s/^\@example.*/---/; s/^@.*//' 
+    perl -pE 's/^ \* ?//; s/^\@example.*/---/; s/^@.*\n//' 
 }
 
 i=1
@@ -35,8 +35,8 @@ for absolute_path in $(find "${SRC_DIR}" -name '*.ts'); do
     mkdir -p "${INLINE_EXAMPLES_DIR}/${path}"
     examples_file="${INLINE_EXAMPLES_DIR}/${src_path}"
     echo "${example}" > "${examples_file}"
-    "${DEV_DIR}"/split-examples.pl "${examples_file}"
-    rm "${examples_file}"
+#    "${DEV_DIR}"/split-examples.pl "${examples_file}"
+#    rm "${examples_file}"
     ((++i))
   fi
 done

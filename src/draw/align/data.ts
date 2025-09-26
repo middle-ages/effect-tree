@@ -24,11 +24,6 @@ export type HorizontalAlignment = (typeof horizontalAlignments)[number]
 export type VerticalAlignment = (typeof verticalAlignments)[number]
 
 /**
- * @category drawing
- */
-export type Alignment = HorizontalAlignment | VerticalAlignment
-
-/**
  * ```ts
  * {
  *   vAlign: VerticalAlignment
@@ -130,7 +125,9 @@ const alignMarkers = {
  * @category drawing
  * @function
  */
-export const showAlignment = (align: Alignment): string => alignMarkers[align]
+export const showAlignment = (
+  align: HorizontalAlignment | VerticalAlignment,
+): string => alignMarkers[align]
 
 /**
  * @category drawing

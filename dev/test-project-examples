@@ -11,10 +11,24 @@ dir="$(dirname "${0}")"
 tmp=$(mktemp) || { echo "No temp file."; exit 1; }
 trap 'rm -f "${tmp}"' EXIT
 
-snapshot="${EXAMPLES_DIR}/.snapshot"
+function sources() {
+  find "${EXAMPLES_DIR}" -maxdepth 1 -name "*.ts"
+}
 
-for f in "${EXAMPLES_DIR}"/*.ts; do
+snapshot="${EXAMPLES_DIR}/.snapshot"
+examples=($(sources))
+count="$(sources | wc -l)"
+
+i=1
+for f in "${examples[@]}"; do
+  label="${f##*/${NAME}/}"
+  ordinal="$(color_blue "$(printf '%3d' $i)")/$(color_blue $count)."
+  msg="${ordinal} Running “$(color_path "${label}")”"
+  padded="$(pad_left "${msg}" 42)"
+  echo -en "${padded}…"
   pnpm tsx "$f" >> "${tmp}" || { echo "Example “$f” crashed."; exit 1; }
+  echo -e "...$(color_green ok) ✅."
+  ((++i))
 done
 
 if [[ -e "${snapshot}" ]]; then
