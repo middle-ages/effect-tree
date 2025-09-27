@@ -12,15 +12,14 @@ export default defineConfig({
     ],
     coverage: {
       provider: 'v8',
-      reportsDirectory: './node_modules/.coverage',
+      reportsDirectory: './api-docs/coverage',
       exclude: [
         'api-docs',
         'config',
         'dev',
         'dist',
-        'examples/*.ts',
-        'examples/markdown/**/*.ts',
         'index.ts',
+        'examples/**/*.ts',
         'src/**/*.test-d.ts',
         'src/**/*.test.ts',
         'src/**/types.ts',

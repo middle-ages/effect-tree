@@ -1,6 +1,6 @@
 # Project Scripts
 
-These scripts are run [via the package.json scripts](https://github.com/middle-ages/effect-tree/blob/main/package.json#L10).
+These scripts are run [via the package.json scripts](../doc/../docs/project.md).
 
 | Script                                                                                                      | `package.json`            | About                                                                                                                                                                                     |
 | ----------------------------------------------------------------------------------------------------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

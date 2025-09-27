@@ -1,6 +1,6 @@
 import {test, expect} from 'vitest'
 import {pipe} from '#util'
-import {Theme} from './types.js'
+import {Theme} from './themes.js'
 import {
   getGlyph,
   getGlyphPart,

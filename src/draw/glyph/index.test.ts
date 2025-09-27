@@ -1,9 +1,17 @@
 import {expect, test} from 'vitest'
+import {pipe} from '#util'
 import {borderSet, replaceBorderElbow, replaceBorderLine} from './borders.js'
 import {elbowSet, replaceElbow} from './elbows.js'
 import {lineSet, replaceLine} from './lines.js'
 import {replaceTee, teeSet} from './tees.js'
 import type {BorderSet} from './types.js'
+import {
+  GlyphGroup,
+  setGroupCross,
+  setGroupElbows,
+  setGroupLines,
+  setGroupTees,
+} from './index.js'
 
 const lines = lineSet('dashed')
 const elbows = elbowSet('thick')
@@ -93,4 +101,28 @@ test('replaceBorderElbow.named', () => {
   expect(
     replaceBorderElbow.named('topRight', 'ascii')(borders).elbows.topRight,
   ).toBe(elbowSet('ascii').topRight)
+})
+
+test('setGroupTees', () => {
+  const iut = pipe('thin', GlyphGroup, setGroupTees('thick'))
+  expect(iut.tees.left, 'tee').toBe('┫')
+  expect(iut.lines.left, 'line').toBe('│')
+})
+
+test('setGroupLines', () => {
+  const iut = pipe('thin', GlyphGroup, setGroupLines('thick'))
+  expect(iut.tees.left, 'tee').toBe('┤')
+  expect(iut.lines.left, 'line').toBe('┃')
+})
+
+test('setGroupElbows', () => {
+  const iut = pipe('thin', GlyphGroup, setGroupElbows('thick'))
+  expect(iut.elbows.topLeft, 'elbow').toBe('┏')
+  expect(iut.lines.left, 'line').toBe('│')
+})
+
+test('setGroupCross', () => {
+  const iut = pipe('thin', GlyphGroup, setGroupCross('x'))
+  expect(iut.cross, 'cross').toBe('x')
+  expect(iut.lines.left, 'line').toBe('│')
 })

@@ -36,7 +36,7 @@ import {matchVertical, type VerticalAlignment} from './data.js'
  * The default rounding it to the _bottom_, meaning the remainder is added to
  * the bottom pushing the aligned text up so it will appear _above_ the center:
  *
- * ```ts
+ * ```txt
  * Default useTopRound=false   1 ┌─────────┐
  * remainder ┌───────────────┐-2 │Tall part│
  * is added  │single row part│ 3 │with an  │
@@ -49,7 +49,7 @@ import {matchVertical, type VerticalAlignment} from './data.js'
  * `alignVertically.useTopRound`, the remainder will be added _above_ the shape
  * pushing the shape down so it appears _below_ the center:
  *
- * ```ts
+ * ```txt
  * When useTopRound=true       1 ┌─────────┐
  * remainder is added          2 │Tall part│
  * to shape  ┌───────────────┐-3 │with an  │

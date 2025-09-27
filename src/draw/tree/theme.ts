@@ -1,4 +1,3 @@
-export * from './theme/types.js'
 export * from './theme/themes.js'
 export * from './theme/ops.js'
 export * from './theme/glyph.js'

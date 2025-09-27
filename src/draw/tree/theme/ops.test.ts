@@ -9,7 +9,7 @@ import {
   prefixGlyph,
   suffixGlyph,
 } from './ops.js'
-import {Theme} from './types.js'
+import {Theme} from './themes.js'
 import {drawPart} from '../../part.js'
 
 const theme: Theme = pipe(

@@ -2,7 +2,7 @@ import {Array, Number, Record, pipe} from '#util'
 import {dual, identity, type EndoOf} from '#Function'
 import {text, type Part} from '../../part.js'
 import {type GlyphRole} from './glyph.js'
-import type {Theme} from './types.js'
+import type {Theme} from './themes.js'
 
 /**
  * Get a glyph by role from a tree theme.

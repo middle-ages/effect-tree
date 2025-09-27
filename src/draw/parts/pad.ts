@@ -47,22 +47,47 @@ export const normalizePadded = (
   pad: normalizePad(padded?.pad),
 })
 
+/**
+ * Compute pad width for the given {@link Padded}.
+ * @category drawing
+ * @function
+ */
 export const computePadWidth = ({pad: {left, right}}: Padded): number =>
   left + right
 
+/**
+ * Compute pad height for the given {@link Padded}.
+ * @category drawing
+ * @function
+ */
 export const computePadHeight = ({pad: {top, bottom}}: Padded): number =>
   top + bottom
 
+/**
+ * Add the given width to the given {@link Padded}.
+ * @category drawing
+ * @function
+ */
 export const addPadWidth =
   ({pad: {left, right}}: Padded) =>
   (width: number): number =>
     left + width + right
 
+/**
+ * Add the given height to the given {@link Padded}.
+ * @category drawing
+ * @function
+ */
 export const addPadHeight =
   ({pad: {top, bottom}}: Padded) =>
   (height: number): number =>
     top + height + bottom
 
+/**
+ * Compute padding width/hight for the given {@link Padded}.
+ * @category drawing
+ * @function
+ */
 export const computePadSize = (
   padded: Padded,
 ): [width: number, height: number] => [
@@ -70,6 +95,11 @@ export const computePadSize = (
   computePadHeight(padded),
 ]
 
+/**
+ * Add the given width and height to the given {@link Padded}.
+ * @category drawing
+ * @function
+ */
 export const addPadSize =
   (padded: Padded) =>
   (width: number, height: number): [width: number, height: number] => [
@@ -77,6 +107,11 @@ export const addPadSize =
     height + computePadHeight(padded),
   ]
 
+/**
+ * Build a padding entry for every from a partial list of values.
+ * @category drawing
+ * @function
+ */
 export const padding = (
   top: number,
   right?: number,
@@ -94,4 +129,8 @@ export const padding = (
         ? {top, bottom, ...monoRecord(right)('left', 'right')}
         : {top, right, bottom, left}
 
+/**
+ * A {@link DirectedPad} of zero padding in all directions.
+ * @category drawing
+ */
 export const noPadding: DirectedPad = monoRecord(0)(...directions)

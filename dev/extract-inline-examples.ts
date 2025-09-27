@@ -17,9 +17,11 @@ const inlineExamplesRelative = process.argv[2]
 // Extract inline examples and write them to the inline examples folder.
 walkSources(
   ({home, file, log}, counters: ExampleCounters): void => {
-    // Extract inline examples for a single source file.
     counters.readFile()
+
+    // Extract inline examples for a single source file.
     const examples = getSourceExamples(home, file)
+
     if (!Array.isNonEmptyArray(examples)) {
       log.progress(counters.progress())
       return
@@ -34,13 +36,17 @@ walkSources(
       exampleIndex++
       counters.readExample()
       logExample.start(exampleIndex, example)
+
+      // Write the example as a test.
       writeExample(example)
     }
   },
+
   main => {
     logFindExamples()
     return ExampleCounters(main.length)
   },
+
   (log, counters) => {
     const {examples, filesWithExamples} = counters.get()
     log.end(examples, filesWithExamples)

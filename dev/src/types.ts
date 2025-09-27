@@ -4,7 +4,7 @@ import {type JSDoc} from 'ts-morph'
 /**
  * A single JSDoc block for a variable with an `@examples` tag, together with
  * the variable it is annotating and everything we need to write an inline
- * example extracted from source code to disk as a Typescript source file.
+ * example extracted from source code to disk as a Typescript test file.
  */
 export interface SourceDoc {
   /** This example documents a variable named so. */

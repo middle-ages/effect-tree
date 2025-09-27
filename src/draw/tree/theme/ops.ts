@@ -4,7 +4,7 @@ import {type EndoOf} from '#Function'
 import {text} from '../../part.js'
 import {getGlyph} from './data.js'
 import {type GlyphRole} from './glyph.js'
-import {type Theme, type ThemedPart} from './types.js'
+import {type Theme, type ThemedPart} from './themes.js'
 
 /**
  * Format tree nodes using the tree theme formatter.

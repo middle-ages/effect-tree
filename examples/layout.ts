@@ -9,7 +9,7 @@ import {
   Draw,
 } from 'effect-tree'
 
-const {HStrut, borderSet, box, column, drawPart, glyphGroups, row, text} = Draw
+const {HStrut, borderSet, box, column, drawPart, GlyphGroup, row, text} = Draw
 
 // A vertical tree layout for ternary trees.
 
@@ -22,7 +22,7 @@ const self = pipe(
   map(([depth, ordinal]) => ({depth, ordinal})),
 )
 
-const {cross, lines, elbows} = glyphGroups('thin')
+const {cross, lines, elbows} = GlyphGroup('thin')
 
 const topLeft = (indent: number): Draw.HStrut =>
   HStrut([lines.top], String.repeat(indent)(' ') + elbows.topLeft)

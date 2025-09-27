@@ -10,4 +10,6 @@ dir="$(dirname "${0}")"
 
 typedoc --out "$API_DOCS_DIR" --options "$CONFIG_DIR"/typedoc.json
 
+mkdir -p "$API_DOCS_DIR/coverage"
+
 show_done 'build:docs'

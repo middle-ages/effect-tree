@@ -1,4 +1,5 @@
-import {Codec, drawTree, type Tree, Draw} from 'effect-tree'
+import {Array, Function, pipe} from 'effect'
+import {Codec, Draw, drawTree, type Tree} from 'effect-tree'
 
 // Get a nice looking 12-node tree from the list of all trees.
 const tree: Tree<number> = Codec.Prufer.getNthTree(9_876_543_210, 12)
@@ -21,160 +22,133 @@ log(drawTree.number.unlines(tree))
    └─4
 */
 
-// There are eight other themes, besides the default “thin” theme:
+// There are 23 other themes, besides the default “thin” theme:
 //
-// 1. ascii
-// 2. bullets
-// 3. rounded
-// 4. space
-// 5. thick
-// 6. doubleSpaceThin
-// 7. thin
-// 8. unix
-// 9. unixRounded
+//  1. ascii
+//  2. bullets
+//  3. space
+//  4. dashed
+//  5. dashedWide
+//  6. dotted
+//  7. double
+//  8. hDouble
+//  9. hThick
+// 10. hThickDashed
+// 11. hThickDashedWide
+// 12. hThickDotted
+// 13. round
+// 14. thick
+// 14. thickDashed
+// 15. thickDashedWide
+// 16. thickDotted
+// 17. unix
+// 18. unixRound
+// 19. vDouble
+// 20. vThick
+// 21. vThickDashed
+// 22. vThickDashedWide
+// 23. vThickDotted
 //
-// Each can be used through the named key of drawTree.
-for (const themeName of Draw.themeNames) {
-  log(`\nTheme: “${themeName}”`)
-  log(drawTree[themeName].number.unlines(tree))
+// Each can be used through the named key of the “drawTree” function,
+// and the names are all available at “Draw.themeNames”.
+const themeGroups = Array.chunksOf(Draw.themeNames, 6)
+
+// Add label center below part and pad
+const addLabel =
+  (name: string) =>
+  (part: Draw.Part): Draw.Part =>
+    pipe(name, Draw.text, Draw.above.center(part), Draw.spacePad({left: 1}))
+
+const rows = Array.map(themeGroups, group =>
+  Draw.row.bottom.left(
+    pipe(
+      group,
+      Array.map(themeName =>
+        pipe(
+          themeName,
+          Draw.getTheme,
+          Draw.treeToPart.number,
+          Function.apply(tree),
+          Draw.box.curried(),
+          addLabel(themeName),
+        ),
+      ),
+    ),
+  ),
+)
+
+for (const row of rows) {
+  log(Draw.drawPart.unlines(row))
 }
 /*
-Theme: “ascii”
-+1
-'-+6
-  '-+8
-    +-+2
-    | +--3
-    | '-+5
-    |   '-+12
-    |     '--7
-    +--9
-    +--10
-    '-+11
-      '--4
 
-Theme: “bullets”
- ∘1
-   ∘6
-     ∘8
-       ∘2
-         ∙3
-         ∘5
-           ∘12
-             ∙7
-       ∙9
-       ∙10
-       ∘11
-         ∙4
+  dashed    dashedWide    dotted      double     hDouble      hThick    hThickDashed  hThickDashedWide
+ ┌────────┐  ┌────────┐  ┌────────┐  ┌────────┐  ┌────────┐  ┌────────┐   ┌────────┐      ┌────────┐
+ │┬1      │  │┬1      │  │┬1      │  │╦1      │  │╤1      │  │┯1      │   │┯1      │      │┯1      │
+ │└┬6     │  │└┬6     │  │└┬6     │  │╚╦6     │  │╘╤6     │  │┕┯6     │   │┕┯6     │      │┕┯6     │
+ │ └┬8    │  │ └┬8    │  │ └┬8    │  │ ╚╦8    │  │ ╘╤8    │  │ ┕┯8    │   │ ┕┯8    │      │ ┕┯8    │
+ │  ├┬2   │  │  ├┬2   │  │  ├┬2   │  │  ╠╦2   │  │  ╞╤2   │  │  ┝┯2   │   │  ┝┯2   │      │  ┝┯2   │
+ │  ┆├┄3  │  │  ╎├╌3  │  │  ┊├┈3  │  │  ║╠═3  │  │  │╞═3  │  │  │┝━3  │   │  ┆┝┅3  │      │  ╎┝╍3  │
+ │  ┆└┬5  │  │  ╎└┬5  │  │  ┊└┬5  │  │  ║╚╦5  │  │  │╘╤5  │  │  │┕┯5  │   │  ┆┕┯5  │      │  ╎┕┯5  │
+ │  ┆ └┬12│  │  ╎ └┬12│  │  ┊ └┬12│  │  ║ ╚╦12│  │  │ ╘╤12│  │  │ ┕┯12│   │  ┆ ┕┯12│      │  ╎ ┕┯12│
+ │  ┆  └┄7│  │  ╎  └╌7│  │  ┊  └┈7│  │  ║  ╚═7│  │  │  ╘═7│  │  │  ┕━7│   │  ┆  ┕┅7│      │  ╎  ┕╍7│
+ │  ├┄9   │  │  ├╌9   │  │  ├┈9   │  │  ╠═9   │  │  ╞═9   │  │  ┝━9   │   │  ┝┅9   │      │  ┝╍9   │
+ │  ├┄10  │  │  ├╌10  │  │  ├┈10  │  │  ╠═10  │  │  ╞═10  │  │  ┝━10  │   │  ┝┅10  │      │  ┝╍10  │
+ │  └┬11  │  │  └┬11  │  │  └┬11  │  │  ╚╦11  │  │  ╘╤11  │  │  ┕┯11  │   │  ┕┯11  │      │  ┕┯11  │
+ │   └┄4  │  │   └╌4  │  │   └┈4  │  │   ╚═4  │  │   ╘═4  │  │   ┕━4  │   │   ┕┅4  │      │   ┕╍4  │
+ └────────┘  └────────┘  └────────┘  └────────┘  └────────┘  └────────┘   └────────┘      └────────┘
 
-Theme: “rounded”
-┬1
-╰┬6
- ╰┬8
-  ├┬2
-  │├─3
-  │╰┬5
-  │ ╰┬12
-  │  ╰─7
-  ├─9
-  ├─10
-  ╰┬11
-   ╰─4
 
-Theme: “space”
- 1
-   6
-     8
-       2
-         3
-         5
-           12
-             7
-       9
-       10
-       11
-         4
+ hThickDotted    round       thick     thickDashed  thickDashedWide  thickDotted     thin           unix
+  ┌────────┐   ┌────────┐  ┌────────┐  ┌────────┐     ┌────────┐     ┌────────┐   ┌────────┐  ┌──────────────┐
+  │┯1      │   │┬1      │  │┳1      │  │┳1      │     │┳1      │     │┳1      │   │┬1      │  │─1            │
+  │┕┯6     │   │╰┬6     │  │┗┳6     │  │┗┳6     │     │┗┳6     │     │┗┳6     │   │└┬6     │  │ └─6          │
+  │ ┕┯8    │   │ ╰┬8    │  │ ┗┳8    │  │ ┗┳8    │     │ ┗┳8    │     │ ┗┳8    │   │ └┬8    │  │   └─8        │
+  │  ┝┯2   │   │  ├┬2   │  │  ┣┳2   │  │  ┣┳2   │     │  ┣┳2   │     │  ┣┳2   │   │  ├┬2   │  │     ├─2      │
+  │  ┊┝┉3  │   │  │├─3  │  │  ┃┣━3  │  │  ┇┣┅3  │     │  ╏┣╍3  │     │  ┋┣┉3  │   │  │├─3  │  │     │ ├─3    │
+  │  ┊┕┯5  │   │  │╰┬5  │  │  ┃┗┳5  │  │  ┇┗┳5  │     │  ╏┗┳5  │     │  ┋┗┳5  │   │  │└┬5  │  │     │ └─5    │
+  │  ┊ ┕┯12│   │  │ ╰┬12│  │  ┃ ┗┳12│  │  ┇ ┗┳12│     │  ╏ ┗┳12│     │  ┋ ┗┳12│   │  │ └┬12│  │     │   └─12 │
+  │  ┊  ┕┉7│   │  │  ╰─7│  │  ┃  ┗━7│  │  ┇  ┗┅7│     │  ╏  ┗╍7│     │  ┋  ┗┉7│   │  │  └─7│  │     │     └─7│
+  │  ┝┉9   │   │  ├─9   │  │  ┣━9   │  │  ┣┅9   │     │  ┣╍9   │     │  ┣┉9   │   │  ├─9   │  │     ├─9      │
+  │  ┝┉10  │   │  ├─10  │  │  ┣━10  │  │  ┣┅10  │     │  ┣╍10  │     │  ┣┉10  │   │  ├─10  │  │     ├─10     │
+  │  ┕┯11  │   │  ╰┬11  │  │  ┗┳11  │  │  ┗┳11  │     │  ┗┳11  │     │  ┗┳11  │   │  └┬11  │  │     └─11     │
+  │   ┕┉4  │   │   ╰─4  │  │   ┗━4  │  │   ┗┅4  │     │   ┗╍4  │     │   ┗┉4  │   │   └─4  │  │       └─4    │
+  └────────┘   └────────┘  └────────┘  └────────┘     └────────┘     └────────┘   └────────┘  └──────────────┘
 
-Theme: “thick”
-┳1
-┗┳6
- ┗┳8
-  ┣┳2
-  ┃┣━3
-  ┃┗┳5
-  ┃ ┗┳12
-  ┃  ┗━7
-  ┣━9
-  ┣━10
-  ┗┳11
-   ┗━4
 
-Theme: “doubleSpaceThin”
-┬1
-│
-└─┬6
-  │
-  └─┬8
-    │
-    ├─┬2
-    │ │
-    │ ├──3
-    │ │
-    │ └─┬5
-    │   │
-    │   └─┬12
-    │     │
-    │     └──7
-    │
-    ├──9
-    │
-    ├──10
-    │
-    └─┬11
-      │
-      └──4
+    unixRound       vDouble      vThick    vThickDashed  vThickDashedWide  vThickDotted       ascii             bullets
+ ┌──────────────┐  ┌────────┐  ┌────────┐   ┌────────┐      ┌────────┐      ┌────────┐   ┌──────────────┐  ┌───────────────┐
+ │─1            │  │╥1      │  │┰1      │   │┰1      │      │┰1      │      │┰1      │   │+1            │  │ ∘1            │
+ │ ╰─6          │  │╙╥6     │  │┖┰6     │   │┖┰6     │      │┖┰6     │      │┖┰6     │   │'-+6          │  │   ∘6          │
+ │   ╰─8        │  │ ╙╥8    │  │ ┖┰8    │   │ ┖┰8    │      │ ┖┰8    │      │ ┖┰8    │   │  '-+8        │  │     ∘8        │
+ │     ├─2      │  │  ╟╥2   │  │  ┠┰2   │   │  ┠┰2   │      │  ┠┰2   │      │  ┠┰2   │   │    +-+2      │  │       ∘2      │
+ │     │ ├─3    │  │  ║╟─3  │  │  ┃┠─3  │   │  ┇┠┄3  │      │  ╏┠╌3  │      │  ┋┠┈3  │   │    | +--3    │  │         ∙3    │
+ │     │ ╰─5    │  │  ║╙╥5  │  │  ┃┖┰5  │   │  ┇┖┰5  │      │  ╏┖┰5  │      │  ┋┖┰5  │   │    | '-+5    │  │         ∘5    │
+ │     │   ╰─12 │  │  ║ ╙╥12│  │  ┃ ┖┰12│   │  ┇ ┖┰12│      │  ╏ ┖┰12│      │  ┋ ┖┰12│   │    |   '-+12 │  │           ∘12 │
+ │     │     ╰─7│  │  ║  ╙─7│  │  ┃  ┖─7│   │  ┇  ┖┄7│      │  ╏  ┖╌7│      │  ┋  ┖┈7│   │    |     '--7│  │             ∙7│
+ │     ├─9      │  │  ╟─9   │  │  ┠─9   │   │  ┠┄9   │      │  ┠╌9   │      │  ┠┈9   │   │    +--9      │  │       ∙9      │
+ │     ├─10     │  │  ╟─10  │  │  ┠─10  │   │  ┠┄10  │      │  ┠╌10  │      │  ┠┈10  │   │    +--10     │  │       ∙10     │
+ │     ╰─11     │  │  ╙╥11  │  │  ┖┰11  │   │  ┖┰11  │      │  ┖┰11  │      │  ┖┰11  │   │    '-+11     │  │       ∘11     │
+ │       ╰─4    │  │   ╙─4  │  │   ┖─4  │   │   ┖┄4  │      │   ┖╌4  │      │   ┖┈4  │   │      '--4    │  │         ∙4    │
+ └──────────────┘  └────────┘  └────────┘   └────────┘      └────────┘      └────────┘   └──────────────┘  └───────────────┘
 
-Theme: “thin”
-┬1
-└┬6
- └┬8
-  ├┬2
-  │├─3
-  │└┬5
-  │ └┬12
-  │  └─7
-  ├─9
-  ├─10
-  └┬11
-   └─4
 
-Theme: “unix”
-─1
- └─6
-   └─8
-     ├─2
-     │ ├─3
-     │ └─5
-     │   └─12
-     │     └─7
-     ├─9
-     ├─10
-     └─11
-       └─4
+      space
+ ┌──────────────┐
+ │ 1            │
+ │   6          │
+ │     8        │
+ │       2      │
+ │         3    │
+ │         5    │
+ │           12 │
+ │             7│
+ │       9      │
+ │       10     │
+ │       11     │
+ │         4    │
+ └──────────────┘
 
-Theme: “unixRounded”
-─1
- ╰─6
-   ╰─8
-     ├─2
-     │ ├─3
-     │ ╰─5
-     │   ╰─12
-     │     ╰─7
-     ├─9
-     ├─10
-     ╰─11
-       ╰─4
 */
 
 function log(s: string): void {

@@ -1,15 +1,15 @@
 import {map, type Tree} from '#tree'
-import {String, Function} from '#util'
+import {Function, String} from '#util'
 import {flow, identity, pipe} from 'effect'
 import type {NonEmptyArray} from 'effect/Array'
-import {drawPart} from '../part.js'
+import {drawPart, type Part} from '../part.js'
 import {treeLayout} from './layout.js'
 import {
-  type Theme,
+  formatNodes,
   getTheme,
   mapThemes,
+  type Theme,
   type ThemeName,
-  formatNodes,
 } from './theme.js'
 
 /**
@@ -109,13 +109,29 @@ export interface DrawTree
   extends EnrichedDraw,
     Record<ThemeName, EnrichedDraw> {}
 
+const _treeToPart = (self: Tree<string>, theme: Theme): Part =>
+  pipe(self, formatNodes(theme), treeLayout.flip(theme))
+
+/**
+ * Draw a themed tree to a part.
+ *
+ * At the key `number` you will find a version that draws numeric trees.
+ * @category drawing
+ * @function
+ */
+export const treeToPart: {
+  (self: Tree<string>, theme: Theme): Part
+  (theme: Theme): (self: Tree<string>) => Part
+  number: (theme: Theme) => (self: Tree<number>) => Part
+} = Object.assign(Function.dual(2, _treeToPart), {
+  number:
+    (theme: Theme) =>
+    (self: Tree<number>): Part =>
+      _treeToPart(map(self, String.fromNumber), theme),
+})
+
 const _themedTree = (self: Tree<string>, theme: Theme) =>
-  pipe(
-    self,
-    formatNodes(theme),
-    treeLayout.flip(theme),
-    drawPart,
-  ) as NonEmptyArray<string>
+  pipe(treeToPart(self, theme), drawPart) as NonEmptyArray<string>
 
 /**
  * Draw a tree as a 2D array of glyphs in the given theme.

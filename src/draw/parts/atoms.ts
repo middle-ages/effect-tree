@@ -8,6 +8,7 @@ import {
   text as textPart,
 } from '../part.js'
 import type {DirectedPad} from './pad.js'
+import type {HorizontalAlignment} from '../align.js'
 
 /**
  * A zero-width single line height part.
@@ -44,11 +45,16 @@ export const joinText: {
       _joinText(xs, separator),
 })
 
-const _stackText = (xs: string[]): Part =>
-  pipe(xs, Array.map(textPart), columnPart.center)
+const _stackText = (
+  xs: string[],
+  hAlign: HorizontalAlignment = 'center',
+): Part => pipe(xs, Array.map(textPart), columnPart[hAlign])
 
 /**
  * A column part that joins the given string list vertically.
+ *
+ * At the key `curried` you will find a version that accepts the horizontal
+ * alignment as the only argument in its first argument list.
  *
  * At the key `rest` you will find a version that accepts the strings as a list
  * of arguments.
@@ -67,6 +73,10 @@ const _stackText = (xs: string[]): Part =>
  * @function
  */
 export const stackText = Object.assign(_stackText, {
+  curried:
+    (hAlign?: HorizontalAlignment) =>
+    (xs: string[]): Part =>
+      _stackText(xs, hAlign),
   rest: (...xs: string[]): Part => _stackText(xs),
 })
 
