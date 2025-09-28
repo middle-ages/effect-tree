@@ -1,9 +1,18 @@
-import {expect, test} from 'vitest'
+import {describe, expect, test} from 'vitest'
 import {HStrut, VStrut} from '../struts.js'
-import {prefixText, suffixText, text} from './data.js'
+import {
+  empty,
+  isColumn,
+  isEmptyPart,
+  isRow,
+  isText,
+  prefixText,
+  suffixText,
+  text,
+} from './data.js'
 import {after, before, row} from './row.js'
 import {showPart} from './show.js'
-import {above, below} from './column.js'
+import {above, below, column} from './column.js'
 
 const [prefix, suffix] = [text('prefix-'), text('-suffix')]
 
@@ -66,4 +75,44 @@ test('row with hStrut', () => {
   expect(showPart(row.top.left([prefix, suffix], {left: HStrut(['h'])}))).toBe(
     '⮄⮅.←⊦«“h”»→⊦«“ ”»↑⊥«“”»(“prefix-”, “-suffix”)',
   )
+})
+
+describe('isEmptyPart', () => {
+  test('true', () => {
+    expect(isEmptyPart(empty)).toBe(true)
+  })
+
+  test('false', () => {
+    expect(isEmptyPart(text('foo'))).toBe(false)
+  })
+})
+
+describe('isText', () => {
+  test('true', () => {
+    expect(isText(text('foo'))).toBe(true)
+  })
+
+  test('false', () => {
+    expect(isText(empty)).toBe(false)
+  })
+})
+
+describe('isRow', () => {
+  test('true', () => {
+    expect(isRow(row.top.center([text('a')]))).toBe(true)
+  })
+
+  test('false', () => {
+    expect(isRow(text('foo'))).toBe(false)
+  })
+})
+
+describe('isColumn', () => {
+  test('true', () => {
+    expect(isColumn(column.left([text('a')]))).toBe(true)
+  })
+
+  test('false', () => {
+    expect(isColumn(text('foo'))).toBe(false)
+  })
 })
