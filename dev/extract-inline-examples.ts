@@ -4,6 +4,7 @@ import {
   addTestImports,
   ExampleCounters,
   getSourceExamples,
+  initProject,
   logFindExamples,
   logSourceExample,
   walkSources,
@@ -15,7 +16,7 @@ import {
 const inlineExamplesRelative = process.argv[2]
 
 // Extract inline examples and write them to the inline examples folder.
-walkSources(
+walkSources(initProject())(
   ({home, file, log}, counters: ExampleCounters): void => {
     counters.readFile()
 
@@ -55,7 +56,7 @@ walkSources(
 
 function writeExample({
   home,
-  variableName,
+  name,
   folder,
   exampleSource,
   file,
@@ -69,7 +70,7 @@ function writeExample({
     home,
     inlineExamplesRelative,
     folder,
-    `${file}-${variableName}.test.ts`,
+    `${file}-${name}.test.ts`,
   )
 
   const code = pipe(exampleSource, addTestImports, String.unlines)
@@ -78,7 +79,7 @@ function writeExample({
     .getProject()
     .createSourceFile(writePath, code, {overwrite: true})
 
-  wrapBody(source, [`test('${file}.${variableName}', ()  => {`], ['})'])
+  wrapBody(source, [`test('${file}.${name}', ()  => {`], ['})'])
 
   source.saveSync()
 }

@@ -1,13 +1,25 @@
-import {Array, Pair, pipe} from '#util'
+import {Array, pipe} from '#util'
 import {
   VariableDeclarationKind,
   type SourceFile,
   type VariableDeclaration,
   type VariableStatement,
 } from 'ts-morph'
-import {shift, sourceName} from './fs.js'
-import {getExampleSource, isFunctionExample} from './jsDoc.js'
+import {isFunctionWithExample, sourceDoc} from './jsDoc.js'
 import type {SourceDoc} from './types.js'
+
+/**
+ * Get all const var statements from a source file.
+ */
+export const getExportedConsts = (source: SourceFile): VariableStatement[] =>
+  pipe(
+    source.getVariableStatements(),
+    Array.filter(
+      statement =>
+        statement.getDeclarationKind() === VariableDeclarationKind.Const &&
+        statement.isExported(),
+    ),
+  )
 
 /**
  * Get all JSDoc blocks in variable statement that:
@@ -19,46 +31,19 @@ import type {SourceDoc} from './types.js'
 export const getVariableExamples =
   (home: string) =>
   (statement: VariableStatement): SourceDoc[] => {
-    const [variableName] = destructVariableDeclaration(statement)
     const sourceFile = statement.getSourceFile()
+    const declaration = variableDeclaration(statement)
+    const build = sourceDoc(home)(declaration.getName(), sourceFile)
 
     return statement.isExported()
       ? pipe(
           statement.getJsDocs(),
-          Array.filter(isFunctionExample),
-          Array.map(doc => ({
-            file: sourceName(sourceFile),
-            folder: shift(home, sourceFile),
-            exampleSource: getExampleSource(doc),
-            variableName,
-            doc,
-            home,
-          })),
+          Array.filter(isFunctionWithExample),
+          Array.map(build),
         )
       : []
   }
 
-/**
- * Get all const var statements from a source file.
- */
-export const getConstVarStatements = (
-  source: SourceFile,
-): VariableStatement[] =>
-  pipe(
-    source.getVariableStatements(),
-    Array.filter(
-      statement =>
-        statement.getDeclarationKind() === VariableDeclarationKind.Const,
-    ),
-  )
-
-/**
- * Get the variable name and the declaration of a variable statement.
- */
-const destructVariableDeclaration = (
+const variableDeclaration = (
   statement: VariableStatement,
-): readonly [string, VariableDeclaration] =>
-  pipe(
-    statement.getDeclarations()[0] as VariableDeclaration,
-    Pair.square.mapFirst(d => d.getName()),
-  )
+): VariableDeclaration => statement.getDeclarations()[0] as VariableDeclaration

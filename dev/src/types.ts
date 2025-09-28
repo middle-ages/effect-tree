@@ -1,5 +1,18 @@
 import type {Array} from '#util'
-import {type JSDoc} from 'ts-morph'
+import {
+  type JSDoc,
+  type Project as TsProject,
+  type Type,
+  type TypeChecker,
+} from 'ts-morph'
+
+export interface Project {
+  /** Absolute path to repo home folder. */
+  home: string
+  project: TsProject
+  tsConfigFile: string
+  typeChecker: TypeChecker
+}
 
 /**
  * A single JSDoc block for a variable with an `@examples` tag, together with
@@ -7,8 +20,8 @@ import {type JSDoc} from 'ts-morph'
  * example extracted from source code to disk as a Typescript test file.
  */
 export interface SourceDoc {
-  /** This example documents a variable named so. */
-  variableName: string
+  /** This example documents a variable or function named so. */
+  name: string
 
   /** Lines of example source code. */
   exampleSource: Array.NonEmptyArray<string>
@@ -27,4 +40,16 @@ export interface SourceDoc {
 
   /** Where is this example? In this JSDoc block. */
   doc: JSDoc
+}
+
+/** Analyzed signature. */
+export interface Signature {
+  args: Argument[]
+  returnType: Type
+}
+
+/** Analyzed argument. */
+export interface Argument {
+  name: string
+  type: Type
 }

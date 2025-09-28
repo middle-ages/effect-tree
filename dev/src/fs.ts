@@ -1,23 +1,7 @@
-import * as fs from 'node:fs'
-import {String, pipe} from '#util'
-import * as path from 'node:path'
-import {Project, type SourceFile} from 'ts-morph'
-import {logStart} from './log.js'
+import {pipe} from '#util'
 import type {LazyArg} from 'effect/Function'
-
-/**
- * Get project main tsconfig path and root folder.
- */
-export const initProject = (): {
-  project: Project
-  home: string
-} => {
-  const home = root()
-  const tsConfigFilePath = path.join(home, 'config', 'tsconfig.main.json')
-  const project = new Project({tsConfigFilePath})
-  logStart(home, tsConfigFilePath)
-  return {project, home}
-}
+import * as path from 'node:path'
+import {type SourceFile} from 'ts-morph'
 
 /**
  * Get project main tsconfig path.
@@ -33,9 +17,9 @@ export const sourceName = (source: SourceFile): string =>
   path.basename(source.getFilePath()).replace(/\.ts$/, '')
 
 /**
- * Get project root folder.
+ * Get project home folder where its `package.json` resides.
  */
-export const root: LazyArg<string> = () =>
+export const projectHome: LazyArg<string> = () =>
   pipe(
     new URL(import.meta.url).pathname,
     path.dirname,
@@ -60,18 +44,10 @@ export const root: LazyArg<string> = () =>
  *
  * ```
  */
-export const shift = (home: string, source: SourceFile): string =>
+export const shiftPath = (home: string, source: SourceFile): string =>
   path.join(
     ...path
       .relative(home, path.dirname(source.getFilePath()))
       .split(path.sep)
       .slice(1),
   )
-
-/**
- * Write the lines to the given file.
- */
-export const writeLines = (writePath: string, lines: string[]): void => {
-  fs.mkdirSync(path.dirname(writePath), {recursive: true})
-  fs.writeFileSync(writePath, String.unlines(lines))
-}

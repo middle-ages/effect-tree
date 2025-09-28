@@ -21,11 +21,13 @@
   "sourceLinkExternal": true,
   "includeVersion": true,
   "projectDocuments": [
-    "../src/README.md",
     "../docs/features.md",
-    "../src/codec/README.md",
+    "../docs/project.md",
+    "../dev/README.md",
     "../examples/README.md",
-    "../src/draw/README.md"
+    "../src/codec/README.md",
+    "../src/draw/README.md",
+    "../src/tree/README.md"
   ],
   "excludeInternal": true,
   "alwaysCreateEntryPointModule": false,

@@ -196,6 +196,22 @@ export function modSpacing(f: EndoOf<number>): EndoOf<Theme> {
 
 /**
  * Modify the formatter function of a tree theme using the given function.
+ * @example
+ * import {Draw, from, of} from 'effect-tree'
+ * import {pipe, flow} from 'effect'
+ *
+ * const theme: Draw.Theme = pipe(
+ *   Draw.getTheme('thin'),
+ *   Draw.modFormatter(f => flow(f, label  => `«${label}»`)),
+ * )
+ *
+ * const tree = from('a', of('b'), of('c'))
+ *
+ * expect(Draw.themedTree(tree, theme)).toEqual([
+ *   '┬«a» ',
+ *   '├─«b»',
+ *   '└─«c»',
+ * ])
  * @param f Will be given the formatter function and expected to return an updated value.
  * @category drawing
  * @function

@@ -38,12 +38,15 @@ const _joinText = (xs: string[], separator?: string): Part =>
 export const joinText: {
   (xs: string[], separator?: string): Part
   curried: (separator?: string) => (xs: string[]) => Part
-} = Object.assign(_joinText, {
-  curried:
-    (separator?: string) =>
-    (xs: string[]): Part =>
-      _joinText(xs, separator),
-})
+} = Object.assign(
+  (xs: string[], separator?: string): Part => _joinText(xs, separator),
+  {
+    curried:
+      (separator?: string) =>
+      (xs: string[]): Part =>
+        _joinText(xs, separator),
+  },
+)
 
 const _stackText = (
   xs: string[],

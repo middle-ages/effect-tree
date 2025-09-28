@@ -57,9 +57,9 @@ export const logSource = (home: string, sourceCount: number) => {
  * Log messages for processing a JSDoc example.
  */
 export const logSourceExample = (exampleCount: number) => ({
-  start: (exampleIndex: number, {variableName}: SourceDoc) => {
+  start: (exampleIndex: number, {name}: SourceDoc) => {
     const index = `${exampleIndex.toString().padStart(3)}/${exampleCount.toString().padStart(3)}`
-    console.log(`#         ${index}. ${variableName}`)
+    console.log(`#         ${index}. ${name}`)
   },
 })
 

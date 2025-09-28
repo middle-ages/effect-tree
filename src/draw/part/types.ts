@@ -89,7 +89,7 @@ export type Column = {unfixed: ColumnF<Part>} & Fix<PartFTypeLambda>
  * rectangle on a terminal. There are four types of parts, with the last two
  * being recursive:
  *
- * 1. The {@link Empty}.
+ * 1. The {@link Empty} part.
  * 2. The {@link Text} part is used for a single line of text.
  * 3. The {@link Row} part is used for a row of parts.
  * 4. The {@link Column} part is used for a column of parts.

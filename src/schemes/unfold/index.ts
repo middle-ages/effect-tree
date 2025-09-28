@@ -1,5 +1,5 @@
-import * as TreeF from '#treeF'
 import {applyPair, fanout} from '#Pair'
+import * as TreeF from '#treeF'
 import {flow, pipe} from 'effect'
 import {ana, anaE} from 'effect-ts-folds'
 import type {

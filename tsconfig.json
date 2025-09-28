@@ -5,5 +5,12 @@
     {"path": "./config/tsconfig.main.json"},
     {"path": "./config/tsconfig.dev.json"},
     {"path": "./config/tsconfig.test.json"}
-  ]
+  ],
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "@effect/language-service"
+      }
+    ]
+  }
 }

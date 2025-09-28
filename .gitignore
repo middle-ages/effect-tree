@@ -8,3 +8,4 @@ tmp
 api-docs
 examples/.snapshots
 examples/inline
+pnpm-workspace.yaml

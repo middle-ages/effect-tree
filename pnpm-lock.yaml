@@ -21,6 +21,9 @@ importers:
         specifier: ^1.5.2
         version: 1.5.2
     devDependencies:
+      '@effect/language-service':
+        specifier: ^0.41.0
+        version: 0.41.0
       '@effect/vitest':
         specifier: ^0.25.1
         version: 0.25.1(effect@3.17.14)(vitest@3.2.4)
@@ -121,6 +124,10 @@ packages:
   '@bcoe/v8-coverage@1.0.2':
     resolution: {integrity: sha512-6zABk/ECA/QYSCQ1NGiVwwbQerUCZ+TQbp64Q3AgmfNvurHH0j8TtXa1qbShXA6qqkpAj4V5W8pP6mLe1mcMqA==}
     engines: {node: '>=18'}
+
+  '@effect/language-service@0.41.0':
+    resolution: {integrity: sha512-t2JZvcsKQ0NKBBVFAx8exitZkZQB0Dedd48/frgUc7j7Jn513QfTOg6IOBwBFS8fO2sVrJZDlcZDMaNnbh3liw==}
+    hasBin: true
 
   '@effect/typeclass@0.36.0':
     resolution: {integrity: sha512-+8xYvX4tjD7gKwGYzOyFh90I+ptdXzoNHLQTSa8kGh/xOVZMIGYb0VgLoNHE02UsuVrB+JJJuBmKLdd5TeDTPg==}
@@ -1782,6 +1789,8 @@ snapshots:
       '@babel/helper-validator-identifier': 7.27.1
 
   '@bcoe/v8-coverage@1.0.2': {}
+
+  '@effect/language-service@0.41.0': {}
 
   '@effect/typeclass@0.36.0(effect@3.17.14)':
     dependencies:
