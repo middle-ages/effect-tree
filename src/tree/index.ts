@@ -240,12 +240,11 @@ export const getBranchForest: <A>(self: Branch<A>) => ForestOf<A> = flow(
  * Match a {@link Tree} to leaves and branches.
  * @example
  * import * as Tree from 'effect-tree'
- * import {pipe} from 'effect'
  *
  * const leaf = Tree.of(1)
  * const branch = Tree.from(2, leaf)
  *
- * const matcher: Tree.Matcher<number, number> = Tree.match({
+ * const matcher= Tree.match<number, number>({
  *   onLeaf: value => value + 1,
  *   onBranch: (value, forest)  => value + forest.length,
  * })

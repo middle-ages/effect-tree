@@ -42,6 +42,14 @@ export const unsafeEncodeFold: TreeFolderK<TreeArrayLambda> = <A>(
 
 /**
  * Encode a tree as nested arrays.
+ * @example
+ * import {from, of, Codec} from 'effect-tree'
+ *
+ * const tree = from(1, of(2), of(3))
+ *
+ * const encoded = Codec.Arrays.encode(tree)
+ *
+ * expect(encoded).toEqual([1, [2, 3]])
  * @category codec
  * @function
  */

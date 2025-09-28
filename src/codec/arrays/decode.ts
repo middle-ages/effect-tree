@@ -15,36 +15,23 @@ export const decodeUnfold = <A>(a: TreeArray<A>): TreeF.TreeF<A> =>
 
 /**
  * Decode nested arrays into a tree.
- *
- * ```ts
+ * @example
  * import {Codec, drawTree} from 'effect-tree'
  *
  * const tree = Codec.Arrays.decode([
- *   1, [
- *     2, [3, 4, 5],
- *     [6, [
- *       7,
- *       8,
- *       [11, [9]],
- *     ]],
- *     10,
- *   ],
+ *   1, [2, [3, [4, 5]], [6, [7, 8]]],
  * ])
  *
- * console.log(drawTree(tree).join('\n'))
- * // prints:
- * // ┬1
- * // ├┬2
- * // │├─3
- * // │├─4
- * // │└─5
- * // ├┬6
- * // │├─7
- * // │├─8
- * // │└┬11
- * // │ └─9
- * // └─10
- * ```ts
+ * expect(drawTree.number(tree)).toEqual([
+ *   '┬1  ',
+ *   '├─2 ',
+ *   '├┬3 ',
+ *   '│├─4',
+ *   '│└─5',
+ *   '└┬6 ',
+ *   ' ├─7',
+ *   ' └─8',
+ * ])
  * @category codec
  * @function
  */

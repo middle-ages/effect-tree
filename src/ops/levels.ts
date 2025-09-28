@@ -194,7 +194,7 @@ export const levels: <A>(self: Tree<A>) => NonEmptyArray2<A> = self =>
  *
  * const tree = unfoldLevelTree({depth: 4, degree: depth => 3 - depth})()
  *
- * expect(Draw.drawTree(tree)).toEqual([
+ * expect(Draw.drawTree.number(tree)).toEqual([
  *  '┬1   ',
  *  '├┬2  ',
  *  '│└┬3 ',
