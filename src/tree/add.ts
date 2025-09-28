@@ -78,6 +78,17 @@ export const insertAt: {
 /**
  * Append a tree to the children of the root node. If `self` is a _leaf_, it is
  * converted into a branch.
+ * @example
+ * import * as Tree from 'effect-tree'
+ *
+ * const tree = Tree.tree(1, [Tree.of(2), Tree.of(3)])
+ * const changed = Tree.append(tree, Tree.of(4))
+ *
+ * expect(Tree.getForest(changed)).toEqual([
+ *   Tree.of(2),
+ *   Tree.of(3),
+ *   Tree.of(4),
+ * ])
  * @typeParam A Tree underlying type.
  * @param self The tree to modify.
  * @param child Child to append.
@@ -99,6 +110,17 @@ export const append: {
 /**
  * Prepend a tree to the children of the root node. If `self` is a _leaf_, it is
  * converted into a branch.
+ * @example
+ * import * as Tree from 'effect-tree'
+ *
+ * const tree = Tree.tree(1, [Tree.of(2), Tree.of(3)])
+ * const changed = Tree.prepend(tree, Tree.of(4))
+ *
+ * expect(Tree.getForest(changed)).toEqual([
+ *   Tree.of(4),
+ *   Tree.of(2),
+ *   Tree.of(3),
+ * ])
  * @typeParam A Tree underlying type.
  * @param self The tree to modify.
  * @param child Child to prepend.
@@ -120,6 +142,18 @@ export const prepend: {
 /**
  * Append a list of trees to the children of the root node. If `self` is a
  * _leaf_, it is converted into a branch.
+ * @example
+ * import * as Tree from 'effect-tree'
+ *
+ * const tree = Tree.tree(1, [Tree.of(2), Tree.of(3)])
+ * const changed = Tree.appendAll(tree, [Tree.of(4), Tree.of(5)])
+ *
+ * expect(Tree.getForest(changed)).toEqual([
+ *   Tree.of(2),
+ *   Tree.of(3),
+ *   Tree.of(4),
+ *   Tree.of(5),
+ * ])
  * @typeParam A Tree underlying type.
  * @param self The tree to modify.
  * @param children A non-empty list of trees to append to the tree.
@@ -143,6 +177,18 @@ export const appendAll: {
 /**
  * Prepend a list of trees to the children of the root node. If `self` is a
  * _leaf_, it is converted into a branch.
+ * @example
+ * import * as Tree from 'effect-tree'
+ *
+ * const tree = Tree.tree(1, [Tree.of(2), Tree.of(3)])
+ * const changed = Tree.prependAll(tree, [Tree.of(4), Tree.of(5)])
+ *
+ * expect(Tree.getForest(changed)).toEqual([
+ *   Tree.of(4),
+ *   Tree.of(5),
+ *   Tree.of(2),
+ *   Tree.of(3),
+ * ])
  * @typeParam A Tree underlying type.
  * @param self The tree to modify.
  * @param children A non-empty list of trees to prepend to the tree.

@@ -169,8 +169,16 @@ export const levels: <A>(self: Tree<A>) => NonEmptyArray2<A> = self =>
 /**
  * Unfold a perfectly balanced tree from the given settings.
  *
+ * The numeric argument for the `TreeUnfold<number,number>` returned, is the
+ * _lower_ limit for the depth and you would usually want the default `1`.
+ *
+ * When the limit is `1` and the depth is `7`, then `7` levels will be build. If
+ * the depth is `7` but the limit is `3`, only `4` levels will be built, and the
+ * root node value will be `4`.
+ *
+ *
  * In a _level tree_, the value of every node is its depth. This, for example,
- * is a _level tree_:
+ * is a level tree:
  *
  * ```txt
  * ┬1
@@ -181,13 +189,27 @@ export const levels: <A>(self: Tree<A>) => NonEmptyArray2<A> = self =>
  * │└─3
  * └─2
  * ```
+ * @example
+ * import {unfoldLevelTree, Draw} from 'effect-tree'
+ *
+ * const tree = unfoldLevelTree({depth: 4, degree: depth => 3 - depth})()
+ *
+ * expect(Draw.drawTree(tree)).toEqual([
+ *  '┬1   ',
+ *  '├┬2  ',
+ *  '│└┬3 ',
+ *  '│ └─4',
+ *  '└┬2  ',
+ *  ' └┬3 ',
+ *  '  └─4',
+ *  ])
  * @category ops
  * @function
  */
-export const unfoldLevelTree: (
-  settings: LevelTreeSettings,
-) => TreeUnfold<number, number> = settings =>
-  pipe(settings, levelTreeUnfold, treeAna)
+export const unfoldLevelTree =
+  (settings: LevelTreeSettings) =>
+  (lowerLimit = 1): Tree<number> =>
+    pipe(settings, levelTreeUnfold, treeAna)(lowerLimit)
 
 /**
  * Returns tree nodes paired with their hop count from root.

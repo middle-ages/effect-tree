@@ -40,6 +40,12 @@ export const length: <A>(self: Tree<A>) => number = match({
  *
  * See {@link getBranchForest} for a version that returns the non-empty forest
  * of a branch.
+ * @example
+ * import * as Tree from 'effect-tree'
+ *
+ * const tree = Tree.tree(1, [Tree.leaf(2), Tree.leaf(3)])
+ *
+ * expect(Tree.getForest(tree)).toEqual([Tree.leaf(2), Tree.leaf(3)])
  * @typeParam A Underlying tree type.
  * @param self The tree being queried.
  * @returns A possibly empty list of trees.
@@ -58,6 +64,15 @@ export const getForest = <A>(self: Tree<A>): readonly Tree<A>[] =>
 /**
  * Deconstruct the node and possibly empty forest of a tree. Useful in
  * pipelines.
+ * @example
+ * import * as Tree from 'effect-tree'
+ *
+ * const tree = Tree.tree(1, [Tree.leaf(2), Tree.leaf(3)])
+ *
+ * const [value, forest] = Tree.destruct(tree)
+ *
+ * expect(value, 'value').toBe(1)
+ * expect(forest, 'forest').toEqual([Tree.leaf(2), Tree.leaf(3)])
  * @typeParam A Underlying tree type.
  * @param self The tree being deconstructed.
  * @returns A pair of the tree node value and a possibly empty list of child trees.
@@ -76,6 +91,15 @@ export const destruct = <A>(self: Tree<A>): readonly [A, readonly Tree<A>[]] =>
 /**
  * Same as {@link destruct} but only for _branches_, so you are guaranteed a
  * non-empty forest.
+ * @example
+ * import * as Tree from 'effect-tree'
+ *
+ * const branch: Tree.Branch<number> = Tree.branch(1, [Tree.of(2), Tree.of(3)])
+ *
+ * const [value, forest] = Tree.destructBranch(branch)
+ *
+ * expect(value, 'value').toBe(1)
+ * expect(forest, 'forest').toEqual([Tree.of(2), Tree.of(3)])
  * @typeParam A Underlying tree type.
  * @param self The branch being deconstructed.
  * @returns A pair of the tree node value and a non-empty list of child trees.
@@ -88,6 +112,13 @@ export const destructBranch = <A>({
 
 /**
  * Set the value of a tree root to a given value of the same type.
+ * @example
+ * import * as Tree from 'effect-tree'
+ *
+ * const leaf = Tree.of(1)
+ * const changed = Tree.setValue(leaf, 2)
+ *
+ * expect(Tree.getValue(changed)).toBe(2)
  * @typeParam A Underlying tree type.
  * @param self The tree being changed.
  * @param value New value for the root node.
@@ -115,7 +146,15 @@ const _setForest = <A>(self: Tree<A>, forest: ForestOf<A>): Branch<A> =>
   pipe(self, getValue, branchF(forest), fixBranch)
 
 /**
- * Set the root node forest to a given forest of the same type.
+ * Set the root node forest to a given forest of the same type. If the given
+ * tree is leaf it is upgraded into a branch.
+ * @example
+ * import * as Tree from 'effect-tree'
+ *
+ * const leaf = Tree.of(1)
+ * const changed = Tree.setForest(leaf, [Tree.of(2)])
+ *
+ * expect(Tree.getForest(changed)).toEqual([Tree.of(2)])
  * @typeParam A Underlying tree type.
  * @param self The tree being changed.
  * @param forest New forest.
@@ -138,6 +177,16 @@ export const setForest: {
  * Run the given function over the given tree if it is a branch, else return the
  * tree unchanged. This is like {@link match} where the `onLeaf` branch is set
  * to `identity`.
+ * @example
+ * import * as Tree from 'effect-tree'
+ *
+ * const leaf = Tree.of(1)
+ * const branch = Tree.from(2, leaf)
+ *
+ * const changeBranch = Tree.modBranch(Tree.setValue(3))
+ *
+ * expect(changeBranch(leaf), 'leaf').toEqual(leaf)
+ * expect(changeBranch(branch), 'branch').toEqual(Tree.from(3, leaf))
  * @typeParam A Underlying tree type.
  * @param self Tree on which to run the given function.
  * @param f A function from {@link Branch} to {@link Tree}.
@@ -212,6 +261,12 @@ export const modBranchForest =
 
 /**
  * Return the first child tree of a branch.
+ * @example
+ * import * as Tree from 'effect-tree'
+ *
+ * const branch = Tree.branch(2, [Tree.of(1), Tree.of(2)])
+ *
+ * expect(Tree.firstChild(branch)).toEqual(Tree.of(1))
  * @typeParam A Underlying tree type.
  * @param self tree to navigate.
  * @returns The tree that is first in the forest of the given branch.
@@ -223,6 +278,12 @@ export const firstChild = <A>(self: Branch<A>): Tree<A> =>
 
 /**
  * Return the last child tree of a branch.
+ * @example
+ * import * as Tree from 'effect-tree'
+ *
+ * const branch = Tree.branch(2, [Tree.of(1), Tree.of(2)])
+ *
+ * expect(Tree.lastChild(branch)).toEqual(Tree.of(2))
  * @typeParam A Underlying tree type.
  * @param self tree to navigate.
  * @returns The tree that is last in the forest of the given branch.
