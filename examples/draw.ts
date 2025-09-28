@@ -57,7 +57,7 @@ const themeGroups = Array.chunksOf(Draw.themeNames, 6)
 const addLabel =
   (name: string) =>
   (part: Draw.Part): Draw.Part =>
-    pipe(name, Draw.text, Draw.above.center(part), Draw.spacePad({left: 1}))
+    pipe(name, Draw.text, Draw.above.center(part), Draw.padPart({left: 1}))
 
 const rows = Array.map(themeGroups, group =>
   Draw.row.bottom.left(

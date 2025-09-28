@@ -1,43 +1,32 @@
-import {Array, Equivalence as EQ, String} from 'effect'
 import {unwords} from '#String'
-import type {Axis} from '../direction.js'
+import {Array, Equivalence as EQ, String} from 'effect'
 import {
-  isHStrut,
-  type Struts,
-  isVStrut,
-  type BaseStrut,
   VStruts,
   type HStrut,
   type HStruts,
+  type Struts,
   type VStrut,
 } from './index.js'
 
 const arrayStringEquivalence = Array.getEquivalence(String.Equivalence)
 
 /**
- * An [Equivalence](https://effect-ts.github.io/effect/effect/Equivalence.ts.html)
- * for values of the {@link BaseStrut} type.
+ * Equivalence for horizontal struts.
  * @category drawing
- * @category instances
  * @function
  */
-export const StrutEquivalence: EQ.Equivalence<BaseStrut<Axis>> = (
-  self: BaseStrut<Axis>,
-  that: BaseStrut<Axis>,
-) =>
-  isHStrut(self) && isHStrut(that)
-    ? HStrutEquivalence(self, that)
-    : isVStrut(self) && isVStrut(that)
-      ? VStrutEquivalence(self, that)
-      : false
-
-const HStrutEquivalence: EQ.Equivalence<HStrut> = EQ.struct({
+export const HStrutEquivalence: EQ.Equivalence<HStrut> = EQ.struct({
   prefix: String.Equivalence,
   body: arrayStringEquivalence,
   suffix: String.Equivalence,
 })
 
-const VStrutEquivalence: EQ.Equivalence<VStrut> = EQ.struct({
+/**
+ * Equivalence for vertical struts.
+ * @category drawing
+ * @function
+ */
+export const VStrutEquivalence: EQ.Equivalence<VStrut> = EQ.struct({
   prefix: arrayStringEquivalence,
   body: arrayStringEquivalence,
   suffix: arrayStringEquivalence,
@@ -61,13 +50,6 @@ export const showVStrut = ({prefix, body, suffix}: VStrut): string =>
     `«${unwords.quote.fancy(body)}»`,
     unwords.comma(suffix),
   )
-
-/**
- * @category drawing
- * @function
- */
-export const showStrut = (strut: BaseStrut<Axis>): string =>
-  isHStrut(strut) ? showHStrut(strut) : isVStrut(strut) ? showVStrut(strut) : ''
 
 /**
  * @category drawing

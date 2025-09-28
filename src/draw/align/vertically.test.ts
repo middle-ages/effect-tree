@@ -60,11 +60,10 @@ const testAlign =
       forVerticalAlignments((vAlign: VerticalAlignment, i) => {
         test(showAlignment(vAlign) + '.' + showAlignment(hAlign), () => {
           expect(
-            alignVertically(
+            (useTopRound ? alignVertically.useTopRound : alignVertically)(
               VStruts(topStrut),
               vAlign,
               alignOrthogonal,
-              useTopRound,
             )(align),
             `${hAlign},${vAlign}`,
           ).toEqual(expected[i])
@@ -242,14 +241,3 @@ describe('useTopRound', () => {
     true,
   )
 })
-
-/*
- [],
-+   [
-+   ],
-+   [
-+   ],
-  ]
-
-
-*/

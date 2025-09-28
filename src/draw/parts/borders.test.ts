@@ -2,7 +2,7 @@ import {pipe, String} from '#util'
 import {describe, expect, test} from 'vitest'
 import {borderSet, type BorderSet} from '../glyph.js'
 import {drawPart, text, type Part} from '../part.js'
-import {hSpace, stackText} from './atoms.js'
+import {hPadPart, stackText} from './atoms.js'
 import {
   addBorder,
   addBorders,
@@ -93,7 +93,7 @@ CCC
 })
 
 test('borderTop.corners', () => {
-  expectDraw(pipe(tenWide, hSpace()(), borderTop.corners(set)))(
+  expectDraw(pipe(tenWide, hPadPart()(), borderTop.corners(set)))(
     `
 ┌──────────┐
 .0123456789.`,
@@ -101,7 +101,7 @@ test('borderTop.corners', () => {
 })
 
 test('borderBottom.corners', () => {
-  expectDraw(pipe(tenWide, hSpace()(), borderBottom.corners(set)))(
+  expectDraw(pipe(tenWide, hPadPart()(), borderBottom.corners(set)))(
     `
 .0123456789.
 └──────────┘`,
@@ -141,4 +141,18 @@ test('addBorders', () => {
 ┃│foo│┃
 ┃└───┘┃
 ┗━━━━━┛`)
+})
+
+test('addBorders.rest', () => {
+  pipe(
+    'foo',
+    text,
+    addBorders.rest(borderSet('thick'), borderSet('thin')),
+    expectDraw,
+  )(`
+┌─────┐
+│┏━━━┓│
+│┃foo┃│
+│┗━━━┛│
+└─────┘`)
 })

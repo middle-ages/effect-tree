@@ -6,6 +6,11 @@ import type {Theme} from './themes.js'
 
 /**
  * Get a glyph by role from a tree theme.
+ *
+ * At the key `flipped` you will find a version that takes the glyph role as
+ * first and only argument of its first argument list, and the theme in
+ * the second argument list.
+ *
  * @param role Glyph role to get.
  * @param theme Theme to query.
  * @example
@@ -20,7 +25,16 @@ import type {Theme} from './themes.js'
 export const getGlyph: {
   (role: GlyphRole, theme: Theme): string
   (theme: Theme): (role: GlyphRole) => string
-} = dual(2, (role: GlyphRole, {glyphs}: Theme): string => glyphs[role])
+  flipped: (role: GlyphRole) => (theme: Theme) => string
+} = Object.assign(
+  dual(2, (role: GlyphRole, {glyphs}: Theme): string => glyphs[role]),
+  {
+    flipped:
+      (role: GlyphRole) =>
+      ({glyphs}: Theme): string =>
+        glyphs[role],
+  },
+)
 
 /**
  * Get a glyph by role from a tree theme.

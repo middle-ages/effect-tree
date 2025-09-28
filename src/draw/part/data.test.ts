@@ -1,6 +1,7 @@
 import {describe, expect, test} from 'vitest'
 import {HStrut, VStrut} from '../struts.js'
 import {
+  getText,
   empty,
   isColumn,
   isEmptyPart,
@@ -9,10 +10,12 @@ import {
   prefixText,
   suffixText,
   text,
+  matchPart,
 } from './data.js'
 import {after, before, row} from './row.js'
 import {showPart} from './show.js'
 import {above, below, column} from './column.js'
+import {K} from '#util'
 
 const [prefix, suffix] = [text('prefix-'), text('-suffix')]
 
@@ -114,5 +117,29 @@ describe('isColumn', () => {
 
   test('false', () => {
     expect(isColumn(text('foo'))).toBe(false)
+  })
+})
+
+test('getText', () => {
+  expect(getText(text('foo'))).toBe('foo')
+})
+
+describe('matchPart', () => {
+  test('empty', () => {
+    expect(matchPart(1, K(0), K(0), K(0))(empty)).toBe(1)
+  })
+
+  test('text', () => {
+    expect(matchPart(0, K(1), K(0), K(0))(text('foo'))).toBe(1)
+  })
+
+  test('row', () => {
+    expect(matchPart(0, K(0), K(1), K(0))(row.top.center([text('foo')]))).toBe(
+      1,
+    )
+  })
+
+  test('column', () => {
+    expect(matchPart(0, K(0), K(0), K(1))(column.center([text('foo')]))).toBe(1)
   })
 })

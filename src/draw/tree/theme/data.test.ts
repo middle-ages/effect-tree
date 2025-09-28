@@ -1,6 +1,6 @@
 import {test, expect} from 'vitest'
-import {pipe} from '#util'
-import {Theme} from './themes.js'
+import {flow, pipe, String} from '#util'
+import {getTheme, Theme} from './themes.js'
 import {
   getGlyph,
   getGlyphPart,
@@ -14,10 +14,14 @@ import {
   decrementIndents,
   incrementIndents,
   decrementSpacing,
+  fillSpacing,
+  modFormatter,
 } from './data.js'
+import {from, of} from '#tree'
 import {glyphSet} from './glyph.js'
 import {elbowSet} from '../../glyph.js'
 import {drawPart} from '../../part.js'
+import {themedTree} from '../draw.js'
 
 const theme: Theme = pipe(
   'thin',
@@ -59,10 +63,40 @@ test('decrementIndents', () => {
   expect(pipe(theme, decrementIndents(), getIndents)).toEqual(41)
 })
 
+test('decrementIndents at zero', () => {
+  expect(pipe(theme, setIndents(0), decrementIndents(), getIndents)).toEqual(0)
+})
+
 test('incrementSpacing', () => {
   expect(pipe(theme, incrementSpacing(), getSpacing)).toEqual(124)
 })
 
 test('decrementSpacing', () => {
   expect(pipe(theme, decrementSpacing(), getSpacing)).toEqual(122)
+})
+
+test('decrementSpacing at zero', () => {
+  expect(pipe(theme, setSpacing(0), decrementSpacing(), getSpacing)).toEqual(0)
+})
+
+test('fromNamedGlyphSet', () => {
+  expect(Theme.fromNamedGlyphSet('double').glyphs.elbow).toBe('╚')
+})
+
+test('fillSpacing', () => {
+  expect(pipe(theme, setSpacing(2), fillSpacing)).toEqual(['\n'])
+})
+
+test('modFormatter', () => {
+  const iut: Theme = pipe(
+    getTheme('thin'),
+    modFormatter(f => flow(f, String.prefix('«'))),
+    modFormatter(f => flow(f, String.suffix('»'))),
+  )
+
+  expect(themedTree(from('a', of('b'), of('c')), iut)).toEqual([
+    '┬«a» ',
+    '├─«b»',
+    '└─«c»',
+  ])
 })

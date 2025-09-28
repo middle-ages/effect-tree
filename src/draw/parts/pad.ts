@@ -64,7 +64,7 @@ export const computePadHeight = ({pad: {top, bottom}}: Padded): number =>
   top + bottom
 
 /**
- * Add the given width to the given {@link Padded}.
+ * Add the width of the given padded to the given width.
  * @category drawing
  * @function
  */
@@ -74,7 +74,7 @@ export const addPadWidth =
     left + width + right
 
 /**
- * Add the given height to the given {@link Padded}.
+ * Add the height of the given padded to the given height.
  * @category drawing
  * @function
  */
@@ -108,7 +108,7 @@ export const addPadSize =
   ]
 
 /**
- * Build a padding entry for every from a partial list of values.
+ * Build a padding entry for every direction from a partial list of values.
  * @category drawing
  * @function
  */

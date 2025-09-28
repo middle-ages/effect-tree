@@ -5,7 +5,66 @@ import {type Part} from '../../part.js'
 import {glyphSet, type GlyphSet, type GlyphSetName} from './glyph.js'
 
 /**
+ * A _tree theme_:
+ *
+ * - Maps drawing roles to actual glyphs and styles. For example, a theme could map the glyph role `top-left-elbow`, used when you need an elbow shape pointing top-left, to the glyph `┌`, while another could map it to the glyph `╭`.
+ * - Configures indent count. Indents used when moving from parent to child and set the horizontal spacing between adjacent tree levels.
+ * - Configures vertical spacing. Vertical spacing is added between nodes.
+ * - Can format nodes before drawing, for example to convert to string.
+ * @category drawing
+ */
+export interface Theme {
+  /**
+   * The number of empty lines added between vertical nodes. A higher
+   * number increases table vertical spacing between nodes.
+   */
+  spacing: number
+
+  /**
+   * The number of times that the theme glyphs for the role `indent`
+   * will be repeated when indenting a part. Higher numbers increase
+   * the horizontal space between tree levels.
+   */
+  indents: number
+
+  /**
+   * A map of glyph role to glyphs that will be used to compose
+   * the tree.
+   */
+  glyphs: GlyphSet
+
+  /** The formatting function can change the tree label before it is drawn. */
+  formatter: (node: string) => string
+}
+
+/**
+ * A function that can return a Part when given a theme.
+ * @category drawing
+ */
+export interface ThemedPart {
+  (theme: Theme): Part
+}
+
+/**
+ * Theme constructor.
+ * @category drawing
+ * @function
+ */
+export function Theme({
+  spacing = 0,
+  indents = 0,
+  glyphs = glyphSet('thin'),
+  formatter = identity,
+}: Partial<Theme>): Theme {
+  return {spacing, indents, glyphs, formatter}
+}
+
+/**
  * Names of themes sets created with an indent count of one.
+ *
+ * The tree structure is a bit harder to spot in these themes
+ * so we indent parent-to-child one extra indent to emphasize
+ * the tree structure.
  * @category internal
  */
 export const indentedThemes = ['ascii', 'bullets', 'space'] as const
@@ -84,6 +143,10 @@ const themes = Record.fromEntries(entries) as ThemeMap
 
 /**
  * Get tree theme by name.
+ * @example
+ * import {Draw} from 'effect-tree'
+ *
+ * expect(Draw.getTheme('thin').glyphs.hLine).toBe('─')
  * @param name the theme name requested.
  * @returns The requested theme.
  * @category drawing
@@ -93,6 +156,26 @@ export const getTheme = (name: ThemeName): Theme => themes[name]
 
 /**
  * Map over all themes to build a record theme `name` ⇒ `f(theme)`.
+ * @example
+ * import {Draw} from 'effect-tree'
+ * import {Array, pipe, Record} from 'effect'
+ *
+ * // Place all elbows from all themes in a record with theme name
+ * // as key.
+ * const actual: Record<Draw.ThemeName, string> = Draw.mapThemes(
+ *   Draw.getGlyph.flipped('elbow')
+ * )
+ *
+ * const expected = pipe(
+ *   Draw.themeNames,
+ *   Array.map(themeName => [
+ *     themeName,
+ *     Draw.getTheme(themeName).glyphs.elbow,
+ *   ] as const),
+ *   Record.fromEntries
+ * )
+ *
+ * expect(actual).toEqual(expected)
  * @category drawing
  * @function
  */
@@ -110,63 +193,6 @@ export const mapThemes = <A>(
  * @category drawing
  */
 export type ThemeMap = Record<ThemeName, Theme>
-
-/**
- * A _tree theme_:
- *
- * - Maps drawing roles to actual glyphs and styles. For example, a theme could map the glyph role `top-left-elbow`, used when you need an elbow shape pointing top-left, to the glyph `┌`, while another could map it to the glyph `╭`.
- * - Configures indent count. Indents used when moving from parent to child and set the horizontal spacing between adjacent tree levels.
- * - Configures vertical spacing. Vertical spacing is added between nodes.
- * - Can format nodes before drawing, for example to convert to string.
- * @category drawing
- */
-export interface Theme {
-  /**
-   * The number of empty lines added between vertical nodes. A higher
-   * number increases table vertical spacing between nodes.
-   */
-  spacing: number
-
-  /**
-   * The number of times that the theme glyphs for the role `indent`
-   * will be repeated when indenting a part. Higher numbers increase
-   * the horizontal space between tree levels.
-   */
-  indents: number
-
-  /**
-   * A map of glyph role to glyphs that will be used to compose
-   * the tree.
-   */
-  glyphs: GlyphSet
-
-  /** The formatting function can change the tree label before it is drawn. */
-  formatter: (node: string) => string
-}
-
-/**
- * @category drawing
- */
-export type Themed = (theme: Theme) => string
-
-/**
- * @category drawing
- */
-export type ThemedPart = (theme: Theme) => Part
-
-/**
- * Theme constructor.
- * @category drawing
- * @function
- */
-export function Theme({
-  spacing = 0,
-  indents = 0,
-  glyphs = glyphSet('thin'),
-  formatter = identity,
-}: Partial<Theme>): Theme {
-  return {spacing, indents, glyphs, formatter}
-}
 
 function _fromGlyphSet(
   glyphs = glyphSet('thin'),

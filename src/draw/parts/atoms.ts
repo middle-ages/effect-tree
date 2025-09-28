@@ -80,8 +80,6 @@ export const stackText = Object.assign(_stackText, {
   rest: (...xs: string[]): Part => _stackText(xs),
 })
 
-stackText.rest = (...xs: string[]): Part => stackText(xs)
-
 /**
  * A text part that is `width` wide composed entirely of the given string
  * repeated or sliced.
@@ -127,19 +125,21 @@ export const vIndent = (height: number): Part =>
  *
  * At the keys `left` and  `right` you will find versions that pad only a single
  * side of the given part.
+ *
+ * See {@link vPadPart} for the vertical version.
  * @example
  * import {Draw} from 'effect-tree'
- * const {drawPart, hSpace, text} = Draw
+ * const {drawPart, hPadPart, text} = Draw
  *
  * const part = text('foo')
  *
- * const padded = hSpace('←', '→')(1, 2)(part)
+ * const padded = hPadPart('←', '→')(1, 2)(part)
  *
  * expect(drawPart(padded)).toEqual(['←foo→→'])
  * @category drawing
  * @function
  */
-export const hSpace = Object.assign(
+export const hPadPart = Object.assign(
   (fillLeft = ' ', fillRight = ' ') =>
     (padLeft = 1, padRight = padLeft): EndoOf<Part> =>
     self =>
@@ -165,13 +165,15 @@ export const hSpace = Object.assign(
  *
  * At the keys `top` and  `bottom` you will find versions that pad only a single
  * side of the given part.
+ *
+ * See {@link hPadPart} for the horizontal version.
  * @example
  * import {Draw} from 'effect-tree'
- * const {drawPart, vSpace, text} = Draw
+ * const {drawPart, vPadPart, text} = Draw
  *
  * const part = text('foo')
  *
- * const padded = vSpace(1)(part)
+ * const padded = vPadPart(1)(part)
  *
  * expect(drawPart(padded)).toEqual([
  *   '   ',
@@ -181,7 +183,7 @@ export const hSpace = Object.assign(
  * @category drawing
  * @function
  */
-export const vSpace = Object.assign(
+export const vPadPart = Object.assign(
   (padTop = 1, padBottom = padTop): EndoOf<Part> =>
     self =>
       columnPart.center([vIndent(padTop), self, vIndent(padBottom)]),
@@ -196,11 +198,11 @@ export const vSpace = Object.assign(
  * Pad a part with spaces in all directions.
  * @example
  * import {Draw} from 'effect-tree'
- * const {drawPart, spacePad, text} = Draw
+ * const {drawPart, padPart, text} = Draw
  *
  * const part = text('foo')
  *
- * const padded = spacePad(
+ * const padded = padPart(
  *   part,
  *   {top: 1, right: 1, bottom: 1, left: 1},
  * )
@@ -213,11 +215,11 @@ export const vSpace = Object.assign(
  * @category drawing
  * @function
  */
-export const spacePad: {
+export const padPart: {
   (self: Part, pad: Partial<DirectedPad>): Part
   ({top, right, bottom, left}: Partial<DirectedPad>): EndoOf<Part>
 } = dual(
   2,
   (self: Part, {top, right, bottom, left}: Partial<DirectedPad>): Part =>
-    pipe(self, vSpace(top, bottom), hSpace()(left, right)),
+    pipe(self, vPadPart(top, bottom), hPadPart()(left, right)),
 )

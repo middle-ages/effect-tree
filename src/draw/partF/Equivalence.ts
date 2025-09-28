@@ -1,6 +1,5 @@
-import {tupled} from '#Function'
 import {Effect, Equivalence as EQ, pipe} from 'effect'
-import {getEquivalence as getArrayEquivalence, zip} from 'effect/Array'
+import {getEquivalence as getArrayEquivalence} from 'effect/Array'
 import {AlignedEquivalence, HorizontalEquivalence} from '../align.js'
 import {
   ColumnF,
@@ -45,32 +44,6 @@ const getColumnFEquals =
   ({cells: selfCells, ...self}, {cells: thatCells, ...that}) =>
     HorizontalEquivalence(self, that) &&
     getArrayEquivalence(equalsA)(selfCells, thatCells)
-
-/**
- * @category internal
- * @function
- */
-export const getRowFEqualsE =
-  <A>(
-    equalsA: (self: A, that: A) => Effect.Effect<void, undefined>,
-  ): ((self: RowF<A>, that: RowF<A>) => Effect.Effect<void, undefined>) =>
-  ({cells: selfCells, ...self}, {cells: thatCells, ...that}) =>
-    AlignedEquivalence(self, that)
-      ? pipe(selfCells, zip(thatCells), Effect.forEach(tupled(equalsA)))
-      : Effect.fail(void {})
-
-/**
- * @category internal
- * @function
- */
-export const getColumnFEqualsE =
-  <A>(
-    equalsA: (self: A, that: A) => Effect.Effect<void, undefined>,
-  ): ((self: ColumnF<A>, that: ColumnF<A>) => Effect.Effect<void, undefined>) =>
-  ({cells: selfCells, ...self}, {cells: thatCells, ...that}) =>
-    HorizontalEquivalence(self, that)
-      ? pipe(selfCells, zip(thatCells), Effect.forEach(tupled(equalsA)))
-      : equalsFail
 
 /**
  * @category internal

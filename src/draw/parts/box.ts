@@ -4,7 +4,7 @@ import type {HorizontalAlignment} from '../align.js'
 import type {BorderSet} from '../glyph.js'
 import {borderSet} from '../glyph.js'
 import type {Part} from '../part.js'
-import {stackText, spacePad} from './atoms.js'
+import {stackText, padPart} from './atoms.js'
 import {addBorder} from './borders.js'
 import {noPadding, type DirectedPad} from './pad.js'
 
@@ -37,9 +37,9 @@ const _box = (part: Part, rawSettings?: Partial<BoxSettings>): Part => {
   const {padding, margin, border} = normalizeSettings(rawSettings)
   return pipe(
     part,
-    spacePad(padding),
+    padPart(padding),
     addBorder.curried(border),
-    spacePad(margin),
+    padPart(margin),
   )
 }
 

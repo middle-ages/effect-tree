@@ -1,4 +1,3 @@
-import {pipe} from '#util'
 import {type NonEmptyArray} from '#Array'
 import type {EndoOf} from '#Function'
 import {filterDefined} from '#Record'
@@ -9,6 +8,7 @@ import {
   stringWidth,
   unwords,
 } from '#String'
+import {pipe} from '#util'
 import type {
   Axis,
   AxisString,
@@ -52,22 +52,6 @@ export interface BaseStrut<A extends Axis> {
  * @category drawing
  */
 export interface Struts extends HStruts, VStruts {}
-
-/**
- * Type guard for horizontal struts.
- * @category drawing
- * @function
- */
-export const isHStrut = (strut: BaseStrut<Axis>): strut is HStrut =>
-  strut.axis === 'horizontal'
-
-/**
- * Type guard for vertical struts.
- * @category drawing
- * @function
- */
-export const isVStrut = (strut: BaseStrut<Axis>): strut is VStrut =>
-  strut.axis === 'vertical'
 
 /**
  * Build a horizontal strut from a non-empty array of its glyph and an

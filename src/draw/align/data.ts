@@ -1,7 +1,12 @@
 import {Equivalence as stringEquivalence, unwords} from '#String'
 import {Equivalence as EQ, Record} from 'effect'
 import type {LazyArg} from 'effect/Function'
-import {StrutEquivalence, type HStruts, type VStruts} from '../struts.js'
+import {
+  HStrutEquivalence,
+  VStrutEquivalence,
+  type HStruts,
+  type VStruts,
+} from '../struts.js'
 
 /**
  * @category drawing
@@ -148,8 +153,8 @@ export const showAlignments = ({
  */
 export const HorizontalEquivalence: EQ.Equivalence<HorizontallyAligned> =
   EQ.struct({
-    left: StrutEquivalence,
-    right: StrutEquivalence,
+    left: HStrutEquivalence,
+    right: HStrutEquivalence,
     hAlign: stringEquivalence,
   })
 
@@ -160,8 +165,8 @@ export const HorizontalEquivalence: EQ.Equivalence<HorizontallyAligned> =
  */
 export const VerticalEquivalence: EQ.Equivalence<VerticallyAligned> = EQ.struct(
   {
-    top: StrutEquivalence,
-    bottom: StrutEquivalence,
+    top: VStrutEquivalence,
+    bottom: VStrutEquivalence,
     vAlign: stringEquivalence,
   },
 )

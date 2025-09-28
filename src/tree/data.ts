@@ -1,7 +1,7 @@
-import {branchF, leafF} from '#treeF'
-import {K, Array, flow, Function, Pair, pipe} from '#util'
-import {isNone, none, type Option} from 'effect/Option'
 import {dual, type EndoOf} from '#Function'
+import {branchF, leafF} from '#treeF'
+import {Array, flow, Function, K, Pair, pipe} from '#util'
+import {isNone, none, type Option} from 'effect/Option'
 import {
   fixBranch,
   getBranchForest,
@@ -13,7 +13,16 @@ import {
 import type {Branch, ForestOf, Tree} from './types.js'
 
 /**
- * Compute child count for root node.
+ * Return direct child count for root node of given tree.
+ *
+ * See {@link nodeCount} for a version that count _all_ nodes and not just
+ * direct children.
+ * @example
+ * import * as Tree from 'effect-tree'
+ *
+ * const tree = Tree.tree(1, [Tree.leaf(2), Tree.leaf(3)])
+ *
+ * expect(Tree.length(tree)).toBe(2)
  * @typeParam A Underlying tree type.
  * @param self The tree being queried.
  * @returns Numeric child count.

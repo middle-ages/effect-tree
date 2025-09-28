@@ -1,8 +1,8 @@
-import {branch, of} from '#tree'
-import {describe, expect, test} from 'vitest'
+import {drawPart, getTheme, themedTree, treeToPart} from '#draw'
+import {assertDrawTree, drawTree as drawTestTree} from '#test'
+import {branch, from, of} from '#tree'
 import {pipe} from 'effect'
-import {assertDrawTree, drawTree} from '#test'
-import {getTheme} from '#draw'
+import {describe, expect, test} from 'vitest'
 
 test('leaf', () => {
   pipe('a', of, assertDrawTree('\n─a'))
@@ -115,7 +115,7 @@ describe('nodeCount≔11', () => {
   })
 
   test('theme≔“round”', () => {
-    expect(drawTree(tree, getTheme('round'))).toBe(`
+    expect(drawTestTree(tree, getTheme('round'))).toBe(`
 ┬a
 ├─b
 ├┬c
@@ -131,7 +131,7 @@ describe('nodeCount≔11', () => {
 
   describe('theme≔“unix”', () => {
     test('single line nodes', () => {
-      expect(drawTree(tree, getTheme('unix'))).toBe(`
+      expect(drawTestTree(tree, getTheme('unix'))).toBe(`
 ─a
  ├─b
  ├─c
@@ -152,7 +152,7 @@ describe('nodeCount≔11', () => {
         branch('f', [of('g1\ng2')]),
       ])
 
-      expect(drawTree(tree, getTheme('unix'))).toBe(`
+      expect(drawTestTree(tree, getTheme('unix'))).toBe(`
 ─a1
  │a2
  ├─b
@@ -168,7 +168,7 @@ describe('nodeCount≔11', () => {
   })
 
   test('theme≔“unixRound”', () => {
-    expect(drawTree(tree, getTheme('unixRound'))).toBe(`
+    expect(drawTestTree(tree, getTheme('unixRound'))).toBe(`
 ─a
  ├─b
  ├─c
@@ -183,7 +183,7 @@ describe('nodeCount≔11', () => {
   })
 
   test('theme≔“thick”', () => {
-    expect(drawTree(tree, getTheme('thick'))).toBe(`
+    expect(drawTestTree(tree, getTheme('thick'))).toBe(`
 ┳a
 ┣━b
 ┣┳c
@@ -198,7 +198,7 @@ describe('nodeCount≔11', () => {
   })
 
   test('theme≔“space”', () => {
-    expect(drawTree(tree, getTheme('space'))).toBe(`
+    expect(drawTestTree(tree, getTheme('space'))).toBe(`
  a
    b
    c
@@ -213,7 +213,7 @@ describe('nodeCount≔11', () => {
   })
 
   test('theme≔“bullets”', () => {
-    expect(drawTree(tree, getTheme('bullets'))).toBe(`
+    expect(drawTestTree(tree, getTheme('bullets'))).toBe(`
  ∘a
    ∙b
    ∘c
@@ -228,7 +228,7 @@ describe('nodeCount≔11', () => {
   })
 
   test('theme≔“ascii”', () => {
-    expect(drawTree(tree, getTheme('ascii'))).toBe(`
+    expect(drawTestTree(tree, getTheme('ascii'))).toBe(`
 +a
 +--b
 +-+c
@@ -241,4 +241,28 @@ describe('nodeCount≔11', () => {
   | '--j
   '--k`)
   })
+})
+
+test('themedTree.unlines', () => {
+  expect(
+    '\n' +
+      themedTree
+        .unlines(getTheme('thin'))(from('a', of('b'), of('c')))
+        .replaceAll(' ', '.'),
+  ).toBe(`
+┬a.
+├─b
+└─c`)
+})
+
+test('treeToPart.number', () => {
+  const part = pipe(
+    from(1, of(2), of(3)),
+    pipe('thin', getTheme, treeToPart.number),
+  )
+
+  expect('\n' + drawPart.unlines(part).replaceAll(' ', '.')).toBe(`
+┬1.
+├─2
+└─3`)
 })
