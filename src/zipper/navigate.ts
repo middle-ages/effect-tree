@@ -370,6 +370,28 @@ export const root: EndoK<ZipperTypeLambda> = flow(toTree, fromTree)
 /**
  * Navigate from a node to its first child or throw an exception if the focused
  * node is a {@link Leaf}. Unsafe version of {@link tryHead}.
+ * @example
+ * import {Zipper, from, of} from 'effect-tree'
+ *
+ * // ┬1
+ * // ├┬2
+ * // │├─3
+ * // │└─4
+ * // └┬5
+ * //  ├─6
+ * //  └─7
+ * const tree = from(1, from(2, of(3), of(4)), from(5, of(6), of(7)))
+ *
+ * const start = Zipper.fromTree(tree)
+ *
+ * const hop1 = Zipper.head(start)
+ * expect(Zipper.getValue(hop1)).toBe(2)
+ *
+ * const hop2 = Zipper.head(hop1)
+ * expect(Zipper.getValue(hop2)).toBe(3)
+ *
+ * // Out-of-bounds exception when nowhere left to go.
+ * expect(()  => Zipper.head(hop2)).toThrow(/getOrThrow/)
  * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
@@ -406,6 +428,28 @@ export const headN: {
 /**
  * Navigate from a node to its last child or throw an exception if the focused
  * node is a {@link Leaf}. Unsafe version of {@link tryLast}.
+ * @example
+ * import {Zipper, from, of} from 'effect-tree'
+ *
+ * // ┬1
+ * // ├┬2
+ * // │├─3
+ * // │└─4
+ * // └┬5
+ * //  ├─6
+ * //  └─7
+ * const tree = from(1, from(2, of(3), of(4)), from(5, of(6), of(7)))
+ *
+ * const start = Zipper.fromTree(tree)
+ *
+ * const hop1 = Zipper.last(start)
+ * expect(Zipper.getValue(hop1)).toBe(5)
+ *
+ * const hop2 = Zipper.last(hop1)
+ * expect(Zipper.getValue(hop2)).toBe(7)
+ *
+ * // Out-of-bounds exception when nowhere left to go.
+ * expect(()  => Zipper.last(hop2)).toThrow(/getOrThrow/)
  * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
@@ -442,6 +486,26 @@ export const lastN: {
 /**
  * Navigate from a node to its previous sibling or throw an exception if the
  * focused node is the forest head. Unsafe version of {@link tryPrevious}.
+ * @example
+ * import {Zipper, from, of} from 'effect-tree'
+ * import {pipe} from 'effect'
+ *
+ * // ┬1
+ * // ├─2
+ * // ├─3
+ * // └─4
+ * const tree = from(1, of(2), of(3), of(4))
+ *
+ * const start = pipe(tree, Zipper.fromTree, Zipper.last)
+ *
+ * const hop1 = Zipper.previous(start)
+ * expect(Zipper.getValue(hop1)).toBe(3)
+ *
+ * const hop2 = Zipper.previous(hop1)
+ * expect(Zipper.getValue(hop2)).toBe(2)
+ *
+ * // Out-of-bounds exception when nowhere left to go.
+ * expect(()  => Zipper.previous(hop2)).toThrow(/getOrThrow/)
  * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
@@ -481,6 +545,26 @@ export const previousN: {
  * Navigate from a node to its next sibling or throw an exception if the
  * focused node is the last node in its forest. Unsafe version of
  * {@link tryNext}.
+ * @example
+ * import {Zipper, from, of} from 'effect-tree'
+ * import {pipe} from 'effect'
+ *
+ * // ┬1
+ * // ├─2
+ * // ├─3
+ * // └─4
+ * const tree = from(1, of(2), of(3), of(4))
+ *
+ * const start = pipe(tree, Zipper.fromTree, Zipper.head)
+ *
+ * const hop1 = Zipper.next(start)
+ * expect(Zipper.getValue(hop1)).toBe(3)
+ *
+ * const hop2 = Zipper.next(hop1)
+ * expect(Zipper.getValue(hop2)).toBe(4)
+ *
+ * // Out-of-bounds exception when nowhere left to go.
+ * expect(()  => Zipper.next(hop2)).toThrow(/getOrThrow/)
  * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper
@@ -517,6 +601,29 @@ export const nextN: {
 /**
  * Navigate from a node to its parent or throw an exception if the
  * focused node is a tree root. Unsafe version of {@link tryUp}.
+ * @example
+ * import {Zipper, from, of} from 'effect-tree'
+ * import {pipe} from 'effect'
+ *
+ * // ┬1
+ * // ├┬2
+ * // │├─3
+ * // │└─4
+ * // └┬5
+ * //  ├─6
+ * //  └─7
+ * const tree = from(1, from(2, of(3), of(4)), from(5, of(6), of(7)))
+ *
+ * const start = pipe(tree, Zipper.fromTree, Zipper.head, Zipper.head)
+ *
+ * const hop1 = Zipper.up(start)
+ * expect(Zipper.getValue(hop1)).toBe(2)
+ *
+ * const hop2 = Zipper.up(hop1)
+ * expect(Zipper.getValue(hop2)).toBe(1)
+ *
+ * // Out-of-bounds exception when nowhere left to go.
+ * expect(()  => Zipper.up(hop2)).toThrow(/getOrThrow/)
  * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper

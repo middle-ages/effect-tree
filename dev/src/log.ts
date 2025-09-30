@@ -68,5 +68,5 @@ function relativeToHome(home: string): Function.EndoOf<string> {
 }
 
 export const logFindExamples = () => {
-  console.log(`# 🔍 Searching for inline examples...\n#`)
+  console.log(`# 🔍 Searching for inline examples…\n#`)
 }

@@ -16,14 +16,17 @@ export interface WalkInfo {
  * not include tests, examples, or project dev code.
  */
 export const walkSources =
-  (project: Project) =>
+  (project: Project, targetPath?: string) =>
   <A>(
     f: (source: WalkInfo, a: A) => void,
     onBegin: (main: SourceFile[]) => A,
     onEnd: (log: SourceLog, a: A) => void,
   ): void => {
     const {home} = project
-    const main = mainSources(project)
+    const main =
+      targetPath === undefined || targetPath === ''
+        ? mainSources(project)
+        : ([project.project.getSourceFile(targetPath)] as [SourceFile])
     const log = logSource(home, main.length)
 
     log.init()

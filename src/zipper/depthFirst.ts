@@ -37,6 +37,28 @@ import {tryHead, tryNext, tryUp} from './navigate.js'
  * Returns `Option.none` when the final node in the traversal has been reached.
  *
  * See {@link depthFirst} for an unsafe version.
+ * @example
+ * import {Zipper, from, of} from 'effect-tree'
+ * import {pipe, Option} from 'effect'
+ *
+ * // ┬1
+ * // ├┬2
+ * // │├─3
+ * // │└─4
+ * // └┬5
+ * //  ├─6
+ * //  └─7
+ * const tree = from(1, from(2, of(3), of(4)), from(5, of(6), of(7)))
+ *
+ * const start = Zipper.fromTree(tree)
+ *
+ * const hop1 = Zipper.tryDepthFirst(start)
+ * const value1 = pipe(hop1, Option.map(Zipper.getValue))
+ * expect(value1, 'hop1').toEqual(Option.some(2))
+ *
+ * const hop2 = pipe(hop1, Option.flatMap(Zipper.tryDepthFirst))
+ * const value2 = pipe(hop2, Option.map(Zipper.getValue))
+ * expect(value2, 'hop2').toEqual(Option.some(3))
  * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if there is no next node in the depth-first traversal.
  * @category zipper
@@ -96,6 +118,40 @@ export const tryDepthFirst: OptionalZipper = self => {
  * Returns `Option.none` when the final node in the traversal has been reached.
  *
  * This is the unsafe version of {@link tryDepthFirst}.
+ * @example
+ * import {Zipper, from, of} from 'effect-tree'
+ *
+ * // ┬1
+ * // ├┬2
+ * // │├─3
+ * // │└─4
+ * // └┬5
+ * //  ├─6
+ * //  └─7
+ * const tree = from(1, from(2, of(3), of(4)), from(5, of(6), of(7)))
+ *
+ * const start = Zipper.fromTree(tree)
+ *
+ * const hop1 = Zipper.depthFirst(start)
+ * expect(Zipper.getValue(hop1)).toBe(2)
+ *
+ * const hop2 = Zipper.depthFirst(hop1)
+ * expect(Zipper.getValue(hop2)).toBe(3)
+ *
+ * const hop3 = Zipper.depthFirst(hop2)
+ * expect(Zipper.getValue(hop3)).toBe(4)
+ *
+ * const hop4 = Zipper.depthFirst(hop3)
+ * expect(Zipper.getValue(hop4)).toBe(5)
+ *
+ * const hop5 = Zipper.depthFirst(hop4)
+ * expect(Zipper.getValue(hop5)).toBe(6)
+ *
+ * const hop6 = Zipper.depthFirst(hop5)
+ * expect(Zipper.getValue(hop6)).toBe(7)
+ *
+ * // Out-of-bounds exception when nowhere left to go.
+ * expect(()  => Zipper.depthFirst(hop6)).toThrow(/getOrThrow/)
  * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus.
  * @category zipper

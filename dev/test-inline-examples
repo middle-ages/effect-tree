@@ -8,11 +8,11 @@ dir="$(dirname "${0}")"
 
 . "${dir}/lib/_"
 
-echo -e "🏗️ Testing $(color_magenta 'inline API examples')..."
+echo -e "🏗️ Testing $(color_magenta 'inline API examples')…"
 
 rm -rf "${INLINE_EXAMPLES_DIR}"/*
 
-"$(dirname "${0}")/extract-inline-examples" "${INLINE_EXAMPLES_RELATIVE}"
+"$(dirname "${0}")/extract-inline-examples" 
 
 echo -e "✅ $(color_green Done) extracting $(color_magenta 'inline API examples')."
 

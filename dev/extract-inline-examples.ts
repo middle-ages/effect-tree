@@ -1,47 +1,23 @@
-import {Array, pipe, String} from '#util'
-import * as path from 'node:path'
+import {Array} from '#util'
 import {
-  addTestImports,
   ExampleCounters,
   getSourceExamples,
   initProject,
   logFindExamples,
   logSourceExample,
   walkSources,
-  wrapBody,
-  type SourceDoc,
+  writeExample,
+  type WalkInfo,
 } from './typescript.js'
 
-// Relative path from project root where inline examples will be written
+// Relative path from project root where inline examples will be written.
 const inlineExamplesRelative = process.argv[2]
 
-// Extract inline examples and write them to the inline examples folder.
-walkSources(initProject())(
-  ({home, file, log}, counters: ExampleCounters): void => {
-    counters.readFile()
+// If given then only this source file is extracted.
+const examplePath = process.argv[3]
 
-    // Extract inline examples for a single source file.
-    const examples = getSourceExamples(home, file)
-
-    if (!Array.isNonEmptyArray(examples)) {
-      log.progress(counters.progress())
-      return
-    }
-
-    counters.foundExampleInFile()
-    log.begin(counters.progress(), file)
-    const logExample = logSourceExample(examples.length)
-
-    let exampleIndex = 0
-    for (const example of examples) {
-      exampleIndex++
-      counters.readExample()
-      logExample.start(exampleIndex, example)
-
-      // Write the example as a test.
-      writeExample(example)
-    }
-  },
+walkSources(initProject(), examplePath)(
+  walker,
 
   main => {
     logFindExamples()
@@ -54,32 +30,30 @@ walkSources(initProject())(
   },
 )
 
-function writeExample({
-  home,
-  name,
-  folder,
-  exampleSource,
-  file,
-  doc,
-}: SourceDoc) {
-  if (inlineExamplesRelative === undefined || inlineExamplesRelative === '') {
-    throw new Error('No path to inline examples.')
+// Extract inline examples and write them to the inline examples folder.
+function walker({home, file, log}: WalkInfo, counters: ExampleCounters): void {
+  counters.readFile()
+  const write = writeExample(inlineExamplesRelative)
+
+  // Extract inline examples for a single source file.
+  const examples = getSourceExamples(home, file)
+
+  if (!Array.isNonEmptyArray(examples)) {
+    log.progress(counters.progress())
+    return
   }
 
-  const writePath = path.join(
-    home,
-    inlineExamplesRelative,
-    folder,
-    `${file}-${name}.test.ts`,
-  )
+  counters.foundExampleInFile()
+  log.begin(counters.progress(), file)
+  const logExample = logSourceExample(examples.length)
 
-  const code = pipe(exampleSource, addTestImports, String.unlines)
+  let exampleIndex = 0
+  for (const example of examples) {
+    exampleIndex++
+    counters.readExample()
+    logExample.start(exampleIndex, example)
 
-  const source = doc
-    .getProject()
-    .createSourceFile(writePath, code, {overwrite: true})
-
-  wrapBody(source, [`test('${file}.${name}', ()  => {`], ['})'])
-
-  source.saveSync()
+    // Write the example as a test.
+    write(example)
+  }
 }

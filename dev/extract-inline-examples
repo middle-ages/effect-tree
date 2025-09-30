@@ -8,10 +8,25 @@ dir="$(dirname "${0}")"
 
 . "${dir}/lib/_"
 
+# If given a first argument a path to a source file, will only extract examples
+# from this one file.
+#
+# For example:
+#
+# > dev/extract-inline-examples src/draw/parts/atoms.ts
+#
+# Will extract only from “src/draw/parts/atoms.ts”.
+#
+example="${1:-}"
 write_to="${INLINE_EXAMPLES_RELATIVE}"
 
-pnpm tsx "${DEV_DIR}"/extract-inline-examples.ts "${write_to}"
+if [[ -n "${example}" ]]; then
+  echo -ne "# ✂️  Extracting from $(color_path "${example}")…\n"
+else 
+  echo -ne "# ✂️  Extracting from $(color_path "main sources")…\n"
+fi
 
+pnpm tsx "${DEV_DIR}"/extract-inline-examples.ts "${write_to}" "${example}"
 pnpm prettier --write "${INLINE_EXAMPLES_DIR}"
 
 show_done 'extract:inline:examples'
