@@ -5,6 +5,13 @@ import {pair} from '#Pair'
 
 /**
  * Return the smallest value in the tree according to the given order.
+ * @example
+ * import {from, of, minimumNode} from 'effect-tree'
+ * import {Number} from 'effect'
+ *
+ * const tree = from(100, of(10), from(1_000, of(1)))
+ *
+ * expect(minimumNode(Number.Order)(tree)).toBe(1)
  * @category ops
  * @function
  */
@@ -15,6 +22,13 @@ export const minimumNode =
 
 /**
  * Return the largest value in the tree according to the given order.
+ * @example
+ * import {from, of, maximumNode} from 'effect-tree'
+ * import {Number} from 'effect'
+ *
+ * const tree = from(100, of(10), from(1_000, of(1)))
+ *
+ * expect(maximumNode(Number.Order)(tree)).toBe(1_000)
  * @category ops
  * @function
  */
@@ -25,6 +39,13 @@ export const maximumNode =
 
 /**
  * Return the smallest leaf in the tree according to the given order.
+ * @example
+ * import {from, of, minimumLeaf} from 'effect-tree'
+ * import {Number} from 'effect'
+ *
+ * const tree = from(100, of(1_000), from(1, of(10)))
+ *
+ * expect(minimumLeaf(Number.Order)(tree)).toBe(10)
  * @category ops
  * @function
  */
@@ -35,6 +56,13 @@ export const minimumLeaf =
 
 /**
  * Return the largest leaf in the tree according to the given order.
+ * @example
+ * import {from, of, maximumLeaf} from 'effect-tree'
+ * import {Number} from 'effect'
+ *
+ * const tree = from(10, of(1), from(1_000, of(100)))
+ *
+ * expect(maximumLeaf(Number.Order)(tree)).toBe(100)
  * @category ops
  * @function
  */

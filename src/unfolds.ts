@@ -14,11 +14,11 @@ import {byParentUnfold} from '#tree'
 export const unfolds = {
   annotateDepth: annotateDepthUnfold,
   annotateLevelLabels: annotateLevelLabelsUnfold,
+  arrays: Arrays.decodeUnfold,
   byParent: byParentUnfold,
   cropDepth: cropDepthUnfold,
+  edges: Edges.decodeUnfold,
+  indented: Indented.decodeIndentedUnfold,
   levelTree: levelTreeUnfold,
   paths: Paths.pathListUnfold,
-  edges: Edges.decodeUnfold,
-  arrays: Arrays.decodeUnfold,
-  indented: Indented.decodeIndentedUnfold,
 }

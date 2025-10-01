@@ -34,7 +34,7 @@ export const annotateEffectUnfolder =
                 [b, a],
                 Array.map(
                   forest,
-                  square.mapSecond(flow(getForest, TreeF.treeF.flip(value))),
+                  square.mapSecond(flow(getForest, TreeF.treeF.flipped(value))),
                 ),
               ),
           }),

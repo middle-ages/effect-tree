@@ -11,15 +11,7 @@ import {
 } from '#tree'
 import * as treeF from '#treeF'
 import {type TreeF} from '#treeF'
-import {flow, Number, pipe, Ref} from 'effect'
-import {
-  flatMap as flatMapEffect,
-  map as mapEffect,
-  runSync,
-  succeed,
-  tap,
-  type Effect,
-} from 'effect/Effect'
+import {Effect, flow, Number, pipe, Ref} from 'effect'
 import {constant} from 'effect/Function'
 
 /**
@@ -30,8 +22,8 @@ import {constant} from 'effect/Function'
 export const nodeOrdinalFold =
   (counter: Ref.Ref<number>) =>
   <A, E = never, R = never>(
-    _: Effect<TreeF<A, number>>,
-  ): Effect<number, E, R> =>
+    _: Effect.Effect<TreeF<A, number>>,
+  ): Effect.Effect<number, E, R> =>
     useCounter(counter)
 
 /**
@@ -43,11 +35,11 @@ export const nodeOrdinalUnfold =
   (counter: Ref.Ref<number>) =>
   <A, E = never, R = never>(
     self: Tree<A>,
-  ): Effect<TreeF<number, Tree<A>>, E, R> =>
+  ): Effect.Effect<TreeF<number, Tree<A>>, E, R> =>
     pipe(
       counter,
       useCounter,
-      mapEffect(n => pipe(self, unfixTree, treeF.mapValue(constant(n)))),
+      Effect.map(n => pipe(self, unfixTree, treeF.mapValue(constant(n)))),
     )
 
 /**
@@ -59,7 +51,7 @@ export const annotateOrdinalUnfold =
   (counter: Ref.Ref<number>) =>
   <A, E = never, R = never>(
     pair: [Tree<A>, number],
-  ): Effect<TreeF<[A, number], [Tree<A>, number]>, E, R> =>
+  ): Effect.Effect<TreeF<[A, number], [Tree<A>, number]>, E, R> =>
     pipe(
       counter,
       nodeOrdinalUnfold,
@@ -88,51 +80,27 @@ export const annotateOrdinalUnfold =
  *   ├─2
  *   └─3
  * ```
+ *
+ * Under the `pre` key you will find a version that does the same but in
+ * depth-first pre-order.
  * @category ops
  * @function
  */
 export const asOrdinal =
   (initialize: number) =>
   (self: Tree<any>): Tree<number> => {
-    const counterEffect: Effect<Ref.Ref<number>> = Ref.make(initialize)
+    const counterEffect: Effect.Effect<Ref.Ref<number>> = Ref.make(initialize)
 
     const replace = (
       counter: Ref.Ref<number>,
     ): TreeEffectFolder<unknown, Tree<number>, never, never> =>
-      replaceEffectFolder(flow(succeed, nodeOrdinalFold(counter)))
+      replaceEffectFolder(flow(Effect.succeed, nodeOrdinalFold(counter)))
 
     return pipe(
       counterEffect,
-      mapEffect(replace),
-      flatMapEffect(φ => treeCataEffect(φ)(self)),
-      runSync,
-    )
-  }
-
-/**
- * Annotate tree nodes with their post-order depth-first ordinal.
- * @category ops
- * @function
- */
-export const withOrdinal =
-  (initialize = 1) =>
-  <A>(self: Tree<A>): Tree<[A, number]> => {
-    const counterEffect: Effect<Ref.Ref<number>> = Ref.make(initialize)
-
-    const annotate =
-      (counter: Ref.Ref<number>) => (self: treeF.TreeF<A, Tree<[A, number]>>) =>
-        pipe(
-          self,
-          annotateEffectFolder<A, number>(
-            flow(succeed, nodeOrdinalFold(counter)),
-          ),
-        )
-
-    return pipe(
-      counterEffect,
-      mapEffect(annotate),
-      flatMapEffect(φ => treeCataEffect(φ)(self)),
-      runSync,
+      Effect.map(replace),
+      Effect.flatMap(φ => treeCataEffect(φ)(self)),
+      Effect.runSync,
     )
   }
 
@@ -142,11 +110,41 @@ asOrdinal.pre =
     pipe(
       initialize,
       Ref.make,
-      flatMapEffect(counter =>
+      Effect.flatMap(counter =>
         pipe(self, treeAnaE(nodeOrdinalUnfold(counter))),
       ),
-      runSync,
+      Effect.runSync,
     )
+
+/**
+ * Annotate tree nodes with their post-order depth-first ordinal.
+ *
+ * Under the `pre` key you will find a version that does the same but in
+ * depth-first pre-order.
+ * @category ops
+ * @function
+ */
+export const withOrdinal =
+  (initialize = 1) =>
+  <A>(self: Tree<A>): Tree<[A, number]> => {
+    const counterEffect: Effect.Effect<Ref.Ref<number>> = Ref.make(initialize)
+
+    const annotate =
+      (counter: Ref.Ref<number>) => (self: treeF.TreeF<A, Tree<[A, number]>>) =>
+        pipe(
+          self,
+          annotateEffectFolder<A, number>(
+            flow(Effect.succeed, nodeOrdinalFold(counter)),
+          ),
+        )
+
+    return pipe(
+      counterEffect,
+      Effect.map(annotate),
+      Effect.flatMap(φ => treeCataEffect(φ)(self)),
+      Effect.runSync,
+    )
+  }
 
 withOrdinal.pre =
   (initialize: number) =>
@@ -154,10 +152,10 @@ withOrdinal.pre =
     pipe(
       initialize,
       Ref.make,
-      flatMapEffect(counter =>
+      Effect.flatMap(counter =>
         treeAnaE(annotateOrdinalUnfold(counter))([self, 0]),
       ),
-      runSync,
+      Effect.runSync,
     )
 
 /**
@@ -175,9 +173,9 @@ asOrdinalBranch.pre =
   <A>(self: Branch<A>) =>
     pipe(self, asOrdinal.pre(initialize)) as Branch<number>
 
-const useCounter = (ref: Ref.Ref<number>): Effect<number> =>
+const useCounter = (ref: Ref.Ref<number>): Effect.Effect<number> =>
   pipe(
     ref,
     Ref.get,
-    tap(() => Ref.update(ref, Number.increment)),
+    Effect.tap(() => Ref.update(ref, Number.increment)),
   )

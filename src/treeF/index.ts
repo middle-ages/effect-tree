@@ -5,16 +5,43 @@ import type {BranchF, LeafF, MatcherF, TreeF} from './types.js'
 
 /**
  * Create a leaf from its value.
+ * @example
+ * import {TreeF} from 'effect-tree'
+ *
+ * expect(TreeF.leafF(43)).toEqual({node: 43})
  * @typeParam A The underlying type of the tree. For example, in a numeric
  * tree it would be `number`.
  * @typeParam C The child node type, also called the _carrier type_.
  * @category fold
  * @function
  */
-export const leafF = <A>(value: A): TreeF<A> => ({node: value})
+export const leafF = <A>(value: A): TreeF<A, any> => ({node: value})
 
 /**
- * Create a branch from its value and a non-empty list of children.
+ * Create a branch from its value and a non-empty list of children. This is
+ * exactly like {@link TreeF} except the return type is the branch type and
+ * you cannot call it with no leaves.
+ *
+ * Under the key `tupled` you will find a tupled version and under `flipped` a
+ * version where the arguments are flipped in order.
+ * @example
+ * import {TreeF} from 'effect-tree'
+ * import {Array} from 'effect'
+ * type Branch = TreeF.BranchF<number, number>
+
+ * const leaves: Array.NonEmptyArray<number> = [1, 2, 3]
+
+ * const branch: Branch = TreeF.branchF(42, leaves)
+ * const curried: Branch = TreeF.branchF(leaves)(42)
+ * const flipped: Branch = TreeF.branchF.flipped(leaves, 42)
+ * const flippedC: Branch = TreeF.branchF.flipped(42)(leaves)
+ * const tupled: Branch = TreeF.branchF.tupled([42, leaves])
+
+ * expect(branch, 'branch').toEqual({node: 42, forest: leaves})
+ * expect(curried, 'curried').toEqual(branch)
+ * expect(flipped, 'flipped').toEqual(branch)
+ * expect(flippedC, 'flippedC').toEqual(branch)
+ * expect(tupled, 'tupled').toEqual(branch)
  * @typeParam A The underlying type of the tree. For example, in a numeric
  * tree it would be `number`.
  * @typeParam C The child node type, also called the _carrier type_.
@@ -25,6 +52,10 @@ export const branchF: {
   <A, C>(value: A, forest: NonEmptyReadonlyArray<C>): BranchF<A, C>
   <C>(forest: NonEmptyReadonlyArray<C>): <A>(value: A) => BranchF<A, C>
   tupled: <A, C>([node, forest]: [A, Array.NonEmptyArray<C>]) => BranchF<A, C>
+  flipped: {
+    <A, C>(forest: NonEmptyReadonlyArray<C>, value: A): BranchF<A, C>
+    <A>(value: A): <C>(forest: NonEmptyReadonlyArray<C>) => BranchF<A, C>
+  }
 } = Object.assign(
   Function.dual(
     2,
@@ -34,17 +65,48 @@ export const branchF: {
     }),
   ),
   {
-    /** A tupled version of {@link branchF}. */
+    /** A flipped version of {@link branchF}. */
     tupled: <A, C>([value, forest]: [A, Array.NonEmptyArray<C>]): BranchF<
       A,
       C
     > => ({node: value, forest}),
+    /** A curried version of {@link branchF}. */
+    flipped: Function.dual(
+      2,
+      <A, C>(forest: NonEmptyReadonlyArray<C>, value: A): BranchF<A, C> => ({
+        node: value,
+        forest,
+      }),
+    ),
   },
 )
 
 /**
- * Create a new `TreeF` from a node value and a possibly empty list of
- * child nodes.
+ * Create a new `TreeF` from a node value and a possibly empty list of child
+ * nodes. See {@link BranchF} for a version of this function specialized for
+ * _branches_.
+ *
+ * Under the key `tupled` you will find a tupled version and under `flipped` a
+ * version where the arguments are flipped in order.
+ * @example
+ * import {TreeF} from 'effect-tree'
+ * import {Array} from 'effect'
+ *
+ * type Tree = TreeF.TreeF<number, number>
+ *
+ * const leaves: Array.NonEmptyArray<number> = [1, 2, 3]
+ *
+ * const tree: Tree = TreeF.treeF(42, leaves)
+ * const curried: Tree = TreeF.treeF(leaves)(42)
+ * const flipped: Tree = TreeF.treeF.flipped(leaves, 42)
+ * const flippedC: Tree = TreeF.treeF.flipped(42)(leaves)
+ * const tupled: Tree = TreeF.treeF.tupled([42, leaves])
+ *
+ * expect(tree, 'tree').toEqual({node: 42, forest: leaves})
+ * expect(curried, 'curried').toEqual(tree)
+ * expect(flipped, 'flipped').toEqual(tree)
+ * expect(flippedC, 'flippedC').toEqual(tree)
+ * expect(tupled, 'tupled').toEqual(tree)
  * @typeParam A The underlying type of the tree. For example, in a numeric
  * tree it would be `number`.
  * @typeParam C The child node type, also called the _carrier type_.
@@ -54,10 +116,11 @@ export const branchF: {
 export const treeF: {
   <A, C>(value: A, forest: readonly C[]): TreeF<A, C>
   <C>(forest: readonly C[]): <A>(value: A) => TreeF<A, C>
-  flip: {
+  flipped: {
     <A, C>(forest: readonly C[], value: A): TreeF<A, C>
     <A>(value: A): <C>(forest: readonly C[]) => TreeF<A, C>
   }
+  tupled: <A, C>([value, forest]: [A, Array.NonEmptyArray<C>]) => TreeF<A, C>
 } = Object.assign(
   Function.dual(
     2,
@@ -67,28 +130,16 @@ export const treeF: {
         : leafF(value),
   ),
   {
-    flip: Function.dual(
+    /** A flipped version of {@link treeF}. */
+    flipped: Function.dual(
       2,
       <A, C>(forest: readonly TreeF<A, C>[], value: A): TreeF<A, C> =>
         treeF(value, forest),
     ),
+    /** A tupled version of {@link treeF}. */
+    tupled: <A, C>([value, forest]: [A, Array.NonEmptyArray<C>]): TreeF<A, C> =>
+      treeF(value, forest),
   },
-)
-
-/**
- * A flipped version of {@link treeF}.
- * @typeParam A The underlying type of the tree. For example, in a numeric
- * tree it would be `number`.
- * @typeParam C The child node type, also called the _carrier type_.
- * @category fold
- * @function
- */
-export const withForest: {
-  <A, C>(forest: C[], value: A): TreeF<A, C>
-  <A>(value: A): <C>(forest: C[]) => TreeF<A, C>
-} = Function.dual(
-  2,
-  <A, C>(forest: TreeF<A, C>[], value: A): TreeF<A, C> => treeF(value, forest),
 )
 
 /**

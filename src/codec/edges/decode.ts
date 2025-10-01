@@ -17,7 +17,7 @@ export const decodeUnfold: TreeUnfolderK<EdgeMapTypeLambda> = map => {
     children,
     Array.match({
       onEmpty: () => TreeF.leafF(root),
-      onNonEmpty: flow(Array.map(setMapRoot(map)), TreeF.treeF.flip(root)),
+      onNonEmpty: flow(Array.map(setMapRoot(map)), TreeF.treeF.flipped(root)),
     }),
   )
 }

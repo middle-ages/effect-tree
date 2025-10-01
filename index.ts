@@ -45,6 +45,12 @@ export * as TreeF from './src/treeF.js'
 export * as Zipper from './src/zipper.js'
 
 /**
+ * Work with filesystem trees.
+ * @category zipper
+ */
+export * as FileSystem from './src/fileSystem.js'
+
+/**
  * @category drawing
  */
 export {themedTree, drawTree} from './src/draw.js'

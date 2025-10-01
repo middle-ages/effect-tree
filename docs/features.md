@@ -10,10 +10,11 @@
 
 1. A generic tree data structure and all the basic functions required to manipulate immutable instances.
 1. A zipper for navigation and efficient modification.
-1. Measure node counts/heights/depth/degree, crop by depth, filter trees, unfold level trees, select subtrees, zip/unzip trees, and traverse in any order.
+1. Measure node counts/heights/depth/degree, crop by depth, filter trees, unfold level trees, select subtrees, zip/unzip trees, grow trees, and traverse in any order.
 1. Annotate nodes with their _level index_, for example `2.3.11.1`, encoding their _path from root_.
 1. Numeric and boolean folds on nodes. For example _sum_ all nodes, find maximum node value for some given order, or check if all nodes are `true`. All operations short-circuit whenever possible.
 1. Folds can operate on entire trees, _replace_ nodes, _annotate_ nodes, and are composable to tuples and structs. This allows you to _count nodes_, _annotate with depth_, and _crop depth_, for example, in a single fused iteration over the tree.
+1. Effectful tree operations like read/write directory to/from tree of paths.
 
 ## Tree Codecs
 

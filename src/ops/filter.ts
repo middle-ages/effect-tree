@@ -1,6 +1,6 @@
-import {type Tree, type TreeFolder, leaf, tree, treeCata} from '#tree'
-import * as TreeF from '#treeF'
 import {orderToEqual} from '#Order'
+import {leaf, tree, treeCata, type Tree, type TreeFolder} from '#tree'
+import * as TreeF from '#treeF'
 import {
   Array,
   Boolean,
@@ -16,6 +16,16 @@ import {minimumLeafParentFold} from './order.js'
 
 /**
  * True if `needle` is found in the tree.
+ * @example
+ * import {includes, from, of} from 'effect-tree'
+ * import {Number} from 'effect'
+ *
+ * const tree = from(1, of(2), from(4, of(5)))
+ *
+ * const hasNumber = includes(Number.Equivalence)
+ *
+ * expect(hasNumber(3)(tree), 'not found').toBe(false)
+ * expect(hasNumber(5)(tree), 'found').toBe(true)
  * @category ops
  * @function
  */

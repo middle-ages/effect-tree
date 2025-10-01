@@ -13,9 +13,10 @@ export const drawTree = (tree: Tree<string>, theme?: Theme) =>
     unlines,
   )
 
-export const assertDrawTree = (expected: string) => (tree: Tree<string>) => {
-  expect(drawTree(tree)).toBe(expected)
-}
+export const assertDrawTree =
+  (expected: string, name?: string) => (tree: Tree<string>) => {
+    expect(drawTree(tree), name).toBe(expected)
+  }
 
 export const assertDrawNumericTree =
   (expected: string) => (tree: Tree<number>) => {

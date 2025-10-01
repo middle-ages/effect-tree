@@ -16,7 +16,7 @@ const _encode = (self: Tree<string>, indent = 2): Array.NonEmptyArray<string> =>
   )
 
 /**
- * Encode a string tree into a `YAML`-like indented format where indentation, be
+ * Encode a string tree into a `YAML`-like indented format where indentation, by
  * default set at `2` spaces, indicates node depth.
  *
  * You will find a curried version under the key `curried`.

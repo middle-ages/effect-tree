@@ -6,12 +6,15 @@ import {levels} from './levels.js'
 
 /**
  * @category ops
- * @function
  */
 export type GetNodes = <A>(self: Tree<A>) => Array.NonEmptyArray<A>
 
 /**
  * Return tree nodes in breadth-first order.
+ * @example
+ * import {breadthOrderValues, binaryTree} from 'effect-tree'
+ *
+ * expect(breadthOrderValues(binaryTree(3))).toEqual([1, 2, 2, 3, 3, 3, 3])
  * @category ops
  * @function
  */
@@ -20,6 +23,10 @@ export const breadthOrderValues: GetNodes = self =>
 
 /**
  * Get all tree leaves.
+ * @example
+ * import {allLeaves, binaryTree} from 'effect-tree'
+ *
+ * expect(allLeaves(binaryTree(3))).toEqual([3, 3, 3, 3])
  * @category ops
  * @function
  */

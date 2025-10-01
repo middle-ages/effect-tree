@@ -68,6 +68,7 @@
     "extglob",
     "fanin",
     "fanout",
+    "fibonacci",
     "Fira",
     "fivepoverhang",
     "fontname",

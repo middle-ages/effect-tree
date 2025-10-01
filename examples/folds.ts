@@ -15,7 +15,7 @@ import {
   type Tree,
   type TreeFolder,
   type TreeFolderOf,
-} from '../index.js'
+} from 'effect-tree'
 
 // Get the nth possible labeled tree in constant time.
 const treeOfZeros = pipe(Codec.Prufer.getNthTree(4e14, 16), map(constant(0)))

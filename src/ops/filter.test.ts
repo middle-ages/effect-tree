@@ -1,6 +1,6 @@
 import {numericTree} from '#test'
 import {branch, getValue, leaf, of, type Tree} from '#tree'
-import {Pair, Function, Number} from '#util'
+import {Function, Number, Pair} from '#util'
 import {flow, Option, pipe, Predicate} from 'effect'
 import {describe, expect, test} from 'vitest'
 import {

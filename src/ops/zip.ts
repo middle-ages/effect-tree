@@ -1,6 +1,6 @@
-import {fixTree, getValue, leaf, match, tree, type Tree, treeCata} from '#tree'
+import {getValue, leaf, match, tree, type Tree, treeCata} from '#tree'
 import * as TreeF from '#treeF'
-import {Array, Effect, Function, pipe} from 'effect'
+import {Array, Effect, Function, pipe, Tuple} from 'effect'
 
 /**
  * Unzip a tree of `[A, B]` into a pair of congruent trees of types `A` and `B`.
@@ -33,17 +33,19 @@ export const unzipFold = <A, B>(
   pipe(
     t,
     TreeF.match({
-      onLeaf: ([a, b]): [Tree<A>, Tree<B>] => [
-        fixTree<A>(TreeF.leafF<A>(a)),
-        fixTree<B>(TreeF.leafF<B>(b)),
-      ],
-      onBranch: ([a, b], nodes) => {
-        const [nodesA, nodesB] = Array.unzip(nodes)
-        return [
-          fixTree(TreeF.branchF(a, nodesA)),
-          fixTree(TreeF.branchF(b, nodesB)),
-        ]
-      },
+      onLeaf: Tuple.mapBoth({
+        onFirst: leaf,
+        onSecond: leaf,
+      }),
+      onBranch: ([a, b], nodes) =>
+        pipe(
+          nodes,
+          Array.unzip,
+          Tuple.mapBoth({
+            onFirst: tree.flipped(a),
+            onSecond: tree.flipped(b),
+          }),
+        ),
     }),
   )
 

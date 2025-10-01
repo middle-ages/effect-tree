@@ -9,6 +9,18 @@ describe('branchF', () => {
   test('curried', () => {
     expect(branchF(42, ['foo'])).toEqual(branchF(['foo'])(42))
   })
+
+  test('tupled', () => {
+    expect(branchF.tupled([42, ['foo']])).toEqual(branchF(['foo'])(42))
+  })
+
+  test('flipped', () => {
+    expect(branchF.flipped(['foo'], 42)).toEqual(branchF(['foo'])(42))
+  })
+
+  test('flipped curried', () => {
+    expect(branchF.flipped(42)(['foo'])).toEqual(branchF(['foo'])(42))
+  })
 })
 
 test('getBranchForest', () => {
