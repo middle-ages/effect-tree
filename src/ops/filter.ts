@@ -104,6 +104,36 @@ export const filterNodes: <A>(
 
 /**
  * Filter leaves so that only those satisfying the given predicate remain.
+ * @example
+ * import {filterLeaves, drawTree, from, of} from 'effect-tree'
+ *
+ * // ┬1
+ * // ├┬2
+ * // │├─3
+ * // │├─4
+ * // │└─5
+ * // ├┬6
+ * // │├─7
+ * // │├─8
+ * // │└┬11
+ * // │ └─9
+ * // └─10
+ * const tree = from(
+ *   1,
+ *   from(2, of(3), of(4), of(5)),
+ *   from(6, of(7), of(8), from(11, of(9))),
+ *   of(10),
+ * )
+ *
+ * const filtered = filterLeaves((n: number) => n % 2 === 0)(tree)
+ * expect(drawTree.number(filtered)).toEqual([
+ *   '┬1  ',
+ *   '├┬2 ',
+ *   '│└─4',
+ *   '├┬6 ',
+ *   '│└─8',
+ *   '└─10',
+ * ])
  * @category ops
  * @function
  */

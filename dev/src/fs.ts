@@ -1,5 +1,5 @@
-import {pipe} from '#util'
 import type {LazyArg} from 'effect/Function'
+import * as fs from 'node:fs'
 import * as path from 'node:path'
 import {type SourceFile} from 'ts-morph'
 
@@ -17,15 +17,21 @@ export const sourceName = (source: SourceFile): string =>
   path.basename(source.getFilePath()).replace(/\.ts$/, '')
 
 /**
+ * Assert a source file exists
+ */
+export const assertExists = (source: SourceFile | undefined): void => {
+  if (source === undefined) {
+    throw new Error('Missing file')
+  } else if (!fs.existsSync(source.getFilePath())) {
+    throw new Error(`Missing file: ‘${source.getFilePath()}’`)
+  }
+}
+
+/**
  * Get project home folder where its `package.json` resides.
  */
 export const projectHome: LazyArg<string> = () =>
-  pipe(
-    new URL(import.meta.url).pathname,
-    path.dirname,
-    path.dirname,
-    path.dirname,
-  )
+  path.join(new URL(import.meta.url).pathname, '..', '..', '..')
 
 /**
  * Cuts off both sides: the file and the relative root path, of the

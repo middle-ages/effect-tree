@@ -1,6 +1,6 @@
 import {assertDrawTree, numericTree} from '#test'
 import {map, type Branch} from '#tree'
-import {Array, flow, pipe} from 'effect'
+import {Array, flow, Number, pipe} from 'effect'
 import {pairMap} from 'effect-ts-folds'
 import {describe, test} from 'vitest'
 import {asOrdinal, asOrdinalBranch, withOrdinal} from './ordinal.js'
@@ -45,6 +45,26 @@ describe('asOrdinal', () => {
 └─11`),
     )
   })
+})
+
+test('breadth-first', () => {
+  pipe(
+    numericTree,
+    asOrdinal.breadthFirst(Number.Order)(0),
+    map(n => n.toString()),
+    assertDrawTree(`
+┬1
+├┬2
+│├─5
+│├─6
+│└─7
+├┬3
+│├─8
+│├─9
+│└┬10
+│ └─11
+└─4`),
+  )
 })
 
 describe('asOrdinalBranch', () => {
@@ -132,6 +152,26 @@ describe('withOrdinal', () => {
 │└┬11:8
 │ └─9:9
 └─10:10`),
+    )
+  })
+
+  test('breadth-first', () => {
+    pipe(
+      numericTree,
+      withOrdinal.breadthFirst(Number.Order)(0),
+      map(n => n.toString()),
+      assertDrawTree(`
+┬1,1
+├┬2,2
+│├─3,5
+│├─4,6
+│└─5,7
+├┬6,3
+│├─7,8
+│├─8,9
+│└┬11,10
+│ └─9,11
+└─10,4`),
     )
   })
 })

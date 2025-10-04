@@ -9,7 +9,7 @@ import {Array, pipe} from 'effect'
  * ```ts
  * const tree = make('A', [of('B'), make('C', [of('D', 'E')])])
  *
- * const paths = treeCata(pathFolder)(tree)
+ * const paths = treeCata(pathListFold)(tree)
  * // [['A', 'B'], ['A', 'C', 'D'], ['A', 'C', 'E']]
  *
  * ```

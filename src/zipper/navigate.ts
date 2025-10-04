@@ -26,7 +26,8 @@ import {tryRepeat} from './repeat.js'
  *
  * See {@link head} for an unsafe version.
  *
- * This is like {@link rewind} except it will descend one tree level.
+ * This is like {@link rewind} in that both take you to the forest head but this
+ * will also descend one level.
  * @typeParam A The underlying type of the tree.
  * @returns An updated zipper pointing at a new focus or `Option.none()` if there is no first child.
  * @category zipper

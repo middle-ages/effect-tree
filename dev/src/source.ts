@@ -1,6 +1,7 @@
 import {SourceFile} from 'ts-morph'
 import {logSource, type SourceLog} from './log.js'
 import {type Project} from './types.js'
+import {assertExists} from './fs.js'
 
 /**
  * Information on current source file given to the walker.
@@ -33,6 +34,7 @@ export const walkSources =
     const a = onBegin(main)
 
     for (const file of main) {
+      assertExists(file)
       f({file, home, log}, a)
     }
 

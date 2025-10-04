@@ -15,7 +15,7 @@ import type {BranchF, LeafF, MatcherF, TreeF} from './types.js'
  * @category fold
  * @function
  */
-export const leafF = <A>(value: A): TreeF<A, any> => ({node: value})
+export const leafF = <A>(value: A): TreeF<A> => ({node: value})
 
 /**
  * Create a branch from its value and a non-empty list of children. This is
