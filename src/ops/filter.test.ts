@@ -1,6 +1,6 @@
 import {numericTree} from '#test'
 import {branch, getValue, leaf, of, type Tree} from '#tree'
-import {Function, Number, Pair} from '#util'
+import {Array, Function, Number, Pair} from '#util'
 import {flow, Option, pipe, Predicate} from 'effect'
 import {describe, expect, test} from 'vitest'
 import {
@@ -36,6 +36,36 @@ describe('includes', () => {
     test('true', () => {
       expect(iut(11)).toBeTruthy()
     })
+  })
+
+  test('short-circuits', () => {
+    const recording: number[] = []
+
+    const equivalence = (a: number, b: number): boolean => {
+      recording.push(a)
+      return Number.Equivalence(a, b)
+    }
+
+    const actual = includes(equivalence)(8)(numericTree)
+
+    expect(actual, 'actual').toBe(true)
+
+    // recording should NOT include anything after 8 in depth-first post order:
+    //
+    // •──┬─1 ❌
+    //    ├─┬─2
+    //    │ ├───3
+    //    │ ├───4
+    //    │ └───5
+    //    ├─┬─6 ❌
+    //    │ ├───7
+    //    │ ├───8
+    //    │ └─┬─11 ❌
+    //    │   └───9 ❌
+    //    └───10 ❌
+    expect(Array.sort(Number.Order)(recording), 'recording').toEqual([
+      2, 3, 4, 5, 7, 8,
+    ])
   })
 })
 

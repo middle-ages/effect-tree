@@ -1,14 +1,22 @@
+import {apply, constFalse, constTrue} from '#Function'
 import {orderToEqual} from '#Order'
-import {leaf, tree, treeCata, type Tree, type TreeFolder} from '#tree'
+import {
+  leaf,
+  tree,
+  treeCata,
+  treeCataEffect,
+  type Tree,
+  type TreeEffectFolder,
+  type TreeFolder,
+} from '#tree'
 import * as TreeF from '#treeF'
 import {
   Array,
-  Boolean,
+  Effect,
   Equivalence,
   Option,
   Order,
   Predicate,
-  flow,
   identity,
   pipe,
 } from 'effect'
@@ -16,6 +24,8 @@ import {minimumLeafParentFold} from './order.js'
 
 /**
  * True if `needle` is found in the tree.
+ *
+ * Will short-circuit and return immediately if the needle is found.
  * @example
  * import {includes, from, of} from 'effect-tree'
  * import {Number} from 'effect'
@@ -29,10 +39,24 @@ import {minimumLeafParentFold} from './order.js'
  * @category ops
  * @function
  */
-export const includes = <A>(
-  equals: Equivalence.Equivalence<A>,
-): ((a: A) => Predicate.Predicate<Tree<A>>) =>
-  flow(includesFold(equals), treeCata)
+//:
+export const includes =
+  <A>(
+    equals: Equivalence.Equivalence<A>,
+  ): ((a: A) => Predicate.Predicate<Tree<A>>) =>
+  a =>
+  tree =>
+    pipe(
+      a,
+      includesFold(equals),
+      treeCataEffect,
+      apply(tree),
+      Effect.match({
+        onFailure: constTrue,
+        onSuccess: constFalse,
+      }),
+      Effect.runSync,
+    )
 
 /**
  * Filter out the minimal leaf for the given order and return a tuple with:
@@ -89,19 +113,20 @@ export const filterLeaves: <A>(
   pipe(predicate, filterLeavesFold, treeCata)
 
 /**
- * True if `needle` is found in tree level.
+ * True if `needle` is found in a tree level.
+ *
+ * Searches the entire tree but will short-circuit if the needle is found.
  * @category fold
  * @function
  */
+//
 export const includesFold =
-  <A>(
-    equals: Equivalence.Equivalence<A>,
-  ): ((needle: A) => TreeFolder<A, boolean>) =>
-  a =>
-    TreeF.match({
-      onLeaf: value => equals(a, value),
-      onBranch: (value, forest) => equals(a, value) || Boolean.some(forest),
-    })
+  <A>(equals: Equivalence.Equivalence<A>) =>
+  (needle: A): TreeEffectFolder<A, void, undefined> =>
+  treeF =>
+    equals(TreeF.getValue(treeF), needle)
+      ? Effect.fail(void {})
+      : Effect.succeed({})
 
 /**
  * Filter nodes at a tree level.
