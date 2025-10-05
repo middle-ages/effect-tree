@@ -148,6 +148,19 @@ export const zipTheseWith = <A, B, C>(
  *
  * 1. {@link unzipThese} for the opposite operation.
  * 2. {@link zipTheseWith} to run a function on the partial pair.
+ * @example
+ * import {These, zipThese, from, of} from 'effect-tree'
+ *
+ * const left = from(1, of(2))
+ * const right = from(3, of(4), of(5))
+ *
+ * expect(zipThese(left, right)).toEqual(
+ *   from(
+ *     These.both(3, 1),
+ *     of(These.both(4, 2)),
+ *     of(These.left(5)),
+ *   )
+ * )
  * @category ops
  * @function
  */

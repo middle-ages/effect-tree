@@ -96,6 +96,10 @@ export const multiply = (tree: Tree<number>): number =>
 
 /**
  * Find max node value in a numeric tree.
+ * @example
+ * import {max, from, of} from 'effect-tree'
+ *
+ * expect(max(from(1, of(2), from(3, of(4), of(5))))).toBe(5)
  * @category ops
  * @function
  */
@@ -104,6 +108,10 @@ export const max = (tree: Tree<number>): number =>
 
 /**
  * Find min node value in a numeric tree.
+ * @example
+ * import {min, from, of} from 'effect-tree'
+ *
+ * expect(min(from(1, of(2), from(3, of(4), of(5))))).toBe(1)
  * @category ops
  * @function
  */
