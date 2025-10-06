@@ -15,6 +15,7 @@ import fc from 'fast-check'
 import {voidArbitrary} from '../util.js'
 import {getArbitrary} from './index.js'
 import type {ArbitraryOptions, NumberedArbitraryOptions} from './options.js'
+import * as Codec from '#codec'
 
 /**
  * A tree with nothing but structure.
@@ -109,3 +110,10 @@ export const pruferEncodableArbitrary: fc.Arbitrary<Branch<number>> =
           ),
         ),
   )
+
+/**
+ * An arbitrary for a valid prüfer code.
+ * @category arbitrary
+ */
+export const pruferCodeArbitrary: fc.Arbitrary<number[]> =
+  pruferEncodableArbitrary.map(Codec.PruferIsomorphism.to)

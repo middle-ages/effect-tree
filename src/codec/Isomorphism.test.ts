@@ -33,9 +33,6 @@ const edgeListEquivalence = getEdgeListEquivalence(Number.Equivalence)
 const indentedArbitrary: fc.Arbitrary<NonEmptyArray<string>> =
   getStringArbitrary().map(IndentedIsomorphism(2).to)
 
-const pruferCodeArbitrary: fc.Arbitrary<number[]> =
-  pruferEncodableArbitrary.map(PruferIsomorphism.to)
-
 // Test all codecs can encode/decode and decode/encode to identity, then reverse
 // the isomorphism and check the law still holds. The codecs:
 //
@@ -89,7 +86,7 @@ describe('Isomorphism laws', () => {
     })({
       prufer: {
         F: PruferIsomorphism,
-        b: pruferCodeArbitrary,
+        b: Arbitrary.pruferCodeArbitrary,
         equalsB: Array.getEquivalence(Number.Equivalence),
       },
     }),

@@ -157,14 +157,14 @@ packages:
     resolution: {integrity: sha512-BZaFkF1JdoTIJuzT7mNfUnfQG2MLxkQtn5b9y1z0BZUIcNfs5p7yR0ekYfTkPkt+TVD+9HE12VC1SsG5DReKww==}
     hasBin: true
 
-  '@effect/platform-node-shared@0.51.3':
-    resolution: {integrity: sha512-1NtCP06RFAnqTgBUF5YXuVGwoW396DKhaZutaWfiZMRlODda0t/iTRYq2CHUlvOGG8x/ZvLtJrC+EQXJEywDWQ==}
+  '@effect/platform-node-shared@0.51.4':
+    resolution: {integrity: sha512-xElU9+cNPa1BnUHAZ3sVVanuuKof8oWQhK7rbyHNqgWM7CZTjv7x9VMDs0X05+1OcTQnnW3E+SrZKIPCfcYlDQ==}
     peerDependencies:
       '@effect/cluster': ^0.50.3
       '@effect/platform': ^0.92.1
       '@effect/rpc': ^0.71.0
       '@effect/sql': ^0.46.0
-      effect: ^3.18.1
+      effect: ^3.18.2
 
   '@effect/platform-node@0.98.3':
     resolution: {integrity: sha512-90eMWmFSVHrUEreICCd2qLPiw7qcaAv9XTx9OJ+LLv7igQgt4qkisRSK0oxAr5hqU9TdUrsgFDohqe7q7h3ZRg==}
@@ -917,8 +917,8 @@ packages:
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
-  baseline-browser-mapping@2.8.11:
-    resolution: {integrity: sha512-i+sRXGhz4+QW8aACZ3+r1GAKMt0wlFpeA8M5rOQd0HEYw9zhDrlx9Wc8uQ0IdXakjJRthzglEwfB/yqIjO6iDg==}
+  baseline-browser-mapping@2.8.12:
+    resolution: {integrity: sha512-vAPMQdnyKCBtkmQA6FMCBvU9qFIppS3nzyXnEM+Lo2IAhG4Mpjv9cCxMudhgV3YdNNJv6TNqXy97dfRVL2LmaQ==}
     hasBin: true
 
   brace-expansion@1.1.12:
@@ -956,8 +956,8 @@ packages:
     resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
     engines: {node: '>=6'}
 
-  caniuse-lite@1.0.30001747:
-    resolution: {integrity: sha512-mzFa2DGIhuc5490Nd/G31xN1pnBnYMadtkyTjefPI7wzypqgCEpeWu9bJr0OnDsyKrW75zA9ZAt7pbQFmwLsQg==}
+  caniuse-lite@1.0.30001748:
+    resolution: {integrity: sha512-5P5UgAr0+aBmNiplks08JLw+AW/XG/SurlgZLgB1dDLfAw7EfRGxIwzPHxdSCGY/BTKDqIVyJL87cCN6s0ZR0w==}
 
   chai@5.3.3:
     resolution: {integrity: sha512-4zNhdJD/iOjSH0A05ea+Ke6MU5mmpQcbQsSOkgdaUMJ9zTlDTD/GYlwohmIE2u0gaxHYiVHEn1Fw9mZ/ktJWgw==}
@@ -974,8 +974,8 @@ packages:
     resolution: {integrity: sha512-OAlb+T7V4Op9OwdkjmguYRqncdlx5JiofwOAUkmTF+jNdHwzTaTs4sRAGpzLF3oOz5xAyDGrPgeIDFQmDOTiJw==}
     engines: {node: '>= 16'}
 
-  ci-info@4.3.0:
-    resolution: {integrity: sha512-l+2bNRMiQgcfILUi33labAZYIWlH1kWDp+ecNo5iisRKrbm0xcRyCww71/YU0Fkw0mAFpz9bJayXPjey6vkmaQ==}
+  ci-info@4.3.1:
+    resolution: {integrity: sha512-Wdy2Igu8OcBpI2pZePZ5oWjPC38tmDVx5WKUXKwlLYkA0ozo85sLsLvkBbBn/sZaSCMFOGZJ14fvW9t5/d7kdA==}
     engines: {node: '>=8'}
 
   clean-regexp@1.0.0:
@@ -1037,8 +1037,8 @@ packages:
     engines: {node: '>=0.10'}
     hasBin: true
 
-  detect-libc@2.1.1:
-    resolution: {integrity: sha512-ecqj/sy1jcK1uWrwpR67UhYrIFQ+5WlGxth34WquCbamhFA6hkkwiu37o6J5xCHdo1oixJRfVRw+ywV+Hq/0Aw==}
+  detect-libc@2.1.2:
+    resolution: {integrity: sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==}
     engines: {node: '>=8'}
 
   eastasianwidth@0.2.0:
@@ -2051,7 +2051,7 @@ snapshots:
 
   '@effect/language-service@0.41.1': {}
 
-  '@effect/platform-node-shared@0.51.3(@effect/cluster@0.50.2(@effect/platform@0.92.1(effect@3.18.2))(@effect/rpc@0.71.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/sql@0.46.0(@effect/experimental@0.56.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/workflow@0.11.2(@effect/platform@0.92.1(effect@3.18.2))(@effect/rpc@0.71.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(effect@3.18.2))(effect@3.18.2))(@effect/platform@0.92.1(effect@3.18.2))(@effect/rpc@0.71.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/sql@0.46.0(@effect/experimental@0.56.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(effect@3.18.2)':
+  '@effect/platform-node-shared@0.51.4(@effect/cluster@0.50.2(@effect/platform@0.92.1(effect@3.18.2))(@effect/rpc@0.71.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/sql@0.46.0(@effect/experimental@0.56.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/workflow@0.11.2(@effect/platform@0.92.1(effect@3.18.2))(@effect/rpc@0.71.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(effect@3.18.2))(effect@3.18.2))(@effect/platform@0.92.1(effect@3.18.2))(@effect/rpc@0.71.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/sql@0.46.0(@effect/experimental@0.56.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(effect@3.18.2)':
     dependencies:
       '@effect/cluster': 0.50.2(@effect/platform@0.92.1(effect@3.18.2))(@effect/rpc@0.71.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/sql@0.46.0(@effect/experimental@0.56.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/workflow@0.11.2(@effect/platform@0.92.1(effect@3.18.2))(@effect/rpc@0.71.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(effect@3.18.2))(effect@3.18.2)
       '@effect/platform': 0.92.1(effect@3.18.2)
@@ -2069,7 +2069,7 @@ snapshots:
     dependencies:
       '@effect/cluster': 0.50.2(@effect/platform@0.92.1(effect@3.18.2))(@effect/rpc@0.71.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/sql@0.46.0(@effect/experimental@0.56.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/workflow@0.11.2(@effect/platform@0.92.1(effect@3.18.2))(@effect/rpc@0.71.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(effect@3.18.2))(effect@3.18.2)
       '@effect/platform': 0.92.1(effect@3.18.2)
-      '@effect/platform-node-shared': 0.51.3(@effect/cluster@0.50.2(@effect/platform@0.92.1(effect@3.18.2))(@effect/rpc@0.71.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/sql@0.46.0(@effect/experimental@0.56.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/workflow@0.11.2(@effect/platform@0.92.1(effect@3.18.2))(@effect/rpc@0.71.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(effect@3.18.2))(effect@3.18.2))(@effect/platform@0.92.1(effect@3.18.2))(@effect/rpc@0.71.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/sql@0.46.0(@effect/experimental@0.56.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(effect@3.18.2)
+      '@effect/platform-node-shared': 0.51.4(@effect/cluster@0.50.2(@effect/platform@0.92.1(effect@3.18.2))(@effect/rpc@0.71.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/sql@0.46.0(@effect/experimental@0.56.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/workflow@0.11.2(@effect/platform@0.92.1(effect@3.18.2))(@effect/rpc@0.71.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(effect@3.18.2))(effect@3.18.2))(@effect/platform@0.92.1(effect@3.18.2))(@effect/rpc@0.71.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/sql@0.46.0(@effect/experimental@0.56.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(effect@3.18.2)
       '@effect/rpc': 0.71.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2)
       '@effect/sql': 0.46.0(@effect/experimental@0.56.0(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2))(@effect/platform@0.92.1(effect@3.18.2))(effect@3.18.2)
       effect: 3.18.2
@@ -2738,7 +2738,7 @@ snapshots:
 
   balanced-match@1.0.2: {}
 
-  baseline-browser-mapping@2.8.11: {}
+  baseline-browser-mapping@2.8.12: {}
 
   brace-expansion@1.1.12:
     dependencies:
@@ -2755,8 +2755,8 @@ snapshots:
 
   browserslist@4.26.3:
     dependencies:
-      baseline-browser-mapping: 2.8.11
-      caniuse-lite: 1.0.30001747
+      baseline-browser-mapping: 2.8.12
+      caniuse-lite: 1.0.30001748
       electron-to-chromium: 1.5.230
       node-releases: 2.0.23
       update-browserslist-db: 1.1.3(browserslist@4.26.3)
@@ -2771,7 +2771,7 @@ snapshots:
 
   callsites@3.1.0: {}
 
-  caniuse-lite@1.0.30001747: {}
+  caniuse-lite@1.0.30001748: {}
 
   chai@5.3.3:
     dependencies:
@@ -2790,7 +2790,7 @@ snapshots:
 
   check-error@2.1.1: {}
 
-  ci-info@4.3.0: {}
+  ci-info@4.3.1: {}
 
   clean-regexp@1.0.0:
     dependencies:
@@ -2855,7 +2855,7 @@ snapshots:
 
   detect-libc@1.0.3: {}
 
-  detect-libc@2.1.1:
+  detect-libc@2.1.2:
     optional: true
 
   eastasianwidth@0.2.0: {}
@@ -2961,7 +2961,7 @@ snapshots:
       '@eslint-community/eslint-utils': 4.9.0(eslint@9.37.0(jiti@2.6.1))
       '@eslint/plugin-kit': 0.3.5
       change-case: 5.4.4
-      ci-info: 4.3.0
+      ci-info: 4.3.1
       clean-regexp: 1.0.0
       core-js-compat: 3.45.1
       eslint: 9.37.0(jiti@2.6.1)
@@ -3375,7 +3375,7 @@ snapshots:
 
   node-gyp-build-optional-packages@5.2.2:
     dependencies:
-      detect-libc: 2.1.1
+      detect-libc: 2.1.2
     optional: true
 
   node-releases@2.0.23: {}

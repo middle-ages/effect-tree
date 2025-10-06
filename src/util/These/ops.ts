@@ -118,7 +118,7 @@ export const zipArraysWith = <R, E, Result>(
  * Zip a pair of arrays. In case of arrays that are not of equal size, we do not
  * _crop_ as the default `Array.zip` does. Instead we wrap the results in a
  * {@link These}, which gives us an operation that is pleasantly associative, as
- * well as reversible with no loss of information.
+ * well as reversible with no loss of information via `unzipArray`.
  *
  * If the _left_ array is longer, the result will end in one or more `Left<A,B>`.
  *
