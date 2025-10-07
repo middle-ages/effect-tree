@@ -1,7 +1,7 @@
 {
   "name": "effect-tree",
   "description": "A strict tree datatype that wants to do everything.",
-  "version": "1.0.31",
+  "version": "1.0.32",
   "type": "module",
   "author": "Ran Eilam <ran@haag59.com> (https://middle-ages.github.io/)",
   "homepage": "https://github.com/middle-ages/effect-tree",
@@ -33,7 +33,7 @@
     "npm": "dev/publish"
   },
   "devDependencies": {
-    "@effect/language-service": "^0.41.1",
+    "@effect/language-service": "^0.42.0",
     "@effect/vitest": "^0.26.0",
     "@eslint/js": "^9.37.0",
     "@fast-check/vitest": "^0.2.2",
@@ -55,7 +55,7 @@
     "tsx": "^4.20.6",
     "typedoc": "^0.28.13",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.45.0",
+    "typescript-eslint": "^8.46.0",
     "vite": "^7.1.9",
     "vitest": "^3.2.4"
   },
@@ -63,7 +63,7 @@
     "@effect/platform": "^0.92.1",
     "@effect/platform-node": "^0.98.3",
     "@effect/typeclass": "^0.37.0",
-    "effect": "^3.18.2",
+    "effect": "^3.18.4",
     "effect-ts-folds": "^1.0.31",
     "tty-strings": "^1.5.2"
   },

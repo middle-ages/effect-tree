@@ -55,8 +55,8 @@ export const fromOrdinal = (n: number, nodeCount: number): number[] => {
 export const toOrdinal: (
   code: number[],
 ) => [ordinal: number, nodeCount: number] = code => {
-  if (!Array.isNonEmptyArray(code)) {
-    return [2, 1]
+  if (code.length === 0) {
+    return [1, 2]
   }
 
   const [lessOne, nodeCount] = pipe(

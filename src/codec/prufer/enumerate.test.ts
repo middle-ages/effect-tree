@@ -161,7 +161,7 @@ describe('fromOrdinal', () => {
 
 describe('toOrdinal', () => {
   test('nodeCount≔2', () => {
-    expect(Prufer.toOrdinal([])).toEqual([2, 1])
+    expect(Prufer.toOrdinal([])).toEqual([1, 2])
   })
 
   describe('nodeCount≔3', () => {
@@ -191,7 +191,7 @@ describe('toOrdinal', () => {
 describe('treeToOrdinal', () => {
   const iut = Prufer.treeToOrdinal
   test('nodeCount≔2', () => {
-    expect(iut(branch(1, [of(2)]))).toEqual([2, 1])
+    expect(iut(branch(1, [of(2)]))).toEqual([1, 2])
   })
 
   describe('nodeCount≔3', () => {

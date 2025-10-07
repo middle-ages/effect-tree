@@ -17,17 +17,18 @@ import {
  * @function
  */
 export const toEdges = (code: NonEmptyArray<number>): EdgeList<number> => {
-  const [degrees, allLeaves] = makeDegreeMap(code),
-    edges: TreeEdge<number>[] = []
+  const [degrees, allLeaves] = makeDegreeMap(code)
+
+  let edges: TreeEdge<number>[] = []
 
   let i = 0,
     leaves = allLeaves,
     child: number | undefined = undefined
-
   while ((child = leaves.shift()) !== undefined) {
     const parent = code[i++] ?? 1
-    edges.push([child, Option.some(parent)])
     const degree = degrees[parent]
+
+    edges = Array.append(edges, [child, Option.some(parent)])
 
     if (degree === 0 && parent !== 1)
       leaves = Array.insertSorted(leaves)(parent)
