@@ -11,7 +11,7 @@ const myTernaryTree: Tree<number> = nAryTree({degree: 3, depth: 3})
 const decodedTree: Tree<number> = Codec.Arrays.decode([1, [2, 3, [4, [5, 6]]]])
 
 // Get the The 400,000,000,000,000th labeled tree with 16 nodes:
-const enumeratedTree = Codec.Prufer.getNthTree(4e14, 16)
+const enumeratedTree = Codec.Prufer.getNthTree(4n * 10n ** 14n, 16)
 
 // Generate a tree using “fast-check”
 const randomTree = fc.sample(

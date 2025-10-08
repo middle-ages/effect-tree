@@ -21,15 +21,15 @@ test('isFirstCode', () => {
 
 describe('labeledTreeCount', () => {
   test('2', () => {
-    expect(Prufer.labeledTreeCount(2)).toEqual(1)
+    expect(Prufer.labeledTreeCount(2)).toEqual(1n)
   })
 
   test('3', () => {
-    expect(Prufer.labeledTreeCount(3)).toEqual(3)
+    expect(Prufer.labeledTreeCount(3)).toEqual(3n)
   })
 
   test('4', () => {
-    expect(Prufer.labeledTreeCount(4)).toEqual(16)
+    expect(Prufer.labeledTreeCount(4)).toEqual(16n)
   })
 })
 
@@ -128,20 +128,20 @@ describe('previousCode', () => {
 
 describe('fromOrdinal', () => {
   test('nodeCount≔2', () => {
-    expect(Prufer.fromOrdinal(1, 2)).toEqual([])
+    expect(Prufer.fromOrdinal(1n, 2)).toEqual([])
   })
 
   describe('nodeCount≔3', () => {
-    const iut = (n: number) => Prufer.fromOrdinal(n, 3)
+    const iut = (n: bigint) => Prufer.fromOrdinal(n, 3)
 
     test('n≔1', () => {
-      expect(iut(1)).toEqual([1])
+      expect(iut(1n)).toEqual([1])
     })
     test('n≔2', () => {
-      expect(iut(2)).toEqual([2])
+      expect(iut(2n)).toEqual([2])
     })
     test('n≔3', () => {
-      expect(iut(3)).toEqual([3])
+      expect(iut(3n)).toEqual([3])
     })
   })
 
@@ -161,29 +161,29 @@ describe('fromOrdinal', () => {
 
 describe('toOrdinal', () => {
   test('nodeCount≔2', () => {
-    expect(Prufer.toOrdinal([])).toEqual([1, 2])
+    expect(Prufer.toOrdinal([])).toEqual([1n, 2])
   })
 
   describe('nodeCount≔3', () => {
     const iut = Prufer.toOrdinal
     test('n≔1', () => {
-      expect(iut([1])).toEqual([1, 3])
+      expect(iut([1])).toEqual([1n, 3])
     })
     test('n≔2', () => {
-      expect(iut([2])).toEqual([2, 3])
+      expect(iut([2])).toEqual([2n, 3])
     })
     test('n≔3', () => {
-      expect(iut([3])).toEqual([3, 3])
+      expect(iut([3])).toEqual([3n, 3])
     })
   })
 
   describe('nodeCount≔4', () => {
     const iut = Prufer.toOrdinal
     test('n≔1', () => {
-      expect(iut([1, 1])).toEqual([1, 4])
+      expect(iut([1, 1])).toEqual([1n, 4])
     })
     test('n≔16', () => {
-      expect(iut([4, 4])).toEqual([16, 4])
+      expect(iut([4, 4])).toEqual([16n, 4])
     })
   })
 })
@@ -191,28 +191,28 @@ describe('toOrdinal', () => {
 describe('treeToOrdinal', () => {
   const iut = Prufer.treeToOrdinal
   test('nodeCount≔2', () => {
-    expect(iut(branch(1, [of(2)]))).toEqual([1, 2])
+    expect(iut(branch(1, [of(2)]))).toEqual([1n, 2])
   })
 
   describe('nodeCount≔3', () => {
     test('n≔1', () => {
-      expect(iut(branch(1, [of(2), of(3)]))).toEqual([1, 3])
+      expect(iut(branch(1, [of(2), of(3)]))).toEqual([1n, 3])
     })
     test('n≔2', () => {
-      expect(iut(branch(2, [of(1), of(3)]))).toEqual([2, 3])
+      expect(iut(branch(2, [of(1), of(3)]))).toEqual([2n, 3])
     })
     test('n≔3', () => {
-      expect(iut(branch(3, [of(1), of(2)]))).toEqual([3, 3])
+      expect(iut(branch(3, [of(1), of(2)]))).toEqual([3n, 3])
     })
   })
 
   describe('nodeCount≔5', () => {
     test('n≔1', () => {
-      expect(iut(branch(1, [of(2), of(3), of(4), of(5)]))).toEqual([1, 5])
+      expect(iut(branch(1, [of(2), of(3), of(4), of(5)]))).toEqual([1n, 5])
     })
     test('n≔5⁵⁻²', () => {
       expect(iut(branch(5, [of(1), of(2), of(3), of(4)]))).toEqual([
-        5 ** (5 - 2),
+        5n ** (5n - 2n),
         5,
       ])
     })
@@ -294,7 +294,7 @@ describe('allTreesAt', () => {
 })
 
 describe('getNthTree', () => {
-  const drawNthTree = (ordinal: number, nodeCount: number) =>
+  const drawNthTree = (ordinal: bigint, nodeCount: number) =>
     pipe(
       Prufer.getNthTree(ordinal, nodeCount),
       map(s => s.toString()),
@@ -302,7 +302,7 @@ describe('getNthTree', () => {
     )
 
   test('nodeCount:=2', () => {
-    expect(drawNthTree(1, 2)).toBe(
+    expect(drawNthTree(1n, 2)).toBe(
       `
 ┬1
 └─2`,
@@ -310,7 +310,7 @@ describe('getNthTree', () => {
   })
 
   test('nodeCount:=3', () => {
-    expect(drawNthTree(1, 3)).toBe(
+    expect(drawNthTree(1n, 3)).toBe(
       `
 ┬1
 ├─2
@@ -319,7 +319,7 @@ describe('getNthTree', () => {
   })
 
   test('nodeCount:=5', () => {
-    expect(drawNthTree(5 ** (5 - 2), 5)).toBe(
+    expect(drawNthTree(5n ** (5n - 2n), 5)).toBe(
       `
 ┬1
 └┬5

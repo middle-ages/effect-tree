@@ -3,12 +3,12 @@ import {map, type NonEmptyArray} from 'effect/Array'
 import {none, some} from 'effect/Option'
 //import {Law, lawTests, tinyArray} from 'effect-ts-laws'
 //import {verboseLawSets} from 'effect-ts-laws/vitest'
-import {unwords} from '../String.js'
+import type {Tuple} from '#util'
+import {describe, expect, test} from '@effect/vitest'
 import {transpose} from '../Array.js'
+import {unwords} from '../String.js'
 import {type Tuple3} from '../Tuple.js'
 import {type NonEmptyArray2, transposeRectangle} from './transpose.js'
-import {describe, expect, test} from '@effect/vitest'
-import type {Tuple} from '#util'
 
 const toSome = (...rows: NonEmptyArray2<string>) => pipe(rows, map(map(some)))
 
@@ -30,59 +30,57 @@ const testTransposeRectangle =
     })
   }
 
-describe('transpose', () => {
-  test('no rows', () => {
-    expect(transpose([])).toEqual([])
+test('no rows', () => {
+  expect(transpose([])).toEqual([])
+})
+
+describe('nonEmpty', () => {
+  testTransposeNonEmpty('single cell', ['foo'])(['foo'])
+  testTransposeNonEmpty('single row', ['foo', 'bar'])(['foo'], ['bar'])
+  testTransposeNonEmpty('single column', ['foo'], ['bar'])(['foo', 'bar'])
+
+  describe('rectangular', () => {
+    const [abc, xyz, oneTwoThree]: Tuple3<NonEmptyArray<string>> = [
+      ['a', 'b', 'c'],
+      ['x', 'y', 'z'],
+      ['1', '2', '3'],
+    ] as const
+
+    testTransposeRectangle('rows=1', abc)(['a'], ['b'], ['c'])
+    testTransposeRectangle('rows=2', abc, xyz)(
+      ['a', 'x'],
+      ['b', 'y'],
+      ['c', 'z'],
+    )
+    testTransposeRectangle(
+      'rows=3',
+      abc,
+      xyz,
+      oneTwoThree,
+    )(['a', 'x', '1'], ['b', 'y', '2'], ['c', 'z', '3'])
   })
 
-  describe('nonEmpty', () => {
-    testTransposeNonEmpty('single cell', ['foo'])(['foo'])
-    testTransposeNonEmpty('single row', ['foo', 'bar'])(['foo'], ['bar'])
-    testTransposeNonEmpty('single column', ['foo'], ['bar'])(['foo', 'bar'])
+  describe('irregular shape', () => {
+    const [rowABC, rowX, row12]: Tuple.Tuple3<NonEmptyArray<string>> = [
+      ['a', 'b', 'c'],
+      ['x'],
+      ['1', '2'],
+    ]
 
-    describe('rectangular', () => {
-      const [abc, xyz, oneTwoThree]: Tuple3<NonEmptyArray<string>> = [
-        ['a', 'b', 'c'],
-        ['x', 'y', 'z'],
-        ['1', '2', '3'],
-      ] as const
-
-      testTransposeRectangle('rows=1', abc)(['a'], ['b'], ['c'])
-      testTransposeRectangle('rows=2', abc, xyz)(
-        ['a', 'x'],
-        ['b', 'y'],
-        ['c', 'z'],
-      )
-      testTransposeRectangle(
-        'rows=3',
-        abc,
-        xyz,
-        oneTwoThree,
-      )(['a', 'x', '1'], ['b', 'y', '2'], ['c', 'z', '3'])
+    test('rows=2', () => {
+      expect(transpose.nonEmpty([rowABC, [...rowX]])).toEqual([
+        [some('a'), some('x')],
+        [some('b'), none()],
+        [some('c'), none()],
+      ])
     })
 
-    describe('irregular shape', () => {
-      const [rowABC, rowX, row12]: Tuple.Tuple3<NonEmptyArray<string>> = [
-        ['a', 'b', 'c'],
-        ['x'],
-        ['1', '2'],
-      ]
-
-      test('rows=2', () => {
-        expect(transpose.nonEmpty([rowABC, [...rowX]])).toEqual([
-          [some('a'), some('x')],
-          [some('b'), none()],
-          [some('c'), none()],
-        ])
-      })
-
-      test('rows=3', () => {
-        expect(transpose.nonEmpty([rowABC, rowX, row12])).toEqual([
-          [some('a'), some('x'), some('1')],
-          [some('b'), none(), some('2')],
-          [some('c'), none(), none()],
-        ])
-      })
+    test('rows=3', () => {
+      expect(transpose.nonEmpty([rowABC, rowX, row12])).toEqual([
+        [some('a'), some('x'), some('1')],
+        [some('b'), none(), some('2')],
+        [some('c'), none(), none()],
+      ])
     })
   })
 })

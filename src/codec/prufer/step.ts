@@ -1,6 +1,6 @@
-import {type Branch} from '#tree'
-import {Array, Pair} from '#util'
 import {type EndoOf} from '#Function'
+import {type Branch} from '#tree'
+import {Array} from '#util'
 import {Number, Predicate, Tuple, pipe} from 'effect'
 import {decode} from './decoder.js'
 import {encode} from './encoder.js'
@@ -68,7 +68,7 @@ export const previousCode: EndoOf<number[]> = code =>
       ? code.length === 1
         ? []
         : getLastCodeFor(computeNodeCount(code) - 1)
-      : pipe(code, withOrdinal(Tuple.mapFirst(Number.decrement)))
+      : pipe(code, withOrdinal(Tuple.mapFirst(n => n - 1n)))
     : []
 
 /**
@@ -80,7 +80,7 @@ export const previousCode: EndoOf<number[]> = code =>
 export const nextCode: EndoOf<number[]> = code =>
   isLastCode(code)
     ? getFirstCodeFor(computeNodeCount(code) + 1)
-    : pipe(code, withOrdinal(Tuple.mapFirst(Number.increment)))
+    : pipe(code, withOrdinal(Tuple.mapFirst(n => n + 1n)))
 
 /**
  * Compute the previous Prüfer code from the given code with wrap-around.
@@ -158,7 +158,7 @@ export const nextTreeWrap: EndoOf<Branch<number>> = self =>
  * @function
  */
 const withOrdinal =
-  (f: EndoOf<Pair.Pair<number>>) =>
+  (f: (pair: [ordinal: bigint, nodeCount: number]) => typeof pair) =>
   (code: number[]): number[] => {
     const [n, nodeCount] = pipe(code, toOrdinal, f)
     return fromOrdinal(n, nodeCount)

@@ -1,42 +1,34 @@
-import {Array, pipe, Predicate} from 'effect'
+import {Array as EArray, Predicate} from 'effect'
 import type {NonEmptyArray} from 'effect/Array'
 
 export * from 'effect/Number'
 
 /**
- * Convert the decimal number `n` to base `b`.
- * Thanks to _Nitsan BenHanoch_.
+ * Convert the bigint decimal `n` to base `b`.
  */
-export const toRadix = (
-  n: number,
-  base: number,
-): Array.NonEmptyArray<number> => {
-  const max = Math.floor(Math.log(n) / Math.log(base)),
-    result: number[] = []
+export const toRadix = (n: bigint, base: number): NonEmptyArray<number> => {
+  const bigBase: bigint = BigInt(base)
+  let quotient: bigint = n / bigBase
+  const digits: NonEmptyArray<number> = [Number(n % bigBase)]
 
-  let x = n
-  for (let pow = max; pow >= 0; pow--) {
-    const bpw = base ** pow,
-      digit = Math.floor(x / bpw)
-    x -= digit * bpw
-    result.push(digit)
+  while (quotient > 0) {
+    digits.unshift(Number(quotient % bigBase))
+    quotient = quotient / bigBase
   }
 
-  return pipe(result, fromArrayOr([0]))
+  return digits
 }
 
 /** Convert `n` given as a list of digits in base `b` to decimal. */
-export const fromRadix = (ns: readonly number[], base: number): number => {
-  let pow = 0,
-    sum = 0
-  for (const n of Array.reverse(ns)) sum += n * base ** pow++
+export const fromRadix = (ns: readonly number[], base: number): bigint => {
+  const bigBase = BigInt(base)
+
+  let pow = 0n,
+    sum = 0n
+  for (const n of EArray.reverse(ns)) sum += BigInt(n) * bigBase ** pow++
+
   return sum
 }
-
-const fromArrayOr =
-  <A>(fallback: NonEmptyArray<A>) =>
-  ([head, ...tail]: readonly A[]): NonEmptyArray<A> =>
-    head === undefined ? fallback : ([head, ...tail] as NonEmptyArray<A>)
 
 export const floorMod = (
   dividend: number,

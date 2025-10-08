@@ -138,7 +138,7 @@ describe('levelLabels', () => {
 
   test('nodeCount≔3', () => {
     pipe(
-      Prufer.getNthTree(4e6, 13),
+      Prufer.getNthTree(4n * 10n ** 6n, 13),
       map(s => s.toString()),
       addLevelLabels,
       assertDrawTree(`

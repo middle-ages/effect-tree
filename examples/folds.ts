@@ -18,7 +18,10 @@ import {
 } from 'effect-tree'
 
 // Get the nth possible labeled tree in constant time.
-const treeOfZeros = pipe(Codec.Prufer.getNthTree(4e14, 16), map(constant(0)))
+const treeOfZeros = pipe(
+  Codec.Prufer.getNthTree(4n * 10n ** 14n, 16),
+  map(constant(0)),
+)
 
 console.log('The 400,000,000,000,000th labeled tree with 16 nodes:')
 logNumericTree(treeOfZeros)

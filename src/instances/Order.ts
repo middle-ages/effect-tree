@@ -5,6 +5,27 @@ import type {Tree} from '../tree/types.js'
 
 /**
  * Build an order for {@link Tree} from and order of its underlying type.
+ * @example
+ * import {getOrder, from, of} from 'effect-tree'
+ * import {Number, Array, pipe} from 'effect'
+ *
+ * const t1 = of(1)
+ * const t2 = of(2)
+ * const t3 = from(1, of(2))
+ * const t4 = from(1, of(1), of(2))
+ * const t5 = from(1, of(2), of(1))
+ * const t6 = from(2, of(1))
+ * const t7 = from(2, of(1), of(2))
+ *
+ * const sort = pipe(Number.Order, getOrder, Array.sortBy)
+ *
+ * expect(
+ *   sort(
+ *     [t7, t6, t5, t4, t3, t2, t1]
+ *   )
+ * ).toEqual(
+ *     [t1, t2, t3, t4, t5, t6, t7]
+ * )
  * @category instances
  * @function
  */

@@ -2,7 +2,7 @@ import {Array, Function, pipe} from 'effect'
 import {Codec, Draw, drawTree, type Tree} from 'effect-tree'
 
 // Get a nice looking 12-node tree from the list of all trees.
-const tree: Tree<number> = Codec.Prufer.getNthTree(9_876_543_210, 12)
+const tree: Tree<number> = Codec.Prufer.getNthTree(9_876_543_210n, 12)
 
 // Note we use the numeric.unlines variant which draws numeric trees to a string
 // instead of a list of string rows.

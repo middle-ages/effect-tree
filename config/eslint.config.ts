@@ -82,6 +82,7 @@ const config = defineConfig(
       // Does not understand intersections
       'unicorn/no-array-sort': 'off',
 
+      'unicorn/prefer-spread': 'off',
       'unicorn/import-style': 'off',
       'unicorn/filename-case': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',
