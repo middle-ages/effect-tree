@@ -1,21 +1,13 @@
-import {asOrdinal, asOrdinalBranch, nodeCountAtLeast} from '#ops'
-import {
-  append,
-  branch,
-  firstChild,
-  getValue,
-  leaf,
-  map,
-  tree,
-  type Branch,
-  type Tree,
-} from '#tree'
-import {Array, pipe, Record, String} from '#util'
+import * as Codec from '#codec'
+import {asOrdinal, asOrdinalBranch} from '#ops'
+import {filterDefined, monoRecord} from '#Record'
+import {fromNumber} from '#String'
+import {map, type Branch, type Tree} from '#tree'
+import {pipe} from '#util'
 import fc from 'fast-check'
 import {voidArbitrary} from '../util.js'
 import {getArbitrary} from './index.js'
 import type {ArbitraryOptions, NumberedArbitraryOptions} from './options.js'
-import * as Codec from '#codec'
 
 /**
  * A tree with nothing but structure.
@@ -36,7 +28,7 @@ export const voidBranchArbitrary = (
 ): fc.Arbitrary<Branch<void>> =>
   getArbitrary(voidArbitrary, {
     onlyBranches: true,
-    ...Record.filterDefined(options),
+    ...filterDefined(options),
   }) as fc.Arbitrary<Branch<void>>
 
 /**
@@ -69,7 +61,39 @@ export const getNumberedBranchArbitrary = (
 export const getStringArbitrary = (
   options?: Partial<NumberedArbitraryOptions>,
 ): fc.Arbitrary<Tree<string>> =>
-  getNumberedArbitrary(options).map(map(String.fromNumber))
+  getNumberedArbitrary(options).map(map(fromNumber))
+
+/**
+ * An arbitrary for a valid Prüfer code with the given node count, by default
+ * `3`. An arbitrary for a Prüfer code must obey these laws:
+ *
+ * 1. Number of codes is `nodeCount - 2`.
+ * 2. Every code in the array is in th range `1 ≤ code ≤ nodeCount`.
+ *
+ * The set of codes generated is in bijection with all vertex trees of
+ * `nodeCount` nodes.
+ *
+ * The 1st Prüfer code is `[]` which decodes to the only possible vertex tree at
+ * node count `2`:
+ *
+ * ```txt
+ * ┬1
+ * └─2
+ * ```
+ * @category arbitrary
+ */
+export const getPruferCodeArbitrary = (
+  nodeCount: number = 3,
+): fc.Arbitrary<number[]> => {
+  return fc.array(
+    fc.integer({min: 1, max: nodeCount}),
+    pipe(
+      nodeCount,
+      Codec.Prufer.codeCount,
+      monoRecord,
+    )('minLength', 'maxLength'),
+  )
+}
 
 /**
  * A tree that can be encoded to a prüfer code has several requirements:
@@ -90,30 +114,7 @@ export const getStringArbitrary = (
  * ```
  * @category arbitrary
  */
-export const pruferEncodableArbitrary: fc.Arbitrary<Branch<number>> =
-  getNumberedBranchArbitrary().chain(self =>
-    nodeCountAtLeast(3)(self)
-      ? fc.constant(self)
-      : // If tree is not big enough, we add a node at one of the two possible
-        // locations: as child of root or as child of the 1st child of root.
-        fc.oneof(
-          fc.constant(append(self, leaf(3))),
-          fc.constant(
-            branch(getValue(self), [
-              pipe(
-                self,
-                firstChild,
-                getValue,
-                pipe(3, leaf, Array.of, tree.curried),
-              ),
-            ]),
-          ),
-        ),
-  )
-
-/**
- * An arbitrary for a valid prüfer code.
- * @category arbitrary
- */
-export const pruferCodeArbitrary: fc.Arbitrary<number[]> =
-  pruferEncodableArbitrary.map(Codec.PruferIsomorphism.to)
+export const getPruferEncodableArbitrary = (
+  nodeCount?: number,
+): fc.Arbitrary<Branch<number>> =>
+  getPruferCodeArbitrary(nodeCount).map(Codec.Prufer.decode)

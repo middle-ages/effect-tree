@@ -44,7 +44,7 @@ logNumericTree(treeOfZeros)
     └─0
 */
 
-// Run th given fold on our treeOfZeros.
+// Run the given fold on our treeOfZeros.
 const runFold = <A>(fold: TreeFolder<number, A>): A =>
   pipe(treeOfZeros, treeCata(fold))
 

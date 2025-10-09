@@ -1,7 +1,8 @@
+import {range as arrayRange, cartesian, replicate} from '#Array'
 import {Prufer} from '#codec'
 import {drawTree} from '#test'
 import {branch, from, map, of} from '#tree'
-import {Array, pipe} from 'effect'
+import {pipe} from 'effect'
 import {describe, expect, test} from 'vitest'
 import {
   isFirstCode,
@@ -151,10 +152,14 @@ describe('fromOrdinal', () => {
     })
 
     test('nodeCount≔4', () => {
-      const range = Array.range(1, 4)
-      const expected = Array.cartesian(range, range)
+      const range = arrayRange(1, 4)
+      const expected = cartesian(range, range)
 
       expect(Prufer.allCodesAt(4)).toEqual(expected)
+    })
+
+    test('fallback on nodeCount≥36', () => {
+      expect(Prufer.allCodesAt(36)).toEqual([replicate(34)(1)])
     })
   })
 })

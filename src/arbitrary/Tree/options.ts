@@ -4,20 +4,11 @@ import type {Predicate} from 'effect'
 import fc from 'fast-check'
 
 /**
- * Tree arbitrary generation options.
+ * Branch arbitrary generation options.
  * @category arbitrary
  */
-export interface ArbitraryOptions {
-  /**
-   * If true no leaves will be generated so that all trees will always have at
-   * least a height of `1`. Default is `false`.
-   */
-  onlyBranches: boolean
-
-  /**
-   * Maximum depth of trees generated. An error is thrown if
-   * `onlyBranches` is true but `maxDepth` is `0`.
-   */
+export interface BranchArbitraryOptions {
+  /** Maximum depth of trees generated. */
   maxDepth: number
 
   /** Max child count per branch. Default is `5`. */
@@ -28,6 +19,18 @@ export interface ArbitraryOptions {
    * a ratio in the inclusive range of 0…1. Default is `¼`.
    */
   branchBias: number
+}
+
+/**
+ * Tree arbitrary generation options.
+ * @category arbitrary
+ */
+export interface ArbitraryOptions extends BranchArbitraryOptions {
+  /**
+   * If true no leaves will be generated so that all trees will always have at
+   * least a height of `1`. Default is `false`.
+   */
+  onlyBranches: boolean
 }
 
 /**

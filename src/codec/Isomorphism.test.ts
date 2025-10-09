@@ -14,8 +14,12 @@ import {
 } from './Isomorphism.js'
 import {getEdgeListEquivalence} from './edges.js'
 
-const {getNumberedArbitrary, getStringArbitrary, pruferEncodableArbitrary} =
-  Arbitrary
+const {
+  getNumberedArbitrary,
+  getStringArbitrary,
+  getPruferEncodableArbitrary,
+  getPruferCodeArbitrary,
+} = Arbitrary
 
 const stringTreeArbitrary = getStringArbitrary()
 const stringTreeEquivalence = getEquivalence(String.Equivalence)
@@ -81,12 +85,12 @@ describe('Isomorphism laws', () => {
 
     // Prüfer code
     ...buildIsomorphismLaws({
-      a: pruferEncodableArbitrary,
+      a: getPruferEncodableArbitrary(4),
       equalsA: (self, that) => numericTreeEquivalence(self, that),
     })({
       prufer: {
         F: PruferIsomorphism,
-        b: Arbitrary.pruferCodeArbitrary,
+        b: getPruferCodeArbitrary(4),
         equalsB: Array.getEquivalence(Number.Equivalence),
       },
     }),
