@@ -24,7 +24,7 @@ import type {
 export const indexParents = <A>(edges: EdgeList<A>): EdgeMap<A> =>
   pipe(edges, Array.reduce(emptyEdgeMap(), addEdgeMap<A>))
 
-// Add a previously unencountered node and its optional parent to an
+// Add a previously unknown node and its optional parent to an
 // `EdgeMap` map.
 const addEdgeMap = <A>(index: EdgeMap<A>, edge: TreeEdge<A>): EdgeMap<A> =>
   pipe(

@@ -24,7 +24,7 @@ for f in "${examples[@]}"; do
   label="${f##*/${NAME}/}"
   ordinal="$(color_blue "$(printf '%3d' $i)")/$(color_blue $count)."
   msg="${ordinal} Running “$(color_path "${label}")”"
-  echo -en "$(pad_left "${msg}" 42)…"
+  echo -en "$(pad_left "${msg}" 58)…"
   pnpm tsx "$f" >> "${tmp}" || { echo "Example “$f” crashed."; exit 1; }
   echo -e "...$(color_green ok) ✅."
   ((++i))

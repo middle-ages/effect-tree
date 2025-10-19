@@ -5,6 +5,10 @@ import {branch, from, map, of} from '#tree'
 import {pipe} from 'effect'
 import {describe, expect, test} from 'vitest'
 import {
+  getFirstCode,
+  getLastCode,
+  getNextFirstCode,
+  getPreviousLastCode,
   isFirstCode,
   nextTree,
   nextTreeWrap,
@@ -291,7 +295,7 @@ describe('allTreesAt', () => {
 
   test('nodeCount≔3', () => {
     expect(Prufer.allTreesAt(3)).toEqual([
-      branch(1, [of(2), of(3)]),
+      branch(1, [of(3), of(2)]),
       branch(1, [branch(2, [of(3)])]),
       branch(1, [branch(3, [of(2)])]),
     ])
@@ -318,8 +322,8 @@ describe('getNthTree', () => {
     expect(drawNthTree(1n, 3)).toBe(
       `
 ┬1
-├─2
-└─3`,
+├─3
+└─2`,
     )
   })
 
@@ -353,4 +357,20 @@ test('nextTreeWrap', () => {
   expect(nextTreeWrap(branch(1, [of(2), of(3)]))).toEqual(
     from(1, from(2, of(3))),
   )
+})
+
+test('getFirstCode', () => {
+  expect(getFirstCode([1, 2, 3, 4])).toEqual([1, 1, 1, 1])
+})
+
+test('getLastCode', () => {
+  expect(getLastCode([1, 2, 3, 4])).toEqual([6, 6, 6, 6])
+})
+
+test('getNextFirstCode', () => {
+  expect(getNextFirstCode([1, 2, 3, 4])).toEqual([1, 1, 1, 1, 1])
+})
+
+test('getPreviousLastCode', () => {
+  expect(getPreviousLastCode([1, 2, 3, 4])).toEqual([5, 5, 5])
 })

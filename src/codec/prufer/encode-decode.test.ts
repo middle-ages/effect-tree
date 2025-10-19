@@ -1,6 +1,5 @@
 import {Prufer} from '#codec'
-import {numericTree} from '#test'
-import {branch, of, type Branch, type Tree} from '#tree'
+import {branch, from, of, type Branch, type Tree} from '#tree'
 import {Array, Pair, Record, String} from '#util'
 import {Number, Option, pipe, Tuple} from 'effect'
 import {describe, expect, test} from 'vitest'
@@ -35,15 +34,15 @@ describe('to/from prüfer', () => {
   const edgeList: EdgeList<number> = pipe(
     [
       [1, 0],
-      [2, 1],
+      [6, 1],
       [3, 2],
       [4, 2],
+      [2, 1],
       [5, 1],
-      [6, 1],
       [7, 6],
       [8, 6],
-      [9, 6],
       [10, 9],
+      [9, 6],
     ] as Array.NonEmptyArray<Pair.Pair<number>>,
     Array.map(Tuple.mapSecond(Option.liftPredicate(n => n !== 0))),
   )
@@ -58,13 +57,18 @@ describe('to/from prüfer', () => {
 })
 
 test('Round trip: decode ∘ encode = id', () => {
+  const tree = from(
+    1,
+    from(3, of(4), from(5, of(6), of(7)), from(8, of(9), of(10))),
+    of(2),
+  )
   const actualTree: Tree<number> = pipe(
-    numericTree as Branch<number>,
+    tree as Branch<number>,
     encode,
     Prufer.decode,
   )
 
-  expect(actualTree).toEqual(numericTree)
+  expect(actualTree).toEqual(tree)
 })
 
 describe('encode', () => {
@@ -91,7 +95,7 @@ describe('decode', () => {
   })
 
   test('1(2, 3)', () => {
-    expect(decode([1])).toEqual(branch(1, [of(2), of(3)]))
+    expect(decode([1])).toEqual(branch(1, [of(3), of(2)]))
   })
 
   test('1(2(3))', () => {
@@ -114,7 +118,7 @@ describe('All 30 (16 + 14w) permutations for the 16 trees (4⁴⁻²) of 4 label
   > = {
     '1(2, 3, 4)': [
       [1, 1],
-      branch(1, [of(2), of(3), of(4)]),
+      branch(1, [of(4), of(2), of(3)]),
       ['1(2, 4, 3)', branch(1, [of(2), of(4), of(3)])],
       ['1(3, 2, 4)', branch(1, [of(3), of(2), of(4)])],
       ['1(3, 4, 2)', branch(1, [of(3), of(4), of(2)])],
@@ -130,19 +134,19 @@ describe('All 30 (16 + 14w) permutations for the 16 trees (4⁴⁻²) of 4 label
 
     '1(2, 3(4))': [
       [1, 3],
-      branch(1, [of(2), branch(3, [of(4)])]),
+      branch(1, [branch(3, [of(4)]), of(2)]),
       ['1(3(4), 2)', branch(1, [branch(3, [of(4)]), of(2)])],
     ],
 
     '1(2, 4(3))': [
       [1, 4],
-      branch(1, [of(2), branch(4, [of(3)])]),
+      branch(1, [branch(4, [of(3)]), of(2)]),
       ['1(4(3), 2)', branch(1, [branch(4, [of(3)]), of(2)])],
     ],
 
     '1(2(3), 4)': [
       [2, 1],
-      branch(1, [branch(2, [of(3)]), of(4)]),
+      branch(1, [of(4), branch(2, [of(3)])]),
       ['1(4, 2(3))', branch(1, [of(4), branch(2, [of(3)])])],
     ],
 
@@ -158,7 +162,7 @@ describe('All 30 (16 + 14w) permutations for the 16 trees (4⁴⁻²) of 4 label
 
     '1(3(2), 4)': [
       [3, 1],
-      branch(1, [branch(3, [of(2)]), of(4)]),
+      branch(1, [of(4), branch(3, [of(2)])]),
       ['1(4, 3(2))', branch(1, [of(4), branch(3, [of(2)])])],
     ],
 
@@ -174,7 +178,7 @@ describe('All 30 (16 + 14w) permutations for the 16 trees (4⁴⁻²) of 4 label
 
     '1(3, 4(2))': [
       [4, 1],
-      branch(1, [of(3), branch(4, [of(2)])]),
+      branch(1, [branch(4, [of(2)]), of(3)]),
       ['1(4(2), 3)', branch(1, [branch(4, [of(2)]), of(3)])],
     ],
 

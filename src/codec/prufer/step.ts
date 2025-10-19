@@ -12,14 +12,30 @@ import {
 } from './enumerate.js'
 
 /**
- * What is the 1st prüfer code for the given node count?
+ * What is the first prüfer code for the given node count?
  * @category codec
  * @function
  */
-export const getFirstCodeFor: (nodeCount: number) => number[] = nodeCount =>
+export const getFirstCodeFor = (nodeCount: number): number[] =>
   nodeCount < 3
     ? []
     : pipe(nodeCount, codeCount, count => Array.replicate(1, count))
+
+/**
+ * What is the first prüfer code for the node count of the given code?
+ * @category codec
+ * @function
+ */
+export const getFirstCode: EndoOf<number[]> = code =>
+  pipe(code, computeNodeCount, getFirstCodeFor)
+
+/**
+ * What is the first prüfer code for the _next_ node count of the given code?
+ * @category codec
+ * @function
+ */
+export const getNextFirstCode: EndoOf<number[]> = code =>
+  pipe(code, computeNodeCount, Number.increment, getFirstCodeFor)
 
 /**
  * What is the last prüfer code for the given node count?
@@ -30,6 +46,22 @@ export const getLastCodeFor: (n: number) => number[] = nodeCount =>
   nodeCount < 3
     ? []
     : pipe(nodeCount, codeCount, count => Array.replicate(nodeCount, count))
+
+/**
+ * What is the last prüfer code for the node count of the given code?
+ * @category codec
+ * @function
+ */
+export const getLastCode: EndoOf<number[]> = code =>
+  pipe(code, computeNodeCount, getLastCodeFor)
+
+/**
+ * What is the last prüfer code for the _previous_ node count of the given code?
+ * @category codec
+ * @function
+ */
+export const getPreviousLastCode: EndoOf<number[]> = code =>
+  pipe(code, computeNodeCount, Number.decrement, getLastCodeFor)
 
 /**
  * Is this the first prüfer code for its node count?

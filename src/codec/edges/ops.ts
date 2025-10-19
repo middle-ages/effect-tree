@@ -1,13 +1,4 @@
-import {
-  Array,
-  Equivalence,
-  HashMap,
-  HashSet,
-  Option,
-  Order,
-  pipe,
-  Tuple,
-} from 'effect'
+import {Array, Equivalence, HashMap, HashSet, Option, pipe, Tuple} from 'effect'
 import type {NonEmptyArray} from 'effect/Array'
 import type {EdgeList, EdgeMap, TreeEdge} from './types.js'
 
@@ -83,16 +74,6 @@ export const getEdgeListEquivalence: <A>(
   equalsA: Equivalence.Equivalence<A>,
 ) => Equivalence.Equivalence<EdgeList<A>> = equalsA =>
   pipe(equalsA, getEdgeEquivalence, Array.getEquivalence)
-
-/**
- * Sort the edge list by the given order.
- * @category internal
- * @function
- */
-export const sortEdgeList =
-  <A>(o: Order.Order<A>) =>
-  (edges: EdgeList<A>): typeof edges =>
-    pipe(edges, Array.sort(Tuple.getOrder(o, Option.getOrder(o))))
 
 /**
  * Convert a numeric edge list into a list of numeric pairs.
