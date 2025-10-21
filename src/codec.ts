@@ -5,7 +5,7 @@
 export * as Indented from './codec/indented/index.js'
 
 /**
- * Encode/decode trees to/from nested arrays à la s-expression.
+ * Encode/decode trees to/from nested arrays à la s-expressions.
  * @category codec
  */
 export * as Arrays from './codec/arrays.js'
@@ -27,6 +27,18 @@ export * as Paths from './codec/paths.js'
  * @category codec
  */
 export * as Prufer from './codec/prufer.js'
+
+/**
+ * An Effect Schema for the tree datatype.
+ * @category codec
+ */
+export * from './codec/schema.js'
+
+/**
+ * Convert a tree into an Effect Graph and draw it to GraphViz.
+ * @category codec
+ */
+export * from './codec/graph.js'
 
 /**
  * The codecs packaged as instances of the typeclass

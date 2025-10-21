@@ -8,6 +8,11 @@ There are five codecs that can encode/decode trees:
 1. [List of Leaf Paths](https://middle-ages.github.io/effect-tree-docs/modules/Codec.Paths.html)
 1. [Prüfer Code](https://middle-ages.github.io/effect-tree-docs/modules/Codec.Prufer.html)
 
+You will also find here:
+
+1. [effect Schema](https://middle-ages.github.io/effect-tree-docs/modules/Codec.Schema.html) for the tree datatype.
+2. A function that will convert a tree into the [effect Graph datatype](https://middle-ages.github.io/effect-tree-docs/modules/Codec.Graph.html), so you can, for example, draw the tree to [GraphViz](https://graphviz.org/).
+
 ## Using
 
 Every codec can _encode_ and _decode_ losslessly to/from trees.
